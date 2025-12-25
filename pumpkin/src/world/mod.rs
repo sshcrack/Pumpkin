@@ -13,6 +13,7 @@ pub mod explosion;
 pub mod loot;
 pub mod portal;
 pub mod time;
+pub mod particle;
 
 use crate::world::loot::LootContextParameters;
 use crate::{
@@ -44,7 +45,6 @@ use pumpkin_data::{
     Block,
     entity::{EntityStatus, EntityType},
     fluid::Fluid,
-    particle::Particle,
     sound::{Sound, SoundCategory},
     world::{RAW, WorldEvent},
 };

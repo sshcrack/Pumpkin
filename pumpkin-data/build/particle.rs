@@ -37,12 +37,12 @@ pub(crate) fn build() -> TokenStream {
         .collect::<TokenStream>();
     quote! {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-        pub enum Particle {
+        pub enum ParticleType {
             #variants
         }
 
-        impl Particle {
-            #[doc = r" Try to parse a `Particle` from a resource location string."]
+        impl ParticleType {
+            #[doc = r" Try to parse a `ParticleType` from a resource location string."]
             pub fn from_name(name: &str) -> Option<Self> {
                 match name {
                     #type_from_name

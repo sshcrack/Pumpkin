@@ -90,13 +90,11 @@ impl CommandExecutor for Executor {
             };
 
             let default_viewers = server.get_all_players().await;
-
-            // Use specified viewers or default to all players
             let target_viewers = viewers.unwrap_or(&default_viewers);
 
             let mut success_count = 0;
             for player in target_viewers {
-                // Check if player is in the same world by comparing Arc pointers
+                //TODO Send particles only to players nearby
                 if Arc::ptr_eq(player.world(), &world) {
                     player
                         .spawn_particle(pos, delta, speed, count, *particle, force)
