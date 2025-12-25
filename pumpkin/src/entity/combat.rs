@@ -87,6 +87,7 @@ pub async fn spawn_sweep_particle(attacker_entity: &Entity, world: &World, pos: 
             0.0,
             0,
             Particle::SweepAttack,
+            false,
         )
         .await;
 }

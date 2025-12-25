@@ -1,12 +1,18 @@
+use std::sync::Arc;
+
 use pumpkin_util::{math::vector3::Vector3, text::TextComponent};
 
 use crate::command::{
     CommandError, CommandExecutor, CommandResult, CommandSender,
     args::{
         ConsumedArgs, FindArg, bounded_num::BoundedNumArgumentConsumer,
-        position_3d::Position3DArgumentConsumer, resource::particle::ParticleArgumentConsumer,
+        players::PlayersArgumentConsumer, position_3d::Position3DArgumentConsumer,
+        resource::particle::ParticleArgumentConsumer,
     },
-    tree::{CommandTree, builder::argument},
+    tree::{
+        CommandTree,
+        builder::{argument, literal},
+    },
 };
 const NAMES: [&str; 1] = ["particle"];
 
@@ -18,8 +24,17 @@ const ARG_POS: &str = "pos";
 const ARG_DELTA: &str = "delta";
 const ARG_SPEED: &str = "speed";
 const ARG_COUNT: &str = "count";
+const ARG_VIEWERS: &str = "viewers";
 
-struct Executor;
+struct Executor {
+    force: bool,
+}
+
+impl Executor {
+    const fn new(force: bool) -> Self {
+        Self { force }
+    }
+}
 
 impl CommandExecutor for Executor {
     fn execute<'a>(
@@ -28,12 +43,14 @@ impl CommandExecutor for Executor {
         server: &'a crate::server::Server,
         args: &'a ConsumedArgs<'a>,
     ) -> CommandResult<'a> {
+        let force = self.force;
         Box::pin(async move {
             let particle = ParticleArgumentConsumer::find_arg(args, ARG_NAME)?;
             let pos = Position3DArgumentConsumer::find_arg(args, ARG_POS);
             let delta = Position3DArgumentConsumer::find_arg(args, ARG_DELTA);
             let speed = BoundedNumArgumentConsumer::<f32>::find_arg(args, ARG_SPEED);
             let count = BoundedNumArgumentConsumer::<i32>::find_arg(args, ARG_COUNT);
+            let viewers = PlayersArgumentConsumer::find_arg(args, ARG_VIEWERS);
 
             let delta = delta.unwrap_or(Vector3::new(0.0, 0.0, 0.0));
             let delta: Vector3<f32> = Vector3::new(delta.x as f32, delta.y as f32, delta.z as f32);
@@ -66,9 +83,25 @@ impl CommandExecutor for Executor {
                 }
             };
 
-            world
-                .spawn_particle(pos, delta, speed, count, *particle)
-                .await;
+            let default_viewers = server.get_all_players().await;
+
+            // Use specified viewers or default to all players
+            let target_viewers = viewers.unwrap_or(&default_viewers);
+
+            let mut success_count = 0;
+            for player in target_viewers {
+                // Check if player is in the same world by comparing Arc pointers
+                if Arc::ptr_eq(&player.world(), &world) {
+                    player
+                        .spawn_particle(pos, delta, speed, count, *particle, force)
+                        .await;
+                    success_count += 1;
+                }
+            }
+
+            if success_count == 0 {
+                return Err(CommandError::CommandFailed(TextComponent::translate("commands.particle.failed", [])));
+            }
 
             sender
                 .send_message(TextComponent::translate(
@@ -85,29 +118,40 @@ impl CommandExecutor for Executor {
 pub fn init_command_tree() -> CommandTree {
     CommandTree::new(NAMES, DESCRIPTION).then(
         argument(ARG_NAME, ParticleArgumentConsumer)
-            .execute(Executor)
+            .execute(Executor::new(false))
             .then(
                 argument(ARG_POS, Position3DArgumentConsumer)
-                    .execute(Executor)
+                    .execute(Executor::new(false))
                     .then(
                         argument(ARG_DELTA, Position3DArgumentConsumer)
-                            .execute(Executor)
+                            .execute(Executor::new(false))
                             .then(
                                 argument(
                                     ARG_SPEED,
                                     BoundedNumArgumentConsumer::<f32>::new().min(0.0),
                                 )
-                                .execute(Executor)
+                                .execute(Executor::new(false))
                                 .then(
                                     argument(
                                         ARG_COUNT,
                                         BoundedNumArgumentConsumer::<i32>::new().min(0),
                                     )
-                                    .execute(Executor),
+                                    .execute(Executor::new(false))
+                                    .then(
+                                        literal("force").execute(Executor::new(true)).then(
+                                            argument(ARG_VIEWERS, PlayersArgumentConsumer)
+                                                .execute(Executor::new(true)),
+                                        ),
+                                    )
+                                    .then(
+                                        literal("normal").execute(Executor::new(false)).then(
+                                            argument(ARG_VIEWERS, PlayersArgumentConsumer)
+                                                .execute(Executor::new(false)),
+                                        ),
+                                    ),
                                 ),
                             ),
                     ),
             ),
-        // TODO: Add NBT
     )
 }

@@ -471,11 +471,12 @@ impl World {
         max_speed: f32,
         particle_count: i32,
         particle: Particle,
+        force: bool,
     ) {
         let players = self.players.read().await;
         for player in players.values() {
             player
-                .spawn_particle(position, offset, max_speed, particle_count, particle)
+                .spawn_particle(position, offset, max_speed, particle_count, particle, force)
                 .await;
         }
     }

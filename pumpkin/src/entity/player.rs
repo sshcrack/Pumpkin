@@ -801,10 +801,11 @@ impl Player {
         max_speed: f32,
         particle_count: i32,
         particle: Particle,
+        force: bool,
     ) {
         self.client
             .enqueue_packet(&CParticle::new(
-                false,
+                force,
                 false,
                 position,
                 offset,
