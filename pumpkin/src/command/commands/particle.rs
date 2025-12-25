@@ -1,6 +1,12 @@
 use std::sync::Arc;
 
-use pumpkin_util::{math::vector3::Vector3, text::TextComponent};
+use pumpkin_util::{
+    math::vector3::Vector3,
+    text::{
+        TextComponent,
+        color::{Color, NamedColor},
+    },
+};
 
 use crate::command::{
     CommandError, CommandExecutor, CommandResult, CommandSender,
@@ -91,7 +97,7 @@ impl CommandExecutor for Executor {
             let mut success_count = 0;
             for player in target_viewers {
                 // Check if player is in the same world by comparing Arc pointers
-                if Arc::ptr_eq(&player.world(), &world) {
+                if Arc::ptr_eq(player.world(), &world) {
                     player
                         .spawn_particle(pos, delta, speed, count, *particle, force)
                         .await;
@@ -100,7 +106,13 @@ impl CommandExecutor for Executor {
             }
 
             if success_count == 0 {
-                return Err(CommandError::CommandFailed(TextComponent::translate("commands.particle.failed", [])));
+                sender
+                    .send_message(
+                        TextComponent::translate("commands.particle.failed", [])
+                            .color(Color::Named(NamedColor::Red)),
+                    )
+                    .await;
+                return Ok(());
             }
 
             sender
