@@ -136,26 +136,22 @@ impl<R: Read> NetworkReadExt for R {
 
     fn read_remaining_to_boxed_slice(&mut self, bound: usize) -> Result<Box<[u8]>, ReadingError> {
         let mut return_buf = Vec::new();
+        self.by_ref()
+            .take(bound as u64)
+            .read_to_end(&mut return_buf)
+            .map_err(|err| ReadingError::Incomplete(err.to_string()))?;
 
-        // TODO: We can probably remove the temp buffer somehow
-        let mut temp_buf = [0; 1024];
-        loop {
-            let bytes_read = self
-                .read(&mut temp_buf)
-                .map_err(|err| ReadingError::Incomplete(err.to_string()))?;
-
-            if bytes_read == 0 {
-                break;
-            }
-
-            if return_buf.len() + bytes_read > bound {
+        // Check if we hit the bound and there's still more data
+        if return_buf.len() == bound {
+            let mut check = [0u8; 1];
+            if self.read(&mut check)
+                .map_err(|err| ReadingError::Incomplete(err.to_string()))? > 0 {
                 return Err(ReadingError::TooLarge(
                     "Read remaining too long".to_string(),
                 ));
             }
-
-            return_buf.extend(&temp_buf[..bytes_read]);
         }
+
         Ok(return_buf.into_boxed_slice())
     }
 
