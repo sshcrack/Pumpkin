@@ -48,14 +48,39 @@ jobs:
       - name: Install typos tool
         run: cargo install typos-cli --locked
 
+      - name: Get Yarn commit hash
+        id: yarn_commit
+        run: |
+          git ls-remote https://github.com/FabricMC/yarn.git HEAD | awk '{print $1}' > /tmp/yarn_commit.txt
+          YARN_COMMIT=$(cat /tmp/yarn_commit.txt)
+          echo "commit=$YARN_COMMIT" >> $GITHUB_OUTPUT
+          echo "Yarn commit: $YARN_COMMIT"
+
+      - name: Cache Minecraft decompiled source
+        uses: actions/cache@v4
+        id: minecraft_cache
+        with:
+          path: minecraft-decompiled/build/namedSrc
+          key: minecraft-decompiled-${{ steps.yarn_commit.outputs.commit }}
+          restore-keys: |
+            minecraft-decompiled-
+
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '21'
+
       - name: Decompile Minecraft using Fabric Yarn
+        if: steps.minecraft_cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p minecraft-decompiled
           cd minecraft-decompiled
           git clone https://github.com/FabricMC/yarn.git .
           ./gradlew decompileVineflower
           echo "Minecraft source code decompiled to: $(pwd)/build/namedSrc"
+
+      - name: Restore Minecraft decompiled source from cache
+        if: steps.minecraft_cache.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Minecraft decompiled source"
+          echo "Minecraft source code available at: minecraft-decompiled/build/namedSrc"
