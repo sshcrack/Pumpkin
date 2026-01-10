@@ -48,11 +48,6 @@ jobs:
       - name: Install typos tool
         run: cargo install typos-cli --locked
 
-      - name: Install Gradle (required for Minecraft decompilation)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gradle
-
       - name: Decompile Minecraft using Fabric Yarn
         run: |
           mkdir -p minecraft-decompiled
@@ -60,18 +55,3 @@ jobs:
           git clone https://github.com/FabricMC/yarn.git .
           ./gradlew decompileVineflower
           echo "Minecraft source code decompiled to: $(pwd)/build/namedSrc"
-
-      - name: Build project (debug)
-        run: cargo build --verbose
-
-      - name: Run all tests
-        run: cargo test --verbose
-
-      - name: Check code formatting
-        run: cargo fmt --check
-
-      - name: Run Clippy linter
-        run: cargo clippy --all-targets --all-features
-
-      - name: Check for typos
-        run: typos
