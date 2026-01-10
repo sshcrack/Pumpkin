@@ -27,7 +27,56 @@ impl LoadJSONConfiguration for OperatorConfig {
         Path::new("ops.json")
     }
     fn validate(&self) {
-        // TODO: Validate the operator configuration
+        use std::collections::HashSet;
+        
+        if self.ops.is_empty() {
+            return;
+        }
+        
+        let mut seen_uuids = HashSet::new();
+        let mut seen_names = HashSet::new();
+        let mut duplicates_found = false;
+        
+        for (index, op) in self.ops.iter().enumerate() {
+            // Check for duplicate UUIDs
+            if !seen_uuids.insert(&op.uuid) {
+                log::warn!(
+                    "Duplicate UUID in ops.json at index {}: {} ({}). This entry will still be used but may cause issues.",
+                    index, op.uuid, op.name
+                );
+                duplicates_found = true;
+            }
+            
+            // Check for duplicate names (warning only, as names can theoretically be reused)
+            if !seen_names.insert(&op.name) {
+                log::warn!(
+                    "Duplicate name in ops.json at index {}: '{}'. Multiple operators with the same name may cause confusion.",
+                    index, op.name
+                );
+            }
+            
+            // Validate UUID is not nil
+            if op.uuid.is_nil() {
+                log::warn!(
+                    "Nil UUID found in ops.json at index {} for name '{}'. This entry may not work correctly.",
+                    index, op.name
+                );
+            }
+            
+            // Validate name is not empty
+            if op.name.is_empty() {
+                log::warn!(
+                    "Empty name found in ops.json at index {} for UUID {}. This entry may not work correctly.",
+                    index, op.uuid
+                );
+            }
+        }
+        
+        if duplicates_found {
+            log::warn!("Operator list contains duplicate entries. Consider cleaning up ops.json.");
+        }
+        
+        log::debug!("Validated {} operator entries", self.ops.len());
     }
 }
 
