@@ -48,6 +48,10 @@ jobs:
       - name: Install typos tool
         run: cargo install typos-cli --locked
 
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '21'
       - name: Decompile Minecraft using Fabric Yarn
         run: |
           mkdir -p minecraft-decompiled
