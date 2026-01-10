@@ -42,24 +42,25 @@ impl LoadJSONConfiguration for BannedIpList {
     }
     fn validate(&self) {
         use std::collections::HashSet;
-        
+
         if self.banned_ips.is_empty() {
             return;
         }
-        
+
         let mut seen_ips = HashSet::new();
         let mut issues_found = false;
-        
+
         for (index, entry) in self.banned_ips.iter().enumerate() {
             // Check for duplicate IPs
             if !seen_ips.insert(&entry.ip) {
                 log::warn!(
                     "Duplicate IP in banned-ips.json at index {}: {}. This may cause unexpected behavior.",
-                    index, entry.ip
+                    index,
+                    entry.ip
                 );
                 issues_found = true;
             }
-            
+
             // IpAddr type guarantees the IP is valid, but we can check for special cases
             if entry.ip.is_unspecified() {
                 log::warn!(
@@ -68,29 +69,31 @@ impl LoadJSONConfiguration for BannedIpList {
                 );
                 issues_found = true;
             }
-            
+
             if entry.ip.is_loopback() {
                 log::warn!(
                     "Loopback IP address found in banned-ips.json at index {}: {}. This only affects local connections.",
-                    index, entry.ip
+                    index,
+                    entry.ip
                 );
             }
-            
+
             // Validate expiration date is in the future if present
-            if let Some(expires) = entry.expires {
-                if expires <= OffsetDateTime::now_utc() {
-                    log::debug!(
-                        "Expired IP ban found in banned-ips.json at index {} for {}. This will be removed automatically.",
-                        index, entry.ip
-                    );
-                }
+            if let Some(expires) = entry.expires
+                && expires <= OffsetDateTime::now_utc()
+            {
+                log::debug!(
+                    "Expired IP ban found in banned-ips.json at index {} for {}. This will be removed automatically.",
+                    index,
+                    entry.ip
+                );
             }
         }
-        
+
         if issues_found {
             log::warn!("Banned IPs list contains issues. Consider reviewing banned-ips.json.");
         }
-        
+
         log::debug!("Validated {} banned IP entries", self.banned_ips.len());
     }
 }

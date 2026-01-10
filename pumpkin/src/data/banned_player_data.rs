@@ -46,67 +46,79 @@ impl LoadJSONConfiguration for BannedPlayerList {
     }
     fn validate(&self) {
         use std::collections::HashSet;
-        
+
         if self.banned_players.is_empty() {
             return;
         }
-        
+
         let mut seen_uuids = HashSet::new();
         let mut seen_names = HashSet::new();
         let mut issues_found = false;
-        
+
         for (index, entry) in self.banned_players.iter().enumerate() {
             // Check for duplicate UUIDs
             if !seen_uuids.insert(&entry.uuid) {
                 log::warn!(
                     "Duplicate UUID in banned-players.json at index {}: {} ({}). This may cause unexpected behavior.",
-                    index, entry.uuid, entry.name
+                    index,
+                    entry.uuid,
+                    entry.name
                 );
                 issues_found = true;
             }
-            
+
             // Check for duplicate names
             if !seen_names.insert(&entry.name) {
                 log::warn!(
                     "Duplicate name in banned-players.json at index {}: '{}'. Consider reviewing this entry.",
-                    index, entry.name
+                    index,
+                    entry.name
                 );
             }
-            
+
             // Validate UUID is not nil
             if entry.uuid.is_nil() {
                 log::warn!(
                     "Nil UUID found in banned-players.json at index {} for name '{}'. This entry may not work correctly.",
-                    index, entry.name
+                    index,
+                    entry.name
                 );
                 issues_found = true;
             }
-            
+
             // Validate name is not empty
             if entry.name.is_empty() {
                 log::warn!(
                     "Empty name found in banned-players.json at index {} for UUID {}. This entry may not work correctly.",
-                    index, entry.uuid
+                    index,
+                    entry.uuid
                 );
                 issues_found = true;
             }
-            
+
             // Validate expiration date is in the future if present
-            if let Some(expires) = entry.expires {
-                if expires <= OffsetDateTime::now_utc() {
-                    log::debug!(
-                        "Expired ban found in banned-players.json at index {} for '{}' ({}). This will be removed automatically.",
-                        index, entry.name, entry.uuid
-                    );
-                }
+            if let Some(expires) = entry.expires
+                && expires <= OffsetDateTime::now_utc()
+            {
+                log::debug!(
+                    "Expired ban found in banned-players.json at index {} for '{}' ({}). This will be removed automatically.",
+                    index,
+                    entry.name,
+                    entry.uuid
+                );
             }
         }
-        
+
         if issues_found {
-            log::warn!("Banned players list contains issues. Consider reviewing banned-players.json.");
+            log::warn!(
+                "Banned players list contains issues. Consider reviewing banned-players.json."
+            );
         }
-        
-        log::debug!("Validated {} banned player entries", self.banned_players.len());
+
+        log::debug!(
+            "Validated {} banned player entries",
+            self.banned_players.len()
+        );
     }
 }
 

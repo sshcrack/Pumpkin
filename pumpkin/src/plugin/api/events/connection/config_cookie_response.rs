@@ -12,13 +12,13 @@ use crate::net::java::JavaClient;
 pub struct ConfigCookieResponseEvent {
     /// The Java client that sent the cookie response.
     pub client: Arc<JavaClient>,
-    
+
     /// The cookie key/identifier.
     pub key: ResourceLocation,
-    
+
     /// Whether the cookie has a payload.
     pub has_payload: bool,
-    
+
     /// The cookie payload data, if present.
     pub payload: Option<Box<[u8]>>,
 }

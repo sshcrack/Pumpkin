@@ -514,7 +514,10 @@ impl JavaClient {
                     .await;
             }
             SConfigCookieResponse::PACKET_ID => {
-                self.handle_config_cookie_response(self.clone(), &SConfigCookieResponse::read(payload)?);
+                self.handle_config_cookie_response(
+                    self.clone(),
+                    &SConfigCookieResponse::read(payload)?,
+                );
             }
             SConfigResourcePack::PACKET_ID => {
                 self.handle_resource_pack_response(server, SConfigResourcePack::read(payload)?)

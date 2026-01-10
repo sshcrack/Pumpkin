@@ -17,8 +17,8 @@ use crate::{
 use pumpkin_protocol::{ClientPacket, Property};
 use pumpkin_util::{Hand, ProfileAction, text::TextComponent};
 use serde::Deserialize;
-use tokio::task::JoinHandle;
 use thiserror::Error;
+use tokio::task::JoinHandle;
 use uuid::Uuid;
 pub mod authentication;
 pub mod bedrock;
@@ -38,27 +38,27 @@ pub struct GameProfile {
 }
 
 /// Generates an offline mode UUID for a player.
-/// 
+///
 /// This matches Minecraft's offline UUID generation which uses UUID v3 (MD5-based)
 /// with the input "OfflinePlayer:" + username.
-/// 
+///
 /// The implementation matches Java's `UUID.nameUUIDFromBytes(("OfflinePlayer:" + nickname).getBytes(StandardCharsets.UTF_8))`
 /// which creates a UUID v3 by:
 /// 1. Computing MD5 hash of "OfflinePlayer:{username}"
 /// 2. Setting version bits to 3 (0011) in byte 6
 /// 3. Setting variant bits to 2 (10xx) in byte 8
-/// 
+///
 /// # Arguments
 /// * `username` - The player's username
-/// 
+///
 /// # Returns
 /// A UUID v3 generated from "OfflinePlayer:" + username
-/// 
+///
 /// # Example
 /// ```
 /// use uuid::Uuid;
 /// # use pumpkin::net::offline_uuid;
-/// 
+///
 /// let uuid = offline_uuid("Notch").unwrap();
 /// // The UUID will be consistent for the same username
 /// assert_eq!(uuid, offline_uuid("Notch").unwrap());
@@ -71,12 +71,12 @@ pub fn offline_uuid(username: &str) -> Result<Uuid, uuid::Error> {
     let input = format!("OfflinePlayer:{}", username);
     let hash = md5::compute(input.as_bytes());
     let bytes = hash.0;
-    
+
     // UUID v3 format: set version bits (0011) in byte 6 and variant bits (10xx) in byte 8
     let mut uuid_bytes = bytes;
     uuid_bytes[6] = (uuid_bytes[6] & 0x0F) | 0x30; // Version 3
     uuid_bytes[8] = (uuid_bytes[8] & 0x3F) | 0x80; // Variant 2 (RFC 4122)
-    
+
     Ok(Uuid::from_bytes(uuid_bytes))
 }
 
@@ -435,21 +435,32 @@ mod tests {
     fn test_offline_uuid_different_users() {
         let uuid1 = offline_uuid("Player1").unwrap();
         let uuid2 = offline_uuid("Player2").unwrap();
-        assert_ne!(uuid1, uuid2, "Different usernames should produce different UUIDs");
+        assert_ne!(
+            uuid1, uuid2,
+            "Different usernames should produce different UUIDs"
+        );
     }
 
     /// Test offline UUID version is 3 (MD5-based).
     #[test]
     fn test_offline_uuid_version() {
         let uuid = offline_uuid("TestPlayer").unwrap();
-        assert_eq!(uuid.get_version(), Some(uuid::Version::Md5), "UUID should be version 3 (MD5)");
+        assert_eq!(
+            uuid.get_version(),
+            Some(uuid::Version::Md5),
+            "UUID should be version 3 (MD5)"
+        );
     }
 
     /// Test offline UUID variant is RFC 4122.
     #[test]
     fn test_offline_uuid_variant() {
         let uuid = offline_uuid("TestPlayer").unwrap();
-        assert_eq!(uuid.get_variant(), uuid::Variant::RFC4122, "UUID should be RFC 4122 variant");
+        assert_eq!(
+            uuid.get_variant(),
+            uuid::Variant::RFC4122,
+            "UUID should be RFC 4122 variant"
+        );
     }
 
     /// Test case for a standard, valid English name at max length.

@@ -139,14 +139,18 @@ impl JavaClient {
         self.send_known_packs().await;
     }
 
-    pub fn handle_config_cookie_response(&self, client: Arc<JavaClient>, packet: &SConfigCookieResponse) {
+    pub fn handle_config_cookie_response(
+        &self,
+        client: Arc<JavaClient>,
+        packet: &SConfigCookieResponse,
+    ) {
         log::debug!(
             "Received cookie_response[config]: key: \"{}\", has_payload: \"{}\", payload_length: \"{:?}\"",
             packet.key,
             packet.has_payload,
             packet.payload.as_ref().map(|p| p.len()),
         );
-        
+
         // Fire plugin event to allow plugins to access and process cookie data
         let event = crate::plugin::api::events::connection::ConfigCookieResponseEvent::new(
             client,
@@ -154,7 +158,7 @@ impl JavaClient {
             packet.has_payload,
             packet.payload.clone(),
         );
-        
+
         // Fire the event asynchronously (non-blocking)
         let plugin_manager = crate::PLUGIN_MANAGER.clone();
         tokio::spawn(async move {
