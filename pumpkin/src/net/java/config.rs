@@ -139,14 +139,31 @@ impl JavaClient {
         self.send_known_packs().await;
     }
 
-    pub fn handle_config_cookie_response(&self, packet: &SConfigCookieResponse) {
-        // TODO: allow plugins to access this
+    pub fn handle_config_cookie_response(
+        &self,
+        client: Arc<JavaClient>,
+        packet: &SConfigCookieResponse,
+    ) {
         log::debug!(
             "Received cookie_response[config]: key: \"{}\", has_payload: \"{}\", payload_length: \"{:?}\"",
             packet.key,
             packet.has_payload,
             packet.payload.as_ref().map(|p| p.len()),
         );
+
+        // Fire plugin event to allow plugins to access and process cookie data
+        let event = crate::plugin::api::events::connection::ConfigCookieResponseEvent::new(
+            client,
+            packet.key.clone(),
+            packet.has_payload,
+            packet.payload.clone(),
+        );
+
+        // Fire the event asynchronously (non-blocking)
+        let plugin_manager = crate::PLUGIN_MANAGER.clone();
+        tokio::spawn(async move {
+            plugin_manager.fire(event).await;
+        });
     }
 
     pub async fn handle_known_packs(&self, server: &Server, _config_acknowledged: SKnownPacks) {

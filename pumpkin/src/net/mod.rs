@@ -17,11 +17,8 @@ use crate::{
 use pumpkin_protocol::{ClientPacket, Property};
 use pumpkin_util::{Hand, ProfileAction, text::TextComponent};
 use serde::Deserialize;
-use sha1::Digest;
-use sha2::Sha256;
-use tokio::task::JoinHandle;
-
 use thiserror::Error;
+use tokio::task::JoinHandle;
 use uuid::Uuid;
 pub mod authentication;
 pub mod bedrock;
@@ -40,8 +37,47 @@ pub struct GameProfile {
     pub profile_actions: Option<Vec<ProfileAction>>,
 }
 
+/// Generates an offline mode UUID for a player.
+///
+/// This matches Minecraft's offline UUID generation which uses UUID v3 (MD5-based)
+/// with the input "OfflinePlayer:" + username.
+///
+/// The implementation matches Java's `UUID.nameUUIDFromBytes(("OfflinePlayer:" + nickname).getBytes(StandardCharsets.UTF_8))`
+/// which creates a UUID v3 by:
+/// 1. Computing MD5 hash of "OfflinePlayer:{username}"
+/// 2. Setting version bits to 3 (0011) in byte 6
+/// 3. Setting variant bits to 2 (10xx) in byte 8
+///
+/// # Arguments
+/// * `username` - The player's username
+///
+/// # Returns
+/// A UUID v3 generated from "OfflinePlayer:" + username
+///
+/// # Example
+/// ```
+/// use uuid::Uuid;
+/// # use pumpkin::net::offline_uuid;
+///
+/// let uuid = offline_uuid("Notch").unwrap();
+/// // The UUID will be consistent for the same username
+/// assert_eq!(uuid, offline_uuid("Notch").unwrap());
+/// // For "Notch", it should match Minecraft's UUID
+/// assert_eq!(uuid.to_string(), "b50ad385-829d-3141-a216-7e7d7539ba7f");
+/// ```
 pub fn offline_uuid(username: &str) -> Result<Uuid, uuid::Error> {
-    Uuid::from_slice(&Sha256::digest(username)[..16])
+    // Minecraft uses UUID v3 (MD5-based) with "OfflinePlayer:" prefix
+    // This matches: UUID.nameUUIDFromBytes(("OfflinePlayer:" + nickname).getBytes(StandardCharsets.UTF_8))
+    let input = format!("OfflinePlayer:{}", username);
+    let hash = md5::compute(input.as_bytes());
+    let bytes = hash.0;
+
+    // UUID v3 format: set version bits (0011) in byte 6 and variant bits (10xx) in byte 8
+    let mut uuid_bytes = bytes;
+    uuid_bytes[6] = (uuid_bytes[6] & 0x0F) | 0x30; // Version 3
+    uuid_bytes[8] = (uuid_bytes[8] & 0x3F) | 0x80; // Variant 2 (RFC 4122)
+
+    Ok(Uuid::from_bytes(uuid_bytes))
 }
 
 /// Represents a player's configuration settings.
@@ -375,7 +411,57 @@ pub enum DisconnectReason {
 
 #[cfg(test)]
 mod tests {
-    use crate::net::is_valid_player_name;
+    use crate::net::{is_valid_player_name, offline_uuid};
+
+    /// Test offline UUID generation matches Minecraft's implementation for known usernames.
+    #[test]
+    fn test_offline_uuid_notch() {
+        let uuid = offline_uuid("Notch").unwrap();
+        // This is the UUID that Minecraft generates for "Notch" in offline mode
+        assert_eq!(uuid.to_string(), "b50ad385-829d-3141-a216-7e7d7539ba7f");
+    }
+
+    /// Test offline UUID generation is consistent.
+    #[test]
+    fn test_offline_uuid_consistency() {
+        let username = "TestPlayer123";
+        let uuid1 = offline_uuid(username).unwrap();
+        let uuid2 = offline_uuid(username).unwrap();
+        assert_eq!(uuid1, uuid2, "UUID generation should be deterministic");
+    }
+
+    /// Test offline UUID generation for different usernames produces different UUIDs.
+    #[test]
+    fn test_offline_uuid_different_users() {
+        let uuid1 = offline_uuid("Player1").unwrap();
+        let uuid2 = offline_uuid("Player2").unwrap();
+        assert_ne!(
+            uuid1, uuid2,
+            "Different usernames should produce different UUIDs"
+        );
+    }
+
+    /// Test offline UUID version is 3 (MD5-based).
+    #[test]
+    fn test_offline_uuid_version() {
+        let uuid = offline_uuid("TestPlayer").unwrap();
+        assert_eq!(
+            uuid.get_version(),
+            Some(uuid::Version::Md5),
+            "UUID should be version 3 (MD5)"
+        );
+    }
+
+    /// Test offline UUID variant is RFC 4122.
+    #[test]
+    fn test_offline_uuid_variant() {
+        let uuid = offline_uuid("TestPlayer").unwrap();
+        assert_eq!(
+            uuid.get_variant(),
+            uuid::Variant::RFC4122,
+            "UUID should be RFC 4122 variant"
+        );
+    }
 
     /// Test case for a standard, valid English name at max length.
     #[test]
