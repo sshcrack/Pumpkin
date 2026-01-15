@@ -185,3 +185,44 @@ pub use block_state::BlockState;
 pub use block_state::BlockStateRef;
 pub use blocks::Block;
 pub use collision_shape::CollisionShape;
+
+#[cfg(test)]
+mod tests {
+    use super::data_component::DataComponent;
+
+    /// Test that PHF map lookup works for known data components
+    #[test]
+    fn test_data_component_lookup() {
+        // Test a few known data components
+        assert!(DataComponent::try_from_name("minecraft:custom_data").is_some());
+        assert!(DataComponent::try_from_name("minecraft:max_stack_size").is_some());
+        assert!(DataComponent::try_from_name("minecraft:damage").is_some());
+
+        // Test that invalid names return None
+        assert!(DataComponent::try_from_name("invalid:component").is_none());
+        assert!(DataComponent::try_from_name("").is_none());
+    }
+
+    /// Test that round-trip conversion works (name -> enum -> name)
+    #[test]
+    fn test_data_component_roundtrip() {
+        let name = "minecraft:custom_data";
+        let component = DataComponent::try_from_name(name).expect("Component should exist");
+        assert_eq!(component.to_name(), name);
+    }
+
+    /// Test that ID conversion works
+    #[test]
+    fn test_data_component_id_conversion() {
+        // Get a component by name
+        let component =
+            DataComponent::try_from_name("minecraft:custom_data").expect("Component should exist");
+
+        // Convert to ID and back
+        let id = component.to_id();
+        let component_from_id =
+            DataComponent::try_from_id(id).expect("Component should exist by ID");
+
+        assert_eq!(component, component_from_id);
+    }
+}
