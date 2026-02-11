@@ -22,7 +22,7 @@ pub struct TNTEntity {
 }
 
 impl TNTEntity {
-    pub fn new(entity: Entity, power: f32, fuse: u32) -> Self {
+    pub const fn new(entity: Entity, power: f32, fuse: u32) -> Self {
         Self {
             entity,
             power,
@@ -65,6 +65,7 @@ impl EntityBase for TNTEntity {
                 self.entity.remove().await;
                 self.entity
                     .world
+                    .load()
                     .explode(self.entity.pos.load(), self.power)
                     .await;
             } else {
@@ -113,5 +114,9 @@ impl EntityBase for TNTEntity {
 
     fn as_nbt_storage(&self) -> &dyn NBTStorage {
         self
+    }
+
+    fn is_immune_to_explosion(&self) -> bool {
+        true
     }
 }

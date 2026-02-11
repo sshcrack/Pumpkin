@@ -1,9 +1,11 @@
 use proc_macro::TokenStream;
 use proc_macro_error2::{abort, abort_call_site, proc_macro_error};
+use pumpkin_data::Block;
+use pumpkin_data::tag::{RegistryKey, get_tag_ids};
 use quote::quote;
 use syn::spanned::Spanned;
 use syn::{self, Attribute, DeriveInput, LitStr, Type, parse_quote};
-use syn::{Block, Expr, Field, Fields, ItemStruct, Stmt, parse_macro_input};
+use syn::{Expr, Field, Fields, ItemStruct, Stmt, parse_macro_input};
 
 #[proc_macro_derive(Event)]
 pub fn event(item: TokenStream) -> TokenStream {
@@ -44,7 +46,7 @@ pub fn cancellable(_args: TokenStream, input: TokenStream) -> TokenStream {
             if fields
                 .named
                 .iter()
-                .any(|f| f.ident.as_ref().map(|i| i == "cancelled").unwrap_or(false))
+                .any(|f| f.ident.as_ref().is_some_and(|i| i == "cancelled"))
             {
                 abort!(fields.span(), "Struct already has a `cancelled` field");
             }
@@ -79,8 +81,9 @@ pub fn cancellable(_args: TokenStream, input: TokenStream) -> TokenStream {
 #[proc_macro_error]
 #[proc_macro]
 pub fn send_cancellable(input: TokenStream) -> TokenStream {
-    let block = parse_macro_input!(input as Block);
+    let block = parse_macro_input!(input as syn::Block);
 
+    let mut server_expr = None;
     let mut event_expr = None;
     let mut after_block = None;
     let mut cancelled_block = None;
@@ -88,14 +91,14 @@ pub fn send_cancellable(input: TokenStream) -> TokenStream {
     for stmt in block.stmts {
         match stmt {
             Stmt::Expr(expr, _) => {
-                // Check if it is a labeled block first
+                // Check if it is a labelled block first.
                 let mut is_special_block = false;
                 if let Expr::Block(ref b) = expr
                     && let Some(ref label) = b.label
                 {
                     let label_name = label.name.ident.to_string();
                     if label_name == "after" {
-                        after_block = Some(b.clone()); // Clone strictly necessary here as we split AST
+                        after_block = Some(b.clone()); // Clone strictly necessary here as we split AST.
                         is_special_block = true;
                     } else if label_name == "cancelled" {
                         cancelled_block = Some(b.clone());
@@ -103,18 +106,21 @@ pub fn send_cancellable(input: TokenStream) -> TokenStream {
                     }
                 }
 
-                // If it wasn't a special block, it must be the event expression
+                // If it wasn't a special block, it must be the event expression.
                 if !is_special_block {
-                    if event_expr.is_some() {
+                    if server_expr.is_none() {
+                        server_expr = Some(expr);
+                    } else if event_expr.is_none() {
+                        event_expr = Some(expr);
+                    } else {
                         abort!(
                             expr.span(),
                             "Multiple event expressions found. Only one event expression allowed."
                         );
                     }
-                    event_expr = Some(expr);
                 }
             }
-            // Abort on other statements (like `let x = ...`) if strictness is desired
+            // Abort on other statements (like `let x = ...`) if strictness is desired.
             _ => abort!(
                 stmt.span(),
                 "Only event expressions and labeled blocks allowed in `send_cancellable!`"
@@ -122,12 +128,15 @@ pub fn send_cancellable(input: TokenStream) -> TokenStream {
         }
     }
 
-    let event = match event_expr {
-        Some(e) => e,
-        None => abort_call_site!("Event expression must be specified"),
+    let Some(server) = server_expr else {
+        abort_call_site!("Server expression must be specified");
     };
 
-    // Construct the if/else logic
+    let Some(event) = event_expr else {
+        abort_call_site!("Event expression must be specified");
+    };
+
+    // Construct the if/else logic.
     let logic = match (after_block, cancelled_block) {
         (Some(after), Some(cancelled)) => quote! {
             if !event.cancelled { #after } else { #cancelled }
@@ -142,7 +151,7 @@ pub fn send_cancellable(input: TokenStream) -> TokenStream {
     };
 
     quote! {
-        let event = crate::PLUGIN_MANAGER.fire(#event).await;
+        let event = #server.plugin_manager.fire(#event).await;
         #logic
     }
     .into()
@@ -166,43 +175,59 @@ pub fn packet(args: TokenStream, item: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
+pub fn java_packet(args: TokenStream, item: TokenStream) -> TokenStream {
+    let packet_id_expr = parse_macro_input!(args as Expr);
+    let ast = parse_macro_input!(item as DeriveInput);
+
+    let name = &ast.ident;
+    let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
+
+    quote! {
+        #ast
+        impl #impl_generics crate::packet::MultiVersionJavaPacket for #name #ty_generics #where_clause {
+            const PACKET_ID: pumpkin_data::packet::PacketId = #packet_id_expr;
+        }
+    }
+    .into()
+}
+
+#[proc_macro_attribute]
 pub fn pumpkin_block(args: TokenStream, item: TokenStream) -> TokenStream {
+    let input_item = item.clone();
+
     let arg_lit = parse_macro_input!(args as LitStr);
     let arg_value = arg_lit.value();
 
-    let (namespace, id) = match arg_value.split_once(':') {
-        Some(pair) => pair,
-        None => {
-            return syn::Error::new(
-                arg_lit.span(),
-                "Expected format \"namespace:id\" (e.g. \"minecraft:stone\")",
-            )
+    let block_name = arg_value.strip_prefix("minecraft:").unwrap_or(&arg_value);
+    let Some(block) = Block::from_name(block_name) else {
+        return syn::Error::new(arg_lit.span(), "Invalid block name")
             .to_compile_error()
             .into();
-        }
     };
+    let block_id = block.id;
 
     let ast = parse_macro_input!(item as DeriveInput);
     let name = &ast.ident;
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 
-    let code = quote! {
-        #ast
+    let generated = quote! {
         impl #impl_generics crate::block::BlockMetadata for #name #ty_generics #where_clause {
-            fn namespace(&self) -> &'static str {
-                #namespace
-            }
-            fn ids(&self) -> &'static [&'static str] {
-                &[#id]
+            fn ids() -> Box<[u16]> {
+                [#block_id].into()
             }
         }
     };
 
-    code.into()
+    // Combine the original item and new impl.
+    let mut output = input_item;
+    output.extend(TokenStream::from(generated));
+    output
 }
 
 #[proc_macro_attribute]
 pub fn pumpkin_block_from_tag(args: TokenStream, item: TokenStream) -> TokenStream {
+    let original_item = item.clone();
+
     let arg_lit = parse_macro_input!(args as LitStr);
     let ast = parse_macro_input!(item as DeriveInput);
 
@@ -211,24 +236,23 @@ pub fn pumpkin_block_from_tag(args: TokenStream, item: TokenStream) -> TokenStre
 
     let full_tag = arg_lit.value();
 
-    // Efficient splitting
-    let namespace = match full_tag.split_once(':') {
-        Some((ns, _)) => ns,
-        None => abort!(arg_lit.span(), "Expected format 'namespace:path'"),
+    let Some(values) = get_tag_ids(RegistryKey::Block, &full_tag) else {
+        return syn::Error::new(arg_lit.span(), format!("Failed to get tag IDs: {full_tag}"))
+            .to_compile_error()
+            .into();
     };
 
-    quote! {
-        #ast
+    let expanded = quote! {
         impl #impl_generics crate::block::BlockMetadata for #name #ty_generics #where_clause {
-            fn namespace(&self) -> &'static str {
-                #namespace
-            }
-            fn ids(&self) -> &'static [&'static str] {
-                get_tag_values(RegistryKey::Block, #arg_lit).unwrap()
+            fn ids() -> Box<[u16]> {
+                Box::new([ #(#values),* ])
             }
         }
-    }
-    .into()
+    };
+
+    let mut output = original_item;
+    output.extend(TokenStream::from(expanded));
+    output
 }
 
 // #[proc_macro_error]
@@ -266,7 +290,7 @@ pub fn pumpkin_block_from_tag(args: TokenStream, item: TokenStream) -> TokenStre
 //             if fields.len() != 1 {
 //                 abort!(
 //                     fields.span(),
-//                     "Block properties `struct`s must have exactly one field"
+//                     "Block properties `struct's must have exactly one field"
 //                 );
 //             }
 //             let field = fields.first().unwrap();
@@ -294,7 +318,7 @@ pub fn pumpkin_block_from_tag(args: TokenStream, item: TokenStream) -> TokenStre
 //                 ),
 //             }
 //         }
-//         _ => abort_call_site!("Block properties can only be `enum`s or `struct`s"),
+//         _ => abort_call_site!("Block properties can only be `enum`s or `struct's"),
 //     };
 
 //     let values = variants.iter().enumerate().map(|(i, v)| match is_enum {
@@ -382,7 +406,7 @@ pub fn pumpkin_block_from_tag(args: TokenStream, item: TokenStream) -> TokenStre
 #[rustfmt::skip]
 #[proc_macro_derive(PacketWrite, attributes(serial))]
 pub fn derive_serialize(input: TokenStream) -> TokenStream {
-    let input = parse_macro_input!(input as syn::DeriveInput);
+    let input = parse_macro_input!(input as DeriveInput);
     let name = &input.ident;
 
     let fields = if let syn::Data::Struct(data) = &input.data {
@@ -436,7 +460,7 @@ pub fn derive_serialize(input: TokenStream) -> TokenStream {
 #[rustfmt::skip]
 #[proc_macro_derive(PacketRead, attributes(serial))]
 pub fn derive_deserialize(input: TokenStream) -> TokenStream {
-    let input = parse_macro_input!(input as syn::DeriveInput);
+    let input = parse_macro_input!(input as DeriveInput);
     let name = &input.ident;
 
     let fields = if let syn::Data::Struct(data) = &input.data {
@@ -489,7 +513,7 @@ fn check_serial_attributes(attrs: &[Attribute]) -> (bool, bool) {
     let mut is_big_endian = false;
     let mut no_prefix = false;
 
-    for attr in attrs.iter() {
+    for attr in attrs {
         if attr.path().is_ident("serial") {
             let _ = attr.parse_nested_meta(|meta| {
                 if meta.path.is_ident("big_endian") {
@@ -512,8 +536,7 @@ fn is_vec(ty: &Type) -> bool {
             .segments
             .iter()
             .last()
-            .map(|segment| segment.ident == "Vec")
-            .unwrap_or(false)
+            .is_some_and(|segment| segment.ident == "Vec")
     } else {
         false
     }

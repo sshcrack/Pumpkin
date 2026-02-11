@@ -13,10 +13,14 @@ use tokio::sync::{Notify, RwLock};
 pub mod api;
 pub mod loader;
 
-use crate::{LOGGER_IMPL, PERMISSION_MANAGER, server::Server};
+use crate::{LOGGER_IMPL, server::Server};
 pub use api::*;
 
 pub type BoxFuture<'a, T> = Pin<Box<dyn Future<Output = T> + Send + 'a>>;
+
+/// Bump this whenever the public plugin API or any event layout changes in a way
+/// that makes old binary plugins incompatible.
+pub const PLUGIN_API_VERSION: u32 = 2;
 
 /// A trait for handling events dynamically.
 ///
@@ -143,7 +147,7 @@ where
 type HandlerMap = HashMap<&'static str, Vec<Box<dyn DynEventHandler>>>;
 
 /// Plugin loading state
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PluginState {
     Loading,
     Loaded,
@@ -350,7 +354,6 @@ impl PluginManager {
                     ),
                     Arc::clone(&self.handlers),
                     Arc::clone(&self_ref),
-                    Arc::clone(&PERMISSION_MANAGER),
                     Arc::clone(&LOGGER_IMPL),
                 ));
 

@@ -1,4 +1,4 @@
-use crate::text::color::ARGBColor;
+use crate::text::color::{ARGBColor, hsv_to_rgb};
 use crate::translation::{
     Locale, get_translation, get_translation_text, reorder_substitutions, translation_to_pretty,
 };
@@ -35,10 +35,10 @@ impl<'de> Deserialize<'de> for TextComponent {
 
             fn visit_str<E: Error>(self, v: &str) -> Result<Self::Value, E> {
                 Ok(TextComponentBase {
-                    content: TextContent::Text {
+                    content: Box::new(TextContent::Text {
                         text: Cow::from(v.to_string()),
-                    },
-                    style: Default::default(),
+                    }),
+                    style: Box::default(),
                     extra: vec![],
                 })
             }
@@ -50,8 +50,8 @@ impl<'de> Deserialize<'de> for TextComponent {
                 }
 
                 Ok(TextComponentBase {
-                    content: TextContent::Text { text: "".into() },
-                    style: Default::default(),
+                    content: Box::new(TextContent::Text { text: "".into() }),
+                    style: Box::default(),
                     extra: bases,
                 })
             }
@@ -78,19 +78,18 @@ impl Serialize for TextComponent {
 pub struct TextComponentBase {
     /// The actual text
     #[serde(flatten)]
-    pub content: TextContent,
-    /// Style of the text. Bold, Italic, underline, Color...
-    /// Also has `ClickEvent
+    pub content: Box<TextContent>,
     #[serde(flatten)]
     pub style: Box<Style>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     /// Extra text components
-    pub extra: Vec<TextComponentBase>,
+    pub extra: Vec<Self>,
 }
 
 impl TextComponentBase {
+    #[must_use]
     pub fn to_pretty_console(self) -> String {
-        let mut text = match self.content {
+        let mut text = match *self.content {
             TextContent::Text { text } => text.into_owned(),
             TextContent::Translate { translate, with } => {
                 translation_to_pretty(format!("minecraft:{translate}"), Locale::EnUs, with)
@@ -125,8 +124,9 @@ impl TextComponentBase {
         text
     }
 
+    #[must_use]
     pub fn get_text(self, locale: Locale) -> String {
-        match self.content {
+        match *self.content {
             TextContent::Text { text } => text.into_owned(),
             TextContent::Translate { translate, with } => {
                 get_translation_text(format!("minecraft:{translate}"), locale, with)
@@ -140,9 +140,10 @@ impl TextComponentBase {
         }
     }
 
+    #[must_use]
     pub fn to_translated(self) -> Self {
         // Divide the translation into slices and inserts the substitutions
-        let component = match self.content {
+        let component = match *self.content {
             TextContent::Custom { key, with, locale } => {
                 let translation = get_translation(&key, locale);
                 let mut translation_parent = translation.clone();
@@ -153,14 +154,14 @@ impl TextComponentBase {
                     for (idx, &range) in ranges.iter().enumerate() {
                         if idx == 0 {
                             translation_parent = translation[..range.start].to_string();
-                        };
+                        }
                         translation_slices.push(substitutions[idx].clone());
                         if range.end >= translation.len() - 1 {
                             continue;
                         }
 
-                        translation_slices.push(TextComponentBase {
-                            content: TextContent::Text {
+                        translation_slices.push(Self {
+                            content: Box::new(TextContent::Text {
                                 text: if idx == ranges.len() - 1 {
                                     // Last substitution, append the rest of the translation
                                     Cow::Owned(translation[range.end + 1..].to_string())
@@ -170,7 +171,7 @@ impl TextComponentBase {
                                             .to_string(),
                                     )
                                 },
-                            },
+                            }),
                             style: Box::new(Style::default()),
                             extra: vec![],
                         });
@@ -179,10 +180,10 @@ impl TextComponentBase {
                 for i in self.extra {
                     translation_slices.push(i);
                 }
-                TextComponentBase {
-                    content: TextContent::Text {
+                Self {
+                    content: Box::new(TextContent::Text {
                         text: translation_parent.into(),
-                    },
+                    }),
                     style: self.style,
                     extra: translation_slices,
                 }
@@ -210,18 +211,24 @@ impl TextComponentBase {
                             value: hover_components,
                         })
                     }
-                    HoverEvent::ShowEntity { name, id, uuid } => match name {
-                        None => Some(HoverEvent::ShowEntity {
-                            name: None,
-                            id: id.clone(),
-                            uuid: uuid.clone(),
-                        }),
-                        Some(name) => Some(HoverEvent::ShowEntity {
-                            name: Some(name.iter().map(|x| x.to_owned().to_translated()).collect()),
-                            id: id.clone(),
-                            uuid: uuid.clone(),
-                        }),
-                    },
+                    HoverEvent::ShowEntity { name, id, uuid } => name.as_ref().map_or_else(
+                        || {
+                            Some(HoverEvent::ShowEntity {
+                                name: None,
+                                id: id.clone(),
+                                uuid: uuid.clone(),
+                            })
+                        },
+                        |name| {
+                            Some(HoverEvent::ShowEntity {
+                                name: Some(
+                                    name.iter().map(|x| x.to_owned().to_translated()).collect(),
+                                ),
+                                id: id.clone(),
+                                uuid: uuid.clone(),
+                            })
+                        },
+                    ),
                     HoverEvent::ShowItem { id, count } => Some(HoverEvent::ShowItem {
                         id: id.clone(),
                         count: count.to_owned(),
@@ -230,7 +237,7 @@ impl TextComponentBase {
                 style
             }
         };
-        TextComponentBase {
+        Self {
             content: component.content,
             style,
             extra,
@@ -241,93 +248,200 @@ impl TextComponentBase {
 impl TextComponent {
     pub fn text<P: Into<Cow<'static, str>>>(plain: P) -> Self {
         Self(TextComponentBase {
-            content: TextContent::Text { text: plain.into() },
+            content: Box::new(TextContent::Text { text: plain.into() }),
             style: Box::new(Style::default()),
             extra: vec![],
         })
     }
 
-    pub fn translate<K: Into<Cow<'static, str>>, W: Into<Vec<TextComponent>>>(
-        key: K,
-        with: W,
-    ) -> Self {
+    pub fn translate<K: Into<Cow<'static, str>>, W: Into<Vec<Self>>>(key: K, with: W) -> Self {
         Self(TextComponentBase {
-            content: TextContent::Translate {
+            content: Box::new(TextContent::Translate {
                 translate: key.into(),
                 with: with.into().into_iter().map(|x| x.0).collect(),
-            },
+            }),
             style: Box::new(Style::default()),
             extra: vec![],
         })
     }
 
-    pub fn custom<K: Into<Cow<'static, str>>, W: Into<Vec<TextComponent>>>(
+    pub fn custom<K: Into<Cow<'static, str>>, W: Into<Vec<Self>>>(
         namespace: K,
         key: K,
         locale: Locale,
         with: W,
     ) -> Self {
         Self(TextComponentBase {
-            content: TextContent::Custom {
+            content: Box::new(TextContent::Custom {
                 key: format!("{}:{}", namespace.into(), key.into())
                     .to_lowercase()
                     .into(),
                 locale,
                 with: with.into().into_iter().map(|x| x.0).collect(),
-            },
+            }),
             style: Box::new(Style::default()),
             extra: vec![],
         })
     }
 
-    pub fn add_child(mut self, child: TextComponent) -> Self {
+    #[must_use]
+    pub fn from_legacy_string(input: &str) -> Self {
+        let mut root = Self::text("");
+        let parts: Vec<&str> = input.split('§').collect();
+
+        if !parts[0].is_empty() {
+            root = root.add_child(Self::text(parts[0].to_string()));
+        }
+
+        let mut current_color: Option<Color> = None;
+        let mut bold = false;
+        let mut italic = false;
+        let mut underlined = false;
+        let mut strikethrough = false;
+        let mut obfuscated = false;
+
+        let mut i = 1;
+        while i < parts.len() {
+            let part = parts[i];
+            if part.is_empty() {
+                i += 1;
+                continue;
+            }
+
+            let mut chars = part.chars();
+            let code = chars.next().unwrap_or(' ').to_ascii_lowercase();
+            let remainder = &part[1..];
+
+            match code {
+                'x' if i + 6 < parts.len() => {
+                    let mut hex = String::new();
+                    for j in 1..=6 {
+                        if let Some(c) = parts[i + j].chars().next() {
+                            hex.push(c);
+                        }
+                    }
+                    current_color = Color::from_hex_str(&hex);
+
+                    i += 6;
+
+                    let last_part = parts[i];
+                    if last_part.len() > 1 {
+                        let mut child = Self::text(last_part[1..].to_string());
+                        if let Some(c) = current_color {
+                            child = child.color(c);
+                        }
+                        root = root.add_child(child);
+                    }
+                    i += 1;
+                    continue;
+                }
+                '0'..='9' | 'a'..='f' => {
+                    current_color = Color::from_legacy_code(code);
+                    bold = false;
+                    italic = false;
+                    underlined = false;
+                    strikethrough = false;
+                    obfuscated = false;
+                }
+                'l' => bold = true,
+                'o' => italic = true,
+                'n' => underlined = true,
+                'm' => strikethrough = true,
+                'k' => obfuscated = true,
+                'r' => {
+                    current_color = None;
+                    bold = false;
+                    italic = false;
+                    underlined = false;
+                    strikethrough = false;
+                    obfuscated = false;
+                }
+                _ => {}
+            }
+
+            if !remainder.is_empty() {
+                let mut child = Self::text(remainder.to_string());
+                if let Some(c) = current_color {
+                    child = child.color(c);
+                }
+                if bold {
+                    child = child.bold();
+                }
+                if italic {
+                    child = child.italic();
+                }
+                if underlined {
+                    child = child.underlined();
+                }
+                if strikethrough {
+                    child = child.strikethrough();
+                }
+                if obfuscated {
+                    child = child.obfuscated();
+                }
+                root = root.add_child(child);
+            }
+            i += 1;
+        }
+
+        root
+    }
+
+    #[must_use]
+    pub fn add_child(mut self, child: Self) -> Self {
         self.0.extra.push(child.0);
         self
     }
 
+    #[must_use]
     pub fn from_content(content: TextContent) -> Self {
         Self(TextComponentBase {
-            content,
+            content: Box::new(content),
             style: Box::new(Style::default()),
             extra: vec![],
         })
     }
 
+    #[must_use]
     pub fn add_text<P: Into<Cow<'static, str>>>(mut self, text: P) -> Self {
         self.0.extra.push(TextComponentBase {
-            content: TextContent::Text { text: text.into() },
+            content: Box::new(TextContent::Text { text: text.into() }),
             style: Box::new(Style::default()),
             extra: vec![],
         });
         self
     }
 
+    #[must_use]
     pub fn get_text(self) -> String {
         self.0.get_text(Locale::EnUs)
     }
 
-    pub fn chat_decorated(format: String, player_name: String, content: String) -> Self {
+    #[must_use]
+    pub fn chat_decorated(format: &str, player_name: &str, content: &str) -> Self {
         // Todo: maybe allow players to use & in chat contingent on permissions
         let with_resolved_fields = format
-            .replace("&", "§")
-            .replace("{DISPLAYNAME}", player_name.as_str())
-            .replace("{MESSAGE}", content.as_str());
+            .replace('&', "§")
+            .replace("{DISPLAYNAME}", player_name)
+            .replace("{MESSAGE}", content);
 
         Self(TextComponentBase {
-            content: TextContent::Text {
+            content: Box::new(TextContent::Text {
                 text: Cow::Owned(with_resolved_fields),
-            },
+            }),
             style: Box::new(Style::default()),
             extra: vec![],
         })
     }
 
+    #[must_use]
     pub fn to_pretty_console(self) -> String {
         self.0.to_pretty_console()
     }
 }
 
 impl TextComponent {
+    #[must_use]
     pub fn encode(&self) -> Box<[u8]> {
         let mut buf = Vec::new();
         // TODO: Properly handle errors
@@ -337,64 +451,164 @@ impl TextComponent {
         buf.into_boxed_slice()
     }
 
+    #[must_use]
     pub fn color(mut self, color: Color) -> Self {
         self.0.style.color = Some(color);
         self
     }
 
+    #[must_use]
     pub fn color_named(mut self, color: color::NamedColor) -> Self {
         self.0.style.color = Some(Color::Named(color));
         self
     }
 
+    #[must_use]
     pub fn color_rgb(mut self, color: color::RGBColor) -> Self {
         self.0.style.color = Some(Color::Rgb(color));
         self
     }
 
+    // Appends a new line/line break
+    #[must_use]
+    pub fn new_line(self) -> Self {
+        self.add_child(Self::text("\n"))
+    }
+
+    /// Applies a color gradient to the text
+    #[must_use]
+    pub fn gradient_named(self, colors: &[color::NamedColor]) -> Self {
+        let rgb_colors: Vec<color::RGBColor> =
+            colors.iter().map(color::NamedColor::to_rgb).collect();
+        self.gradient(&rgb_colors)
+    }
+
+    /// Applies a color gradient to the text
+    #[must_use]
+    pub fn gradient(self, colors: &[color::RGBColor]) -> Self {
+        if colors.len() < 2 {
+            return self;
+        }
+
+        self.apply_color_effect(|i, len| {
+            if len <= 1 {
+                return colors[0];
+            }
+            let total_segments = colors.len() - 1;
+            let position = i as f32 / (len - 1) as f32;
+            let segment_f = position * total_segments as f32;
+            let segment_index = (segment_f.floor() as usize).min(total_segments - 1);
+
+            let local_t = segment_f - segment_index as f32;
+            let start = colors[segment_index];
+            let end = colors[segment_index + 1];
+
+            // LERP logic
+            color::RGBColor::new(
+                (f32::from(end.red) - f32::from(start.red)).mul_add(local_t, f32::from(start.red))
+                    as u8,
+                (f32::from(end.green) - f32::from(start.green))
+                    .mul_add(local_t, f32::from(start.green)) as u8,
+                (f32::from(end.blue) - f32::from(start.blue))
+                    .mul_add(local_t, f32::from(start.blue)) as u8,
+            )
+        })
+    }
+
+    /// Applies a rainbow effect to the text
+    #[must_use]
+    pub fn rainbow(self) -> Self {
+        self.apply_color_effect(|i, len| {
+            let hue = (i as f32 / len as f32) * 360.0;
+            let (r, g, b) = hsv_to_rgb(hue, 1.0, 1.0);
+            color::RGBColor::new(r, g, b)
+        })
+    }
+
+    fn apply_color_effect<F>(mut self, color_gen: F) -> Self
+    where
+        F: Fn(usize, usize) -> color::RGBColor,
+    {
+        // TODO
+        let raw_text = self.0.clone().get_text(Locale::EnUs);
+        let chars: Vec<char> = raw_text.chars().collect();
+        let len = chars.len();
+
+        if len == 0 {
+            return self;
+        }
+
+        let mut colored_extra = Vec::new();
+        for (i, c) in chars.into_iter().enumerate() {
+            let rgb = color_gen(i, len);
+
+            let mut char_base = TextComponentBase {
+                content: Box::new(TextContent::Text {
+                    text: Cow::Owned(c.to_string()),
+                }),
+                style: self.0.style.clone(),
+                extra: vec![],
+            };
+            char_base.style.color = Some(Color::Rgb(rgb));
+            colored_extra.push(char_base);
+        }
+
+        self.0.content = Box::new(TextContent::Text { text: "".into() });
+        self.0.extra = colored_extra;
+        self
+    }
+
     /// Makes the text bold
+    #[must_use]
     pub fn bold(mut self) -> Self {
         self.0.style.bold = Some(true);
         self
     }
 
     /// Makes the text italic
+    #[must_use]
     pub fn italic(mut self) -> Self {
         self.0.style.italic = Some(true);
         self
     }
 
     /// Makes the text underlined
+    #[must_use]
     pub fn underlined(mut self) -> Self {
         self.0.style.underlined = Some(true);
         self
     }
 
     /// Makes the text strikethrough
+    #[must_use]
     pub fn strikethrough(mut self) -> Self {
         self.0.style.strikethrough = Some(true);
         self
     }
 
     /// Makes the text obfuscated
+    #[must_use]
     pub fn obfuscated(mut self) -> Self {
         self.0.style.obfuscated = Some(true);
         self
     }
 
     /// When the text is shift-clicked by a player, this string is inserted in their chat input. It does not overwrite any existing text the player was writing. This only works in chat messages.
+    #[must_use]
     pub fn insertion(mut self, text: String) -> Self {
         self.0.style.insertion = Some(text);
         self
     }
 
     /// Allows for events to occur when the player clicks on text. Only works in chat.
+    #[must_use]
     pub fn click_event(mut self, event: ClickEvent) -> Self {
         self.0.style.click_event = Some(event);
         self
     }
 
     /// Allows for a tooltip to be displayed when the player hovers their mouse over text.
+    #[must_use]
     pub fn hover_event(mut self, event: HoverEvent) -> Self {
         self.0.style.hover_event = Some(event);
         self
@@ -402,12 +616,14 @@ impl TextComponent {
 
     /// Allows you to change the font of the text.
     /// Default fonts: `minecraft:default`, `minecraft:uniform`, `minecraft:alt`, `minecraft:illageralt`
+    #[must_use]
     pub fn font(mut self, resource_location: String) -> Self {
         self.0.style.font = Some(resource_location);
         self
     }
 
     /// Overrides the shadow properties of text.
+    #[must_use]
     pub fn shadow_color(mut self, color: ARGBColor) -> Self {
         self.0.style.shadow_color = Some(color);
         self
@@ -432,7 +648,7 @@ pub enum TextContent {
         separator: Option<Cow<'static, str>>,
     },
     /// A keybind identifier
-    /// https://minecraft.wiki/w/Controls#Configurable_controls
+    /// <https://minecraft.wiki/w/Controls#Configurable_controls>
     Keybind { keybind: Cow<'static, str> },
     /// A custom translation key
     #[serde(skip)]
@@ -450,7 +666,7 @@ mod test {
     use crate::text::{TextComponent, color::NamedColor};
 
     #[test]
-    fn test_serialize_text_component() {
+    fn serialize_text_component() {
         let msg_comp = TextComponent::translate(
             "multiplayer.player.joined",
             [TextComponent::text("NAME".to_string())],

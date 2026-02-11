@@ -1,19 +1,20 @@
 use crate::entity::mob::Mob;
 use std::{any::TypeId, ops::BitOr, pin::Pin, ptr};
 
-pub mod active_target_goal;
-pub mod ambient_stand_goal;
+pub mod active_target;
+pub mod ambient_stand;
+pub mod creeper_ignite;
 pub mod goal_selector;
-pub mod look_around_goal;
+pub mod look_around;
 pub mod look_at_entity;
-mod melee_attack_goal;
-pub mod move_to_target_pos_goal;
-pub mod step_and_destroy_block_goal;
-mod track_target_goal;
-pub mod zombie_attack_goal;
+pub mod melee_attack;
+pub mod move_to_target_pos;
+pub mod step_and_destroy_block;
+mod track_target;
+pub mod zombie_attack;
 
 #[must_use]
-pub fn to_goal_ticks(server_ticks: i32) -> i32 {
+pub const fn to_goal_ticks(server_ticks: i32) -> i32 {
     -(-server_ticks).div_euclid(2)
 }
 
@@ -83,7 +84,7 @@ impl Controls {
         Self::default()
     }
 
-    pub fn set(&mut self, control: Self, val: bool) {
+    pub const fn set(&mut self, control: Self, val: bool) {
         if val {
             self.0 |= control.0;
         } else {
@@ -92,7 +93,7 @@ impl Controls {
     }
 
     #[must_use]
-    pub fn get(&self, control: Self) -> bool {
+    pub const fn get(&self, control: Self) -> bool {
         self.0 & control.0 != 0
     }
 

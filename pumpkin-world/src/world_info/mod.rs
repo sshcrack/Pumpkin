@@ -83,14 +83,18 @@ pub struct LevelData {
     // The Z coordinate of the world spawn.
     pub spawn_z: i32,
     // The Yaw rotation of the world spawn.
-    pub spawn_angle: f32,
+    #[serde(alias = "SpawnAngle")]
+    pub spawn_yaw: f32,
+    // The Pitch rotation of the world spawn.
+    #[serde(default)]
+    pub spawn_pitch: f32,
     #[serde(rename = "Version")]
     pub world_version: WorldVersion,
     #[serde(rename = "version")]
     pub level_version: i32, // TODO: Implement the rest of the fields
 }
 
-#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, Debug)]
 pub struct WorldGenSettings {
     // the numerical seed of the world
     pub seed: i64,
@@ -98,14 +102,14 @@ pub struct WorldGenSettings {
 }
 
 pub type Dimensions = HashMap<String, Dimension>;
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Dimension {
     pub generator: Generator,
     #[serde(rename = "type")]
     pub dimension_type: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Generator {
     pub settings: String,
     pub biome_source: BiomeSource,
@@ -113,7 +117,7 @@ pub struct Generator {
     pub generator_type: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(untagged)]
 pub enum BiomeSource {
     WithPreset {
@@ -127,7 +131,7 @@ pub enum BiomeSource {
     },
 }
 
-#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, Debug)]
 #[serde(rename_all = "PascalCase")]
 pub struct DataPacks {
     // List of disabled data packs.
@@ -190,7 +194,7 @@ impl WorldGenSettings {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, Debug)]
 #[serde(rename_all = "PascalCase")]
 pub struct WorldVersion {
     // The version name as a string, e.g. "15w32b".
@@ -215,6 +219,7 @@ impl Default for WorldVersion {
 }
 
 impl LevelData {
+    #[must_use]
     pub fn default(seed: Seed) -> Self {
         Self {
             allow_commands: true,
@@ -243,10 +248,16 @@ impl LevelData {
             spawn_x: 0,
             spawn_y: 200,
             spawn_z: 0,
-            spawn_angle: 0.0,
-            world_version: Default::default(),
+            spawn_yaw: 0.0,
+            spawn_pitch: 0.0,
+            world_version: WorldVersion::default(),
             level_version: MAXIMUM_SUPPORTED_LEVEL_VERSION,
         }
+    }
+
+    pub const fn set_pos(&mut self, x: i32, z: i32) {
+        self.spawn_x = x;
+        self.spawn_z = z;
     }
 }
 

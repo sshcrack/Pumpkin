@@ -1,3 +1,4 @@
+use pumpkin_data::translation;
 use pumpkin_protocol::{
     ConnectionState, KnownPack, Label, Link, LinkType,
     java::client::{
@@ -31,9 +32,9 @@ impl JavaClient {
         // If `max_players` is set to zero, then there is no max player count enforced.
         // TODO: If client is an operator or has otherwise suitable elevated permissions, allow the client to bypass this requirement.
         let max_players = server.basic_config.max_players;
-        if max_players > 0 && server.get_player_count().await >= max_players as usize {
+        if max_players > 0 && server.get_player_count() >= max_players as usize {
             self.kick(TextComponent::translate(
-                "multiplayer.disconnect.server_full",
+                translation::MULTIPLAYER_DISCONNECT_SERVER_FULL,
                 [],
             ))
             .await;
@@ -90,7 +91,9 @@ impl JavaClient {
                 let verify_token: [u8; 4] = rand::random();
                 // Wait until we have sent the encryption packet to the client
                 self.send_packet_now(
-                    &server.encryption_request(&verify_token, server.basic_config.online_mode),
+                    &server
+                        .encryption_request(&verify_token, server.basic_config.online_mode)
+                        .await,
                 )
                 .await;
             } else {
@@ -107,7 +110,10 @@ impl JavaClient {
         encryption_response: SEncryptionResponse,
     ) {
         log::debug!("Handling encryption");
-        let shared_secret = server.decrypt(&encryption_response.shared_secret).unwrap();
+        let shared_secret = server
+            .decrypt(&encryption_response.shared_secret)
+            .await
+            .unwrap();
 
         if let Err(error) = self.set_encryption(&shared_secret).await {
             self.kick(TextComponent::text(error.to_string())).await;
@@ -130,11 +136,12 @@ impl JavaClient {
                 Ok(new_profile) => *profile = new_profile,
                 Err(error) => {
                     self.kick(match error {
-                        AuthError::FailedResponse => {
-                            TextComponent::translate("multiplayer.disconnect.authservers_down", [])
-                        }
+                        AuthError::FailedResponse => TextComponent::translate(
+                            translation::MULTIPLAYER_DISCONNECT_AUTHSERVERS_DOWN,
+                            [],
+                        ),
                         AuthError::UnverifiedUsername => TextComponent::translate(
-                            "multiplayer.disconnect.unverified_username",
+                            translation::MULTIPLAYER_DISCONNECT_UNVERIFIED_USERNAME,
                             [],
                         ),
                         e => TextComponent::text(e.to_string()),
@@ -145,7 +152,7 @@ impl JavaClient {
         }
 
         // Don't allow duplicate UUIDs
-        if let Some(online_player) = &server.get_player_by_uuid(profile.id).await {
+        if let Some(online_player) = &server.get_player_by_uuid(profile.id) {
             log::debug!(
                 "Player (IP '{}', username '{}') tried to log in with the same UUID ('{}') as an online player (username '{}')",
                 &self.address.lock().await,
@@ -154,7 +161,7 @@ impl JavaClient {
                 &online_player.gameprofile.name
             );
             self.kick(TextComponent::translate(
-                "multiplayer.disconnect.duplicate_login",
+                translation::MULTIPLAYER_DISCONNECT_DUPLICATE_LOGIN,
                 [],
             ))
             .await;
@@ -162,7 +169,7 @@ impl JavaClient {
         }
 
         // Don't allow a duplicate username
-        if let Some(online_player) = &server.get_player_by_name(&profile.name).await {
+        if let Some(online_player) = &server.get_player_by_name(&profile.name) {
             log::debug!(
                 "A player (IP '{}', attempted username '{}') tried to log in with the same username as an online player (UUID '{}', username '{}')",
                 &self.address.lock().await,
@@ -171,7 +178,7 @@ impl JavaClient {
                 &online_player.gameprofile.name
             );
             self.kick(TextComponent::translate(
-                "multiplayer.disconnect.duplicate_login",
+                translation::MULTIPLAYER_DISCONNECT_DUPLICATE_LOGIN,
                 [],
             ))
             .await;
@@ -207,7 +214,7 @@ impl JavaClient {
         shared_secret: &[u8],
         username: &str,
     ) -> Result<GameProfile, AuthError> {
-        let hash = server.digest_secret(shared_secret);
+        let hash = server.digest_secret(shared_secret).await;
         let ip = self.address.lock().await.ip();
         let profile = authentication::authenticate(
             username,

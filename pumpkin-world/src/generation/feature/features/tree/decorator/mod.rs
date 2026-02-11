@@ -57,19 +57,19 @@ impl TreeDecorator {
         log_positions: &[BlockPos],
     ) {
         match self {
-            TreeDecorator::TrunkVine(decorator) => decorator.generate(chunk, random, log_positions),
-            TreeDecorator::LeaveVine(_decorator) => {}
-            TreeDecorator::PaleMoss(_decorator) => {}
-            TreeDecorator::CreakingHeart(_decorator) => {}
-            TreeDecorator::Cocoa(_decorator) => {}
-            TreeDecorator::Beehive(_decorator) => {}
-            TreeDecorator::AlterGround(_decorator) => {}
-            TreeDecorator::PlaceOnGround(decorator) => {
-                decorator.generate(chunk, random, root_positions, log_positions)
+            Self::TrunkVine(decorator) => decorator.generate(chunk, random, log_positions),
+            Self::LeaveVine(_decorator) => {}
+            Self::PaleMoss(_decorator) => {}
+            Self::CreakingHeart(_decorator) => {}
+            Self::Cocoa(_decorator) => {}
+            Self::Beehive(_decorator) => {}
+            Self::AlterGround(_decorator) => {}
+            Self::PlaceOnGround(decorator) => {
+                decorator.generate(chunk, random, root_positions, log_positions);
             }
-            TreeDecorator::AttachedToLeaves(_decorator) => {}
-            TreeDecorator::AttachedToLogs(decorator) => {
-                decorator.generate(chunk, random, log_positions)
+            Self::AttachedToLeaves(_decorator) => {}
+            Self::AttachedToLogs(decorator) => {
+                decorator.generate(chunk, random, log_positions);
             }
         }
     }
@@ -78,18 +78,18 @@ impl TreeDecorator {
         root_positions: &[BlockPos],
         log_positions: &[BlockPos],
     ) -> Vec<BlockPos> {
-        let mut list = Vec::new();
         if root_positions.is_empty() {
-            list.extend_from_slice(log_positions);
-        } else if !log_positions.is_empty()
-            && root_positions.first().unwrap().0.y == log_positions.first().unwrap().0.y
-        {
-            list.extend_from_slice(log_positions);
-            list.extend_from_slice(root_positions);
-        } else {
-            list.extend_from_slice(root_positions);
+            return log_positions.to_vec();
         }
 
-        list
+        if let (Some(root), Some(log)) = (root_positions.first(), log_positions.first())
+            && root.0.y == log.0.y
+        {
+            let mut list = Vec::with_capacity(root_positions.len() + log_positions.len());
+            list.extend_from_slice(log_positions);
+            list.extend_from_slice(root_positions);
+            return list;
+        }
+        root_positions.to_vec()
     }
 }

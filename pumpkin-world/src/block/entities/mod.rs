@@ -7,6 +7,7 @@ use chest::ChestBlockEntity;
 use comparator::ComparatorBlockEntity;
 use end_portal::EndPortalBlockEntity;
 use furnace::FurnaceBlockEntity;
+use furnace_like_block_entity::ExperienceContainer;
 use piston::PistonBlockEntity;
 use pumpkin_data::{Block, block_properties::BLOCK_ENTITY_TYPES};
 use pumpkin_nbt::compound::NbtCompound;
@@ -17,6 +18,7 @@ use crate::block::entities::blasting_furnace::BlastingFurnaceBlockEntity;
 use crate::block::entities::command_block::CommandBlockEntity;
 use crate::block::entities::ender_chest::EnderChestBlockEntity;
 use crate::block::entities::hopper::HopperBlockEntity;
+use crate::block::entities::jukebox::JukeboxBlockEntity;
 use crate::block::entities::mob_spawner::MobSpawnerBlockEntity;
 use crate::block::entities::shulker_box::ShulkerBoxBlockEntity;
 use crate::block::entities::smoker::SmokerBlockEntity;
@@ -38,6 +40,7 @@ pub mod ender_chest;
 pub mod furnace;
 pub mod furnace_like_block_entity;
 pub mod hopper;
+pub mod jukebox;
 pub mod mob_spawner;
 pub mod piston;
 pub mod shulker_box;
@@ -55,7 +58,7 @@ pub trait BlockEntity: Send + Sync {
         Self: Sized;
     fn tick<'a>(
         &'a self,
-        _world: Arc<dyn SimpleWorld>,
+        _world: &'a Arc<dyn SimpleWorld>,
     ) -> Pin<Box<dyn Future<Output = ()> + Send + 'a>> {
         Box::pin(async {})
     }
@@ -78,12 +81,12 @@ pub trait BlockEntity: Send + Sync {
         pumpkin_data::block_properties::BLOCK_ENTITY_TYPES
             .iter()
             .position(|block_entity_name| {
-                *block_entity_name == self.resource_location().split(":").last().unwrap()
+                *block_entity_name == self.resource_location().split(':').next_back().unwrap()
             })
             .unwrap() as u32
     }
 
-    /// Obtain NBT data for sending to the client in [ChunkData](crate::chunk::ChunkData)
+    /// Obtain NBT data for sending to the client in [`ChunkData`](crate::chunk::ChunkData)
     fn chunk_data_nbt(&self) -> Option<NbtCompound> {
         None
     }
@@ -115,8 +118,12 @@ pub trait BlockEntity: Send + Sync {
     fn to_property_delegate(self: Arc<Self>) -> Option<Arc<dyn PropertyDelegate>> {
         None
     }
+    fn to_experience_container(self: Arc<Self>) -> Option<Arc<dyn ExperienceContainer>> {
+        None
+    }
 }
 
+#[must_use]
 pub fn block_entity_from_generic<T: BlockEntity>(nbt: &NbtCompound) -> T {
     let x = nbt.get_int("x").unwrap();
     let y = nbt.get_int("y").unwrap();
@@ -124,12 +131,14 @@ pub fn block_entity_from_generic<T: BlockEntity>(nbt: &NbtCompound) -> T {
     T::from_nbt(nbt, BlockPos::new(x, y, z))
 }
 
+#[must_use]
 pub fn block_entity_from_nbt(nbt: &NbtCompound) -> Option<Arc<dyn BlockEntity>> {
     Some(match nbt.get_string("id").unwrap() {
         ChestBlockEntity::ID => Arc::new(block_entity_from_generic::<ChestBlockEntity>(nbt)),
         EnderChestBlockEntity::ID => {
             Arc::new(block_entity_from_generic::<EnderChestBlockEntity>(nbt))
         }
+        JukeboxBlockEntity::ID => Arc::new(block_entity_from_generic::<JukeboxBlockEntity>(nbt)),
         SignBlockEntity::ID => Arc::new(block_entity_from_generic::<SignBlockEntity>(nbt)),
         BedBlockEntity::ID => Arc::new(block_entity_from_generic::<BedBlockEntity>(nbt)),
         ComparatorBlockEntity::ID => {
@@ -161,6 +170,7 @@ pub fn block_entity_from_nbt(nbt: &NbtCompound) -> Option<Arc<dyn BlockEntity>> 
     })
 }
 
+#[must_use]
 pub fn has_block_block_entity(block: &Block) -> bool {
     BLOCK_ENTITY_TYPES.contains(&block.name)
 }

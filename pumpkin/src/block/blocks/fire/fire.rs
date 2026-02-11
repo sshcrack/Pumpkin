@@ -4,7 +4,7 @@ use pumpkin_data::entity::EntityType;
 use pumpkin_data::fluid::Fluid;
 use pumpkin_util::math::vector3::Vector3;
 use pumpkin_world::world::{BlockAccessor, BlockFlags};
-use rand::Rng;
+use rand::RngExt;
 use std::sync::Arc;
 use std::sync::atomic::Ordering;
 
@@ -226,6 +226,7 @@ impl BlockBehaviour for FireBlock {
                     block: &Block::FIRE,
                     state: Block::FIRE.default_state,
                     position: args.position,
+                    direction: None,
                     player: None,
                     use_item_on: None,
                 })
@@ -261,14 +262,6 @@ impl BlockBehaviour for FireBlock {
     fn on_scheduled_tick<'a>(&'a self, args: OnScheduledTickArgs<'a>) -> BlockFuture<'a, ()> {
         Box::pin(async move {
             let (world, block, pos) = (args.world, args.block, args.position);
-            world
-                .schedule_block_tick(
-                    block,
-                    *pos,
-                    Self::get_fire_tick_delay() as u8,
-                    TickPriority::Normal,
-                )
-                .await;
             if !Self
                 .can_place_at(CanPlaceAtArgs {
                     server: None,
@@ -277,6 +270,7 @@ impl BlockBehaviour for FireBlock {
                     block,
                     state: block.default_state,
                     position: pos,
+                    direction: None,
                     player: None,
                     use_item_on: None,
                 })
@@ -372,6 +366,7 @@ impl BlockBehaviour for FireBlock {
             )
             .await;
 
+            let difficulty = world.level_info.load().difficulty as i32;
             for l in -1..=1 {
                 for m in -1..=1 {
                     for n in -1..=4 {
@@ -380,10 +375,8 @@ impl BlockBehaviour for FireBlock {
                             let burn_chance = Self.get_burn_chance(world, &offset_pos).await;
                             if burn_chance > 0 {
                                 let o = 100 + if n > 1 { (n - 1) * 100 } else { 0 };
-                                let p: i32 = burn_chance
-                                    + 40
-                                    + (world.level_info.read().await.difficulty as i32) * 7
-                                        / i32::from(age + 30);
+                                let p: i32 =
+                                    burn_chance + 40 + (difficulty) * 7 / i32::from(age + 30);
 
                                 if p > 0 && rand::rng().random_range(0..o) <= p {
                                     let new_age =
@@ -408,6 +401,18 @@ impl BlockBehaviour for FireBlock {
                         }
                     }
                 }
+            }
+            // Only schedule a new tick if the block at the position is still this fire block.
+            let current_block = world.get_block(pos).await;
+            if current_block.id == block.id {
+                world
+                    .schedule_block_tick(
+                        block,
+                        *pos,
+                        Self::get_fire_tick_delay() as u8,
+                        TickPriority::Normal,
+                    )
+                    .await;
             }
         })
     }

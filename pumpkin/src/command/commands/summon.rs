@@ -1,3 +1,4 @@
+use pumpkin_data::translation;
 use pumpkin_util::{math::vector3::Vector3, text::TextComponent};
 use uuid::Uuid;
 
@@ -30,17 +31,17 @@ impl CommandExecutor for Executor {
         args: &'a ConsumedArgs<'a>,
     ) -> CommandResult<'a> {
         Box::pin(async move {
-            let entity = SummonableEntitiesArgumentConsumer::find_arg(args, ARG_ENTITY)?;
+            let entity_type = SummonableEntitiesArgumentConsumer::find_arg(args, ARG_ENTITY)?;
             let pos = Position3DArgumentConsumer::find_arg(args, ARG_POS);
             let (world, pos) = match sender {
                 CommandSender::Console | CommandSender::Rcon(_) => {
-                    let guard = server.worlds.read().await;
+                    let guard = server.worlds.load();
                     let world = guard
                         .first()
                         .cloned()
                         .ok_or(CommandError::InvalidRequirement)?;
                     let pos = {
-                        let info = &world.level_info.read().await;
+                        let info = &world.level_info.load();
                         // default position for spawning a player, in this case for mob
                         pos.unwrap_or(Vector3::new(
                             f64::from(info.spawn_x) + 0.5,
@@ -54,23 +55,24 @@ impl CommandExecutor for Executor {
                 CommandSender::Player(player) => {
                     let pos = pos.unwrap_or(player.living_entity.entity.pos.load());
 
-                    (player.world().clone(), pos)
+                    (player.world(), pos)
                 }
                 CommandSender::CommandBlock(c, w) => {
-                    (w.clone(), c.get_position().to_centered_f64())
+                    let pos = pos.unwrap_or(c.get_position().to_centered_f64());
+                    (w.clone(), pos)
                 }
             };
-            let mob = from_type(entity, pos, &world, Uuid::new_v4()).await;
-            world.spawn_entity(mob).await;
-
+            let entity = from_type(entity_type, pos, &world, Uuid::new_v4()).await;
+            let name = entity.get_display_name().await;
+            world.spawn_entity(entity).await;
             sender
                 .send_message(TextComponent::translate(
-                    "commands.summon.success",
-                    [TextComponent::text(format!("{entity:?}"))],
+                    translation::COMMANDS_SUMMON_SUCCESS,
+                    [name],
                 ))
                 .await;
 
-            Ok(())
+            Ok(1)
         })
     }
 }

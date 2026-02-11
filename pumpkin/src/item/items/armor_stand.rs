@@ -15,7 +15,6 @@ use pumpkin_util::math::position::BlockPos;
 use pumpkin_util::math::vector3::Vector3;
 use pumpkin_util::math::wrap_degrees;
 use pumpkin_world::item::ItemStack;
-use uuid::Uuid;
 
 pub struct ArmorStandItem;
 
@@ -73,18 +72,12 @@ impl ItemBehaviour for ArmorStandItem {
             );
 
             if world.is_space_empty(bounding_box).await
-                && world.get_entities_at_box(&bounding_box).await.is_empty()
+                && world.get_entities_at_box(&bounding_box).is_empty()
             {
                 let (player_yaw, _) = player.rotation();
                 let rotation = ((wrap_degrees(player_yaw - 180.0) + 22.5) / 45.0).floor() * 45.0;
 
-                let entity = Entity::new(
-                    Uuid::new_v4(),
-                    world.clone(),
-                    position,
-                    &EntityType::ARMOR_STAND,
-                    false,
-                );
+                let entity = Entity::new(world.clone(), position, &EntityType::ARMOR_STAND);
 
                 entity.set_rotation(rotation, 0.0);
 
