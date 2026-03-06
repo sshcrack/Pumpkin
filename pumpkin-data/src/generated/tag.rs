@@ -3,11 +3,11 @@ use pumpkin_util::version::MinecraftVersion;
 pub type Tag = (&'static [&'static str], &'static [u16]);
 #[derive(Eq, PartialEq, Hash, Debug, Clone, Copy)]
 pub enum RegistryKey {
-    BannerPattern,
-    Block,
     CatVariant,
     DamageType,
     Dialog,
+    BannerPattern,
+    Block,
     DimensionType,
     Enchantment,
     EntityType,
@@ -27,8 +27,8 @@ impl RegistryKey {
             "block" => Some(Self::Block),
             "cat_variant" => Some(Self::CatVariant),
             "damage_type" => Some(Self::DamageType),
-            "dialog" => Some(Self::Dialog),
             "dimension_type" => Some(Self::DimensionType),
+            "dialog" => Some(Self::Dialog),
             "enchantment" => Some(Self::Enchantment),
             "entity_type" => Some(Self::EntityType),
             "fluid" => Some(Self::Fluid),
@@ -48,8 +48,8 @@ impl RegistryKey {
             Self::Block => "block",
             Self::CatVariant => "cat_variant",
             Self::DamageType => "damage_type",
-            Self::Dialog => "dialog",
             Self::DimensionType => "dimension_type",
+            Self::Dialog => "dialog",
             Self::Enchantment => "enchantment",
             Self::EntityType => "entity_type",
             Self::Fluid => "fluid",

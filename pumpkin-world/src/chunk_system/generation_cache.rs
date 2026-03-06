@@ -90,8 +90,14 @@ impl GenerationCache for Cache {
         let dx = chunk_x - self.x;
         let dz = chunk_z - self.z;
 
-        (dx >= 0 && dx < self.size && dz >= 0 && dz < self.size)
-            .then(|| self.chunks[(dx * self.size + dz) as usize].get_proto_chunk())
+        if dx < 0 || dx >= self.size || dz < 0 || dz >= self.size {
+            return None;
+        }
+
+        match &self.chunks[(dx * self.size + dz) as usize] {
+            Chunk::Proto(chunk) => Some(chunk),
+            Chunk::Level(_) => None,
+        }
     }
 
     fn try_get_proto_chunk(&self, chunk_x: i32, chunk_z: i32) -> Option<&ProtoChunk> {
@@ -296,6 +302,7 @@ impl GenerationCache for Cache {
 }
 
 impl Cache {
+    #[must_use]
     pub fn new(x: i32, z: i32, size: i32) -> Self {
         Self {
             x,

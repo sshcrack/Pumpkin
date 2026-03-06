@@ -1121,6 +1121,7 @@ impl World {
     pub async fn get_block_collisions(
         self: &Arc<Self>,
         bounding_box: BoundingBox,
+        entity: &dyn EntityBase,
     ) -> (Vec<BoundingBox>, Vec<(usize, BlockPos)>) {
         let mut collisions = Vec::new();
 
@@ -1137,15 +1138,29 @@ impl World {
                 continue;
             }
 
-            let collided = Self::check_collision(
-                &bounding_box,
-                pos,
-                state,
-                true,
-                |collision_shape: &BoundingBox| {
-                    collisions.push(*collision_shape);
-                },
-            );
+            let block = Block::from_state_id(state.id);
+            let mut collided = false;
+
+            if block == &Block::POWDER_SNOW {
+                if let Some(shape) =
+                    crate::block::blocks::powder_snow::collision_shape_for_entity(entity, &pos)
+                        .await
+                {
+                    let shape = shape.at_pos(pos);
+                    if shape.intersects(&bounding_box) {
+                        collided = true;
+                        collisions.push(shape);
+                    }
+                }
+            } else {
+                for shape in state.get_block_collision_shapes() {
+                    let shape = shape.at_pos(pos);
+                    if shape.intersects(&bounding_box) {
+                        collided = true;
+                        collisions.push(shape);
+                    }
+                }
+            }
 
             if collided {
                 positions.push((collisions.len(), pos));
@@ -2922,7 +2937,16 @@ impl World {
         flags: BlockFlags,
     ) -> Option<u16> {
         let (broken_block, broken_block_state) = self.get_block_and_state_id(position).await;
-        let event = BlockBreakEvent::new(cause.clone(), broken_block, *position, 0, false);
+        if is_air(broken_block_state) {
+            return None;
+        }
+        let event = BlockBreakEvent::new(
+            cause.clone(),
+            broken_block,
+            *position,
+            0,
+            !flags.contains(BlockFlags::SKIP_DROPS),
+        );
 
         let event = self
             .server
@@ -2933,6 +2957,12 @@ impl World {
             .await;
 
         if !event.cancelled {
+            let mut flags = flags;
+            if event.drop {
+                flags.remove(BlockFlags::SKIP_DROPS);
+            } else {
+                flags.insert(BlockFlags::SKIP_DROPS);
+            }
             let new_state_id = if broken_block
                 .properties(broken_block_state)
                 .and_then(|properties| {
@@ -3652,6 +3682,21 @@ impl pumpkin_world::world::SimpleWorld for World {
             let level_time_guard = self.level_time.lock().await;
             level_time_guard.world_age
         })
+    }
+
+    fn get_time_of_day(&self) -> WorldFuture<'_, i64> {
+        Box::pin(async move {
+            let level_time_guard = self.level_time.lock().await;
+            level_time_guard.query_daytime()
+        })
+    }
+
+    fn get_level(&self) -> WorldFuture<'_, &Arc<Level>> {
+        Box::pin(async move { &self.level })
+    }
+
+    fn get_dimension(&self) -> WorldFuture<'_, &Dimension> {
+        Box::pin(async move { &self.dimension })
     }
 
     fn play_sound<'a>(

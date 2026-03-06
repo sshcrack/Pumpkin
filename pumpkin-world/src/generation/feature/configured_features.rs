@@ -131,7 +131,7 @@ pub enum ConfiguredFeature {
     RandomSelector(RandomFeature),
     SimpleRandomSelector(SimpleRandomFeature),
     RandomBooleanSelector(RandomBooleanFeature),
-    Geode(GeodeFeature),
+    Geode(Box<GeodeFeature>),
     DripstoneCluster(DripstoneClusterFeature),
     LargeDripstone(LargeDripstoneFeature),
     PointedDripstone(SmallDripstoneFeature),
@@ -294,6 +294,18 @@ impl ConfiguredFeature {
             Self::SeaPickle(feature) => {
                 feature.generate(chunk, min_y, height, feature_name, random, pos)
             }
+            Self::Geode(feature) => feature.generate(
+                chunk,
+                block_registry,
+                min_y,
+                height,
+                feature_name,
+                random,
+                pos,
+            ),
+            Self::Kelp(feature) => {
+                feature.generate(chunk, min_y, height, feature_name, random, pos)
+            }
             Self::Ore(feature) => feature.generate(
                 chunk,
                 block_registry,
@@ -303,6 +315,9 @@ impl ConfiguredFeature {
                 random,
                 pos,
             ),
+            Self::MonsterRoom(feature) => {
+                feature.generate(chunk, min_y, height, feature_name, random, pos)
+            }
             _ => false, // TODO
         }
     }
