@@ -6,12 +6,12 @@ use crate::server::Server;
 use pumpkin_data::BlockDirection;
 use pumpkin_data::block_properties::BlockProperties;
 use pumpkin_data::block_properties::{OakDoorLikeProperties, PaleOakWoodLikeProperties};
+use pumpkin_data::item_stack::ItemStack;
 use pumpkin_data::tag::Taggable;
 use pumpkin_data::{Block, tag};
 use pumpkin_util::GameMode;
 use pumpkin_util::math::position::BlockPos;
 use pumpkin_util::math::vector3::Vector3;
-use pumpkin_world::item::ItemStack;
 use pumpkin_world::world::BlockFlags;
 
 pub struct AxeItem;
@@ -43,7 +43,7 @@ impl ItemBehaviour for AxeItem {
             let changed = if replacement_block != 0 {
                 let new_block = &Block::from_id(replacement_block);
                 let new_state_id = if block.has_tag(&tag::Block::MINECRAFT_LOGS) {
-                    let log_information = world.get_block_state_id(&location).await;
+                    let log_information = world.get_block_state_id(&location);
                     let log_props =
                         PaleOakWoodLikeProperties::from_state_id(log_information, block);
                     // create new properties for the new log.
@@ -59,7 +59,7 @@ impl ItemBehaviour for AxeItem {
                 // Let's check if It's a door
                 else if block.has_tag(&tag::Block::MINECRAFT_DOORS) {
                     // get block state of the old log.
-                    let door_information = world.get_block_state_id(&location).await;
+                    let door_information = world.get_block_state_id(&location);
                     // get the log properties
                     let door_props = OakDoorLikeProperties::from_state_id(door_information, block);
                     // create new properties for the new log.

@@ -1,5 +1,5 @@
 use pumpkin_data::{
-    Block,
+    Block, BlockState,
     fluid::Fluid,
     tag::{self, Taggable},
 };
@@ -46,14 +46,14 @@ impl PathfindingContext {
         self.mob_position
     }
 
-    pub async fn get_path_type_from_state(&mut self, pos: Vector3<i32>) -> PathType {
+    pub fn get_path_type_from_state(&mut self, pos: Vector3<i32>) -> PathType {
         if let Some(ref cache) = self.path_type_cache
             && let Some(pt) = cache.get(pos)
         {
             return pt;
         }
 
-        let pt = self.compute_path_type_from_state(pos).await;
+        let pt = self.compute_path_type_from_state(pos);
 
         if let Some(ref mut cache) = self.path_type_cache {
             cache.insert(pos, pt);
@@ -63,12 +63,14 @@ impl PathfindingContext {
     }
 
     /// Classifies a block position into a `PathType` for pathfinding.
-    pub async fn compute_path_type_from_state(&self, pos: Vector3<i32>) -> PathType {
+    #[must_use]
+    pub fn compute_path_type_from_state(&self, pos: Vector3<i32>) -> PathType {
         let block_pos = pos.as_blockpos();
 
-        let block = self.world.get_block(&block_pos).await;
-        let state_id = self.world.get_block_state_id(&block_pos).await;
-        let state = self.world.get_block_state(&block_pos).await;
+        // Single async chunk lookup, then derive block & state from static arrays
+        let state_id = self.world.get_block_state_id(&block_pos);
+        let block = Block::from_state_id(state_id);
+        let state = BlockState::from_id(state_id);
 
         if block.id == Block::AIR.id
             || block.id == Block::VOID_AIR.id
@@ -161,13 +163,11 @@ impl PathfindingContext {
     }
 
     /// Wraps the raw block type with below-check and neighbor danger scanning for OPEN nodes.
-    pub async fn get_land_node_type(&mut self, pos: Vector3<i32>) -> PathType {
-        let raw_type = self.get_path_type_from_state(pos).await;
+    pub fn get_land_node_type(&mut self, pos: Vector3<i32>) -> PathType {
+        let raw_type = self.get_path_type_from_state(pos);
 
         if raw_type == PathType::Open {
-            let below_type = self
-                .get_path_type_from_state(Vector3::new(pos.x, pos.y - 1, pos.z))
-                .await;
+            let below_type = self.get_path_type_from_state(Vector3::new(pos.x, pos.y - 1, pos.z));
             return match below_type {
                 PathType::Open | PathType::Water | PathType::Lava | PathType::Walkable => {
                     PathType::Open
@@ -178,10 +178,7 @@ impl PathfindingContext {
                 PathType::PowderSnow => PathType::DangerPowderSnow,
                 PathType::DamageCautious => PathType::DamageCautious,
                 PathType::Trapdoor => PathType::DangerTrapdoor,
-                _ => {
-                    self.get_node_type_from_neighbors(pos, PathType::Walkable)
-                        .await
-                }
+                _ => self.get_node_type_from_neighbors(pos, PathType::Walkable),
             };
         }
 
@@ -189,7 +186,7 @@ impl PathfindingContext {
     }
 
     /// Scans a 3x3x3 neighborhood for danger blocks and returns the appropriate danger type.
-    pub async fn get_node_type_from_neighbors(
+    pub fn get_node_type_from_neighbors(
         &mut self,
         pos: Vector3<i32>,
         fallback: PathType,
@@ -201,9 +198,11 @@ impl PathfindingContext {
                         continue;
                     }
 
-                    let neighbor_type = self
-                        .get_path_type_from_state(Vector3::new(pos.x + dx, pos.y + dy, pos.z + dz))
-                        .await;
+                    let neighbor_type = self.get_path_type_from_state(Vector3::new(
+                        pos.x + dx,
+                        pos.y + dy,
+                        pos.z + dz,
+                    ));
 
                     if neighbor_type == PathType::DamageOther {
                         return PathType::DangerOther;
@@ -224,13 +223,14 @@ impl PathfindingContext {
         fallback
     }
 
-    pub async fn has_collisions(&mut self, pos: Vector3<i32>) -> bool {
+    pub fn has_collisions(&mut self, pos: Vector3<i32>) -> bool {
         if let Some(&cached) = self.collision_cache.get(&pos) {
             return cached;
         }
 
         let block_pos = pos.as_blockpos();
-        let state = self.world.get_block_state(&block_pos).await;
+        let state_id = self.world.get_block_state_id(&block_pos);
+        let state = BlockState::from_id(state_id);
         let has_collision = state.is_full_cube();
 
         self.collision_cache.insert(pos, has_collision);

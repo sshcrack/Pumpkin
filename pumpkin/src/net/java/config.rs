@@ -20,7 +20,7 @@ use pumpkin_protocol::{
         },
     },
 };
-use pumpkin_util::{Hand, text::TextComponent, version::MinecraftVersion};
+use pumpkin_util::{Hand, text::TextComponent, version::JavaMinecraftVersion};
 use tracing::{debug, trace, warn};
 
 const BRAND_CHANNEL_PREFIX: &str = "minecraft:brand";
@@ -76,7 +76,7 @@ impl JavaClient {
         server: &Server,
         packet: SConfigResourcePack,
     ) {
-        let resource_config = &server.advanced_config.resource_pack;
+        let resource_config = &server.advanced_config.resource_pack.java;
         if resource_config.enabled {
             let expected_uuid =
                 uuid::Uuid::new_v3(&uuid::Uuid::NAMESPACE_DNS, resource_config.url.as_bytes());
@@ -151,10 +151,15 @@ impl JavaClient {
         );
     }
 
-    pub async fn handle_known_packs(&self, _config_acknowledged: SKnownPacks) {
+    pub async fn handle_known_packs(
+        &self,
+        _config_acknowledged: SKnownPacks,
+        server: &Arc<Server>,
+    ) -> Option<PacketHandlerResult> {
         debug!("Handling known packs");
         // let mut tags_to_send = Vec::new();
-        let registry = Registry::get_synced(self.version.load());
+        let version = self.version.load();
+        let registry = Registry::get_synced(version);
         for registry in registry {
             let entries: Vec<RegistryEntry> = registry
                 .registry_entries
@@ -181,9 +186,9 @@ impl JavaClient {
         ];
 
         // optionally include timeline/dimension_type if there are any tags to send
-        if self.version.load().protocol_version() >= MinecraftVersion::V_1_21_11.protocol_version()
+        if version.protocol_version() >= JavaMinecraftVersion::V_1_21_11.protocol_version()
             && let Some(map) = pumpkin_data::tag::get_registry_key_tags(
-                self.version.load(),
+                version,
                 pumpkin_data::tag::RegistryKey::Timeline,
             )
             && !map.is_empty()
@@ -191,17 +196,37 @@ impl JavaClient {
             tags.push(pumpkin_data::tag::RegistryKey::Timeline);
         }
         if let Some(map) = pumpkin_data::tag::get_registry_key_tags(
-            self.version.load(),
+            version,
             pumpkin_data::tag::RegistryKey::DimensionType,
         ) && !map.is_empty()
         {
             tags.push(pumpkin_data::tag::RegistryKey::DimensionType);
         }
+        if let Some(map) = pumpkin_data::tag::get_registry_key_tags(
+            version,
+            pumpkin_data::tag::RegistryKey::DamageType,
+        ) && !map.is_empty()
+        {
+            tags.push(pumpkin_data::tag::RegistryKey::DamageType);
+        }
+        if let Some(map) = pumpkin_data::tag::get_registry_key_tags(
+            version,
+            pumpkin_data::tag::RegistryKey::BannerPattern,
+        ) && !map.is_empty()
+        {
+            tags.push(pumpkin_data::tag::RegistryKey::BannerPattern);
+        }
         self.send_packet_now(&CUpdateTags::new(&tags)).await;
 
         // We are done with configuring
-        debug!("Finished config");
         self.send_packet_now(&CFinishConfig).await;
+
+        if version < JavaMinecraftVersion::V_1_20_2 {
+            return Some(self.handle_config_acknowledged(server).await);
+        }
+
+        debug!("Finished config");
+        None
     }
 
     pub async fn handle_config_acknowledged(&self, server: &Arc<Server>) -> PacketHandlerResult {

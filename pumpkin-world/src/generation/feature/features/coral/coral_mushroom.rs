@@ -1,4 +1,5 @@
-use crate::generation::proto_chunk::GenerationCache;
+use crate::{generation::proto_chunk::GenerationCache, world::WorldPortalExt};
+use pumpkin_data::tag;
 use pumpkin_util::{
     math::{position::BlockPos, vector3::Vector3},
     random::{RandomGenerator, RandomImpl},
@@ -9,17 +10,19 @@ use super::CoralFeature;
 pub struct CoralMushroomFeature;
 
 impl CoralMushroomFeature {
+    #[allow(clippy::too_many_arguments)]
     pub fn generate<T: GenerationCache>(
         &self,
         chunk: &mut T,
+        block_registry: &dyn WorldPortalExt,
         _min_y: i8,
         _height: u16,
-        _feature: &str, // This placed feature
+        _feature: pumpkin_data::placed_feature::PlacedFeature, // This placed feature
         random: &mut RandomGenerator,
         pos: BlockPos,
     ) -> bool {
         // First lets get a random coral
-        let block = CoralFeature::get_random_tag_entry("minecraft:coral_blocks", random);
+        let block = CoralFeature::get_random_tag_entry(tag::Block::MINECRAFT_CORAL_BLOCKS, random);
 
         let i = random.next_bounded_i32(3) + 3;
         let j = random.next_bounded_i32(3) + 3;
@@ -41,7 +44,13 @@ impl CoralMushroomFeature {
 
                     if !((condition_a && condition_b && condition_c && condition_d)
                         && !random_check
-                        && CoralFeature::generate_coral_piece(chunk, random, block, pos))
+                        && CoralFeature::generate_coral_piece(
+                            chunk,
+                            block_registry,
+                            random,
+                            block,
+                            pos,
+                        ))
                     {
                         continue;
                     }

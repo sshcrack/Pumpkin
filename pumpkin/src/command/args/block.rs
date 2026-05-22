@@ -33,7 +33,7 @@ impl ArgumentConsumer for BlockArgumentConsumer {
         _server: &'a Server,
         args: &mut RawArgs<'a>,
     ) -> ConsumeResult<'a> {
-        let block = args.pop();
+        let block = args.pop().map(|arg| arg.value);
         match block {
             Some(s) => Box::pin(async move { Some(Arg::Block(s)) }),
             None => Box::pin(async move { None }),
@@ -55,13 +55,15 @@ impl<'a> FindArg<'a> for BlockArgumentConsumer {
             Some(Arg::Block(name)) => Block::from_name(name).map_or_else(
                 || {
                     if name.starts_with("minecraft:") {
-                        Err(CommandError::CommandFailed(TextComponent::translate(
-                            translation::ARGUMENT_BLOCK_ID_INVALID,
+                        Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                            translation::java::ARGUMENT_BLOCK_ID_INVALID,
+                            translation::java::ARGUMENT_BLOCK_ID_INVALID,
                             [TextComponent::text((*name).to_string())],
                         )))
                     } else {
-                        Err(CommandError::CommandFailed(TextComponent::translate(
-                            translation::ARGUMENT_BLOCK_ID_INVALID,
+                        Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                            translation::java::ARGUMENT_BLOCK_ID_INVALID,
+                            translation::java::ARGUMENT_BLOCK_ID_INVALID,
                             [TextComponent::text("minecraft:".to_string() + *name)],
                         )))
                     }
@@ -97,7 +99,7 @@ impl ArgumentConsumer for BlockPredicateArgumentConsumer {
         _server: &'a Server,
         args: &mut RawArgs<'a>,
     ) -> ConsumeResult<'a> {
-        let block = args.pop();
+        let block = args.pop().map(|arg| arg.value);
         match block {
             Some(s) => Box::pin(async move { Some(Arg::BlockPredicate(s)) }),
             None => Box::pin(async move { None }),
@@ -121,13 +123,15 @@ impl<'a> FindArg<'a> for BlockPredicateArgumentConsumer {
                     Block::from_name(name).map_or_else(
                         || {
                             if name.starts_with("minecraft:") {
-                                Err(CommandError::CommandFailed(TextComponent::translate(
-                                    translation::ARGUMENT_BLOCK_ID_INVALID,
+                                Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                                    translation::java::ARGUMENT_BLOCK_ID_INVALID,
+                                    translation::java::ARGUMENT_BLOCK_ID_INVALID,
                                     [TextComponent::text((*name).to_string())],
                                 )))
                             } else {
-                                Err(CommandError::CommandFailed(TextComponent::translate(
-                                    translation::ARGUMENT_BLOCK_ID_INVALID,
+                                Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                                    translation::java::ARGUMENT_BLOCK_ID_INVALID,
+                                    translation::java::ARGUMENT_BLOCK_ID_INVALID,
                                     [TextComponent::text("minecraft:".to_string() + *name)],
                                 )))
                             }
@@ -138,8 +142,9 @@ impl<'a> FindArg<'a> for BlockPredicateArgumentConsumer {
                 |tag| {
                     get_tag_ids(RegistryKey::Block, tag).map_or_else(
                         || {
-                            Err(CommandError::CommandFailed(TextComponent::translate(
-                                translation::ARGUMENTS_BLOCK_TAG_UNKNOWN,
+                            Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                                translation::java::ARGUMENTS_BLOCK_TAG_UNKNOWN,
+                                translation::java::ARGUMENTS_BLOCK_TAG_UNKNOWN,
                                 [TextComponent::text((*tag).to_string())],
                             )))
                         },

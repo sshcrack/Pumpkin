@@ -1,12 +1,65 @@
+use heck::ToPascalCase;
 use proc_macro2::TokenStream;
-use quote::quote;
+use quote::{format_ident, quote};
 use serde_json::Value;
 use std::fs;
 
 use crate::placed_feature::{
-    value_to_block_direction, value_to_block_predicate, value_to_block_state_codec,
-    value_to_height_provider, value_to_int_provider,
+    value_to_block_direction, value_to_block_predicate, value_to_block_state,
+    value_to_block_state_codec, value_to_height_provider, value_to_int_provider,
 };
+
+/// Reads `configured_features.json` and emits the complete `ConfiguredFeature` enum `TokenStream`.
+pub fn build_enum() -> TokenStream {
+    let json_content = fs::read_to_string("../assets/configured_features.json")
+        .expect("Failed to read configured_features.json");
+    let json: Value =
+        serde_json::from_str(&json_content).expect("Failed to parse configured_features.json");
+
+    let mut from_name_arms = Vec::new();
+    let mut to_name_arms = Vec::new();
+
+    let variants: Vec<TokenStream> = json
+        .as_object()
+        .unwrap()
+        .iter()
+        .map(|(name, _)| {
+            let variant_name = format_ident!("{}", name.to_pascal_case());
+            from_name_arms.push(quote! {
+                #name => Some(Self::#variant_name),
+            });
+            to_name_arms.push(quote! {
+                Self::#variant_name => #name,
+            });
+            quote! {
+                #variant_name,
+            }
+        })
+        .collect();
+
+    quote! {
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+        pub enum ConfiguredFeature {
+            #(#variants)*
+        }
+
+        impl ConfiguredFeature {
+            pub fn from_name(name: &str) -> Option<Self> {
+                let name = name.strip_prefix("minecraft:").unwrap_or(name);
+                match name {
+                    #(#from_name_arms)*
+                    _ => None,
+                }
+            }
+
+            pub const fn to_name(&self) -> &'static str {
+                match self {
+                    #(#to_name_arms)*
+                }
+            }
+        }
+    }
+}
 
 /// Reads `configured_features.json` and emits a `build_configured_features()` function `TokenStream`.
 pub fn build() -> TokenStream {
@@ -21,15 +74,16 @@ pub fn build() -> TokenStream {
         .iter()
         .map(|(name, value)| {
             let cf = value_to_configured_feature(value);
+            let variant_name = format_ident!("{}", name.to_pascal_case());
             quote! {
-                map.insert(#name.to_string(), #cf);
+                map.insert(pumpkin_data::configured_feature::ConfiguredFeature::#variant_name, #cf);
             }
         })
         .collect();
 
     quote! {
         #[allow(clippy::all, unused_imports, dead_code)]
-        fn build_configured_features() -> std::collections::HashMap<String, ConfiguredFeature> {
+        fn build_configured_features() -> std::collections::HashMap<pumpkin_data::configured_feature::ConfiguredFeature, ConfiguredFeature> {
             use crate::generation::block_predicate::{
                 AllOfBlockPredicate, AnyOfBlockPredicate, BlockPredicate,
                 HasSturdyFacePredicate, InsideWorldBoundsBlockPredicate,
@@ -43,15 +97,17 @@ pub fn build() -> TokenStream {
             };
             use pumpkin_util::y_offset::{AboveBottom, Absolute, BelowTop, YOffset};
             use pumpkin_util::math::int_provider::{
-                BiasedToBottomIntProvider, ClampedIntProvider, ClampedNormalIntProvider,
+                BiasedToBottomIntProvider, ClampedIntProvider, TrapezoidIntProvider, ClampedNormalIntProvider,
                 ConstantIntProvider, IntProvider, NormalIntProvider, UniformIntProvider,
                 WeightedEntry, WeightedListIntProvider,
             };
             use crate::block::BlockStateCodec;
             use crate::generation::block_state_provider::{
-                BlockStateProvider, DualNoiseBlockStateProvider, NoiseBlockStateProvider,
-                NoiseBlockStateProviderBase, NoiseThresholdBlockStateProvider, PillarBlockStateProvider,
-                RandomizedIntBlockStateProvider, SimpleStateProvider, WeightedBlockStateProvider,
+                BlockStateProvider, BlockStateRule, DualNoiseBlockStateProvider,
+                NoiseBlockStateProvider, NoiseBlockStateProviderBase,
+                NoiseThresholdBlockStateProvider, PillarBlockStateProvider,
+                RandomizedIntBlockStateProvider, RuleBasedBlockStateProvider, SimpleStateProvider,
+                WeightedBlockStateProvider,
             };
             use pumpkin_util::math::pool::Weighted;
             use pumpkin_util::DoublePerlinNoiseParametersCodec;
@@ -131,6 +187,10 @@ pub fn build() -> TokenStream {
                     place_on_ground::PlaceOnGroundTreeDecorator,
                     trunk_vine::TrunkVineTreeDecorator,
                 },
+                tree::root::{
+                    RootPlacer,
+                    mangrove::{AboveRootPlacement, MangroveRootPlacement, MangroveRootPlacer},
+                },
             };
             use crate::generation::feature::size::{FeatureSize, FeatureSizeType, ThreeLayersFeatureSize, TwoLayersFeatureSize};
             use pumpkin_data::{Block, BlockDirection};
@@ -178,8 +238,8 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
             }
         }
         "minecraft:netherrack_replace_blobs" => {
-            let target = value_to_block_state_codec(&config["target"]);
-            let state = value_to_block_state_codec(&config["state"]);
+            let target = value_to_block_state(&config["target"]);
+            let state = value_to_block_state(&config["state"]);
             let radius = value_to_int_provider(&config["radius"]);
             quote! {
                 ConfiguredFeature::NetherrackReplaceBlobs(ReplaceBlobsFeature {
@@ -215,7 +275,7 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
                     arr.iter()
                         .map(|t| {
                             let rule = value_to_rule_test(&t["target"]);
-                            let state = value_to_block_state_codec(&t["state"]);
+                            let state = value_to_block_state(&t["state"]);
                             quote! { OreTarget { target: #rule, state: #state } }
                         })
                         .collect()
@@ -224,7 +284,9 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
             if type_str == "minecraft:scattered_ore" {
                 quote! {
                     ConfiguredFeature::ScatteredOre(crate::generation::feature::features::scattered_ore::ScatteredOreFeature {
-                        // TODO
+                        size: #size,
+                        discard_chance_on_air_exposure: #discard,
+                        targets: vec![#(#targets),*],
                     })
                 }
             } else {
@@ -238,7 +300,7 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
             }
         }
         "minecraft:spring_feature" => {
-            let state = value_to_block_state_codec(&config["state"]);
+            let state = value_to_block_state(&config["state"]);
             let req = config["requires_block_below"].as_bool().unwrap_or(true);
             let rock = config["rock_count"].as_i64().unwrap_or(4) as i32;
             let hole = config["hole_count"].as_i64().unwrap_or(1) as i32;
@@ -494,8 +556,12 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
             let ground_state = value_to_block_state_provider(&config["ground_state"]);
             let vegetation_feature = value_to_inline_placed_feature(&config["vegetation_feature"]);
             let surface = match config["surface"].as_str().unwrap_or("floor") {
-                "ceiling" => quote! { pumpkin_util::math::vertical_surface_type::VerticalSurfaceType::Ceiling },
-                _ => quote! { pumpkin_util::math::vertical_surface_type::VerticalSurfaceType::Floor },
+                "ceiling" => {
+                    quote! { pumpkin_util::math::vertical_surface_type::VerticalSurfaceType::Ceiling }
+                }
+                _ => {
+                    quote! { pumpkin_util::math::vertical_surface_type::VerticalSurfaceType::Floor }
+                }
             };
             let depth = value_to_int_provider(&config["depth"]);
             let extra_bottom = config["extra_bottom_block_chance"].as_f64().unwrap_or(0.0) as f32;
@@ -541,46 +607,56 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
         "minecraft:glowstone_blob" => {
             quote! { ConfiguredFeature::GlowstoneBlob(crate::generation::feature::features::glowstone_blob::GlowstoneBlobFeature {}) }
         }
-
-        // All TODO/empty features
-        "minecraft:fossil" => {
-            quote! { ConfiguredFeature::Fossil(crate::generation::feature::features::fossil::FossilFeature {}) }
-        }
-        "minecraft:lake" => {
-            quote! { ConfiguredFeature::Lake(crate::generation::feature::features::lake::LakeFeature {}) }
-        }
         "minecraft:disk" => {
-            quote! { ConfiguredFeature::Disk(crate::generation::feature::features::disk::DiskFeature {}) }
+            let state_provider = value_to_block_state_provider(&config["state_provider"]);
+            let target = value_to_block_predicate(&config["target"]);
+            let radius = value_to_int_provider(&config["radius"]);
+            let half_height = config["half_height"].as_i64().unwrap_or(1) as i32;
+            quote! {
+                ConfiguredFeature::Disk(crate::generation::feature::features::disk::DiskFeature {
+                    state_provider: #state_provider,
+                    target: #target,
+                    radius: #radius,
+                    half_height: #half_height,
+                })
+            }
         }
-        "minecraft:huge_brown_mushroom" => {
-            quote! { ConfiguredFeature::HugeBrownMushroom(crate::generation::feature::features::huge_brown_mushroom::HugeBrownMushroomFeature {}) }
+        "minecraft:basalt_columns" => {
+            let height = value_to_int_provider(&config["height"]);
+            let reach = value_to_int_provider(&config["reach"]);
+            quote! {
+                ConfiguredFeature::BasaltColumns(crate::generation::feature::features::basalt_columns::BasaltColumnsFeature {
+                    height: #height,
+                    reach: #reach,
+                })
+            }
         }
-        "minecraft:huge_red_mushroom" => {
-            quote! { ConfiguredFeature::HugeRedMushroom(crate::generation::feature::features::huge_red_mushroom::HugeRedMushroomFeature {}) }
+        "minecraft:basalt_pillar" => {
+            quote! { ConfiguredFeature::BasaltPillar(crate::generation::feature::features::basalt_pillar::BasaltPillarFeature {}) }
         }
-        "minecraft:ice_spike" => {
-            quote! { ConfiguredFeature::IceSpike(crate::generation::feature::features::ice_spike::IceSpikeFeature {}) }
+        "minecraft:block_blob" => {
+            let state = value_to_block_state(&config["state"]);
+            quote! {
+                ConfiguredFeature::ForestRock(crate::generation::feature::features::forest_rock::ForestRockFeature {
+                    state: #state,
+                })
+            }
         }
         "minecraft:freeze_top_layer" => {
             quote! { ConfiguredFeature::FreezeTopLayer(crate::generation::feature::features::freeze_top_layer::FreezeTopLayerFeature {}) }
         }
-        "minecraft:vines" => {
-            quote! { ConfiguredFeature::Vines(crate::generation::feature::features::vines::VinesFeature) }
+        "minecraft:ice_spike" => {
+            quote! { ConfiguredFeature::IceSpike(crate::generation::feature::features::ice_spike::IceSpikeFeature {}) }
         }
-        "minecraft:root_system" => {
-            quote! { ConfiguredFeature::RootSystem(crate::generation::feature::features::root_system::RootSystemFeature {}) }
-        }
-        "minecraft:multiface_growth" => {
-            quote! { ConfiguredFeature::MultifaceGrowth(crate::generation::feature::features::multiface_growth::MultifaceGrowthFeature {}) }
-        }
-        "minecraft:blue_ice" => {
-            quote! { ConfiguredFeature::BlueIce(crate::generation::feature::features::blue_ice::BlueIceFeature {}) }
+        "minecraft:spike" => {
+            quote! { ConfiguredFeature::IceSpike(crate::generation::feature::features::ice_spike::IceSpikeFeature {}) }
         }
         "minecraft:iceberg" => {
-            quote! { ConfiguredFeature::Iceberg(crate::generation::feature::features::iceberg::IcebergFeature {}) }
+            let state = value_to_block_state_codec(&config["state"]);
+            quote! { ConfiguredFeature::Iceberg(crate::generation::feature::features::iceberg::IcebergFeature { main_block: #state }) }
         }
-        "minecraft:forest_rock" => {
-            quote! { ConfiguredFeature::ForestRock(crate::generation::feature::features::forest_rock::ForestRockFeature {}) }
+        "minecraft:chorus_plant" => {
+            quote! { ConfiguredFeature::ChorusPlant(crate::generation::feature::features::chorus_plant::ChorusPlantFeature {}) }
         }
         "minecraft:end_platform" => {
             quote! { ConfiguredFeature::EndPlatform(crate::generation::feature::features::end_platform::EndPlatformFeature) }
@@ -588,11 +664,86 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
         "minecraft:end_island" => {
             quote! { ConfiguredFeature::EndIsland(crate::generation::feature::features::end_island::EndIslandFeature {}) }
         }
-        "minecraft:end_gateway" => {
-            quote! { ConfiguredFeature::EndGateway(crate::generation::feature::features::end_gateway::EndGatewayFeature {}) }
-        }
         "minecraft:kelp" => {
             quote! { ConfiguredFeature::Kelp(crate::generation::feature::features::kelp::KelpFeature {}) }
+        }
+
+        // All TODO/empty features
+        "minecraft:fossil" => {
+            quote! { ConfiguredFeature::Fossil(crate::generation::feature::features::fossil::FossilFeature {}) }
+        }
+        "minecraft:lake" => {
+            let fluid = value_to_block_state_provider(&config["fluid"]);
+            let barrier = value_to_block_state_provider(&config["barrier"]);
+            quote! {
+                ConfiguredFeature::Lake(crate::generation::feature::features::lake::LakeFeature {
+                    fluid: #fluid,
+                    barrier: #barrier,
+                })
+            }
+        }
+        "minecraft:huge_brown_mushroom" => {
+            quote! { ConfiguredFeature::HugeBrownMushroom(crate::generation::feature::features::huge_brown_mushroom::HugeBrownMushroomFeature {}) }
+        }
+        "minecraft:huge_red_mushroom" => {
+            quote! { ConfiguredFeature::HugeRedMushroom(crate::generation::feature::features::huge_red_mushroom::HugeRedMushroomFeature {}) }
+        }
+        "minecraft:vines" => {
+            quote! { ConfiguredFeature::Vines(crate::generation::feature::features::vines::VinesFeature) }
+        }
+        "minecraft:root_system" => {
+            let feature = value_to_inline_placed_feature(&config["feature"]);
+            let required_vertical_space_for_tree = config["required_vertical_space_for_tree"]
+                .as_i64()
+                .unwrap_or(0) as i32;
+            let root_radius = config["root_radius"].as_i64().unwrap_or(0) as i32;
+            let root_replaceable = value_to_block_predicate(&config["root_replaceable"]);
+            let root_state_provider = value_to_block_state_provider(&config["root_state_provider"]);
+            let root_placement_attempts =
+                config["root_placement_attempts"].as_i64().unwrap_or(0) as i32;
+            let root_column_max_height =
+                config["root_column_max_height"].as_i64().unwrap_or(0) as i32;
+            let hanging_root_radius = config["hanging_root_radius"].as_i64().unwrap_or(0) as i32;
+            let hanging_roots_vertical_span = config["hanging_roots_vertical_span"]
+                .as_i64()
+                .or(config["hanging_root_vertical_span"].as_i64())
+                .unwrap_or(0) as i32;
+            let hanging_root_state_provider =
+                value_to_block_state_provider(&config["hanging_root_state_provider"]);
+            let hanging_root_placement_attempts = config["hanging_root_placement_attempts"]
+                .as_i64()
+                .unwrap_or(0) as i32;
+            let allowed_vertical_water_for_tree = config["allowed_vertical_water_for_tree"]
+                .as_i64()
+                .unwrap_or(0) as i32;
+            let allowed_tree_position = value_to_block_predicate(&config["allowed_tree_position"]);
+
+            quote! {
+                ConfiguredFeature::RootSystem(crate::generation::feature::features::root_system::RootSystemFeature {
+                    feature: Box::new(#feature),
+                    required_vertical_space_for_tree: #required_vertical_space_for_tree,
+                    root_radius: #root_radius,
+                    root_replaceable: #root_replaceable,
+                    root_state_provider: #root_state_provider,
+                    root_placement_attempts: #root_placement_attempts,
+                    root_column_max_height: #root_column_max_height,
+                    hanging_root_radius: #hanging_root_radius,
+                    hanging_roots_vertical_span: #hanging_roots_vertical_span,
+                    hanging_root_state_provider: #hanging_root_state_provider,
+                    hanging_root_placement_attempts: #hanging_root_placement_attempts,
+                    allowed_vertical_water_for_tree: #allowed_vertical_water_for_tree,
+                    allowed_tree_position: #allowed_tree_position,
+                })
+            }
+        }
+        "minecraft:multiface_growth" => {
+            quote! { ConfiguredFeature::MultifaceGrowth(crate::generation::feature::features::multiface_growth::MultifaceGrowthFeature {}) }
+        }
+        "minecraft:blue_ice" => {
+            quote! { ConfiguredFeature::BlueIce(crate::generation::feature::features::blue_ice::BlueIceFeature {}) }
+        }
+        "minecraft:end_gateway" => {
+            quote! { ConfiguredFeature::EndGateway(crate::generation::feature::features::end_gateway::EndGatewayFeature {}) }
         }
         "minecraft:coral_tree" => {
             quote! { ConfiguredFeature::CoralTree(crate::generation::feature::features::coral::coral_tree::CoralTreeFeature) }
@@ -610,10 +761,16 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
             quote! { ConfiguredFeature::WeepingVines(crate::generation::feature::features::weeping_vines::WeepingVinesFeature {}) }
         }
         "minecraft:twisting_vines" => {
-            quote! { ConfiguredFeature::TwistingVines(crate::generation::feature::features::twisting_vines::TwistingVinesFeature {}) }
-        }
-        "minecraft:basalt_columns" => {
-            quote! { ConfiguredFeature::BasaltColumns(crate::generation::feature::features::basalt_columns::BasaltColumnsFeature {}) }
+            let spread_width = config["spread_width"].as_i64().unwrap_or(0) as i32;
+            let spread_height = config["spread_height"].as_i64().unwrap_or(0) as i32;
+            let max_height = config["max_height"].as_i64().unwrap_or(0) as i32;
+            quote! {
+                ConfiguredFeature::TwistingVines(crate::generation::feature::features::twisting_vines::TwistingVinesFeature {
+                    spread_width: #spread_width,
+                    spread_height: #spread_height,
+                    max_height: #max_height,
+                })
+            }
         }
         "minecraft:delta_feature" => {
             quote! { ConfiguredFeature::DeltaFeature(crate::generation::feature::features::delta_feature::DeltaFeatureFeature {}) }
@@ -624,9 +781,6 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
         "minecraft:bonus_chest" => {
             quote! { ConfiguredFeature::BonusChest(crate::generation::feature::features::bonus_chest::BonusChestFeature {}) }
         }
-        "minecraft:basalt_pillar" => {
-            quote! { ConfiguredFeature::BasaltPillar(crate::generation::feature::features::basalt_pillar::BasaltPillarFeature {}) }
-        }
         "minecraft:dripstone_cluster" => {
             quote! { ConfiguredFeature::DripstoneCluster(crate::generation::feature::features::drip_stone::cluster::DripstoneClusterFeature {}) }
         }
@@ -634,13 +788,27 @@ pub fn value_to_configured_feature(v: &Value) -> TokenStream {
             quote! { ConfiguredFeature::LargeDripstone(crate::generation::feature::features::drip_stone::large::LargeDripstoneFeature {}) }
         }
         "minecraft:sculk_patch" => {
-            quote! { ConfiguredFeature::SculkPatch(crate::generation::feature::features::sculk_patch::SculkPatchFeature {}) }
+            let charge_count = config["charge_count"].as_u64().unwrap() as i32;
+            let amount_per_charge = config["amount_per_charge"].as_u64().unwrap() as i32;
+            let spread_attempts = config["spread_attempts"].as_u64().unwrap() as i32;
+            let growth_rounds = config["growth_rounds"].as_u64().unwrap() as i32;
+            let spread_rounds = config["spread_rounds"].as_u64().unwrap() as i32;
+            let extra_rare_growths = value_to_int_provider(&config["extra_rare_growths"]);
+            let catalyst_chance = config["catalyst_chance"].as_f64().unwrap() as f32;
+            quote! {
+                ConfiguredFeature::SculkPatch(crate::generation::feature::features::sculk_patch::SculkPatchFeature {
+                    charge_count: #charge_count,
+                    amount_per_charge: #amount_per_charge,
+                    spread_attempts: #spread_attempts,
+                    growth_rounds: #growth_rounds,
+                    spread_rounds: #spread_rounds,
+                    extra_rare_growths: #extra_rare_growths,
+                    catalyst_chance: #catalyst_chance,
+                })
+            }
         }
         "minecraft:block_pile" => {
             quote! { ConfiguredFeature::BlockPile(crate::generation::feature::features::block_pile::BlockPileFeature {}) }
-        }
-        "minecraft:chorus_plant" => {
-            quote! { ConfiguredFeature::ChorusPlant(crate::generation::feature::features::chorus_plant::ChorusPlantFeature {}) }
         }
         "minecraft:replace_single_block" => {
             quote! { ConfiguredFeature::ReplaceSingleBlock(crate::generation::feature::features::replace_single_block::ReplaceSingleBlockFeature {}) }
@@ -669,7 +837,7 @@ fn value_to_block_state_provider(v: &Value) -> TokenStream {
     let type_str = v["type"].as_str().unwrap_or("");
     match type_str {
         "minecraft:simple_state_provider" => {
-            let state = value_to_block_state_codec(&v["state"]);
+            let state = value_to_block_state(&v["state"]);
             quote! { BlockStateProvider::Simple(SimpleStateProvider { state: #state }) }
         }
         "minecraft:weighted_state_provider" => {
@@ -678,7 +846,7 @@ fn value_to_block_state_provider(v: &Value) -> TokenStream {
                 .map(|arr| {
                     arr.iter()
                         .map(|e| {
-                            let data = value_to_block_state_codec(&e["data"]);
+                            let data = value_to_block_state(&e["data"]);
                             let weight = e["weight"].as_i64().unwrap_or(1) as i32;
                             quote! { Weighted { data: #data, weight: #weight } }
                         })
@@ -692,14 +860,14 @@ fn value_to_block_state_provider(v: &Value) -> TokenStream {
             }
         }
         "minecraft:rotated_block_provider" => {
-            let state = value_to_block_state_codec(&v["state"]);
+            let state = value_to_block_state(&v["state"]);
             quote! { BlockStateProvider::Pillar(PillarBlockStateProvider { state: #state }) }
         }
         "minecraft:noise_provider" => {
             let base = value_to_noise_base(v);
             let states: Vec<TokenStream> = v["states"]
                 .as_array()
-                .map(|arr| arr.iter().map(value_to_block_state_codec).collect())
+                .map(|arr| arr.iter().map(value_to_block_state).collect())
                 .unwrap_or_default();
             quote! {
                 BlockStateProvider::NoiseProvider(NoiseBlockStateProvider {
@@ -712,7 +880,7 @@ fn value_to_block_state_provider(v: &Value) -> TokenStream {
             let base_provider = value_to_noise_base(v);
             let states: Vec<TokenStream> = v["states"]
                 .as_array()
-                .map(|arr| arr.iter().map(value_to_block_state_codec).collect())
+                .map(|arr| arr.iter().map(value_to_block_state).collect())
                 .unwrap_or_default();
             let base_noise_provider = quote! {
                 NoiseBlockStateProvider { base: #base_provider, states: vec![#(#states),*] }
@@ -734,14 +902,14 @@ fn value_to_block_state_provider(v: &Value) -> TokenStream {
             let base = value_to_noise_base(v);
             let threshold = v["threshold"].as_f64().unwrap_or(0.0) as f32;
             let high_chance = v["high_chance"].as_f64().unwrap_or(0.0) as f32;
-            let default = value_to_block_state_codec(&v["default_state"]);
+            let default = value_to_block_state(&v["default_state"]);
             let low: Vec<TokenStream> = v["low_states"]
                 .as_array()
-                .map(|a| a.iter().map(value_to_block_state_codec).collect())
+                .map(|a| a.iter().map(value_to_block_state).collect())
                 .unwrap_or_default();
             let high: Vec<TokenStream> = v["high_states"]
                 .as_array()
-                .map(|a| a.iter().map(value_to_block_state_codec).collect())
+                .map(|a| a.iter().map(value_to_block_state).collect())
                 .unwrap_or_default();
             quote! {
                 BlockStateProvider::NoiseThreshold(NoiseThresholdBlockStateProvider {
@@ -766,11 +934,38 @@ fn value_to_block_state_provider(v: &Value) -> TokenStream {
                 })
             }
         }
+        "minecraft:rule_based_state_provider" => {
+            let fallback = if !v["fallback"].is_null() {
+                let provider = value_to_block_state_provider(&v["fallback"]);
+                quote! { Some(Box::new(#provider))}
+            } else {
+                quote! { None }
+            };
+
+            let rules: Vec<TokenStream> = v["rules"]
+                .as_array()
+                .map(|arr| {
+                    arr.iter()
+                        .map(|rule| {
+                            let if_true = value_to_block_predicate(&rule["if_true"]);
+                            let then = value_to_block_state_provider(&rule["then"]);
+                            quote! { BlockStateRule { if_true: #if_true, then: #then } }
+                        })
+                        .collect()
+                })
+                .unwrap_or_default();
+            quote! {
+                BlockStateProvider::Rule(RuleBasedBlockStateProvider {
+                    fallback: #fallback,
+                    rules: vec![#(#rules),*],
+                })
+            }
+        }
         _ => {
             // Default to air
             quote! {
                 BlockStateProvider::Simple(SimpleStateProvider {
-                    state: BlockStateCodec { name: &pumpkin_data::Block::AIR, properties: None },
+                    state: pumpkin_data::Block::AIR.default_state,
                 })
             }
         }
@@ -800,10 +995,24 @@ fn value_to_dpnp(v: &Value) -> TokenStream {
         .as_array()
         .map(|a| a.iter().filter_map(|x| x.as_f64()).collect())
         .unwrap_or_default();
+    let mut min_octave = i32::MAX;
+    let mut max_octave = i32::MIN;
+
+    for (index, amp) in amplitudes.iter().enumerate() {
+        if *amp != 0.0 {
+            min_octave = i32::min(min_octave, index as i32);
+            max_octave = i32::max(max_octave, index as i32);
+        }
+    }
+
+    let octaves = max_octave - min_octave;
+    let create_amp_val = 0.1f64 * (1.0f64 + 1.0f64 / (octaves + 1) as f64);
+    let final_amplitude = 0.16666666666666666f64 / create_amp_val;
     quote! {
         DoublePerlinNoiseParametersCodec {
             first_octave: #first_octave,
             amplitudes: vec![#(#amplitudes),*],
+            amplitude: #final_amplitude,
         }
     }
 }
@@ -821,23 +1030,29 @@ fn value_to_rule_test(v: &Value) -> TokenStream {
         "minecraft:always_true" | "" => quote! { RuleTest::AlwaysTrue },
         "minecraft:block_match" => {
             let block = v["block"].as_str().unwrap_or("minecraft:stone");
-            quote! { RuleTest::BlockMatch(BlockMatchRuleTest { block: #block.to_string() }) }
+            let name_stripped = block.strip_prefix("minecraft:").unwrap_or(block);
+            let block_ident =
+                quote::format_ident!("{}", name_stripped.to_uppercase().replace([':', '-'], "_"));
+            quote! { RuleTest::BlockMatch(BlockMatchRuleTest { block: pumpkin_data::Block::#block_ident }) }
         }
         "minecraft:blockstate_match" => {
-            let state = value_to_block_state_codec(&v["block_state"]);
+            let state = value_to_block_state(&v["block_state"]);
             quote! { RuleTest::BlockStateMatch(BlockStateMatchRuleTest { block_state: #state }) }
         }
         "minecraft:tag_match" => {
             let tag = v["tag"].as_str().unwrap_or("");
-            quote! { RuleTest::TagMatch(TagMatchRuleTest { tag: #tag.to_string() }) }
+            let tag_ident = quote::format_ident!("{}", tag.to_uppercase().replace([':', '-'], "_"));
+            quote! { RuleTest::TagMatch(TagMatchRuleTest { tag: pumpkin_data::tag::Block::#tag_ident }) }
         }
         "minecraft:random_block_match" => {
             let block = v["block"].as_str().unwrap_or("minecraft:stone");
             let prob = v["probability"].as_f64().unwrap_or(0.5) as f32;
-            quote! { RuleTest::RandomBlockMatch(RandomBlockMatchRuleTest { block: #block.to_string(), probability: #prob }) }
+            let block_ident =
+                quote::format_ident!("{}", block.to_uppercase().replace([':', '-'], "_"));
+            quote! { RuleTest::RandomBlockMatch(RandomBlockMatchRuleTest { block: pumpkin_data::Block::#block_ident, probability: #prob }) }
         }
         "minecraft:random_blockstate_match" => {
-            let state = value_to_block_state_codec(&v["block_state"]);
+            let state = value_to_block_state(&v["block_state"]);
             let prob = v["probability"].as_f64().unwrap_or(0.5) as f32;
             quote! { RuleTest::RandomBlockStateMatch(RandomBlockStateMatchRuleTest { block_state: #state, probability: #prob }) }
         }
@@ -874,31 +1089,108 @@ fn value_to_block_wrapper(v: &Value) -> TokenStream {
 /// # Arguments
 /// – `config` – the `"config"` sub-object of a `minecraft:tree` configured feature JSON entry.
 fn value_to_tree_feature(config: &Value) -> TokenStream {
-    let dirt = value_to_block_state_provider(&config["dirt_provider"]);
     let trunk = value_to_block_state_provider(&config["trunk_provider"]);
     let trunk_placer = value_to_trunk_placer(&config["trunk_placer"]);
     let foliage = value_to_block_state_provider(&config["foliage_provider"]);
     let foliage_placer = value_to_foliage_placer(&config["foliage_placer"]);
     let min_size = value_to_feature_size(&config["minimum_size"]);
     let ignore_vines = config["ignore_vines"].as_bool().unwrap_or(true);
-    let force_dirt = config["force_dirt"].as_bool().unwrap_or(false);
+    let below_trunk_provider = value_to_block_state_provider(&config["below_trunk_provider"]);
     let decorators: Vec<TokenStream> = config["decorators"]
         .as_array()
         .map(|arr| arr.iter().map(value_to_tree_decorator).collect())
         .unwrap_or_default();
+    let root_placer = match config.get("root_placer") {
+        Some(v) if !v.is_null() => {
+            let inner = value_to_root_placer(v);
+            quote! { Some(#inner) }
+        }
+        _ => quote! { None },
+    };
     quote! {
         TreeFeature {
-            dirt_provider: #dirt,
             trunk_provider: #trunk,
             trunk_placer: #trunk_placer,
             foliage_provider: #foliage,
             foliage_placer: #foliage_placer,
             minimum_size: #min_size,
             ignore_vines: #ignore_vines,
-            force_dirt: #force_dirt,
+            below_trunk_provider: #below_trunk_provider,
             decorators: vec![#(#decorators),*],
+            root_placer: #root_placer,
         }
     }
+}
+
+fn value_to_root_placer(v: &Value) -> TokenStream {
+    let type_str = v["type"].as_str().unwrap_or("");
+    match type_str {
+        "minecraft:mangrove_root_placer" => {
+            let trunk_offset_y = value_to_int_provider(&v["trunk_offset_y"]);
+            let root_provider = value_to_block_state_provider(&v["root_provider"]);
+            let above = match v.get("above_root_placement") {
+                Some(av) if !av.is_null() => {
+                    let provider = value_to_block_state_provider(&av["above_root_provider"]);
+                    let chance = av["above_root_placement_chance"].as_f64().unwrap_or(0.0) as f32;
+                    quote! {
+                        Some(AboveRootPlacement {
+                            above_root_provider: #provider,
+                            above_root_placement_chance: #chance,
+                        })
+                    }
+                }
+                _ => quote! { None },
+            };
+            let mrp = &v["mangrove_root_placement"];
+            let can_grow_through = value_to_block_list(&mrp["can_grow_through"]);
+            let muddy_roots_in = value_to_block_list(&mrp["muddy_roots_in"]);
+            let muddy_roots_provider = value_to_block_state_provider(&mrp["muddy_roots_provider"]);
+            let max_root_width = mrp["max_root_width"].as_i64().unwrap_or(8) as i32;
+            let max_root_length = mrp["max_root_length"].as_i64().unwrap_or(15) as i32;
+            let random_skew_chance = mrp["random_skew_chance"].as_f64().unwrap_or(0.0) as f32;
+            quote! {
+                RootPlacer::Mangrove(MangroveRootPlacer {
+                    trunk_offset_y: #trunk_offset_y,
+                    root_provider: #root_provider,
+                    above_root_placement: #above,
+                    mangrove_root_placement: MangroveRootPlacement {
+                        can_grow_through: #can_grow_through,
+                        muddy_roots_in: #muddy_roots_in,
+                        muddy_roots_provider: #muddy_roots_provider,
+                        max_root_width: #max_root_width,
+                        max_root_length: #max_root_length,
+                        random_skew_chance: #random_skew_chance,
+                    },
+                })
+            }
+        }
+        other => {
+            let msg = format!("Unknown root placer type: {other}");
+            quote! { compile_error!(#msg) }
+        }
+    }
+}
+
+fn value_to_block_list(v: &Value) -> TokenStream {
+    if let Some(tag) = v.as_str().and_then(|s| s.strip_prefix('#')) {
+        let name = format!(
+            "MINECRAFT_{}",
+            tag.strip_prefix("minecraft:").unwrap_or(tag).to_uppercase()
+        );
+        let ident = syn::Ident::new(&name, proc_macro2::Span::call_site());
+        return quote! { &pumpkin_data::tag::Block::#ident.1 };
+    }
+    let mut blocks = Vec::new();
+    if let Some(arr) = v.as_array() {
+        for b in arr {
+            if let Some(s) = b.as_str() {
+                let name = s.strip_prefix("minecraft:").unwrap_or(s).to_uppercase();
+                let ident = syn::Ident::new(&name, proc_macro2::Span::call_site());
+                blocks.push(quote! { pumpkin_data::Block::#ident.id });
+            }
+        }
+    }
+    quote! { &[#(#blocks),*] }
 }
 
 /// Converts a trunk-placer JSON object into a `TrunkPlacer` token stream.
@@ -930,10 +1222,37 @@ fn value_to_trunk_placer(v: &Value) -> TokenStream {
             }
         }
         "minecraft:upwards_branching_trunk_placer" => {
-            quote! { TrunkType::UpwardsBranching(UpwardsBranchingTrunkPlacer {}) }
+            let extra_branch_steps = value_to_int_provider(&v["extra_branch_steps"]);
+            let place_branch_per_log_probability = v["place_branch_per_log_probability"]
+                .as_f64()
+                .unwrap_or(0.0) as f32;
+            let extra_branch_length = value_to_int_provider(&v["extra_branch_length"]);
+            let can_grow_through = value_to_block_list(&v["can_grow_through"]);
+            quote! {
+                TrunkType::UpwardsBranching(UpwardsBranchingTrunkPlacer {
+                    extra_branch_steps: #extra_branch_steps,
+                    place_branch_per_log_probability: #place_branch_per_log_probability,
+                    extra_branch_length: #extra_branch_length,
+                    can_grow_through: #can_grow_through,
+                })
+            }
         }
         "minecraft:cherry_trunk_placer" => {
-            quote! { TrunkType::Cherry(CherryTrunkPlacer {}) }
+            let branch_count = value_to_int_provider(&v["branch_count"]);
+            let branch_horizontal_length = value_to_int_provider(&v["branch_horizontal_length"]);
+            let branch_start_offset_v = &v["branch_start_offset_from_top"];
+            let min = branch_start_offset_v["min_inclusive"].as_i64().unwrap_or(0) as i32;
+            let max = branch_start_offset_v["max_inclusive"].as_i64().unwrap_or(0) as i32;
+            let branch_end_offset_from_top =
+                value_to_int_provider(&v["branch_end_offset_from_top"]);
+            quote! {
+                TrunkType::Cherry(CherryTrunkPlacer {
+                    branch_count: #branch_count,
+                    branch_horizontal_length: #branch_horizontal_length,
+                    branch_start_offset_from_top: UniformIntProvider { min_inclusive: #min, max_inclusive: #max },
+                    branch_end_offset_from_top: #branch_end_offset_from_top,
+                })
+            }
         }
         _ => quote! { TrunkType::Straight(StraightTrunkPlacer) },
     };
@@ -1093,7 +1412,10 @@ fn value_to_tree_decorator(v: &Value) -> TokenStream {
     let type_str = v["type"].as_str().unwrap_or("");
     match type_str {
         "minecraft:trunk_vine" => quote! { TreeDecorator::TrunkVine(TrunkVineTreeDecorator) },
-        "minecraft:leave_vine" => quote! { TreeDecorator::LeaveVine(LeavesVineTreeDecorator {}) },
+        "minecraft:leave_vine" => {
+            let prob = v["probability"].as_f64().unwrap_or(0.0) as f32;
+            quote! { TreeDecorator::LeaveVine(LeavesVineTreeDecorator { probability: #prob }) }
+        }
         "minecraft:cocoa" => quote! { TreeDecorator::Cocoa(CocoaTreeDecorator {}) },
         "minecraft:beehive" => {
             let prob = v["probability"].as_f64().unwrap_or(0.0) as f32;
@@ -1179,19 +1501,22 @@ fn value_to_inline_placed_feature(v: &Value) -> TokenStream {
 /// – `v` – a JSON string (named reference) or object (inline placed feature).
 ///
 /// # Returns
-/// `PlacedFeatureWrapper::Named` for a string value or `PlacedFeatureWrapper::Direct` for an inline object; defaults to `PlacedFeatureWrapper::Named("")` for other types.
+/// `PlacedFeatureWrapper::Named` for a string value or `PlacedFeatureWrapper::Direct` for an inline object; defaults to `PlacedFeatureWrapper::Named(pumpkin_data::placed_feature::PlacedFeature::Acacia)` for other types.
 fn value_to_placed_feature_wrapper(v: &Value) -> TokenStream {
     match v {
         Value::String(s) => {
             let name = s.strip_prefix("minecraft:").unwrap_or(s);
-            quote! { PlacedFeatureWrapper::Named(#name.to_string()) }
+            let variant_name = format_ident!("{}", name.to_pascal_case());
+            quote! { PlacedFeatureWrapper::Named(pumpkin_data::placed_feature::PlacedFeature::#variant_name) }
         }
         Value::Object(_) => {
             // It might be a PlacedFeature object
             let pf = value_to_inline_placed_feature(v);
             quote! { PlacedFeatureWrapper::Direct(#pf) }
         }
-        _ => quote! { PlacedFeatureWrapper::Named(String::new()) },
+        _ => {
+            quote! { PlacedFeatureWrapper::Named(pumpkin_data::placed_feature::PlacedFeature::Acacia) }
+        }
     }
 }
 
@@ -1201,18 +1526,19 @@ fn value_to_placed_feature_wrapper(v: &Value) -> TokenStream {
 /// – `v` – a JSON string (named reference) or object (inline configured feature).
 ///
 /// # Returns
-/// `Feature::Named` for a string value or `Feature::Inlined` for an object; defaults to `Feature::Named("")` for other types.
+/// `Feature::Named` for a string value or `Feature::Inlined` for an object; defaults to `Feature::Named(pumpkin_data::configured_feature::ConfiguredFeature::NoOp)` for other types.
 fn value_to_feature_ref(v: &Value) -> TokenStream {
     match v {
         Value::String(s) => {
             let name = s.strip_prefix("minecraft:").unwrap_or(s);
-            quote! { Feature::Named(#name.to_string()) }
+            let variant_name = format_ident!("{}", name.to_pascal_case());
+            quote! { Feature::Named(pumpkin_data::configured_feature::ConfiguredFeature::#variant_name) }
         }
         Value::Object(_) => {
             let cf = value_to_configured_feature(v);
             quote! { Feature::Inlined(Box::new(#cf)) }
         }
-        _ => quote! { Feature::Named(String::new()) },
+        _ => quote! { Feature::Named(pumpkin_data::configured_feature::ConfiguredFeature::NoOp) },
     }
 }
 
@@ -1229,7 +1555,23 @@ fn value_to_placement_modifier_cf(v: &Value) -> TokenStream {
     match type_str {
         "minecraft:biome" => quote! { PlacementModifier::Biome(BiomePlacementModifier) },
         "minecraft:in_square" => quote! { PlacementModifier::InSquare(SquarePlacementModifier) },
-        "minecraft:fixed_placement" => quote! { PlacementModifier::FixedPlacement },
+        "minecraft:fixed_placement" => {
+            let positions = v["positions"]
+                .as_array()
+                .map(|arr| {
+                    arr.iter()
+                        .map(|p| {
+                            let coords = p.as_array().unwrap();
+                            let x = coords[0].as_i64().unwrap_or(0) as i32;
+                            let y = coords[1].as_i64().unwrap_or(0) as i32;
+                            let z = coords[2].as_i64().unwrap_or(0) as i32;
+                            quote! { BlockPos::new(#x, #y, #z) }
+                        })
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default();
+            quote! { PlacementModifier::FixedPlacement(vec![#(#positions),*]) }
+        }
         "minecraft:heightmap" => {
             let hm = crate::placed_feature::value_to_height_map(
                 v["heightmap"].as_str().unwrap_or("MOTION_BLOCKING"),

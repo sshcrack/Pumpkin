@@ -1,18 +1,17 @@
-use pumpkin_data::BlockDirection;
+use pumpkin_data::{BlockDirection, BlockState};
 use pumpkin_util::{math::position::BlockPos, random::RandomGenerator};
 
 use crate::generation::proto_chunk::GenerationCache;
-use crate::{block::BlockStateCodec, world::BlockRegistryExt};
+use crate::world::WorldPortalExt;
 
 pub struct SpringFeatureFeature {
-    pub state: BlockStateCodec,
+    pub state: &'static BlockState,
     pub requires_block_below: bool,
     pub rock_count: i32,
     pub hole_count: i32,
     pub valid_blocks: BlockWrapper,
 }
 
-#[derive(Clone)]
 pub enum BlockWrapper {
     Single(String),
     Multi(Vec<String>),
@@ -30,7 +29,7 @@ impl BlockWrapper {
 impl SpringFeatureFeature {
     pub fn generate<T: GenerationCache>(
         &self,
-        _block_registry: &dyn BlockRegistryExt,
+        _block_registry: &dyn WorldPortalExt,
         chunk: &mut T,
         _random: &mut RandomGenerator,
         pos: BlockPos,
@@ -129,7 +128,7 @@ impl SpringFeatureFeature {
             air += 1;
         }
         if valid == self.rock_count && air == self.hole_count {
-            chunk.set_block_state(&pos.0, self.state.get_state());
+            chunk.set_block_state(&pos.0, self.state);
             return true;
         }
         false

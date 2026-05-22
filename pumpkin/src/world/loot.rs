@@ -1,3 +1,5 @@
+use pumpkin_data::item_stack::ItemStack;
+use pumpkin_data::tag;
 use pumpkin_data::{Block, BlockState, item::Item};
 use pumpkin_util::{
     loot_table::{
@@ -6,14 +8,14 @@ use pumpkin_util::{
     },
     random::{RandomGenerator, RandomImpl, get_seed, xoroshiro128::Xoroshiro},
 };
-use pumpkin_world::item::ItemStack;
 use rand::RngExt;
 
-#[derive(Default)]
+#[derive(Default, Copy, Clone)]
 pub struct LootContextParameters {
     pub explosion_radius: Option<f32>,
     pub block_state: Option<&'static BlockState>,
     pub killed_by_player: Option<bool>,
+    pub luck: f32,
 }
 
 pub trait LootTableExt {
@@ -33,7 +35,8 @@ impl LootTableExt for LootTable {
                     continue;
                 }
 
-                let rolls = pool.rolls.get(&mut random).round() as i32;
+                let rolls = pool.rolls.get(&mut random) as i32
+                    + (pool.bonus_rolls.get(&mut random) * params.luck).floor() as i32;
 
                 for _ in 0..rolls {
                     let mut total_weight = 0;
@@ -45,9 +48,11 @@ impl LootTableExt for LootTable {
                             .as_ref()
                             .is_none_or(|c| c.iter().all(|cond| cond.is_fulfilled(&params)))
                         {
-                            let w = 1; // TODO: weight
-                            total_weight += w;
-                            valid_entries.push((entry, w));
+                            let weight = (entry.weight as f32 + entry.quality as f32 * params.luck)
+                                .floor() as i32;
+                            let weight = weight.max(0);
+                            total_weight += weight;
+                            valid_entries.push((entry, weight));
                         }
                     }
 
@@ -161,14 +166,38 @@ trait LootPoolEntryTypesExt {
 impl LootPoolEntryTypesExt for LootPoolEntryTypes {
     fn get_stacks(&self, params: &LootContextParameters) -> Vec<ItemStack> {
         match self {
-            Self::Empty => Vec::new(),
+            Self::Empty | Self::LootTable | Self::Dynamic => Vec::new(),
             Self::Item(item_entry) => {
                 let key = &item_entry.name.strip_prefix("minecraft:").unwrap();
                 vec![ItemStack::new(1, Item::from_registry_key(key).unwrap())]
             }
-            Self::LootTable => todo!(),
-            Self::Dynamic => todo!(),
-            Self::Tag => todo!(),
+            Self::Tag(tag) => {
+                let key = tag.name.strip_prefix("minecraft:").unwrap_or(tag.name);
+
+                let items = pumpkin_data::tag::get_tag_values(tag::RegistryKey::Item, key)
+                    .unwrap_or_default()
+                    .iter()
+                    .filter_map(|registry_key| {
+                        let item_key = registry_key
+                            .strip_prefix("minecraft:")
+                            .unwrap_or(registry_key);
+                        Item::from_registry_key(item_key)
+                    })
+                    .collect::<Vec<_>>();
+
+                if items.is_empty() {
+                    return Vec::new();
+                }
+
+                if tag.expand {
+                    // Pick one random item from the tag
+                    let index = rand::random_range(0..items.len() as i32) as usize;
+                    vec![ItemStack::new(1, items[index])]
+                } else {
+                    // Yield one stack of every item in the tag
+                    items.iter().map(|&item| ItemStack::new(1, item)).collect()
+                }
+            }
             Self::Alternatives(alternative_entry) => {
                 for entry in alternative_entry.children {
                     if let Some(loot) = entry.get_loot(params) {
@@ -177,8 +206,35 @@ impl LootPoolEntryTypesExt for LootPoolEntryTypes {
                 }
                 Vec::new()
             }
-            Self::Sequence => todo!(),
-            Self::Group => todo!(),
+            Self::Sequence(sequence_entry) => {
+                let mut stacks = Vec::new();
+                for entry in sequence_entry.children {
+                    if entry
+                        .conditions
+                        .as_ref()
+                        .is_some_and(|c| !c.iter().all(|cond| cond.is_fulfilled(params)))
+                    {
+                        break;
+                    }
+
+                    match entry.get_loot(params) {
+                        Some(loot) => stacks.extend(loot),
+                        // get_loot returning None also signals failure — stop.
+                        None => break,
+                    }
+                }
+                stacks
+            }
+
+            Self::Group(group_entry) => {
+                let mut stacks = Vec::new();
+                for entry in group_entry.children {
+                    if let Some(loot) = entry.get_loot(params) {
+                        stacks.extend(loot);
+                    }
+                }
+                stacks
+            }
         }
     }
 }
@@ -197,6 +253,7 @@ impl LootConditionExt for LootCondition {
                 }
                 true
             }
+            Self::RandomChance { chance } => rand::rng().random::<f32>() < *chance,
             Self::KilledByPlayer => params.killed_by_player.unwrap_or(false),
             Self::BlockStateProperty {
                 block: _,
@@ -244,5 +301,150 @@ impl LootFunctionNumberProviderExt for LootFunctionNumberProvider {
                 }
             }),
         }
+    }
+}
+
+/// Fills a chest inventory with items generated from a static `ChestLootTable`, using a
+/// deterministic seed for deferred loot chests.
+///
+/// Items are scattered randomly across the 27 chest slots.
+pub async fn fill_chest_inventory(
+    inventory: &std::sync::Arc<dyn pumpkin_world::inventory::Inventory>,
+    table: &pumpkin_util::chest_loot_table::ChestLootTable,
+    seed: i64,
+) {
+    use pumpkin_util::random::RandomImpl;
+
+    let mut rng = Xoroshiro::from_seed(seed as u64);
+    let inv_size = inventory.size(); // 27 for a normal chest
+
+    let mut items_to_place: Vec<ItemStack> = Vec::new();
+
+    for pool in table.pools {
+        let range = pool.max_rolls - pool.min_rolls;
+        let rolls = pool.min_rolls
+            + if range > 0 {
+                rng.next_bounded_i32(range + 1)
+            } else {
+                0
+            };
+
+        for _ in 0..rolls {
+            let entry_weight: i32 = pool.entries.iter().map(|e| e.weight).sum();
+            let total_weight = entry_weight + pool.empty_weight;
+            if total_weight == 0 {
+                continue;
+            }
+
+            let mut pick = rng.next_bounded_i32(total_weight);
+
+            // Subtract empty weight first (if the pick lands here, it yields nothing).
+            pick -= pool.empty_weight;
+            if pick < 0 {
+                continue;
+            }
+
+            for entry in pool.entries {
+                pick -= entry.weight;
+                if pick < 0 {
+                    let count_range = entry.max_count - entry.min_count;
+                    let count = entry.min_count
+                        + if count_range > 0 {
+                            rng.next_bounded_i32(count_range + 1)
+                        } else {
+                            0
+                        };
+
+                    // Strip "minecraft:" prefix because from_registry_key uses short keys.
+                    let item_key = entry.item.strip_prefix("minecraft:").unwrap_or(entry.item);
+
+                    if let Some(item) = Item::from_registry_key(item_key) {
+                        items_to_place.push(ItemStack::new(count as u8, item));
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    if items_to_place.is_empty() {
+        return;
+    }
+
+    // Count free slots in the inventory.
+    let free_slots = inv_size;
+
+    // Split large stacks across extra slots then shuffle.
+    shuffle_and_split_items(&mut items_to_place, free_slots, &mut rng);
+
+    // Pick random distinct slots and place each item.
+    let mut available_slots: Vec<usize> = (0..inv_size).collect();
+    // Shuffle available slots using Fisher-Yates so item order from above maps to random slots.
+    for i in (1..available_slots.len()).rev() {
+        let j = rng.next_bounded_i32((i + 1) as i32) as usize;
+        available_slots.swap(i, j);
+    }
+
+    for item in items_to_place {
+        if available_slots.is_empty() {
+            break;
+        }
+        let slot = available_slots.pop().unwrap();
+        inventory.set_stack(slot, item).await;
+    }
+}
+
+/// Stacks with count > 1 are split at a random midpoint and redistributed while
+/// there are more free slots than total items. Then everything is shuffled.
+fn shuffle_and_split_items(
+    result: &mut Vec<ItemStack>,
+    available_slots: usize,
+    rng: &mut Xoroshiro,
+) {
+    use pumpkin_util::random::RandomImpl;
+
+    // Drain all items with count > 1 into a splittable list.
+    let mut splittable: Vec<ItemStack> = Vec::new();
+    let mut i = 0;
+    while i < result.len() {
+        if result[i].item_count > 1 {
+            splittable.push(result.swap_remove(i));
+        } else {
+            i += 1;
+        }
+    }
+
+    // While there are more free slots than total items, split a random stack.
+    while available_slots > result.len() + splittable.len() && !splittable.is_empty() {
+        let idx = rng.next_bounded_i32(splittable.len() as i32) as usize;
+        let mut stack = splittable.swap_remove(idx);
+
+        let count = stack.item_count as i32;
+        // Split off [1, count/2] items.
+        let split_off = 1 + rng.next_bounded_i32(count / 2);
+        stack.item_count = (count - split_off) as u8;
+        let mut copy = stack.clone();
+        copy.item_count = split_off as u8;
+
+        if stack.item_count > 1 {
+            splittable.push(stack);
+        } else {
+            result.push(stack);
+        }
+        if copy.item_count > 1 {
+            splittable.push(copy);
+        } else {
+            result.push(copy);
+        }
+    }
+
+    // Remaining unsplit multis go straight into result.
+    result.extend(splittable);
+
+    // Fisher-Yates shuffle with our RNG.
+    let n = result.len();
+    for i in (1..n).rev() {
+        let j = rng.next_bounded_i32((i + 1) as i32) as usize;
+        result.swap(i, j);
     }
 }

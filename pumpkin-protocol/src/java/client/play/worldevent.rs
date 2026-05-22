@@ -8,7 +8,7 @@ use pumpkin_data::block_state_remap::remap_block_state_for_version;
 use pumpkin_data::packet::clientbound::PLAY_LEVEL_EVENT;
 use pumpkin_data::world::WorldEvent;
 use pumpkin_util::math::position::BlockPos;
-use pumpkin_util::version::MinecraftVersion;
+use pumpkin_util::version::JavaMinecraftVersion;
 
 use pumpkin_macros::java_packet;
 
@@ -54,13 +54,13 @@ impl ClientPacket for CWorldEvent {
     fn write_packet_data(
         &self,
         write: impl Write,
-        version: &MinecraftVersion,
+        version: &JavaMinecraftVersion,
     ) -> Result<(), WritingError> {
         let mut write = write;
         write.write_i32_be(self.event)?;
         write.write_block_pos(&self.location)?;
 
-        let data = if self.event == WorldEvent::BlockBroken as i32 {
+        let data = if self.event == WorldEvent::ParticlesDestroyBlock as i32 {
             u16::try_from(self.data).map_or(self.data, |state_id| {
                 i32::from(remap_block_state_for_version(state_id, *version))
             })

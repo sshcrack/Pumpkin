@@ -5,7 +5,6 @@ use pumpkin_util::{
     math::{block_box::BlockBox, position::BlockPos, vector3::Vector3},
     random::{RandomDeriverImpl, RandomGenerator, RandomImpl},
 };
-use tracing::debug;
 
 use crate::{
     ProtoChunk,
@@ -100,11 +99,6 @@ impl StructureGenerator for NetherFossilGenerator {
 
         collector.add_piece(Box::new(piece));
 
-        debug!(
-            "Nether fossil candidate at ({}, {}, {}), template={}, rotation={:?}",
-            x, initial_y, z, template_name, rotation
-        );
-
         Some(StructurePosition {
             start_pos: BlockPos::new(x, initial_y, z),
             collector: Arc::new(collector.into()),
@@ -112,7 +106,6 @@ impl StructureGenerator for NetherFossilGenerator {
     }
 }
 
-#[derive(Clone)]
 struct NetherFossilPiece {
     shiftable_structure_piece: ShiftableStructurePiece,
     template: Arc<StructureTemplate>,
@@ -162,10 +155,6 @@ impl NetherFossilPiece {
 }
 
 impl StructurePieceBase for NetherFossilPiece {
-    fn clone_box(&self) -> Box<dyn StructurePieceBase> {
-        Box::new(self.clone())
-    }
-
     fn place(
         &mut self,
         chunk: &mut ProtoChunk,
@@ -175,12 +164,6 @@ impl StructurePieceBase for NetherFossilPiece {
     ) {
         // Vanilla column scan: find air above soul sand or solid block
         let Some(placement_y) = self.find_placement_y(chunk) else {
-            debug!(
-                "Nether fossil at ({}, {}) failed column scan from Y={}, no valid placement",
-                self.shiftable_structure_piece.piece.bounding_box.min.x,
-                self.shiftable_structure_piece.piece.bounding_box.min.z,
-                self.initial_y
-            );
             return;
         };
 
@@ -191,11 +174,6 @@ impl StructurePieceBase for NetherFossilPiece {
         self.shiftable_structure_piece.piece.bounding_box.max.y += offset;
 
         let origin = self.shiftable_structure_piece.piece.bounding_box.min;
-
-        debug!(
-            "Placing nether fossil at ({}, {}, {}), rotation={:?}",
-            origin.x, origin.y, origin.z, self.rotation
-        );
 
         // Vanilla uses IGNORE_AIR_AND_STRUCTURE_BLOCKS processor
         place_template(chunk, &self.template, origin, (0, 0), self.rotation, true);

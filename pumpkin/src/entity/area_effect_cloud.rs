@@ -10,7 +10,7 @@ use pumpkin_util::math::boundingbox::BoundingBox;
 use pumpkin_util::math::vector3::Vector3;
 
 type EffectEntry = (&'static StatusEffect, i32, u8, bool, bool, bool);
-use pumpkin_world::item::ItemStack;
+use pumpkin_data::item_stack::ItemStack;
 use tokio::sync::Mutex;
 
 /// The effect cloud entity that is spawned where a lingering potion lands.
@@ -175,30 +175,27 @@ impl EntityBase for AreaEffectCloudEntity {
             // Send initial particle and radius
             self.entity
                 .send_meta_data(&[pumpkin_protocol::java::client::play::Metadata::new(
-                    pumpkin_data::tracked_data::TrackedData::DATA_PARTICLE,
+                    pumpkin_data::tracked_data::TrackedData::PARTICLE,
                     pumpkin_data::meta_data_type::MetaDataType::PARTICLE,
                     &meta,
-                )])
-                .await;
+                )]);
 
             self.entity
                 .send_meta_data(&[pumpkin_protocol::java::client::play::Metadata::new(
-                    pumpkin_data::tracked_data::TrackedData::DATA_RADIUS,
+                    pumpkin_data::tracked_data::TrackedData::RADIUS,
                     pumpkin_data::meta_data_type::MetaDataType::FLOAT,
                     radius,
-                )])
-                .await;
+                )]);
 
             // Initial waiting flag
             let wait_time = *self.wait_time.lock().await;
             let is_waiting = 0 < wait_time;
             self.entity
                 .send_meta_data(&[pumpkin_protocol::java::client::play::Metadata::new(
-                    pumpkin_data::tracked_data::TrackedData::DATA_WAITING,
+                    pumpkin_data::tracked_data::TrackedData::WAITING,
                     pumpkin_data::meta_data_type::MetaDataType::BOOLEAN,
                     is_waiting,
-                )])
-                .await;
+                )]);
         })
     }
 
@@ -206,7 +203,7 @@ impl EntityBase for AreaEffectCloudEntity {
     #[allow(clippy::semicolon_outside_block)]
     fn tick<'a>(
         &'a self,
-        _caller: Arc<dyn EntityBase>,
+        _caller: &'a Arc<dyn EntityBase>,
         _server: &'a Server,
     ) -> EntityBaseFuture<'a, ()> {
         Box::pin(async move {
@@ -230,11 +227,10 @@ impl EntityBase for AreaEffectCloudEntity {
             if age == wait_time && wait_time > 0 {
                 self.entity
                     .send_meta_data(&[pumpkin_protocol::java::client::play::Metadata::new(
-                        pumpkin_data::tracked_data::TrackedData::DATA_WAITING,
+                        pumpkin_data::tracked_data::TrackedData::WAITING,
                         pumpkin_data::meta_data_type::MetaDataType::BOOLEAN,
                         false,
-                    )])
-                    .await;
+                    )]);
             }
 
             if age < wait_time {
@@ -257,11 +253,10 @@ impl EntityBase for AreaEffectCloudEntity {
                 drop(radius);
                 self.entity
                     .send_meta_data(&[pumpkin_protocol::java::client::play::Metadata::new(
-                        pumpkin_data::tracked_data::TrackedData::DATA_RADIUS,
+                        pumpkin_data::tracked_data::TrackedData::RADIUS,
                         pumpkin_data::meta_data_type::MetaDataType::FLOAT,
                         current_radius,
-                    )])
-                    .await;
+                    )]);
             }
 
             // Tick down reapplication map
@@ -385,13 +380,13 @@ impl EntityBase for AreaEffectCloudEntity {
                     drop(radius_lock);
 
                     // Send updated radius to clients
-                    self.entity
-                        .send_meta_data(&[pumpkin_protocol::java::client::play::Metadata::new(
-                            pumpkin_data::tracked_data::TrackedData::DATA_RADIUS,
+                    self.entity.send_meta_data(&[
+                        pumpkin_protocol::java::client::play::Metadata::new(
+                            pumpkin_data::tracked_data::TrackedData::RADIUS,
                             pumpkin_data::meta_data_type::MetaDataType::FLOAT,
                             current_radius,
-                        )])
-                        .await;
+                        ),
+                    ]);
                 }
 
                 // Apply duration-on-use (shorten lifespan)
@@ -417,5 +412,9 @@ impl EntityBase for AreaEffectCloudEntity {
 
     fn get_living_entity(&self) -> Option<&crate::entity::living::LivingEntity> {
         None
+    }
+
+    fn cast_any(&self) -> &dyn std::any::Any {
+        self
     }
 }

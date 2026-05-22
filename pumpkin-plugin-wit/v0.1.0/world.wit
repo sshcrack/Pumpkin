@@ -1,5 +1,0 @@
-interface %world {
-    resource %world {
-        get-id: func () -> string;
-    }
-}

@@ -51,6 +51,8 @@ pub enum Particle {
     Item,
     Vibration,
     Trail,
+    PauseMobGrowth,
+    ResetMobGrowth,
     ItemSlime,
     ItemCobweb,
     ItemSnowball,
@@ -119,6 +121,8 @@ pub enum Particle {
 }
 impl Particle {
     #[doc = r" Try to parse a `Particle` from a resource location string."]
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn from_name(name: &str) -> Option<Self> {
         match name {
             "angry_villager" => Some(Self::AngryVillager),
@@ -171,6 +175,8 @@ impl Particle {
             "item" => Some(Self::Item),
             "vibration" => Some(Self::Vibration),
             "trail" => Some(Self::Trail),
+            "pause_mob_growth" => Some(Self::PauseMobGrowth),
+            "reset_mob_growth" => Some(Self::ResetMobGrowth),
             "item_slime" => Some(Self::ItemSlime),
             "item_cobweb" => Some(Self::ItemCobweb),
             "item_snowball" => Some(Self::ItemSnowball),
@@ -239,6 +245,8 @@ impl Particle {
             _ => None,
         }
     }
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub const fn to_name(&self) -> &'static str {
         match self {
             Self::AngryVillager => "angry_villager",
@@ -291,6 +299,8 @@ impl Particle {
             Self::Item => "item",
             Self::Vibration => "vibration",
             Self::Trail => "trail",
+            Self::PauseMobGrowth => "pause_mob_growth",
+            Self::ResetMobGrowth => "reset_mob_growth",
             Self::ItemSlime => "item_slime",
             Self::ItemCobweb => "item_cobweb",
             Self::ItemSnowball => "item_snowball",

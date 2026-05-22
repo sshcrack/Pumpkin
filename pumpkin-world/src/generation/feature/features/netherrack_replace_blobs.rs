@@ -1,15 +1,15 @@
-use pumpkin_data::Block;
+use pumpkin_data::{Block, BlockState};
 use pumpkin_util::{
     math::{int_provider::IntProvider, position::BlockPos},
     random::RandomGenerator,
 };
 
 use crate::generation::proto_chunk::GenerationCache;
-use crate::{block::BlockStateCodec, world::BlockRegistryExt};
+use crate::world::WorldPortalExt;
 
 pub struct ReplaceBlobsFeature {
-    pub target: BlockStateCodec,
-    pub state: BlockStateCodec,
+    pub target: &'static BlockState,
+    pub state: &'static BlockState,
     pub radius: IntProvider,
 }
 
@@ -18,15 +18,15 @@ impl ReplaceBlobsFeature {
     pub fn generate<T: GenerationCache>(
         &self,
         chunk: &mut T,
-        _block_registry: &dyn BlockRegistryExt,
+        _block_registry: &dyn WorldPortalExt,
         _min_y: i8,
         _height: u16,
-        _feature: &str, // This placed feature
+        _feature: pumpkin_data::placed_feature::PlacedFeature, // This placed feature
         random: &mut RandomGenerator,
         pos: BlockPos,
     ) -> bool {
-        let target = self.target.get_block();
-        let state = self.state.get_state();
+        let target = Block::from_state_id(self.target.id);
+        let state = &self.state;
         let Some(pos) = Self::move_down_to_target(pos, chunk, target) else {
             return false;
         };

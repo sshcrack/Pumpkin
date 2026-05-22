@@ -2,6 +2,11 @@
 use crate::Block;
 use crate::attributes::Attributes;
 use crate::data_component::DataComponent;
+#[allow(
+    clippy::wildcard_imports,
+    clippy::enum_glob_use,
+    clippy::too_many_lines
+)]
 use crate::data_component::DataComponent::*;
 use crate::data_component_impl::IDSet::{IDs, Tag};
 use crate::data_component_impl::*;
@@ -30,8 +35,8 @@ impl Hash for Item {
     }
 }
 impl Item {
-    pub const ACACIA_BOAT: Item = Item {
-        id: 871,
+    pub const ACACIA_BOAT: Self = Self {
+        id: 872,
         registry_key: "acacia_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -49,8 +54,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_BUTTON: Item = Item {
-        id: 755,
+    pub const ACACIA_BUTTON: Self = Self {
+        id: 756,
         registry_key: "acacia_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -68,8 +73,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_CHEST_BOAT: Item = Item {
-        id: 872,
+    pub const ACACIA_CHEST_BOAT: Self = Self {
+        id: 873,
         registry_key: "acacia_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -87,8 +92,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_DOOR: Item = Item {
-        id: 784,
+    pub const ACACIA_DOOR: Self = Self {
+        id: 785,
         registry_key: "acacia_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -106,8 +111,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_FENCE: Item = Item {
-        id: 348,
+    pub const ACACIA_FENCE: Self = Self {
+        id: 349,
         registry_key: "acacia_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -125,8 +130,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_FENCE_GATE: Item = Item {
-        id: 825,
+    pub const ACACIA_FENCE_GATE: Self = Self {
+        id: 826,
         registry_key: "acacia_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -144,8 +149,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_HANGING_SIGN: Item = Item {
-        id: 1004,
+    pub const ACACIA_HANGING_SIGN: Self = Self {
+        id: 1005,
         registry_key: "acacia_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -163,7 +168,7 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_LEAVES: Item = Item {
+    pub const ACACIA_LEAVES: Self = Self {
         id: 186,
         registry_key: "acacia_leaves",
         components: &[
@@ -182,7 +187,7 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_LOG: Item = Item {
+    pub const ACACIA_LOG: Self = Self {
         id: 138,
         registry_key: "acacia_log",
         components: &[
@@ -201,7 +206,7 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_PLANKS: Item = Item {
+    pub const ACACIA_PLANKS: Self = Self {
         id: 40,
         registry_key: "acacia_planks",
         components: &[
@@ -220,8 +225,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_PRESSURE_PLATE: Item = Item {
-        id: 771,
+    pub const ACACIA_PRESSURE_PLATE: Self = Self {
+        id: 772,
         registry_key: "acacia_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -239,7 +244,7 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_SAPLING: Item = Item {
+    pub const ACACIA_SAPLING: Self = Self {
         id: 53,
         registry_key: "acacia_sapling",
         components: &[
@@ -258,8 +263,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_SHELF: Item = Item {
-        id: 305,
+    pub const ACACIA_SHELF: Self = Self {
+        id: 306,
         registry_key: "acacia_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -277,8 +282,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_SIGN: Item = Item {
-        id: 992,
+    pub const ACACIA_SIGN: Self = Self {
+        id: 993,
         registry_key: "acacia_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -296,8 +301,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_SLAB: Item = Item {
-        id: 274,
+    pub const ACACIA_SLAB: Self = Self {
+        id: 275,
         registry_key: "acacia_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -315,8 +320,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_STAIRS: Item = Item {
-        id: 445,
+    pub const ACACIA_STAIRS: Self = Self {
+        id: 446,
         registry_key: "acacia_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -334,8 +339,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_TRAPDOOR: Item = Item {
-        id: 805,
+    pub const ACACIA_TRAPDOOR: Self = Self {
+        id: 806,
         registry_key: "acacia_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -353,7 +358,7 @@ impl Item {
             ),
         ],
     };
-    pub const ACACIA_WOOD: Item = Item {
+    pub const ACACIA_WOOD: Self = Self {
         id: 175,
         registry_key: "acacia_wood",
         components: &[
@@ -372,8 +377,8 @@ impl Item {
             ),
         ],
     };
-    pub const ACTIVATOR_RAIL: Item = Item {
-        id: 836,
+    pub const ACTIVATOR_RAIL: Self = Self {
+        id: 837,
         registry_key: "activator_rail",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -391,7 +396,7 @@ impl Item {
             ),
         ],
     };
-    pub const AIR: Item = Item {
+    pub const AIR: Self = Self {
         id: 0,
         registry_key: "air",
         components: &[
@@ -410,8 +415,8 @@ impl Item {
             ),
         ],
     };
-    pub const ALLAY_SPAWN_EGG: Item = Item {
-        id: 1163,
+    pub const ALLAY_SPAWN_EGG: Self = Self {
+        id: 1164,
         registry_key: "allay_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -429,8 +434,8 @@ impl Item {
             ),
         ],
     };
-    pub const ALLIUM: Item = Item {
-        id: 234,
+    pub const ALLIUM: Self = Self {
+        id: 235,
         registry_key: "allium",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -448,7 +453,7 @@ impl Item {
             ),
         ],
     };
-    pub const AMETHYST_BLOCK: Item = Item {
+    pub const AMETHYST_BLOCK: Self = Self {
         id: 88,
         registry_key: "amethyst_block",
         components: &[
@@ -467,8 +472,8 @@ impl Item {
             ),
         ],
     };
-    pub const AMETHYST_CLUSTER: Item = Item {
-        id: 1418,
+    pub const AMETHYST_CLUSTER: Self = Self {
+        id: 1419,
         registry_key: "amethyst_cluster",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -486,8 +491,8 @@ impl Item {
             ),
         ],
     };
-    pub const AMETHYST_SHARD: Item = Item {
-        id: 902,
+    pub const AMETHYST_SHARD: Self = Self {
+        id: 903,
         registry_key: "amethyst_shard",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -505,7 +510,7 @@ impl Item {
             ),
         ],
     };
-    pub const ANCIENT_DEBRIS: Item = Item {
+    pub const ANCIENT_DEBRIS: Self = Self {
         id: 82,
         registry_key: "ancient_debris",
         components: &[
@@ -530,7 +535,7 @@ impl Item {
             ),
         ],
     };
-    pub const ANDESITE: Item = Item {
+    pub const ANDESITE: Self = Self {
         id: 6,
         registry_key: "andesite",
         components: &[
@@ -549,8 +554,8 @@ impl Item {
             ),
         ],
     };
-    pub const ANDESITE_SLAB: Item = Item {
-        id: 708,
+    pub const ANDESITE_SLAB: Self = Self {
+        id: 709,
         registry_key: "andesite_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -568,8 +573,8 @@ impl Item {
             ),
         ],
     };
-    pub const ANDESITE_STAIRS: Item = Item {
-        id: 691,
+    pub const ANDESITE_STAIRS: Self = Self {
+        id: 692,
         registry_key: "andesite_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -587,8 +592,8 @@ impl Item {
             ),
         ],
     };
-    pub const ANDESITE_WALL: Item = Item {
-        id: 466,
+    pub const ANDESITE_WALL: Self = Self {
+        id: 467,
         registry_key: "andesite_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -606,8 +611,8 @@ impl Item {
             ),
         ],
     };
-    pub const ANGLER_POTTERY_SHERD: Item = Item {
-        id: 1445,
+    pub const ANGLER_POTTERY_SHERD: Self = Self {
+        id: 1446,
         registry_key: "angler_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -625,8 +630,8 @@ impl Item {
             ),
         ],
     };
-    pub const ANVIL: Item = Item {
-        id: 478,
+    pub const ANVIL: Self = Self {
+        id: 479,
         registry_key: "anvil",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -644,8 +649,8 @@ impl Item {
             ),
         ],
     };
-    pub const APPLE: Item = Item {
-        id: 893,
+    pub const APPLE: Self = Self {
+        id: 894,
         registry_key: "apple",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -681,8 +686,8 @@ impl Item {
             ),
         ],
     };
-    pub const ARCHER_POTTERY_SHERD: Item = Item {
-        id: 1446,
+    pub const ARCHER_POTTERY_SHERD: Self = Self {
+        id: 1447,
         registry_key: "archer_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -700,8 +705,8 @@ impl Item {
             ),
         ],
     };
-    pub const ARMADILLO_SCUTE: Item = Item {
-        id: 889,
+    pub const ARMADILLO_SCUTE: Self = Self {
+        id: 890,
         registry_key: "armadillo_scute",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -719,8 +724,8 @@ impl Item {
             ),
         ],
     };
-    pub const ARMADILLO_SPAWN_EGG: Item = Item {
-        id: 1141,
+    pub const ARMADILLO_SPAWN_EGG: Self = Self {
+        id: 1142,
         registry_key: "armadillo_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -738,8 +743,8 @@ impl Item {
             ),
         ],
     };
-    pub const ARMOR_STAND: Item = Item {
-        id: 1254,
+    pub const ARMOR_STAND: Self = Self {
+        id: 1255,
         registry_key: "armor_stand",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -757,8 +762,8 @@ impl Item {
             ),
         ],
     };
-    pub const ARMS_UP_POTTERY_SHERD: Item = Item {
-        id: 1447,
+    pub const ARMS_UP_POTTERY_SHERD: Self = Self {
+        id: 1448,
         registry_key: "arms_up_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -776,8 +781,8 @@ impl Item {
             ),
         ],
     };
-    pub const ARROW: Item = Item {
-        id: 895,
+    pub const ARROW: Self = Self {
+        id: 896,
         registry_key: "arrow",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -795,8 +800,8 @@ impl Item {
             ),
         ],
     };
-    pub const AXOLOTL_BUCKET: Item = Item {
-        id: 1023,
+    pub const AXOLOTL_BUCKET: Self = Self {
+        id: 1024,
         registry_key: "axolotl_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -814,8 +819,8 @@ impl Item {
             ),
         ],
     };
-    pub const AXOLOTL_SPAWN_EGG: Item = Item {
-        id: 1151,
+    pub const AXOLOTL_SPAWN_EGG: Self = Self {
+        id: 1152,
         registry_key: "axolotl_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -833,7 +838,7 @@ impl Item {
             ),
         ],
     };
-    pub const AZALEA: Item = Item {
+    pub const AZALEA: Self = Self {
         id: 205,
         registry_key: "azalea",
         components: &[
@@ -852,7 +857,7 @@ impl Item {
             ),
         ],
     };
-    pub const AZALEA_LEAVES: Item = Item {
+    pub const AZALEA_LEAVES: Self = Self {
         id: 191,
         registry_key: "azalea_leaves",
         components: &[
@@ -871,8 +876,8 @@ impl Item {
             ),
         ],
     };
-    pub const AZURE_BLUET: Item = Item {
-        id: 235,
+    pub const AZURE_BLUET: Self = Self {
+        id: 236,
         registry_key: "azure_bluet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -890,8 +895,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAKED_POTATO: Item = Item {
-        id: 1229,
+    pub const BAKED_POTATO: Self = Self {
+        id: 1230,
         registry_key: "baked_potato",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -927,8 +932,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO: Item = Item {
-        id: 269,
+    pub const BAMBOO: Self = Self {
+        id: 270,
         registry_key: "bamboo",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -946,7 +951,7 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_BLOCK: Item = Item {
+    pub const BAMBOO_BLOCK: Self = Self {
         id: 147,
         registry_key: "bamboo_block",
         components: &[
@@ -965,8 +970,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_BUTTON: Item = Item {
-        id: 760,
+    pub const BAMBOO_BUTTON: Self = Self {
+        id: 761,
         registry_key: "bamboo_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -984,8 +989,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_CHEST_RAFT: Item = Item {
-        id: 882,
+    pub const BAMBOO_CHEST_RAFT: Self = Self {
+        id: 883,
         registry_key: "bamboo_chest_raft",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -1003,8 +1008,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_DOOR: Item = Item {
-        id: 789,
+    pub const BAMBOO_DOOR: Self = Self {
+        id: 790,
         registry_key: "bamboo_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1022,8 +1027,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_FENCE: Item = Item {
-        id: 353,
+    pub const BAMBOO_FENCE: Self = Self {
+        id: 354,
         registry_key: "bamboo_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1041,8 +1046,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_FENCE_GATE: Item = Item {
-        id: 830,
+    pub const BAMBOO_FENCE_GATE: Self = Self {
+        id: 831,
         registry_key: "bamboo_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1060,8 +1065,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_HANGING_SIGN: Item = Item {
-        id: 1009,
+    pub const BAMBOO_HANGING_SIGN: Self = Self {
+        id: 1010,
         registry_key: "bamboo_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -1079,7 +1084,7 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_MOSAIC: Item = Item {
+    pub const BAMBOO_MOSAIC: Self = Self {
         id: 48,
         registry_key: "bamboo_mosaic",
         components: &[
@@ -1098,8 +1103,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_MOSAIC_SLAB: Item = Item {
-        id: 280,
+    pub const BAMBOO_MOSAIC_SLAB: Self = Self {
+        id: 281,
         registry_key: "bamboo_mosaic_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1117,8 +1122,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_MOSAIC_STAIRS: Item = Item {
-        id: 451,
+    pub const BAMBOO_MOSAIC_STAIRS: Self = Self {
+        id: 452,
         registry_key: "bamboo_mosaic_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1136,7 +1141,7 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_PLANKS: Item = Item {
+    pub const BAMBOO_PLANKS: Self = Self {
         id: 45,
         registry_key: "bamboo_planks",
         components: &[
@@ -1155,8 +1160,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_PRESSURE_PLATE: Item = Item {
-        id: 776,
+    pub const BAMBOO_PRESSURE_PLATE: Self = Self {
+        id: 777,
         registry_key: "bamboo_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1174,8 +1179,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_RAFT: Item = Item {
-        id: 881,
+    pub const BAMBOO_RAFT: Self = Self {
+        id: 882,
         registry_key: "bamboo_raft",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -1193,8 +1198,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_SHELF: Item = Item {
-        id: 306,
+    pub const BAMBOO_SHELF: Self = Self {
+        id: 307,
         registry_key: "bamboo_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1212,8 +1217,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_SIGN: Item = Item {
-        id: 997,
+    pub const BAMBOO_SIGN: Self = Self {
+        id: 998,
         registry_key: "bamboo_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -1231,8 +1236,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_SLAB: Item = Item {
-        id: 279,
+    pub const BAMBOO_SLAB: Self = Self {
+        id: 280,
         registry_key: "bamboo_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1250,8 +1255,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_STAIRS: Item = Item {
-        id: 450,
+    pub const BAMBOO_STAIRS: Self = Self {
+        id: 451,
         registry_key: "bamboo_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1269,8 +1274,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAMBOO_TRAPDOOR: Item = Item {
-        id: 810,
+    pub const BAMBOO_TRAPDOOR: Self = Self {
+        id: 811,
         registry_key: "bamboo_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1288,8 +1293,8 @@ impl Item {
             ),
         ],
     };
-    pub const BARREL: Item = Item {
-        id: 1354,
+    pub const BARREL: Self = Self {
+        id: 1355,
         registry_key: "barrel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1307,8 +1312,8 @@ impl Item {
             ),
         ],
     };
-    pub const BARRIER: Item = Item {
-        id: 502,
+    pub const BARRIER: Self = Self {
+        id: 503,
         registry_key: "barrier",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1326,8 +1331,8 @@ impl Item {
             ),
         ],
     };
-    pub const BASALT: Item = Item {
-        id: 362,
+    pub const BASALT: Self = Self {
+        id: 363,
         registry_key: "basalt",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1345,8 +1350,8 @@ impl Item {
             ),
         ],
     };
-    pub const BAT_SPAWN_EGG: Item = Item {
-        id: 1142,
+    pub const BAT_SPAWN_EGG: Self = Self {
+        id: 1143,
         registry_key: "bat_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1364,8 +1369,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEACON: Item = Item {
-        id: 455,
+    pub const BEACON: Self = Self {
+        id: 456,
         registry_key: "beacon",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1383,7 +1388,7 @@ impl Item {
             ),
         ],
     };
-    pub const BEDROCK: Item = Item {
+    pub const BEDROCK: Self = Self {
         id: 58,
         registry_key: "bedrock",
         components: &[
@@ -1402,8 +1407,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEE_NEST: Item = Item {
-        id: 1379,
+    pub const BEE_NEST: Self = Self {
+        id: 1380,
         registry_key: "bee_nest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1421,8 +1426,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEE_SPAWN_EGG: Item = Item {
-        id: 1143,
+    pub const BEE_SPAWN_EGG: Self = Self {
+        id: 1144,
         registry_key: "bee_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1440,8 +1445,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEEF: Item = Item {
-        id: 1110,
+    pub const BEEF: Self = Self {
+        id: 1111,
         registry_key: "beef",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1477,8 +1482,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEEHIVE: Item = Item {
-        id: 1380,
+    pub const BEEHIVE: Self = Self {
+        id: 1381,
         registry_key: "beehive",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1496,8 +1501,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEETROOT: Item = Item {
-        id: 1287,
+    pub const BEETROOT: Self = Self {
+        id: 1288,
         registry_key: "beetroot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1533,8 +1538,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEETROOT_SEEDS: Item = Item {
-        id: 1288,
+    pub const BEETROOT_SEEDS: Self = Self {
+        id: 1289,
         registry_key: "beetroot_seeds",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1552,8 +1557,8 @@ impl Item {
             ),
         ],
     };
-    pub const BEETROOT_SOUP: Item = Item {
-        id: 1289,
+    pub const BEETROOT_SOUP: Self = Self {
+        id: 1290,
         registry_key: "beetroot_soup",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -1589,8 +1594,8 @@ impl Item {
             ),
         ],
     };
-    pub const BELL: Item = Item {
-        id: 1362,
+    pub const BELL: Self = Self {
+        id: 1363,
         registry_key: "bell",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1608,8 +1613,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIG_DRIPLEAF: Item = Item {
-        id: 267,
+    pub const BIG_DRIPLEAF: Self = Self {
+        id: 268,
         registry_key: "big_dripleaf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1627,8 +1632,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_BOAT: Item = Item {
-        id: 867,
+    pub const BIRCH_BOAT: Self = Self {
+        id: 868,
         registry_key: "birch_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -1646,8 +1651,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_BUTTON: Item = Item {
-        id: 753,
+    pub const BIRCH_BUTTON: Self = Self {
+        id: 754,
         registry_key: "birch_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1665,8 +1670,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_CHEST_BOAT: Item = Item {
-        id: 868,
+    pub const BIRCH_CHEST_BOAT: Self = Self {
+        id: 869,
         registry_key: "birch_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -1684,8 +1689,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_DOOR: Item = Item {
-        id: 782,
+    pub const BIRCH_DOOR: Self = Self {
+        id: 783,
         registry_key: "birch_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1703,8 +1708,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_FENCE: Item = Item {
-        id: 346,
+    pub const BIRCH_FENCE: Self = Self {
+        id: 347,
         registry_key: "birch_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1722,8 +1727,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_FENCE_GATE: Item = Item {
-        id: 823,
+    pub const BIRCH_FENCE_GATE: Self = Self {
+        id: 824,
         registry_key: "birch_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1741,8 +1746,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_HANGING_SIGN: Item = Item {
-        id: 1002,
+    pub const BIRCH_HANGING_SIGN: Self = Self {
+        id: 1003,
         registry_key: "birch_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -1760,7 +1765,7 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_LEAVES: Item = Item {
+    pub const BIRCH_LEAVES: Self = Self {
         id: 184,
         registry_key: "birch_leaves",
         components: &[
@@ -1779,7 +1784,7 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_LOG: Item = Item {
+    pub const BIRCH_LOG: Self = Self {
         id: 136,
         registry_key: "birch_log",
         components: &[
@@ -1798,7 +1803,7 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_PLANKS: Item = Item {
+    pub const BIRCH_PLANKS: Self = Self {
         id: 38,
         registry_key: "birch_planks",
         components: &[
@@ -1817,8 +1822,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_PRESSURE_PLATE: Item = Item {
-        id: 769,
+    pub const BIRCH_PRESSURE_PLATE: Self = Self {
+        id: 770,
         registry_key: "birch_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1836,7 +1841,7 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_SAPLING: Item = Item {
+    pub const BIRCH_SAPLING: Self = Self {
         id: 51,
         registry_key: "birch_sapling",
         components: &[
@@ -1855,8 +1860,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_SHELF: Item = Item {
-        id: 307,
+    pub const BIRCH_SHELF: Self = Self {
+        id: 308,
         registry_key: "birch_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1874,8 +1879,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_SIGN: Item = Item {
-        id: 990,
+    pub const BIRCH_SIGN: Self = Self {
+        id: 991,
         registry_key: "birch_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -1893,8 +1898,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_SLAB: Item = Item {
-        id: 272,
+    pub const BIRCH_SLAB: Self = Self {
+        id: 273,
         registry_key: "birch_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1912,8 +1917,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_STAIRS: Item = Item {
-        id: 443,
+    pub const BIRCH_STAIRS: Self = Self {
+        id: 444,
         registry_key: "birch_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1931,8 +1936,8 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_TRAPDOOR: Item = Item {
-        id: 803,
+    pub const BIRCH_TRAPDOOR: Self = Self {
+        id: 804,
         registry_key: "birch_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -1950,7 +1955,7 @@ impl Item {
             ),
         ],
     };
-    pub const BIRCH_WOOD: Item = Item {
+    pub const BIRCH_WOOD: Self = Self {
         id: 173,
         registry_key: "birch_wood",
         components: &[
@@ -1969,8 +1974,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_BANNER: Item = Item {
-        id: 1281,
+    pub const BLACK_BANNER: Self = Self {
+        id: 1282,
         registry_key: "black_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -1988,8 +1993,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_BED: Item = Item {
-        id: 1101,
+    pub const BLACK_BED: Self = Self {
+        id: 1102,
         registry_key: "black_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2007,8 +2012,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_BUNDLE: Item = Item {
-        id: 1052,
+    pub const BLACK_BUNDLE: Self = Self {
+        id: 1053,
         registry_key: "black_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2026,8 +2031,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_CANDLE: Item = Item {
-        id: 1414,
+    pub const BLACK_CANDLE: Self = Self {
+        id: 1415,
         registry_key: "black_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2045,8 +2050,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_CARPET: Item = Item {
-        id: 520,
+    pub const BLACK_CARPET: Self = Self {
+        id: 521,
         registry_key: "black_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2083,8 +2088,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_CONCRETE: Item = Item {
-        id: 629,
+    pub const BLACK_CONCRETE: Self = Self {
+        id: 630,
         registry_key: "black_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2102,8 +2107,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_CONCRETE_POWDER: Item = Item {
-        id: 645,
+    pub const BLACK_CONCRETE_POWDER: Self = Self {
+        id: 646,
         registry_key: "black_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2121,8 +2126,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_DYE: Item = Item {
-        id: 1081,
+    pub const BLACK_DYE: Self = Self {
+        id: 1082,
         registry_key: "black_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2140,8 +2145,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_GLAZED_TERRACOTTA: Item = Item {
-        id: 613,
+    pub const BLACK_GLAZED_TERRACOTTA: Self = Self {
+        id: 614,
         registry_key: "black_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2159,8 +2164,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_HARNESS: Item = Item {
-        id: 853,
+    pub const BLACK_HARNESS: Self = Self {
+        id: 854,
         registry_key: "black_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2194,8 +2199,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_SHULKER_BOX: Item = Item {
-        id: 597,
+    pub const BLACK_SHULKER_BOX: Self = Self {
+        id: 598,
         registry_key: "black_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2213,8 +2218,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_STAINED_GLASS: Item = Item {
-        id: 545,
+    pub const BLACK_STAINED_GLASS: Self = Self {
+        id: 546,
         registry_key: "black_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2232,8 +2237,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_STAINED_GLASS_PANE: Item = Item {
-        id: 561,
+    pub const BLACK_STAINED_GLASS_PANE: Self = Self {
+        id: 562,
         registry_key: "black_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2251,8 +2256,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_TERRACOTTA: Item = Item {
-        id: 501,
+    pub const BLACK_TERRACOTTA: Self = Self {
+        id: 502,
         registry_key: "black_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2270,7 +2275,7 @@ impl Item {
             ),
         ],
     };
-    pub const BLACK_WOOL: Item = Item {
+    pub const BLACK_WOOL: Self = Self {
         id: 228,
         registry_key: "black_wool",
         components: &[
@@ -2289,8 +2294,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACKSTONE: Item = Item {
-        id: 1385,
+    pub const BLACKSTONE: Self = Self {
+        id: 1386,
         registry_key: "blackstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2308,8 +2313,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACKSTONE_SLAB: Item = Item {
-        id: 1386,
+    pub const BLACKSTONE_SLAB: Self = Self {
+        id: 1387,
         registry_key: "blackstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2327,8 +2332,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACKSTONE_STAIRS: Item = Item {
-        id: 1387,
+    pub const BLACKSTONE_STAIRS: Self = Self {
+        id: 1388,
         registry_key: "blackstone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2346,8 +2351,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLACKSTONE_WALL: Item = Item {
-        id: 471,
+    pub const BLACKSTONE_WALL: Self = Self {
+        id: 472,
         registry_key: "blackstone_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2365,8 +2370,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLADE_POTTERY_SHERD: Item = Item {
-        id: 1448,
+    pub const BLADE_POTTERY_SHERD: Self = Self {
+        id: 1449,
         registry_key: "blade_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2384,8 +2389,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLAST_FURNACE: Item = Item {
-        id: 1356,
+    pub const BLAST_FURNACE: Self = Self {
+        id: 1357,
         registry_key: "blast_furnace",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2403,8 +2408,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLAZE_POWDER: Item = Item {
-        id: 1124,
+    pub const BLAZE_POWDER: Self = Self {
+        id: 1125,
         registry_key: "blaze_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2422,8 +2427,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLAZE_ROD: Item = Item {
-        id: 1116,
+    pub const BLAZE_ROD: Self = Self {
+        id: 1117,
         registry_key: "blaze_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2441,8 +2446,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLAZE_SPAWN_EGG: Item = Item {
-        id: 1203,
+    pub const BLAZE_SPAWN_EGG: Self = Self {
+        id: 1204,
         registry_key: "blaze_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2460,8 +2465,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_BANNER: Item = Item {
-        id: 1277,
+    pub const BLUE_BANNER: Self = Self {
+        id: 1278,
         registry_key: "blue_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -2479,8 +2484,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_BED: Item = Item {
-        id: 1097,
+    pub const BLUE_BED: Self = Self {
+        id: 1098,
         registry_key: "blue_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2498,8 +2503,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_BUNDLE: Item = Item {
-        id: 1048,
+    pub const BLUE_BUNDLE: Self = Self {
+        id: 1049,
         registry_key: "blue_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2517,8 +2522,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_CANDLE: Item = Item {
-        id: 1410,
+    pub const BLUE_CANDLE: Self = Self {
+        id: 1411,
         registry_key: "blue_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2536,8 +2541,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_CARPET: Item = Item {
-        id: 516,
+    pub const BLUE_CARPET: Self = Self {
+        id: 517,
         registry_key: "blue_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2574,8 +2579,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_CONCRETE: Item = Item {
-        id: 625,
+    pub const BLUE_CONCRETE: Self = Self {
+        id: 626,
         registry_key: "blue_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2593,8 +2598,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_CONCRETE_POWDER: Item = Item {
-        id: 641,
+    pub const BLUE_CONCRETE_POWDER: Self = Self {
+        id: 642,
         registry_key: "blue_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2612,8 +2617,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_DYE: Item = Item {
-        id: 1077,
+    pub const BLUE_DYE: Self = Self {
+        id: 1078,
         registry_key: "blue_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2631,8 +2636,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_EGG: Item = Item {
-        id: 1032,
+    pub const BLUE_EGG: Self = Self {
+        id: 1033,
         registry_key: "blue_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -2650,8 +2655,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_GLAZED_TERRACOTTA: Item = Item {
-        id: 609,
+    pub const BLUE_GLAZED_TERRACOTTA: Self = Self {
+        id: 610,
         registry_key: "blue_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2669,8 +2674,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_HARNESS: Item = Item {
-        id: 849,
+    pub const BLUE_HARNESS: Self = Self {
+        id: 850,
         registry_key: "blue_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2704,8 +2709,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_ICE: Item = Item {
-        id: 679,
+    pub const BLUE_ICE: Self = Self {
+        id: 680,
         registry_key: "blue_ice",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2723,8 +2728,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_ORCHID: Item = Item {
-        id: 233,
+    pub const BLUE_ORCHID: Self = Self {
+        id: 234,
         registry_key: "blue_orchid",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2742,8 +2747,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_SHULKER_BOX: Item = Item {
-        id: 593,
+    pub const BLUE_SHULKER_BOX: Self = Self {
+        id: 594,
         registry_key: "blue_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2761,8 +2766,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_STAINED_GLASS: Item = Item {
-        id: 541,
+    pub const BLUE_STAINED_GLASS: Self = Self {
+        id: 542,
         registry_key: "blue_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2780,8 +2785,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_STAINED_GLASS_PANE: Item = Item {
-        id: 557,
+    pub const BLUE_STAINED_GLASS_PANE: Self = Self {
+        id: 558,
         registry_key: "blue_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2799,8 +2804,8 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_TERRACOTTA: Item = Item {
-        id: 497,
+    pub const BLUE_TERRACOTTA: Self = Self {
+        id: 498,
         registry_key: "blue_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2818,7 +2823,7 @@ impl Item {
             ),
         ],
     };
-    pub const BLUE_WOOL: Item = Item {
+    pub const BLUE_WOOL: Self = Self {
         id: 224,
         registry_key: "blue_wool",
         components: &[
@@ -2837,8 +2842,8 @@ impl Item {
             ),
         ],
     };
-    pub const BOGGED_SPAWN_EGG: Item = Item {
-        id: 1172,
+    pub const BOGGED_SPAWN_EGG: Self = Self {
+        id: 1173,
         registry_key: "bogged_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2856,8 +2861,8 @@ impl Item {
             ),
         ],
     };
-    pub const BOLT_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1444,
+    pub const BOLT_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1445,
         registry_key: "bolt_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2875,8 +2880,8 @@ impl Item {
             ),
         ],
     };
-    pub const BONE: Item = Item {
-        id: 1083,
+    pub const BONE: Self = Self {
+        id: 1084,
         registry_key: "bone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2894,8 +2899,8 @@ impl Item {
             ),
         ],
     };
-    pub const BONE_BLOCK: Item = Item {
-        id: 579,
+    pub const BONE_BLOCK: Self = Self {
+        id: 580,
         registry_key: "bone_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2913,8 +2918,8 @@ impl Item {
             ),
         ],
     };
-    pub const BONE_MEAL: Item = Item {
-        id: 1082,
+    pub const BONE_MEAL: Self = Self {
+        id: 1083,
         registry_key: "bone_meal",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2932,8 +2937,8 @@ impl Item {
             ),
         ],
     };
-    pub const BOOK: Item = Item {
-        id: 1029,
+    pub const BOOK: Self = Self {
+        id: 1030,
         registry_key: "book",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2949,10 +2954,11 @@ impl Item {
                     attribute_modifiers: Cow::Borrowed(&[]),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 1 }),
         ],
     };
-    pub const BOOKSHELF: Item = Item {
-        id: 317,
+    pub const BOOKSHELF: Self = Self {
+        id: 318,
         registry_key: "bookshelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -2970,8 +2976,8 @@ impl Item {
             ),
         ],
     };
-    pub const BORDURE_INDENTED_BANNER_PATTERN: Item = Item {
-        id: 1351,
+    pub const BORDURE_INDENTED_BANNER_PATTERN: Self = Self {
+        id: 1352,
         registry_key: "bordure_indented_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -2989,8 +2995,8 @@ impl Item {
             ),
         ],
     };
-    pub const BOW: Item = Item {
-        id: 894,
+    pub const BOW: Self = Self {
+        id: 895,
         registry_key: "bow",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3008,10 +3014,11 @@ impl Item {
                     attribute_modifiers: Cow::Borrowed(&[]),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 1 }),
         ],
     };
-    pub const BOWL: Item = Item {
-        id: 892,
+    pub const BOWL: Self = Self {
+        id: 893,
         registry_key: "bowl",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3029,8 +3036,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRAIN_CORAL: Item = Item {
-        id: 660,
+    pub const BRAIN_CORAL: Self = Self {
+        id: 661,
         registry_key: "brain_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3048,8 +3055,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRAIN_CORAL_BLOCK: Item = Item {
-        id: 655,
+    pub const BRAIN_CORAL_BLOCK: Self = Self {
+        id: 656,
         registry_key: "brain_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3067,8 +3074,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRAIN_CORAL_FAN: Item = Item {
-        id: 670,
+    pub const BRAIN_CORAL_FAN: Self = Self {
+        id: 671,
         registry_key: "brain_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3086,8 +3093,8 @@ impl Item {
             ),
         ],
     };
-    pub const BREAD: Item = Item {
-        id: 953,
+    pub const BREAD: Self = Self {
+        id: 954,
         registry_key: "bread",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3123,8 +3130,8 @@ impl Item {
             ),
         ],
     };
-    pub const BREEZE_ROD: Item = Item {
-        id: 1222,
+    pub const BREEZE_ROD: Self = Self {
+        id: 1223,
         registry_key: "breeze_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3142,8 +3149,8 @@ impl Item {
             ),
         ],
     };
-    pub const BREEZE_SPAWN_EGG: Item = Item {
-        id: 1188,
+    pub const BREEZE_SPAWN_EGG: Self = Self {
+        id: 1189,
         registry_key: "breeze_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3161,8 +3168,8 @@ impl Item {
             ),
         ],
     };
-    pub const BREWER_POTTERY_SHERD: Item = Item {
-        id: 1449,
+    pub const BREWER_POTTERY_SHERD: Self = Self {
+        id: 1450,
         registry_key: "brewer_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3180,8 +3187,8 @@ impl Item {
             ),
         ],
     };
-    pub const BREWING_STAND: Item = Item {
-        id: 1126,
+    pub const BREWING_STAND: Self = Self {
+        id: 1127,
         registry_key: "brewing_stand",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3199,8 +3206,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRICK: Item = Item {
-        id: 1025,
+    pub const BRICK: Self = Self {
+        id: 1026,
         registry_key: "brick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3218,8 +3225,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRICK_SLAB: Item = Item {
-        id: 289,
+    pub const BRICK_SLAB: Self = Self {
+        id: 290,
         registry_key: "brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3237,8 +3244,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRICK_STAIRS: Item = Item {
-        id: 419,
+    pub const BRICK_STAIRS: Self = Self {
+        id: 420,
         registry_key: "brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3256,8 +3263,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRICK_WALL: Item = Item {
-        id: 458,
+    pub const BRICK_WALL: Self = Self {
+        id: 459,
         registry_key: "brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3275,8 +3282,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRICKS: Item = Item {
-        id: 304,
+    pub const BRICKS: Self = Self {
+        id: 305,
         registry_key: "bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3294,8 +3301,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_BANNER: Item = Item {
-        id: 1278,
+    pub const BROWN_BANNER: Self = Self {
+        id: 1279,
         registry_key: "brown_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -3313,8 +3320,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_BED: Item = Item {
-        id: 1098,
+    pub const BROWN_BED: Self = Self {
+        id: 1099,
         registry_key: "brown_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3332,8 +3339,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_BUNDLE: Item = Item {
-        id: 1049,
+    pub const BROWN_BUNDLE: Self = Self {
+        id: 1050,
         registry_key: "brown_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3351,8 +3358,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_CANDLE: Item = Item {
-        id: 1411,
+    pub const BROWN_CANDLE: Self = Self {
+        id: 1412,
         registry_key: "brown_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3370,8 +3377,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_CARPET: Item = Item {
-        id: 517,
+    pub const BROWN_CARPET: Self = Self {
+        id: 518,
         registry_key: "brown_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3408,8 +3415,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_CONCRETE: Item = Item {
-        id: 626,
+    pub const BROWN_CONCRETE: Self = Self {
+        id: 627,
         registry_key: "brown_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3427,8 +3434,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_CONCRETE_POWDER: Item = Item {
-        id: 642,
+    pub const BROWN_CONCRETE_POWDER: Self = Self {
+        id: 643,
         registry_key: "brown_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3446,8 +3453,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_DYE: Item = Item {
-        id: 1078,
+    pub const BROWN_DYE: Self = Self {
+        id: 1079,
         registry_key: "brown_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3465,8 +3472,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_EGG: Item = Item {
-        id: 1033,
+    pub const BROWN_EGG: Self = Self {
+        id: 1034,
         registry_key: "brown_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -3484,8 +3491,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_GLAZED_TERRACOTTA: Item = Item {
-        id: 610,
+    pub const BROWN_GLAZED_TERRACOTTA: Self = Self {
+        id: 611,
         registry_key: "brown_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3503,8 +3510,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_HARNESS: Item = Item {
-        id: 850,
+    pub const BROWN_HARNESS: Self = Self {
+        id: 851,
         registry_key: "brown_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3538,8 +3545,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_MUSHROOM: Item = Item {
-        id: 247,
+    pub const BROWN_MUSHROOM: Self = Self {
+        id: 248,
         registry_key: "brown_mushroom",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3557,8 +3564,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_MUSHROOM_BLOCK: Item = Item {
-        id: 387,
+    pub const BROWN_MUSHROOM_BLOCK: Self = Self {
+        id: 388,
         registry_key: "brown_mushroom_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3576,8 +3583,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_SHULKER_BOX: Item = Item {
-        id: 594,
+    pub const BROWN_SHULKER_BOX: Self = Self {
+        id: 595,
         registry_key: "brown_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3595,8 +3602,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_STAINED_GLASS: Item = Item {
-        id: 542,
+    pub const BROWN_STAINED_GLASS: Self = Self {
+        id: 543,
         registry_key: "brown_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3614,8 +3621,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_STAINED_GLASS_PANE: Item = Item {
-        id: 558,
+    pub const BROWN_STAINED_GLASS_PANE: Self = Self {
+        id: 559,
         registry_key: "brown_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3633,8 +3640,8 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_TERRACOTTA: Item = Item {
-        id: 498,
+    pub const BROWN_TERRACOTTA: Self = Self {
+        id: 499,
         registry_key: "brown_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3652,7 +3659,7 @@ impl Item {
             ),
         ],
     };
-    pub const BROWN_WOOL: Item = Item {
+    pub const BROWN_WOOL: Self = Self {
         id: 225,
         registry_key: "brown_wool",
         components: &[
@@ -3671,8 +3678,8 @@ impl Item {
             ),
         ],
     };
-    pub const BRUSH: Item = Item {
-        id: 1425,
+    pub const BRUSH: Self = Self {
+        id: 1426,
         registry_key: "brush",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3692,8 +3699,8 @@ impl Item {
             ),
         ],
     };
-    pub const BUBBLE_CORAL: Item = Item {
-        id: 661,
+    pub const BUBBLE_CORAL: Self = Self {
+        id: 662,
         registry_key: "bubble_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3711,8 +3718,8 @@ impl Item {
             ),
         ],
     };
-    pub const BUBBLE_CORAL_BLOCK: Item = Item {
-        id: 656,
+    pub const BUBBLE_CORAL_BLOCK: Self = Self {
+        id: 657,
         registry_key: "bubble_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3730,8 +3737,8 @@ impl Item {
             ),
         ],
     };
-    pub const BUBBLE_CORAL_FAN: Item = Item {
-        id: 671,
+    pub const BUBBLE_CORAL_FAN: Self = Self {
+        id: 672,
         registry_key: "bubble_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3749,8 +3756,8 @@ impl Item {
             ),
         ],
     };
-    pub const BUCKET: Item = Item {
-        id: 1012,
+    pub const BUCKET: Self = Self {
+        id: 1013,
         registry_key: "bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -3768,7 +3775,7 @@ impl Item {
             ),
         ],
     };
-    pub const BUDDING_AMETHYST: Item = Item {
+    pub const BUDDING_AMETHYST: Self = Self {
         id: 89,
         registry_key: "budding_amethyst",
         components: &[
@@ -3787,8 +3794,8 @@ impl Item {
             ),
         ],
     };
-    pub const BUNDLE: Item = Item {
-        id: 1036,
+    pub const BUNDLE: Self = Self {
+        id: 1037,
         registry_key: "bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3806,8 +3813,8 @@ impl Item {
             ),
         ],
     };
-    pub const BURN_POTTERY_SHERD: Item = Item {
-        id: 1450,
+    pub const BURN_POTTERY_SHERD: Self = Self {
+        id: 1451,
         registry_key: "burn_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3825,7 +3832,7 @@ impl Item {
             ),
         ],
     };
-    pub const BUSH: Item = Item {
+    pub const BUSH: Self = Self {
         id: 204,
         registry_key: "bush",
         components: &[
@@ -3844,8 +3851,8 @@ impl Item {
             ),
         ],
     };
-    pub const CACTUS: Item = Item {
-        id: 340,
+    pub const CACTUS: Self = Self {
+        id: 341,
         registry_key: "cactus",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3863,8 +3870,8 @@ impl Item {
             ),
         ],
     };
-    pub const CACTUS_FLOWER: Item = Item {
-        id: 341,
+    pub const CACTUS_FLOWER: Self = Self {
+        id: 342,
         registry_key: "cactus_flower",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3882,8 +3889,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAKE: Item = Item {
-        id: 1085,
+    pub const CAKE: Self = Self {
+        id: 1086,
         registry_key: "cake",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -3901,7 +3908,7 @@ impl Item {
             ),
         ],
     };
-    pub const CALCITE: Item = Item {
+    pub const CALCITE: Self = Self {
         id: 11,
         registry_key: "calcite",
         components: &[
@@ -3920,8 +3927,8 @@ impl Item {
             ),
         ],
     };
-    pub const CALIBRATED_SCULK_SENSOR: Item = Item {
-        id: 743,
+    pub const CALIBRATED_SCULK_SENSOR: Self = Self {
+        id: 744,
         registry_key: "calibrated_sculk_sensor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3939,8 +3946,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAMEL_HUSK_SPAWN_EGG: Item = Item {
-        id: 1173,
+    pub const CAMEL_HUSK_SPAWN_EGG: Self = Self {
+        id: 1174,
         registry_key: "camel_husk_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3958,8 +3965,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAMEL_SPAWN_EGG: Item = Item {
-        id: 1134,
+    pub const CAMEL_SPAWN_EGG: Self = Self {
+        id: 1135,
         registry_key: "camel_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3977,8 +3984,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAMPFIRE: Item = Item {
-        id: 1375,
+    pub const CAMPFIRE: Self = Self {
+        id: 1376,
         registry_key: "campfire",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -3996,8 +4003,8 @@ impl Item {
             ),
         ],
     };
-    pub const CANDLE: Item = Item {
-        id: 1398,
+    pub const CANDLE: Self = Self {
+        id: 1399,
         registry_key: "candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4015,8 +4022,8 @@ impl Item {
             ),
         ],
     };
-    pub const CARROT: Item = Item {
-        id: 1227,
+    pub const CARROT: Self = Self {
+        id: 1228,
         registry_key: "carrot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4052,8 +4059,8 @@ impl Item {
             ),
         ],
     };
-    pub const CARROT_ON_A_STICK: Item = Item {
-        id: 859,
+    pub const CARROT_ON_A_STICK: Self = Self {
+        id: 860,
         registry_key: "carrot_on_a_stick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4073,8 +4080,8 @@ impl Item {
             ),
         ],
     };
-    pub const CARTOGRAPHY_TABLE: Item = Item {
-        id: 1357,
+    pub const CARTOGRAPHY_TABLE: Self = Self {
+        id: 1358,
         registry_key: "cartography_table",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4092,8 +4099,8 @@ impl Item {
             ),
         ],
     };
-    pub const CARVED_PUMPKIN: Item = Item {
-        id: 357,
+    pub const CARVED_PUMPKIN: Self = Self {
+        id: 358,
         registry_key: "carved_pumpkin",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4133,8 +4140,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAT_SPAWN_EGG: Item = Item {
-        id: 1138,
+    pub const CAT_SPAWN_EGG: Self = Self {
+        id: 1139,
         registry_key: "cat_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4152,8 +4159,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAULDRON: Item = Item {
-        id: 1127,
+    pub const CAULDRON: Self = Self {
+        id: 1128,
         registry_key: "cauldron",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4171,8 +4178,8 @@ impl Item {
             ),
         ],
     };
-    pub const CAVE_SPIDER_SPAWN_EGG: Item = Item {
-        id: 1186,
+    pub const CAVE_SPIDER_SPAWN_EGG: Self = Self {
+        id: 1187,
         registry_key: "cave_spider_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4190,8 +4197,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHAIN_COMMAND_BLOCK: Item = Item {
-        id: 574,
+    pub const CHAIN_COMMAND_BLOCK: Self = Self {
+        id: 575,
         registry_key: "chain_command_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4209,8 +4216,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHAINMAIL_BOOTS: Item = Item {
-        id: 965,
+    pub const CHAINMAIL_BOOTS: Self = Self {
+        id: 966,
         registry_key: "chainmail_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4259,10 +4266,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 12 }),
         ],
     };
-    pub const CHAINMAIL_CHESTPLATE: Item = Item {
-        id: 963,
+    pub const CHAINMAIL_CHESTPLATE: Self = Self {
+        id: 964,
         registry_key: "chainmail_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4311,10 +4319,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 12 }),
         ],
     };
-    pub const CHAINMAIL_HELMET: Item = Item {
-        id: 962,
+    pub const CHAINMAIL_HELMET: Self = Self {
+        id: 963,
         registry_key: "chainmail_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4363,10 +4372,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 12 }),
         ],
     };
-    pub const CHAINMAIL_LEGGINGS: Item = Item {
-        id: 964,
+    pub const CHAINMAIL_LEGGINGS: Self = Self {
+        id: 965,
         registry_key: "chainmail_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4415,10 +4425,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 12 }),
         ],
     };
-    pub const CHARCOAL: Item = Item {
-        id: 897,
+    pub const CHARCOAL: Self = Self {
+        id: 898,
         registry_key: "charcoal",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4436,8 +4447,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_BOAT: Item = Item {
-        id: 873,
+    pub const CHERRY_BOAT: Self = Self {
+        id: 874,
         registry_key: "cherry_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4455,8 +4466,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_BUTTON: Item = Item {
-        id: 756,
+    pub const CHERRY_BUTTON: Self = Self {
+        id: 757,
         registry_key: "cherry_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4474,8 +4485,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_CHEST_BOAT: Item = Item {
-        id: 874,
+    pub const CHERRY_CHEST_BOAT: Self = Self {
+        id: 875,
         registry_key: "cherry_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4493,8 +4504,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_DOOR: Item = Item {
-        id: 785,
+    pub const CHERRY_DOOR: Self = Self {
+        id: 786,
         registry_key: "cherry_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4512,8 +4523,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_FENCE: Item = Item {
-        id: 349,
+    pub const CHERRY_FENCE: Self = Self {
+        id: 350,
         registry_key: "cherry_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4531,8 +4542,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_FENCE_GATE: Item = Item {
-        id: 826,
+    pub const CHERRY_FENCE_GATE: Self = Self {
+        id: 827,
         registry_key: "cherry_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4550,8 +4561,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_HANGING_SIGN: Item = Item {
-        id: 1005,
+    pub const CHERRY_HANGING_SIGN: Self = Self {
+        id: 1006,
         registry_key: "cherry_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -4569,7 +4580,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_LEAVES: Item = Item {
+    pub const CHERRY_LEAVES: Self = Self {
         id: 187,
         registry_key: "cherry_leaves",
         components: &[
@@ -4588,7 +4599,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_LOG: Item = Item {
+    pub const CHERRY_LOG: Self = Self {
         id: 139,
         registry_key: "cherry_log",
         components: &[
@@ -4607,7 +4618,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_PLANKS: Item = Item {
+    pub const CHERRY_PLANKS: Self = Self {
         id: 41,
         registry_key: "cherry_planks",
         components: &[
@@ -4626,8 +4637,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_PRESSURE_PLATE: Item = Item {
-        id: 772,
+    pub const CHERRY_PRESSURE_PLATE: Self = Self {
+        id: 773,
         registry_key: "cherry_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4645,7 +4656,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_SAPLING: Item = Item {
+    pub const CHERRY_SAPLING: Self = Self {
         id: 54,
         registry_key: "cherry_sapling",
         components: &[
@@ -4664,8 +4675,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_SHELF: Item = Item {
-        id: 308,
+    pub const CHERRY_SHELF: Self = Self {
+        id: 309,
         registry_key: "cherry_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4683,8 +4694,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_SIGN: Item = Item {
-        id: 993,
+    pub const CHERRY_SIGN: Self = Self {
+        id: 994,
         registry_key: "cherry_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -4702,8 +4713,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_SLAB: Item = Item {
-        id: 275,
+    pub const CHERRY_SLAB: Self = Self {
+        id: 276,
         registry_key: "cherry_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4721,8 +4732,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_STAIRS: Item = Item {
-        id: 446,
+    pub const CHERRY_STAIRS: Self = Self {
+        id: 447,
         registry_key: "cherry_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4740,8 +4751,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_TRAPDOOR: Item = Item {
-        id: 806,
+    pub const CHERRY_TRAPDOOR: Self = Self {
+        id: 807,
         registry_key: "cherry_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4759,7 +4770,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHERRY_WOOD: Item = Item {
+    pub const CHERRY_WOOD: Self = Self {
         id: 176,
         registry_key: "cherry_wood",
         components: &[
@@ -4778,8 +4789,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHEST: Item = Item {
-        id: 331,
+    pub const CHEST: Self = Self {
+        id: 332,
         registry_key: "chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4797,8 +4808,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHEST_MINECART: Item = Item {
-        id: 855,
+    pub const CHEST_MINECART: Self = Self {
+        id: 856,
         registry_key: "chest_minecart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -4816,8 +4827,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHICKEN: Item = Item {
-        id: 1112,
+    pub const CHICKEN: Self = Self {
+        id: 1113,
         registry_key: "chicken",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4863,8 +4874,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHICKEN_SPAWN_EGG: Item = Item {
-        id: 1130,
+    pub const CHICKEN_SPAWN_EGG: Self = Self {
+        id: 1131,
         registry_key: "chicken_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4882,8 +4893,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHIPPED_ANVIL: Item = Item {
-        id: 479,
+    pub const CHIPPED_ANVIL: Self = Self {
+        id: 480,
         registry_key: "chipped_anvil",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4901,8 +4912,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_BOOKSHELF: Item = Item {
-        id: 318,
+    pub const CHISELED_BOOKSHELF: Self = Self {
+        id: 319,
         registry_key: "chiseled_bookshelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4920,7 +4931,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_COPPER: Item = Item {
+    pub const CHISELED_COPPER: Self = Self {
         id: 98,
         registry_key: "chiseled_copper",
         components: &[
@@ -4939,8 +4950,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_DEEPSLATE: Item = Item {
-        id: 385,
+    pub const CHISELED_DEEPSLATE: Self = Self {
+        id: 386,
         registry_key: "chiseled_deepslate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4958,8 +4969,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_NETHER_BRICKS: Item = Item {
-        id: 426,
+    pub const CHISELED_NETHER_BRICKS: Self = Self {
+        id: 427,
         registry_key: "chiseled_nether_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4977,8 +4988,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_POLISHED_BLACKSTONE: Item = Item {
-        id: 1392,
+    pub const CHISELED_POLISHED_BLACKSTONE: Self = Self {
+        id: 1393,
         registry_key: "chiseled_polished_blackstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -4996,8 +5007,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_QUARTZ_BLOCK: Item = Item {
-        id: 481,
+    pub const CHISELED_QUARTZ_BLOCK: Self = Self {
+        id: 482,
         registry_key: "chiseled_quartz_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5015,8 +5026,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_RED_SANDSTONE: Item = Item {
-        id: 570,
+    pub const CHISELED_RED_SANDSTONE: Self = Self {
+        id: 571,
         registry_key: "chiseled_red_sandstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5034,8 +5045,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_RESIN_BRICKS: Item = Item {
-        id: 418,
+    pub const CHISELED_RESIN_BRICKS: Self = Self {
+        id: 419,
         registry_key: "chiseled_resin_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5053,7 +5064,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_SANDSTONE: Item = Item {
+    pub const CHISELED_SANDSTONE: Self = Self {
         id: 199,
         registry_key: "chiseled_sandstone",
         components: &[
@@ -5072,8 +5083,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_STONE_BRICKS: Item = Item {
-        id: 378,
+    pub const CHISELED_STONE_BRICKS: Self = Self {
+        id: 379,
         registry_key: "chiseled_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5091,7 +5102,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_TUFF: Item = Item {
+    pub const CHISELED_TUFF: Self = Self {
         id: 16,
         registry_key: "chiseled_tuff",
         components: &[
@@ -5110,7 +5121,7 @@ impl Item {
             ),
         ],
     };
-    pub const CHISELED_TUFF_BRICKS: Item = Item {
+    pub const CHISELED_TUFF_BRICKS: Self = Self {
         id: 25,
         registry_key: "chiseled_tuff_bricks",
         components: &[
@@ -5129,8 +5140,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHORUS_FLOWER: Item = Item {
-        id: 325,
+    pub const CHORUS_FLOWER: Self = Self {
+        id: 326,
         registry_key: "chorus_flower",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5148,8 +5159,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHORUS_FRUIT: Item = Item {
-        id: 1283,
+    pub const CHORUS_FRUIT: Self = Self {
+        id: 1284,
         registry_key: "chorus_fruit",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5185,8 +5196,8 @@ impl Item {
             ),
         ],
     };
-    pub const CHORUS_PLANT: Item = Item {
-        id: 324,
+    pub const CHORUS_PLANT: Self = Self {
+        id: 325,
         registry_key: "chorus_plant",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5204,8 +5215,8 @@ impl Item {
             ),
         ],
     };
-    pub const CLAY: Item = Item {
-        id: 342,
+    pub const CLAY: Self = Self {
+        id: 343,
         registry_key: "clay",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5223,8 +5234,8 @@ impl Item {
             ),
         ],
     };
-    pub const CLAY_BALL: Item = Item {
-        id: 1026,
+    pub const CLAY_BALL: Self = Self {
+        id: 1027,
         registry_key: "clay_ball",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5242,8 +5253,8 @@ impl Item {
             ),
         ],
     };
-    pub const CLOCK: Item = Item {
-        id: 1054,
+    pub const CLOCK: Self = Self {
+        id: 1055,
         registry_key: "clock",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5261,8 +5272,8 @@ impl Item {
             ),
         ],
     };
-    pub const CLOSED_EYEBLOSSOM: Item = Item {
-        id: 231,
+    pub const CLOSED_EYEBLOSSOM: Self = Self {
+        id: 232,
         registry_key: "closed_eyeblossom",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5280,8 +5291,8 @@ impl Item {
             ),
         ],
     };
-    pub const COAL: Item = Item {
-        id: 896,
+    pub const COAL: Self = Self {
+        id: 897,
         registry_key: "coal",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5299,7 +5310,7 @@ impl Item {
             ),
         ],
     };
-    pub const COAL_BLOCK: Item = Item {
+    pub const COAL_BLOCK: Self = Self {
         id: 83,
         registry_key: "coal_block",
         components: &[
@@ -5318,7 +5329,7 @@ impl Item {
             ),
         ],
     };
-    pub const COAL_ORE: Item = Item {
+    pub const COAL_ORE: Self = Self {
         id: 64,
         registry_key: "coal_ore",
         components: &[
@@ -5337,7 +5348,7 @@ impl Item {
             ),
         ],
     };
-    pub const COARSE_DIRT: Item = Item {
+    pub const COARSE_DIRT: Self = Self {
         id: 29,
         registry_key: "coarse_dirt",
         components: &[
@@ -5356,8 +5367,8 @@ impl Item {
             ),
         ],
     };
-    pub const COAST_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1429,
+    pub const COAST_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1430,
         registry_key: "coast_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5375,7 +5386,7 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLED_DEEPSLATE: Item = Item {
+    pub const COBBLED_DEEPSLATE: Self = Self {
         id: 9,
         registry_key: "cobbled_deepslate",
         components: &[
@@ -5394,8 +5405,8 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLED_DEEPSLATE_SLAB: Item = Item {
-        id: 712,
+    pub const COBBLED_DEEPSLATE_SLAB: Self = Self {
+        id: 713,
         registry_key: "cobbled_deepslate_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5413,8 +5424,8 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLED_DEEPSLATE_STAIRS: Item = Item {
-        id: 695,
+    pub const COBBLED_DEEPSLATE_STAIRS: Self = Self {
+        id: 696,
         registry_key: "cobbled_deepslate_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5432,8 +5443,8 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLED_DEEPSLATE_WALL: Item = Item {
-        id: 474,
+    pub const COBBLED_DEEPSLATE_WALL: Self = Self {
+        id: 475,
         registry_key: "cobbled_deepslate_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5451,7 +5462,7 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLESTONE: Item = Item {
+    pub const COBBLESTONE: Self = Self {
         id: 35,
         registry_key: "cobblestone",
         components: &[
@@ -5470,8 +5481,8 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLESTONE_SLAB: Item = Item {
-        id: 288,
+    pub const COBBLESTONE_SLAB: Self = Self {
+        id: 289,
         registry_key: "cobblestone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5489,8 +5500,8 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLESTONE_STAIRS: Item = Item {
-        id: 336,
+    pub const COBBLESTONE_STAIRS: Self = Self {
+        id: 337,
         registry_key: "cobblestone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5508,8 +5519,8 @@ impl Item {
             ),
         ],
     };
-    pub const COBBLESTONE_WALL: Item = Item {
-        id: 456,
+    pub const COBBLESTONE_WALL: Self = Self {
+        id: 457,
         registry_key: "cobblestone_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5527,7 +5538,7 @@ impl Item {
             ),
         ],
     };
-    pub const COBWEB: Item = Item {
+    pub const COBWEB: Self = Self {
         id: 201,
         registry_key: "cobweb",
         components: &[
@@ -5546,8 +5557,8 @@ impl Item {
             ),
         ],
     };
-    pub const COCOA_BEANS: Item = Item {
-        id: 1065,
+    pub const COCOA_BEANS: Self = Self {
+        id: 1066,
         registry_key: "cocoa_beans",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5565,8 +5576,8 @@ impl Item {
             ),
         ],
     };
-    pub const COD: Item = Item {
-        id: 1057,
+    pub const COD: Self = Self {
+        id: 1058,
         registry_key: "cod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5602,8 +5613,8 @@ impl Item {
             ),
         ],
     };
-    pub const COD_BUCKET: Item = Item {
-        id: 1021,
+    pub const COD_BUCKET: Self = Self {
+        id: 1022,
         registry_key: "cod_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -5629,8 +5640,8 @@ impl Item {
             ),
         ],
     };
-    pub const COD_SPAWN_EGG: Item = Item {
-        id: 1152,
+    pub const COD_SPAWN_EGG: Self = Self {
+        id: 1153,
         registry_key: "cod_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5648,8 +5659,8 @@ impl Item {
             ),
         ],
     };
-    pub const COMMAND_BLOCK: Item = Item {
-        id: 454,
+    pub const COMMAND_BLOCK: Self = Self {
+        id: 455,
         registry_key: "command_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5667,8 +5678,8 @@ impl Item {
             ),
         ],
     };
-    pub const COMMAND_BLOCK_MINECART: Item = Item {
-        id: 1263,
+    pub const COMMAND_BLOCK_MINECART: Self = Self {
+        id: 1264,
         registry_key: "command_block_minecart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -5686,8 +5697,8 @@ impl Item {
             ),
         ],
     };
-    pub const COMPARATOR: Item = Item {
-        id: 721,
+    pub const COMPARATOR: Self = Self {
+        id: 722,
         registry_key: "comparator",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5705,8 +5716,8 @@ impl Item {
             ),
         ],
     };
-    pub const COMPASS: Item = Item {
-        id: 1034,
+    pub const COMPASS: Self = Self {
+        id: 1035,
         registry_key: "compass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5724,8 +5735,8 @@ impl Item {
             ),
         ],
     };
-    pub const COMPOSTER: Item = Item {
-        id: 1353,
+    pub const COMPOSTER: Self = Self {
+        id: 1354,
         registry_key: "composter",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5743,8 +5754,8 @@ impl Item {
             ),
         ],
     };
-    pub const CONDUIT: Item = Item {
-        id: 680,
+    pub const CONDUIT: Self = Self {
+        id: 681,
         registry_key: "conduit",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5762,8 +5773,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_BEEF: Item = Item {
-        id: 1111,
+    pub const COOKED_BEEF: Self = Self {
+        id: 1112,
         registry_key: "cooked_beef",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5799,8 +5810,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_CHICKEN: Item = Item {
-        id: 1113,
+    pub const COOKED_CHICKEN: Self = Self {
+        id: 1114,
         registry_key: "cooked_chicken",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5836,8 +5847,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_COD: Item = Item {
-        id: 1061,
+    pub const COOKED_COD: Self = Self {
+        id: 1062,
         registry_key: "cooked_cod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5873,8 +5884,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_MUTTON: Item = Item {
-        id: 1265,
+    pub const COOKED_MUTTON: Self = Self {
+        id: 1266,
         registry_key: "cooked_mutton",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5910,8 +5921,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_PORKCHOP: Item = Item {
-        id: 984,
+    pub const COOKED_PORKCHOP: Self = Self {
+        id: 985,
         registry_key: "cooked_porkchop",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5947,8 +5958,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_RABBIT: Item = Item {
-        id: 1250,
+    pub const COOKED_RABBIT: Self = Self {
+        id: 1251,
         registry_key: "cooked_rabbit",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -5984,8 +5995,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKED_SALMON: Item = Item {
-        id: 1062,
+    pub const COOKED_SALMON: Self = Self {
+        id: 1063,
         registry_key: "cooked_salmon",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6021,8 +6032,8 @@ impl Item {
             ),
         ],
     };
-    pub const COOKIE: Item = Item {
-        id: 1102,
+    pub const COOKIE: Self = Self {
+        id: 1103,
         registry_key: "cookie",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6058,8 +6069,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_AXE: Item = Item {
-        id: 919,
+    pub const COPPER_AXE: Self = Self {
+        id: 920,
         registry_key: "copper_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6118,10 +6129,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 13 }),
         ],
     };
-    pub const COPPER_BARS: Item = Item {
-        id: 391,
+    pub const COPPER_BARS: Self = Self {
+        id: 392,
         registry_key: "copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6139,7 +6151,7 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_BLOCK: Item = Item {
+    pub const COPPER_BLOCK: Self = Self {
         id: 91,
         registry_key: "copper_block",
         components: &[
@@ -6158,8 +6170,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_BOOTS: Item = Item {
-        id: 961,
+    pub const COPPER_BOOTS: Self = Self {
+        id: 962,
         registry_key: "copper_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6208,10 +6220,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 8 }),
         ],
     };
-    pub const COPPER_BULB: Item = Item {
-        id: 1476,
+    pub const COPPER_BULB: Self = Self {
+        id: 1477,
         registry_key: "copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6229,8 +6242,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_CHAIN: Item = Item {
-        id: 400,
+    pub const COPPER_CHAIN: Self = Self {
+        id: 401,
         registry_key: "copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6248,8 +6261,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_CHEST: Item = Item {
-        id: 1484,
+    pub const COPPER_CHEST: Self = Self {
+        id: 1485,
         registry_key: "copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6267,8 +6280,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_CHESTPLATE: Item = Item {
-        id: 959,
+    pub const COPPER_CHESTPLATE: Self = Self {
+        id: 960,
         registry_key: "copper_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6317,10 +6330,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 8 }),
         ],
     };
-    pub const COPPER_DOOR: Item = Item {
-        id: 792,
+    pub const COPPER_DOOR: Self = Self {
+        id: 793,
         registry_key: "copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6338,8 +6352,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_GOLEM_SPAWN_EGG: Item = Item {
-        id: 1166,
+    pub const COPPER_GOLEM_SPAWN_EGG: Self = Self {
+        id: 1167,
         registry_key: "copper_golem_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6357,8 +6371,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_GOLEM_STATUE: Item = Item {
-        id: 1492,
+    pub const COPPER_GOLEM_STATUE: Self = Self {
+        id: 1493,
         registry_key: "copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6376,8 +6390,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_GRATE: Item = Item {
-        id: 1468,
+    pub const COPPER_GRATE: Self = Self {
+        id: 1469,
         registry_key: "copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6395,8 +6409,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_HELMET: Item = Item {
-        id: 958,
+    pub const COPPER_HELMET: Self = Self {
+        id: 959,
         registry_key: "copper_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6445,10 +6459,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 8 }),
         ],
     };
-    pub const COPPER_HOE: Item = Item {
-        id: 920,
+    pub const COPPER_HOE: Self = Self {
+        id: 921,
         registry_key: "copper_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6507,10 +6522,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 13 }),
         ],
     };
-    pub const COPPER_HORSE_ARMOR: Item = Item {
-        id: 1255,
+    pub const COPPER_HORSE_ARMOR: Self = Self {
+        id: 1256,
         registry_key: "copper_horse_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6559,8 +6575,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_INGOT: Item = Item {
-        id: 906,
+    pub const COPPER_INGOT: Self = Self {
+        id: 907,
         registry_key: "copper_ingot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6578,8 +6594,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_LANTERN: Item = Item {
-        id: 1365,
+    pub const COPPER_LANTERN: Self = Self {
+        id: 1366,
         registry_key: "copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6597,8 +6613,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_LEGGINGS: Item = Item {
-        id: 960,
+    pub const COPPER_LEGGINGS: Self = Self {
+        id: 961,
         registry_key: "copper_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6647,10 +6663,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 8 }),
         ],
     };
-    pub const COPPER_NAUTILUS_ARMOR: Item = Item {
-        id: 1337,
+    pub const COPPER_NAUTILUS_ARMOR: Self = Self {
+        id: 1338,
         registry_key: "copper_nautilus_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6699,8 +6716,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_NUGGET: Item = Item {
-        id: 1306,
+    pub const COPPER_NUGGET: Self = Self {
+        id: 1307,
         registry_key: "copper_nugget",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6718,7 +6735,7 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_ORE: Item = Item {
+    pub const COPPER_ORE: Self = Self {
         id: 68,
         registry_key: "copper_ore",
         components: &[
@@ -6737,8 +6754,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_PICKAXE: Item = Item {
-        id: 918,
+    pub const COPPER_PICKAXE: Self = Self {
+        id: 919,
         registry_key: "copper_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6797,10 +6814,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 13 }),
         ],
     };
-    pub const COPPER_SHOVEL: Item = Item {
-        id: 917,
+    pub const COPPER_SHOVEL: Self = Self {
+        id: 918,
         registry_key: "copper_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6859,10 +6877,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 13 }),
         ],
     };
-    pub const COPPER_SPEAR: Item = Item {
-        id: 1298,
+    pub const COPPER_SPEAR: Self = Self {
+        id: 1299,
         registry_key: "copper_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6901,10 +6920,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 13 }),
         ],
     };
-    pub const COPPER_SWORD: Item = Item {
-        id: 916,
+    pub const COPPER_SWORD: Self = Self {
+        id: 917,
         registry_key: "copper_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -6968,10 +6988,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 13 }),
         ],
     };
-    pub const COPPER_TORCH: Item = Item {
-        id: 366,
+    pub const COPPER_TORCH: Self = Self {
+        id: 367,
         registry_key: "copper_torch",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -6989,8 +7010,8 @@ impl Item {
             ),
         ],
     };
-    pub const COPPER_TRAPDOOR: Item = Item {
-        id: 813,
+    pub const COPPER_TRAPDOOR: Self = Self {
+        id: 814,
         registry_key: "copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7008,8 +7029,8 @@ impl Item {
             ),
         ],
     };
-    pub const CORNFLOWER: Item = Item {
-        id: 241,
+    pub const CORNFLOWER: Self = Self {
+        id: 242,
         registry_key: "cornflower",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7027,8 +7048,8 @@ impl Item {
             ),
         ],
     };
-    pub const COW_SPAWN_EGG: Item = Item {
-        id: 1131,
+    pub const COW_SPAWN_EGG: Self = Self {
+        id: 1132,
         registry_key: "cow_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7046,8 +7067,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRACKED_DEEPSLATE_BRICKS: Item = Item {
-        id: 382,
+    pub const CRACKED_DEEPSLATE_BRICKS: Self = Self {
+        id: 383,
         registry_key: "cracked_deepslate_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7065,8 +7086,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRACKED_DEEPSLATE_TILES: Item = Item {
-        id: 384,
+    pub const CRACKED_DEEPSLATE_TILES: Self = Self {
+        id: 385,
         registry_key: "cracked_deepslate_tiles",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7084,8 +7105,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRACKED_NETHER_BRICKS: Item = Item {
-        id: 425,
+    pub const CRACKED_NETHER_BRICKS: Self = Self {
+        id: 426,
         registry_key: "cracked_nether_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7103,8 +7124,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRACKED_POLISHED_BLACKSTONE_BRICKS: Item = Item {
-        id: 1396,
+    pub const CRACKED_POLISHED_BLACKSTONE_BRICKS: Self = Self {
+        id: 1397,
         registry_key: "cracked_polished_blackstone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7122,8 +7143,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRACKED_STONE_BRICKS: Item = Item {
-        id: 377,
+    pub const CRACKED_STONE_BRICKS: Self = Self {
+        id: 378,
         registry_key: "cracked_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7141,8 +7162,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRAFTER: Item = Item {
-        id: 1103,
+    pub const CRAFTER: Self = Self {
+        id: 1104,
         registry_key: "crafter",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7160,8 +7181,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRAFTING_TABLE: Item = Item {
-        id: 332,
+    pub const CRAFTING_TABLE: Self = Self {
+        id: 333,
         registry_key: "crafting_table",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7179,8 +7200,8 @@ impl Item {
             ),
         ],
     };
-    pub const CREAKING_HEART: Item = Item {
-        id: 330,
+    pub const CREAKING_HEART: Self = Self {
+        id: 331,
         registry_key: "creaking_heart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7198,8 +7219,8 @@ impl Item {
             ),
         ],
     };
-    pub const CREAKING_SPAWN_EGG: Item = Item {
-        id: 1189,
+    pub const CREAKING_SPAWN_EGG: Self = Self {
+        id: 1190,
         registry_key: "creaking_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7217,8 +7238,8 @@ impl Item {
             ),
         ],
     };
-    pub const CREEPER_BANNER_PATTERN: Item = Item {
-        id: 1343,
+    pub const CREEPER_BANNER_PATTERN: Self = Self {
+        id: 1344,
         registry_key: "creeper_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -7236,8 +7257,8 @@ impl Item {
             ),
         ],
     };
-    pub const CREEPER_HEAD: Item = Item {
-        id: 1237,
+    pub const CREEPER_HEAD: Self = Self {
+        id: 1238,
         registry_key: "creeper_head",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7277,8 +7298,8 @@ impl Item {
             ),
         ],
     };
-    pub const CREEPER_SPAWN_EGG: Item = Item {
-        id: 1190,
+    pub const CREEPER_SPAWN_EGG: Self = Self {
+        id: 1191,
         registry_key: "creeper_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7296,8 +7317,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_BUTTON: Item = Item {
-        id: 761,
+    pub const CRIMSON_BUTTON: Self = Self {
+        id: 762,
         registry_key: "crimson_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7315,8 +7336,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_DOOR: Item = Item {
-        id: 790,
+    pub const CRIMSON_DOOR: Self = Self {
+        id: 791,
         registry_key: "crimson_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7334,8 +7355,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_FENCE: Item = Item {
-        id: 354,
+    pub const CRIMSON_FENCE: Self = Self {
+        id: 355,
         registry_key: "crimson_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7353,8 +7374,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_FENCE_GATE: Item = Item {
-        id: 831,
+    pub const CRIMSON_FENCE_GATE: Self = Self {
+        id: 832,
         registry_key: "crimson_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7372,8 +7393,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_FUNGUS: Item = Item {
-        id: 249,
+    pub const CRIMSON_FUNGUS: Self = Self {
+        id: 250,
         registry_key: "crimson_fungus",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7391,8 +7412,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_HANGING_SIGN: Item = Item {
-        id: 1010,
+    pub const CRIMSON_HANGING_SIGN: Self = Self {
+        id: 1011,
         registry_key: "crimson_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -7410,7 +7431,7 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_HYPHAE: Item = Item {
+    pub const CRIMSON_HYPHAE: Self = Self {
         id: 180,
         registry_key: "crimson_hyphae",
         components: &[
@@ -7429,7 +7450,7 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_NYLIUM: Item = Item {
+    pub const CRIMSON_NYLIUM: Self = Self {
         id: 33,
         registry_key: "crimson_nylium",
         components: &[
@@ -7448,7 +7469,7 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_PLANKS: Item = Item {
+    pub const CRIMSON_PLANKS: Self = Self {
         id: 46,
         registry_key: "crimson_planks",
         components: &[
@@ -7467,8 +7488,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_PRESSURE_PLATE: Item = Item {
-        id: 777,
+    pub const CRIMSON_PRESSURE_PLATE: Self = Self {
+        id: 778,
         registry_key: "crimson_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7486,8 +7507,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_ROOTS: Item = Item {
-        id: 251,
+    pub const CRIMSON_ROOTS: Self = Self {
+        id: 252,
         registry_key: "crimson_roots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7505,8 +7526,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_SHELF: Item = Item {
-        id: 309,
+    pub const CRIMSON_SHELF: Self = Self {
+        id: 310,
         registry_key: "crimson_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7524,8 +7545,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_SIGN: Item = Item {
-        id: 998,
+    pub const CRIMSON_SIGN: Self = Self {
+        id: 999,
         registry_key: "crimson_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -7543,8 +7564,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_SLAB: Item = Item {
-        id: 281,
+    pub const CRIMSON_SLAB: Self = Self {
+        id: 282,
         registry_key: "crimson_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7562,8 +7583,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_STAIRS: Item = Item {
-        id: 452,
+    pub const CRIMSON_STAIRS: Self = Self {
+        id: 453,
         registry_key: "crimson_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7581,7 +7602,7 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_STEM: Item = Item {
+    pub const CRIMSON_STEM: Self = Self {
         id: 145,
         registry_key: "crimson_stem",
         components: &[
@@ -7600,8 +7621,8 @@ impl Item {
             ),
         ],
     };
-    pub const CRIMSON_TRAPDOOR: Item = Item {
-        id: 811,
+    pub const CRIMSON_TRAPDOOR: Self = Self {
+        id: 812,
         registry_key: "crimson_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7619,8 +7640,8 @@ impl Item {
             ),
         ],
     };
-    pub const CROSSBOW: Item = Item {
-        id: 1339,
+    pub const CROSSBOW: Self = Self {
+        id: 1340,
         registry_key: "crossbow",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -7638,10 +7659,11 @@ impl Item {
                     attribute_modifiers: Cow::Borrowed(&[]),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 1 }),
         ],
     };
-    pub const CRYING_OBSIDIAN: Item = Item {
-        id: 1384,
+    pub const CRYING_OBSIDIAN: Self = Self {
+        id: 1385,
         registry_key: "crying_obsidian",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7659,7 +7681,7 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_COPPER: Item = Item {
+    pub const CUT_COPPER: Self = Self {
         id: 102,
         registry_key: "cut_copper",
         components: &[
@@ -7678,7 +7700,7 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_COPPER_SLAB: Item = Item {
+    pub const CUT_COPPER_SLAB: Self = Self {
         id: 110,
         registry_key: "cut_copper_slab",
         components: &[
@@ -7697,7 +7719,7 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_COPPER_STAIRS: Item = Item {
+    pub const CUT_COPPER_STAIRS: Self = Self {
         id: 106,
         registry_key: "cut_copper_stairs",
         components: &[
@@ -7716,8 +7738,8 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_RED_SANDSTONE: Item = Item {
-        id: 571,
+    pub const CUT_RED_SANDSTONE: Self = Self {
+        id: 572,
         registry_key: "cut_red_sandstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7735,8 +7757,8 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_RED_SANDSTONE_SLAB: Item = Item {
-        id: 295,
+    pub const CUT_RED_SANDSTONE_SLAB: Self = Self {
+        id: 296,
         registry_key: "cut_red_sandstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7754,7 +7776,7 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_SANDSTONE: Item = Item {
+    pub const CUT_SANDSTONE: Self = Self {
         id: 200,
         registry_key: "cut_sandstone",
         components: &[
@@ -7773,8 +7795,8 @@ impl Item {
             ),
         ],
     };
-    pub const CUT_SANDSTONE_SLAB: Item = Item {
-        id: 286,
+    pub const CUT_SANDSTONE_SLAB: Self = Self {
+        id: 287,
         registry_key: "cut_sandstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7792,8 +7814,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_BANNER: Item = Item {
-        id: 1275,
+    pub const CYAN_BANNER: Self = Self {
+        id: 1276,
         registry_key: "cyan_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -7811,8 +7833,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_BED: Item = Item {
-        id: 1095,
+    pub const CYAN_BED: Self = Self {
+        id: 1096,
         registry_key: "cyan_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -7830,8 +7852,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_BUNDLE: Item = Item {
-        id: 1046,
+    pub const CYAN_BUNDLE: Self = Self {
+        id: 1047,
         registry_key: "cyan_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -7849,8 +7871,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_CANDLE: Item = Item {
-        id: 1408,
+    pub const CYAN_CANDLE: Self = Self {
+        id: 1409,
         registry_key: "cyan_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7868,8 +7890,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_CARPET: Item = Item {
-        id: 514,
+    pub const CYAN_CARPET: Self = Self {
+        id: 515,
         registry_key: "cyan_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7906,8 +7928,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_CONCRETE: Item = Item {
-        id: 623,
+    pub const CYAN_CONCRETE: Self = Self {
+        id: 624,
         registry_key: "cyan_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7925,8 +7947,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_CONCRETE_POWDER: Item = Item {
-        id: 639,
+    pub const CYAN_CONCRETE_POWDER: Self = Self {
+        id: 640,
         registry_key: "cyan_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7944,8 +7966,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_DYE: Item = Item {
-        id: 1075,
+    pub const CYAN_DYE: Self = Self {
+        id: 1076,
         registry_key: "cyan_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7963,8 +7985,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_GLAZED_TERRACOTTA: Item = Item {
-        id: 607,
+    pub const CYAN_GLAZED_TERRACOTTA: Self = Self {
+        id: 608,
         registry_key: "cyan_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -7982,8 +8004,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_HARNESS: Item = Item {
-        id: 847,
+    pub const CYAN_HARNESS: Self = Self {
+        id: 848,
         registry_key: "cyan_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -8017,8 +8039,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_SHULKER_BOX: Item = Item {
-        id: 591,
+    pub const CYAN_SHULKER_BOX: Self = Self {
+        id: 592,
         registry_key: "cyan_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -8036,8 +8058,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_STAINED_GLASS: Item = Item {
-        id: 539,
+    pub const CYAN_STAINED_GLASS: Self = Self {
+        id: 540,
         registry_key: "cyan_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8055,8 +8077,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_STAINED_GLASS_PANE: Item = Item {
-        id: 555,
+    pub const CYAN_STAINED_GLASS_PANE: Self = Self {
+        id: 556,
         registry_key: "cyan_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8074,8 +8096,8 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_TERRACOTTA: Item = Item {
-        id: 495,
+    pub const CYAN_TERRACOTTA: Self = Self {
+        id: 496,
         registry_key: "cyan_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8093,7 +8115,7 @@ impl Item {
             ),
         ],
     };
-    pub const CYAN_WOOL: Item = Item {
+    pub const CYAN_WOOL: Self = Self {
         id: 222,
         registry_key: "cyan_wool",
         components: &[
@@ -8112,8 +8134,8 @@ impl Item {
             ),
         ],
     };
-    pub const DAMAGED_ANVIL: Item = Item {
-        id: 480,
+    pub const DAMAGED_ANVIL: Self = Self {
+        id: 481,
         registry_key: "damaged_anvil",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8131,7 +8153,7 @@ impl Item {
             ),
         ],
     };
-    pub const DANDELION: Item = Item {
+    pub const DANDELION: Self = Self {
         id: 229,
         registry_key: "dandelion",
         components: &[
@@ -8150,8 +8172,8 @@ impl Item {
             ),
         ],
     };
-    pub const DANGER_POTTERY_SHERD: Item = Item {
-        id: 1451,
+    pub const DANGER_POTTERY_SHERD: Self = Self {
+        id: 1452,
         registry_key: "danger_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8169,8 +8191,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_BOAT: Item = Item {
-        id: 875,
+    pub const DARK_OAK_BOAT: Self = Self {
+        id: 876,
         registry_key: "dark_oak_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -8188,8 +8210,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_BUTTON: Item = Item {
-        id: 757,
+    pub const DARK_OAK_BUTTON: Self = Self {
+        id: 758,
         registry_key: "dark_oak_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8207,8 +8229,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_CHEST_BOAT: Item = Item {
-        id: 876,
+    pub const DARK_OAK_CHEST_BOAT: Self = Self {
+        id: 877,
         registry_key: "dark_oak_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -8226,8 +8248,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_DOOR: Item = Item {
-        id: 786,
+    pub const DARK_OAK_DOOR: Self = Self {
+        id: 787,
         registry_key: "dark_oak_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8245,8 +8267,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_FENCE: Item = Item {
-        id: 350,
+    pub const DARK_OAK_FENCE: Self = Self {
+        id: 351,
         registry_key: "dark_oak_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8264,8 +8286,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_FENCE_GATE: Item = Item {
-        id: 827,
+    pub const DARK_OAK_FENCE_GATE: Self = Self {
+        id: 828,
         registry_key: "dark_oak_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8283,8 +8305,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_HANGING_SIGN: Item = Item {
-        id: 1006,
+    pub const DARK_OAK_HANGING_SIGN: Self = Self {
+        id: 1007,
         registry_key: "dark_oak_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -8302,7 +8324,7 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_LEAVES: Item = Item {
+    pub const DARK_OAK_LEAVES: Self = Self {
         id: 188,
         registry_key: "dark_oak_leaves",
         components: &[
@@ -8321,7 +8343,7 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_LOG: Item = Item {
+    pub const DARK_OAK_LOG: Self = Self {
         id: 141,
         registry_key: "dark_oak_log",
         components: &[
@@ -8340,7 +8362,7 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_PLANKS: Item = Item {
+    pub const DARK_OAK_PLANKS: Self = Self {
         id: 42,
         registry_key: "dark_oak_planks",
         components: &[
@@ -8359,8 +8381,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_PRESSURE_PLATE: Item = Item {
-        id: 773,
+    pub const DARK_OAK_PRESSURE_PLATE: Self = Self {
+        id: 774,
         registry_key: "dark_oak_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8378,7 +8400,7 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_SAPLING: Item = Item {
+    pub const DARK_OAK_SAPLING: Self = Self {
         id: 55,
         registry_key: "dark_oak_sapling",
         components: &[
@@ -8397,8 +8419,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_SHELF: Item = Item {
-        id: 310,
+    pub const DARK_OAK_SHELF: Self = Self {
+        id: 311,
         registry_key: "dark_oak_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8416,8 +8438,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_SIGN: Item = Item {
-        id: 994,
+    pub const DARK_OAK_SIGN: Self = Self {
+        id: 995,
         registry_key: "dark_oak_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -8435,8 +8457,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_SLAB: Item = Item {
-        id: 276,
+    pub const DARK_OAK_SLAB: Self = Self {
+        id: 277,
         registry_key: "dark_oak_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8454,8 +8476,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_STAIRS: Item = Item {
-        id: 447,
+    pub const DARK_OAK_STAIRS: Self = Self {
+        id: 448,
         registry_key: "dark_oak_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8473,8 +8495,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_TRAPDOOR: Item = Item {
-        id: 807,
+    pub const DARK_OAK_TRAPDOOR: Self = Self {
+        id: 808,
         registry_key: "dark_oak_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8492,7 +8514,7 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_OAK_WOOD: Item = Item {
+    pub const DARK_OAK_WOOD: Self = Self {
         id: 178,
         registry_key: "dark_oak_wood",
         components: &[
@@ -8511,8 +8533,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_PRISMARINE: Item = Item {
-        id: 564,
+    pub const DARK_PRISMARINE: Self = Self {
+        id: 565,
         registry_key: "dark_prismarine",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8530,8 +8552,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_PRISMARINE_SLAB: Item = Item {
-        id: 299,
+    pub const DARK_PRISMARINE_SLAB: Self = Self {
+        id: 300,
         registry_key: "dark_prismarine_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8549,8 +8571,8 @@ impl Item {
             ),
         ],
     };
-    pub const DARK_PRISMARINE_STAIRS: Item = Item {
-        id: 567,
+    pub const DARK_PRISMARINE_STAIRS: Self = Self {
+        id: 568,
         registry_key: "dark_prismarine_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8568,8 +8590,8 @@ impl Item {
             ),
         ],
     };
-    pub const DAYLIGHT_DETECTOR: Item = Item {
-        id: 741,
+    pub const DAYLIGHT_DETECTOR: Self = Self {
+        id: 742,
         registry_key: "daylight_detector",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8587,8 +8609,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BRAIN_CORAL: Item = Item {
-        id: 664,
+    pub const DEAD_BRAIN_CORAL: Self = Self {
+        id: 665,
         registry_key: "dead_brain_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8606,8 +8628,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BRAIN_CORAL_BLOCK: Item = Item {
-        id: 650,
+    pub const DEAD_BRAIN_CORAL_BLOCK: Self = Self {
+        id: 651,
         registry_key: "dead_brain_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8625,8 +8647,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BRAIN_CORAL_FAN: Item = Item {
-        id: 675,
+    pub const DEAD_BRAIN_CORAL_FAN: Self = Self {
+        id: 676,
         registry_key: "dead_brain_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8644,8 +8666,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BUBBLE_CORAL: Item = Item {
-        id: 665,
+    pub const DEAD_BUBBLE_CORAL: Self = Self {
+        id: 666,
         registry_key: "dead_bubble_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8663,8 +8685,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BUBBLE_CORAL_BLOCK: Item = Item {
-        id: 651,
+    pub const DEAD_BUBBLE_CORAL_BLOCK: Self = Self {
+        id: 652,
         registry_key: "dead_bubble_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8682,8 +8704,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BUBBLE_CORAL_FAN: Item = Item {
-        id: 676,
+    pub const DEAD_BUBBLE_CORAL_FAN: Self = Self {
+        id: 677,
         registry_key: "dead_bubble_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8701,7 +8723,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_BUSH: Item = Item {
+    pub const DEAD_BUSH: Self = Self {
         id: 207,
         registry_key: "dead_bush",
         components: &[
@@ -8720,8 +8742,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_FIRE_CORAL: Item = Item {
-        id: 666,
+    pub const DEAD_FIRE_CORAL: Self = Self {
+        id: 667,
         registry_key: "dead_fire_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8739,8 +8761,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_FIRE_CORAL_BLOCK: Item = Item {
-        id: 652,
+    pub const DEAD_FIRE_CORAL_BLOCK: Self = Self {
+        id: 653,
         registry_key: "dead_fire_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8758,8 +8780,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_FIRE_CORAL_FAN: Item = Item {
-        id: 677,
+    pub const DEAD_FIRE_CORAL_FAN: Self = Self {
+        id: 678,
         registry_key: "dead_fire_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8777,8 +8799,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_HORN_CORAL: Item = Item {
-        id: 667,
+    pub const DEAD_HORN_CORAL: Self = Self {
+        id: 668,
         registry_key: "dead_horn_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8796,8 +8818,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_HORN_CORAL_BLOCK: Item = Item {
-        id: 653,
+    pub const DEAD_HORN_CORAL_BLOCK: Self = Self {
+        id: 654,
         registry_key: "dead_horn_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8815,8 +8837,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_HORN_CORAL_FAN: Item = Item {
-        id: 678,
+    pub const DEAD_HORN_CORAL_FAN: Self = Self {
+        id: 679,
         registry_key: "dead_horn_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8834,8 +8856,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_TUBE_CORAL: Item = Item {
-        id: 668,
+    pub const DEAD_TUBE_CORAL: Self = Self {
+        id: 669,
         registry_key: "dead_tube_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8853,8 +8875,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_TUBE_CORAL_BLOCK: Item = Item {
-        id: 649,
+    pub const DEAD_TUBE_CORAL_BLOCK: Self = Self {
+        id: 650,
         registry_key: "dead_tube_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8872,8 +8894,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEAD_TUBE_CORAL_FAN: Item = Item {
-        id: 674,
+    pub const DEAD_TUBE_CORAL_FAN: Self = Self {
+        id: 675,
         registry_key: "dead_tube_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8891,8 +8913,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEBUG_STICK: Item = Item {
-        id: 1308,
+    pub const DEBUG_STICK: Self = Self {
+        id: 1309,
         registry_key: "debug_stick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -8910,8 +8932,8 @@ impl Item {
             ),
         ],
     };
-    pub const DECORATED_POT: Item = Item {
-        id: 319,
+    pub const DECORATED_POT: Self = Self {
+        id: 320,
         registry_key: "decorated_pot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8929,7 +8951,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE: Item = Item {
+    pub const DEEPSLATE: Self = Self {
         id: 8,
         registry_key: "deepslate",
         components: &[
@@ -8948,8 +8970,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_BRICK_SLAB: Item = Item {
-        id: 714,
+    pub const DEEPSLATE_BRICK_SLAB: Self = Self {
+        id: 715,
         registry_key: "deepslate_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8967,8 +8989,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_BRICK_STAIRS: Item = Item {
-        id: 697,
+    pub const DEEPSLATE_BRICK_STAIRS: Self = Self {
+        id: 698,
         registry_key: "deepslate_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -8986,8 +9008,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_BRICK_WALL: Item = Item {
-        id: 476,
+    pub const DEEPSLATE_BRICK_WALL: Self = Self {
+        id: 477,
         registry_key: "deepslate_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9005,8 +9027,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_BRICKS: Item = Item {
-        id: 381,
+    pub const DEEPSLATE_BRICKS: Self = Self {
+        id: 382,
         registry_key: "deepslate_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9024,7 +9046,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_COAL_ORE: Item = Item {
+    pub const DEEPSLATE_COAL_ORE: Self = Self {
         id: 65,
         registry_key: "deepslate_coal_ore",
         components: &[
@@ -9043,7 +9065,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_COPPER_ORE: Item = Item {
+    pub const DEEPSLATE_COPPER_ORE: Self = Self {
         id: 69,
         registry_key: "deepslate_copper_ore",
         components: &[
@@ -9062,7 +9084,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_DIAMOND_ORE: Item = Item {
+    pub const DEEPSLATE_DIAMOND_ORE: Self = Self {
         id: 79,
         registry_key: "deepslate_diamond_ore",
         components: &[
@@ -9081,7 +9103,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_EMERALD_ORE: Item = Item {
+    pub const DEEPSLATE_EMERALD_ORE: Self = Self {
         id: 75,
         registry_key: "deepslate_emerald_ore",
         components: &[
@@ -9100,7 +9122,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_GOLD_ORE: Item = Item {
+    pub const DEEPSLATE_GOLD_ORE: Self = Self {
         id: 71,
         registry_key: "deepslate_gold_ore",
         components: &[
@@ -9119,7 +9141,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_IRON_ORE: Item = Item {
+    pub const DEEPSLATE_IRON_ORE: Self = Self {
         id: 67,
         registry_key: "deepslate_iron_ore",
         components: &[
@@ -9138,7 +9160,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_LAPIS_ORE: Item = Item {
+    pub const DEEPSLATE_LAPIS_ORE: Self = Self {
         id: 77,
         registry_key: "deepslate_lapis_ore",
         components: &[
@@ -9157,7 +9179,7 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_REDSTONE_ORE: Item = Item {
+    pub const DEEPSLATE_REDSTONE_ORE: Self = Self {
         id: 73,
         registry_key: "deepslate_redstone_ore",
         components: &[
@@ -9176,8 +9198,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_TILE_SLAB: Item = Item {
-        id: 715,
+    pub const DEEPSLATE_TILE_SLAB: Self = Self {
+        id: 716,
         registry_key: "deepslate_tile_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9195,8 +9217,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_TILE_STAIRS: Item = Item {
-        id: 698,
+    pub const DEEPSLATE_TILE_STAIRS: Self = Self {
+        id: 699,
         registry_key: "deepslate_tile_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9214,8 +9236,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_TILE_WALL: Item = Item {
-        id: 477,
+    pub const DEEPSLATE_TILE_WALL: Self = Self {
+        id: 478,
         registry_key: "deepslate_tile_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9233,8 +9255,8 @@ impl Item {
             ),
         ],
     };
-    pub const DEEPSLATE_TILES: Item = Item {
-        id: 383,
+    pub const DEEPSLATE_TILES: Self = Self {
+        id: 384,
         registry_key: "deepslate_tiles",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9252,8 +9274,8 @@ impl Item {
             ),
         ],
     };
-    pub const DETECTOR_RAIL: Item = Item {
-        id: 834,
+    pub const DETECTOR_RAIL: Self = Self {
+        id: 835,
         registry_key: "detector_rail",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9271,8 +9293,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIAMOND: Item = Item {
-        id: 898,
+    pub const DIAMOND: Self = Self {
+        id: 899,
         registry_key: "diamond",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -9290,8 +9312,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIAMOND_AXE: Item = Item {
-        id: 939,
+    pub const DIAMOND_AXE: Self = Self {
+        id: 940,
         registry_key: "diamond_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9350,9 +9372,10 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_BLOCK: Item = Item {
+    pub const DIAMOND_BLOCK: Self = Self {
         id: 93,
         registry_key: "diamond_block",
         components: &[
@@ -9371,8 +9394,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIAMOND_BOOTS: Item = Item {
-        id: 973,
+    pub const DIAMOND_BOOTS: Self = Self {
+        id: 974,
         registry_key: "diamond_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9421,10 +9444,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_CHESTPLATE: Item = Item {
-        id: 971,
+    pub const DIAMOND_CHESTPLATE: Self = Self {
+        id: 972,
         registry_key: "diamond_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9473,10 +9497,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_HELMET: Item = Item {
-        id: 970,
+    pub const DIAMOND_HELMET: Self = Self {
+        id: 971,
         registry_key: "diamond_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9525,10 +9550,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_HOE: Item = Item {
-        id: 940,
+    pub const DIAMOND_HOE: Self = Self {
+        id: 941,
         registry_key: "diamond_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9587,10 +9613,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_HORSE_ARMOR: Item = Item {
-        id: 1258,
+    pub const DIAMOND_HORSE_ARMOR: Self = Self {
+        id: 1259,
         registry_key: "diamond_horse_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9639,8 +9666,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIAMOND_LEGGINGS: Item = Item {
-        id: 972,
+    pub const DIAMOND_LEGGINGS: Self = Self {
+        id: 973,
         registry_key: "diamond_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9689,10 +9716,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_NAUTILUS_ARMOR: Item = Item {
-        id: 1335,
+    pub const DIAMOND_NAUTILUS_ARMOR: Self = Self {
+        id: 1336,
         registry_key: "diamond_nautilus_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9741,7 +9769,7 @@ impl Item {
             ),
         ],
     };
-    pub const DIAMOND_ORE: Item = Item {
+    pub const DIAMOND_ORE: Self = Self {
         id: 78,
         registry_key: "diamond_ore",
         components: &[
@@ -9760,8 +9788,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIAMOND_PICKAXE: Item = Item {
-        id: 938,
+    pub const DIAMOND_PICKAXE: Self = Self {
+        id: 939,
         registry_key: "diamond_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9820,10 +9848,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_SHOVEL: Item = Item {
-        id: 937,
+    pub const DIAMOND_SHOVEL: Self = Self {
+        id: 938,
         registry_key: "diamond_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9882,10 +9911,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_SPEAR: Item = Item {
-        id: 1301,
+    pub const DIAMOND_SPEAR: Self = Self {
+        id: 1302,
         registry_key: "diamond_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9924,10 +9954,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIAMOND_SWORD: Item = Item {
-        id: 936,
+    pub const DIAMOND_SWORD: Self = Self {
+        id: 937,
         registry_key: "diamond_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -9991,9 +10022,10 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 10 }),
         ],
     };
-    pub const DIORITE: Item = Item {
+    pub const DIORITE: Self = Self {
         id: 4,
         registry_key: "diorite",
         components: &[
@@ -10012,8 +10044,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIORITE_SLAB: Item = Item {
-        id: 711,
+    pub const DIORITE_SLAB: Self = Self {
+        id: 712,
         registry_key: "diorite_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10031,8 +10063,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIORITE_STAIRS: Item = Item {
-        id: 694,
+    pub const DIORITE_STAIRS: Self = Self {
+        id: 695,
         registry_key: "diorite_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10050,8 +10082,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIORITE_WALL: Item = Item {
-        id: 470,
+    pub const DIORITE_WALL: Self = Self {
+        id: 471,
         registry_key: "diorite_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10069,7 +10101,7 @@ impl Item {
             ),
         ],
     };
-    pub const DIRT: Item = Item {
+    pub const DIRT: Self = Self {
         id: 28,
         registry_key: "dirt",
         components: &[
@@ -10088,8 +10120,8 @@ impl Item {
             ),
         ],
     };
-    pub const DIRT_PATH: Item = Item {
-        id: 523,
+    pub const DIRT_PATH: Self = Self {
+        id: 524,
         registry_key: "dirt_path",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10107,8 +10139,8 @@ impl Item {
             ),
         ],
     };
-    pub const DISC_FRAGMENT_5: Item = Item {
-        id: 1330,
+    pub const DISC_FRAGMENT_5: Self = Self {
+        id: 1331,
         registry_key: "disc_fragment_5",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10126,8 +10158,8 @@ impl Item {
             ),
         ],
     };
-    pub const DISPENSER: Item = Item {
-        id: 728,
+    pub const DISPENSER: Self = Self {
+        id: 729,
         registry_key: "dispenser",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10145,8 +10177,8 @@ impl Item {
             ),
         ],
     };
-    pub const DOLPHIN_SPAWN_EGG: Item = Item {
-        id: 1153,
+    pub const DOLPHIN_SPAWN_EGG: Self = Self {
+        id: 1154,
         registry_key: "dolphin_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10164,8 +10196,8 @@ impl Item {
             ),
         ],
     };
-    pub const DONKEY_SPAWN_EGG: Item = Item {
-        id: 1135,
+    pub const DONKEY_SPAWN_EGG: Self = Self {
+        id: 1136,
         registry_key: "donkey_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10183,8 +10215,8 @@ impl Item {
             ),
         ],
     };
-    pub const DRAGON_BREATH: Item = Item {
-        id: 1290,
+    pub const DRAGON_BREATH: Self = Self {
+        id: 1291,
         registry_key: "dragon_breath",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10202,8 +10234,8 @@ impl Item {
             ),
         ],
     };
-    pub const DRAGON_EGG: Item = Item {
-        id: 437,
+    pub const DRAGON_EGG: Self = Self {
+        id: 438,
         registry_key: "dragon_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10221,8 +10253,8 @@ impl Item {
             ),
         ],
     };
-    pub const DRAGON_HEAD: Item = Item {
-        id: 1238,
+    pub const DRAGON_HEAD: Self = Self {
+        id: 1239,
         registry_key: "dragon_head",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10262,8 +10294,8 @@ impl Item {
             ),
         ],
     };
-    pub const DRIED_GHAST: Item = Item {
-        id: 648,
+    pub const DRIED_GHAST: Self = Self {
+        id: 649,
         registry_key: "dried_ghast",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10281,8 +10313,8 @@ impl Item {
             ),
         ],
     };
-    pub const DRIED_KELP: Item = Item {
-        id: 1107,
+    pub const DRIED_KELP: Self = Self {
+        id: 1108,
         registry_key: "dried_kelp",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10318,8 +10350,8 @@ impl Item {
             ),
         ],
     };
-    pub const DRIED_KELP_BLOCK: Item = Item {
-        id: 1027,
+    pub const DRIED_KELP_BLOCK: Self = Self {
+        id: 1028,
         registry_key: "dried_kelp_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10337,7 +10369,7 @@ impl Item {
             ),
         ],
     };
-    pub const DRIPSTONE_BLOCK: Item = Item {
+    pub const DRIPSTONE_BLOCK: Self = Self {
         id: 26,
         registry_key: "dripstone_block",
         components: &[
@@ -10356,8 +10388,8 @@ impl Item {
             ),
         ],
     };
-    pub const DROPPER: Item = Item {
-        id: 729,
+    pub const DROPPER: Self = Self {
+        id: 730,
         registry_key: "dropper",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10375,8 +10407,8 @@ impl Item {
             ),
         ],
     };
-    pub const DROWNED_SPAWN_EGG: Item = Item {
-        id: 1174,
+    pub const DROWNED_SPAWN_EGG: Self = Self {
+        id: 1175,
         registry_key: "drowned_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10394,8 +10426,8 @@ impl Item {
             ),
         ],
     };
-    pub const DUNE_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1428,
+    pub const DUNE_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1429,
         registry_key: "dune_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10413,8 +10445,8 @@ impl Item {
             ),
         ],
     };
-    pub const ECHO_SHARD: Item = Item {
-        id: 1424,
+    pub const ECHO_SHARD: Self = Self {
+        id: 1425,
         registry_key: "echo_shard",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10432,8 +10464,8 @@ impl Item {
             ),
         ],
     };
-    pub const EGG: Item = Item {
-        id: 1031,
+    pub const EGG: Self = Self {
+        id: 1032,
         registry_key: "egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -10451,8 +10483,8 @@ impl Item {
             ),
         ],
     };
-    pub const ELDER_GUARDIAN_SPAWN_EGG: Item = Item {
-        id: 1191,
+    pub const ELDER_GUARDIAN_SPAWN_EGG: Self = Self {
+        id: 1192,
         registry_key: "elder_guardian_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10470,8 +10502,8 @@ impl Item {
             ),
         ],
     };
-    pub const ELYTRA: Item = Item {
-        id: 862,
+    pub const ELYTRA: Self = Self {
+        id: 863,
         registry_key: "elytra",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -10507,8 +10539,8 @@ impl Item {
             ),
         ],
     };
-    pub const EMERALD: Item = Item {
-        id: 899,
+    pub const EMERALD: Self = Self {
+        id: 900,
         registry_key: "emerald",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10526,8 +10558,8 @@ impl Item {
             ),
         ],
     };
-    pub const EMERALD_BLOCK: Item = Item {
-        id: 440,
+    pub const EMERALD_BLOCK: Self = Self {
+        id: 441,
         registry_key: "emerald_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10545,7 +10577,7 @@ impl Item {
             ),
         ],
     };
-    pub const EMERALD_ORE: Item = Item {
+    pub const EMERALD_ORE: Self = Self {
         id: 74,
         registry_key: "emerald_ore",
         components: &[
@@ -10564,8 +10596,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENCHANTED_BOOK: Item = Item {
-        id: 1244,
+    pub const ENCHANTED_BOOK: Self = Self {
+        id: 1245,
         registry_key: "enchanted_book",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -10583,8 +10615,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENCHANTED_GOLDEN_APPLE: Item = Item {
-        id: 987,
+    pub const ENCHANTED_GOLDEN_APPLE: Self = Self {
+        id: 988,
         registry_key: "enchanted_golden_apple",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10656,8 +10688,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENCHANTING_TABLE: Item = Item {
-        id: 433,
+    pub const ENCHANTING_TABLE: Self = Self {
+        id: 434,
         registry_key: "enchanting_table",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10675,8 +10707,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_CRYSTAL: Item = Item {
-        id: 1282,
+    pub const END_CRYSTAL: Self = Self {
+        id: 1283,
         registry_key: "end_crystal",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10694,8 +10726,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_PORTAL_FRAME: Item = Item {
-        id: 434,
+    pub const END_PORTAL_FRAME: Self = Self {
+        id: 435,
         registry_key: "end_portal_frame",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10713,8 +10745,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_ROD: Item = Item {
-        id: 323,
+    pub const END_ROD: Self = Self {
+        id: 324,
         registry_key: "end_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10732,8 +10764,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_STONE: Item = Item {
-        id: 435,
+    pub const END_STONE: Self = Self {
+        id: 436,
         registry_key: "end_stone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10751,8 +10783,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_STONE_BRICK_SLAB: Item = Item {
-        id: 704,
+    pub const END_STONE_BRICK_SLAB: Self = Self {
+        id: 705,
         registry_key: "end_stone_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10770,8 +10802,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_STONE_BRICK_STAIRS: Item = Item {
-        id: 686,
+    pub const END_STONE_BRICK_STAIRS: Self = Self {
+        id: 687,
         registry_key: "end_stone_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10789,8 +10821,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_STONE_BRICK_WALL: Item = Item {
-        id: 469,
+    pub const END_STONE_BRICK_WALL: Self = Self {
+        id: 470,
         registry_key: "end_stone_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10808,8 +10840,8 @@ impl Item {
             ),
         ],
     };
-    pub const END_STONE_BRICKS: Item = Item {
-        id: 436,
+    pub const END_STONE_BRICKS: Self = Self {
+        id: 437,
         registry_key: "end_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10827,8 +10859,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENDER_CHEST: Item = Item {
-        id: 439,
+    pub const ENDER_CHEST: Self = Self {
+        id: 440,
         registry_key: "ender_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10846,8 +10878,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENDER_DRAGON_SPAWN_EGG: Item = Item {
-        id: 1213,
+    pub const ENDER_DRAGON_SPAWN_EGG: Self = Self {
+        id: 1214,
         registry_key: "ender_dragon_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10865,8 +10897,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENDER_EYE: Item = Item {
-        id: 1128,
+    pub const ENDER_EYE: Self = Self {
+        id: 1129,
         registry_key: "ender_eye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10884,8 +10916,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENDER_PEARL: Item = Item {
-        id: 1115,
+    pub const ENDER_PEARL: Self = Self {
+        id: 1116,
         registry_key: "ender_pearl",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -10903,8 +10935,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENDERMAN_SPAWN_EGG: Item = Item {
-        id: 1214,
+    pub const ENDERMAN_SPAWN_EGG: Self = Self {
+        id: 1215,
         registry_key: "enderman_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10922,8 +10954,8 @@ impl Item {
             ),
         ],
     };
-    pub const ENDERMITE_SPAWN_EGG: Item = Item {
-        id: 1215,
+    pub const ENDERMITE_SPAWN_EGG: Self = Self {
+        id: 1216,
         registry_key: "endermite_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10941,8 +10973,8 @@ impl Item {
             ),
         ],
     };
-    pub const EVOKER_SPAWN_EGG: Item = Item {
-        id: 1198,
+    pub const EVOKER_SPAWN_EGG: Self = Self {
+        id: 1199,
         registry_key: "evoker_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10960,8 +10992,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPERIENCE_BOTTLE: Item = Item {
-        id: 1217,
+    pub const EXPERIENCE_BOTTLE: Self = Self {
+        id: 1218,
         registry_key: "experience_bottle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10979,8 +11011,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPLORER_POTTERY_SHERD: Item = Item {
-        id: 1452,
+    pub const EXPLORER_POTTERY_SHERD: Self = Self {
+        id: 1453,
         registry_key: "explorer_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -10998,7 +11030,7 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_CHISELED_COPPER: Item = Item {
+    pub const EXPOSED_CHISELED_COPPER: Self = Self {
         id: 99,
         registry_key: "exposed_chiseled_copper",
         components: &[
@@ -11017,7 +11049,7 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER: Item = Item {
+    pub const EXPOSED_COPPER: Self = Self {
         id: 95,
         registry_key: "exposed_copper",
         components: &[
@@ -11036,8 +11068,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_BARS: Item = Item {
-        id: 392,
+    pub const EXPOSED_COPPER_BARS: Self = Self {
+        id: 393,
         registry_key: "exposed_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11055,8 +11087,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_BULB: Item = Item {
-        id: 1477,
+    pub const EXPOSED_COPPER_BULB: Self = Self {
+        id: 1478,
         registry_key: "exposed_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11074,8 +11106,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_CHAIN: Item = Item {
-        id: 401,
+    pub const EXPOSED_COPPER_CHAIN: Self = Self {
+        id: 402,
         registry_key: "exposed_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11093,8 +11125,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_CHEST: Item = Item {
-        id: 1485,
+    pub const EXPOSED_COPPER_CHEST: Self = Self {
+        id: 1486,
         registry_key: "exposed_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11112,8 +11144,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_DOOR: Item = Item {
-        id: 793,
+    pub const EXPOSED_COPPER_DOOR: Self = Self {
+        id: 794,
         registry_key: "exposed_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11131,8 +11163,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1493,
+    pub const EXPOSED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1494,
         registry_key: "exposed_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11150,8 +11182,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_GRATE: Item = Item {
-        id: 1469,
+    pub const EXPOSED_COPPER_GRATE: Self = Self {
+        id: 1470,
         registry_key: "exposed_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11169,8 +11201,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_LANTERN: Item = Item {
-        id: 1366,
+    pub const EXPOSED_COPPER_LANTERN: Self = Self {
+        id: 1367,
         registry_key: "exposed_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11188,8 +11220,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_COPPER_TRAPDOOR: Item = Item {
-        id: 814,
+    pub const EXPOSED_COPPER_TRAPDOOR: Self = Self {
+        id: 815,
         registry_key: "exposed_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11207,7 +11239,7 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_CUT_COPPER: Item = Item {
+    pub const EXPOSED_CUT_COPPER: Self = Self {
         id: 103,
         registry_key: "exposed_cut_copper",
         components: &[
@@ -11226,7 +11258,7 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_CUT_COPPER_SLAB: Item = Item {
+    pub const EXPOSED_CUT_COPPER_SLAB: Self = Self {
         id: 111,
         registry_key: "exposed_cut_copper_slab",
         components: &[
@@ -11245,7 +11277,7 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_CUT_COPPER_STAIRS: Item = Item {
+    pub const EXPOSED_CUT_COPPER_STAIRS: Self = Self {
         id: 107,
         registry_key: "exposed_cut_copper_stairs",
         components: &[
@@ -11264,8 +11296,8 @@ impl Item {
             ),
         ],
     };
-    pub const EXPOSED_LIGHTNING_ROD: Item = Item {
-        id: 734,
+    pub const EXPOSED_LIGHTNING_ROD: Self = Self {
+        id: 735,
         registry_key: "exposed_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11283,8 +11315,8 @@ impl Item {
             ),
         ],
     };
-    pub const EYE_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1432,
+    pub const EYE_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1433,
         registry_key: "eye_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11302,8 +11334,8 @@ impl Item {
             ),
         ],
     };
-    pub const FARMLAND: Item = Item {
-        id: 333,
+    pub const FARMLAND: Self = Self {
+        id: 334,
         registry_key: "farmland",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11321,8 +11353,8 @@ impl Item {
             ),
         ],
     };
-    pub const FEATHER: Item = Item {
-        id: 949,
+    pub const FEATHER: Self = Self {
+        id: 950,
         registry_key: "feather",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11340,8 +11372,8 @@ impl Item {
             ),
         ],
     };
-    pub const FERMENTED_SPIDER_EYE: Item = Item {
-        id: 1123,
+    pub const FERMENTED_SPIDER_EYE: Self = Self {
+        id: 1124,
         registry_key: "fermented_spider_eye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11359,7 +11391,7 @@ impl Item {
             ),
         ],
     };
-    pub const FERN: Item = Item {
+    pub const FERN: Self = Self {
         id: 203,
         registry_key: "fern",
         components: &[
@@ -11378,8 +11410,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIELD_MASONED_BANNER_PATTERN: Item = Item {
-        id: 1350,
+    pub const FIELD_MASONED_BANNER_PATTERN: Self = Self {
+        id: 1351,
         registry_key: "field_masoned_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -11397,8 +11429,8 @@ impl Item {
             ),
         ],
     };
-    pub const FILLED_MAP: Item = Item {
-        id: 1104,
+    pub const FILLED_MAP: Self = Self {
+        id: 1105,
         registry_key: "filled_map",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11416,8 +11448,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIRE_CHARGE: Item = Item {
-        id: 1218,
+    pub const FIRE_CHARGE: Self = Self {
+        id: 1219,
         registry_key: "fire_charge",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11435,8 +11467,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIRE_CORAL: Item = Item {
-        id: 662,
+    pub const FIRE_CORAL: Self = Self {
+        id: 663,
         registry_key: "fire_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11454,8 +11486,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIRE_CORAL_BLOCK: Item = Item {
-        id: 657,
+    pub const FIRE_CORAL_BLOCK: Self = Self {
+        id: 658,
         registry_key: "fire_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11473,8 +11505,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIRE_CORAL_FAN: Item = Item {
-        id: 672,
+    pub const FIRE_CORAL_FAN: Self = Self {
+        id: 673,
         registry_key: "fire_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11492,7 +11524,7 @@ impl Item {
             ),
         ],
     };
-    pub const FIREFLY_BUSH: Item = Item {
+    pub const FIREFLY_BUSH: Self = Self {
         id: 208,
         registry_key: "firefly_bush",
         components: &[
@@ -11511,8 +11543,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIREWORK_ROCKET: Item = Item {
-        id: 1242,
+    pub const FIREWORK_ROCKET: Self = Self {
+        id: 1243,
         registry_key: "firework_rocket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11530,8 +11562,8 @@ impl Item {
             ),
         ],
     };
-    pub const FIREWORK_STAR: Item = Item {
-        id: 1243,
+    pub const FIREWORK_STAR: Self = Self {
+        id: 1244,
         registry_key: "firework_star",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11549,8 +11581,8 @@ impl Item {
             ),
         ],
     };
-    pub const FISHING_ROD: Item = Item {
-        id: 1053,
+    pub const FISHING_ROD: Self = Self {
+        id: 1054,
         registry_key: "fishing_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -11568,10 +11600,11 @@ impl Item {
                     attribute_modifiers: Cow::Borrowed(&[]),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 1 }),
         ],
     };
-    pub const FLETCHING_TABLE: Item = Item {
-        id: 1358,
+    pub const FLETCHING_TABLE: Self = Self {
+        id: 1359,
         registry_key: "fletching_table",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11589,8 +11622,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLINT: Item = Item {
-        id: 982,
+    pub const FLINT: Self = Self {
+        id: 983,
         registry_key: "flint",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11608,8 +11641,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLINT_AND_STEEL: Item = Item {
-        id: 891,
+    pub const FLINT_AND_STEEL: Self = Self {
+        id: 892,
         registry_key: "flint_and_steel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -11629,8 +11662,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLOW_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1443,
+    pub const FLOW_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1444,
         registry_key: "flow_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11648,8 +11681,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLOW_BANNER_PATTERN: Item = Item {
-        id: 1348,
+    pub const FLOW_BANNER_PATTERN: Self = Self {
+        id: 1349,
         registry_key: "flow_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -11667,8 +11700,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLOW_POTTERY_SHERD: Item = Item {
-        id: 1453,
+    pub const FLOW_POTTERY_SHERD: Self = Self {
+        id: 1454,
         registry_key: "flow_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11686,8 +11719,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLOWER_BANNER_PATTERN: Item = Item {
-        id: 1342,
+    pub const FLOWER_BANNER_PATTERN: Self = Self {
+        id: 1343,
         registry_key: "flower_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -11705,8 +11738,8 @@ impl Item {
             ),
         ],
     };
-    pub const FLOWER_POT: Item = Item {
-        id: 1226,
+    pub const FLOWER_POT: Self = Self {
+        id: 1227,
         registry_key: "flower_pot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11724,7 +11757,7 @@ impl Item {
             ),
         ],
     };
-    pub const FLOWERING_AZALEA: Item = Item {
+    pub const FLOWERING_AZALEA: Self = Self {
         id: 206,
         registry_key: "flowering_azalea",
         components: &[
@@ -11743,7 +11776,7 @@ impl Item {
             ),
         ],
     };
-    pub const FLOWERING_AZALEA_LEAVES: Item = Item {
+    pub const FLOWERING_AZALEA_LEAVES: Self = Self {
         id: 192,
         registry_key: "flowering_azalea_leaves",
         components: &[
@@ -11762,8 +11795,8 @@ impl Item {
             ),
         ],
     };
-    pub const FOX_SPAWN_EGG: Item = Item {
-        id: 1144,
+    pub const FOX_SPAWN_EGG: Self = Self {
+        id: 1145,
         registry_key: "fox_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11781,8 +11814,8 @@ impl Item {
             ),
         ],
     };
-    pub const FRIEND_POTTERY_SHERD: Item = Item {
-        id: 1454,
+    pub const FRIEND_POTTERY_SHERD: Self = Self {
+        id: 1455,
         registry_key: "friend_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11800,8 +11833,8 @@ impl Item {
             ),
         ],
     };
-    pub const FROG_SPAWN_EGG: Item = Item {
-        id: 1154,
+    pub const FROG_SPAWN_EGG: Self = Self {
+        id: 1155,
         registry_key: "frog_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11819,8 +11852,8 @@ impl Item {
             ),
         ],
     };
-    pub const FROGSPAWN: Item = Item {
-        id: 1423,
+    pub const FROGSPAWN: Self = Self {
+        id: 1424,
         registry_key: "frogspawn",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11838,8 +11871,8 @@ impl Item {
             ),
         ],
     };
-    pub const FURNACE: Item = Item {
-        id: 334,
+    pub const FURNACE: Self = Self {
+        id: 335,
         registry_key: "furnace",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11857,8 +11890,8 @@ impl Item {
             ),
         ],
     };
-    pub const FURNACE_MINECART: Item = Item {
-        id: 856,
+    pub const FURNACE_MINECART: Self = Self {
+        id: 857,
         registry_key: "furnace_minecart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -11876,8 +11909,8 @@ impl Item {
             ),
         ],
     };
-    pub const GHAST_SPAWN_EGG: Item = Item {
-        id: 1204,
+    pub const GHAST_SPAWN_EGG: Self = Self {
+        id: 1205,
         registry_key: "ghast_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11895,8 +11928,8 @@ impl Item {
             ),
         ],
     };
-    pub const GHAST_TEAR: Item = Item {
-        id: 1117,
+    pub const GHAST_TEAR: Self = Self {
+        id: 1118,
         registry_key: "ghast_tear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11914,8 +11947,8 @@ impl Item {
             ),
         ],
     };
-    pub const GILDED_BLACKSTONE: Item = Item {
-        id: 1388,
+    pub const GILDED_BLACKSTONE: Self = Self {
+        id: 1389,
         registry_key: "gilded_blackstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11933,7 +11966,7 @@ impl Item {
             ),
         ],
     };
-    pub const GLASS: Item = Item {
+    pub const GLASS: Self = Self {
         id: 195,
         registry_key: "glass",
         components: &[
@@ -11952,8 +11985,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLASS_BOTTLE: Item = Item {
-        id: 1120,
+    pub const GLASS_BOTTLE: Self = Self {
+        id: 1121,
         registry_key: "glass_bottle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11971,8 +12004,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLASS_PANE: Item = Item {
-        id: 408,
+    pub const GLASS_PANE: Self = Self {
+        id: 409,
         registry_key: "glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -11990,8 +12023,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLISTERING_MELON_SLICE: Item = Item {
-        id: 1129,
+    pub const GLISTERING_MELON_SLICE: Self = Self {
+        id: 1130,
         registry_key: "glistering_melon_slice",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12009,8 +12042,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOBE_BANNER_PATTERN: Item = Item {
-        id: 1346,
+    pub const GLOBE_BANNER_PATTERN: Self = Self {
+        id: 1347,
         registry_key: "globe_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12028,8 +12061,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOW_BERRIES: Item = Item {
-        id: 1374,
+    pub const GLOW_BERRIES: Self = Self {
+        id: 1375,
         registry_key: "glow_berries",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12065,8 +12098,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOW_INK_SAC: Item = Item {
-        id: 1064,
+    pub const GLOW_INK_SAC: Self = Self {
+        id: 1065,
         registry_key: "glow_ink_sac",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12084,8 +12117,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOW_ITEM_FRAME: Item = Item {
-        id: 1225,
+    pub const GLOW_ITEM_FRAME: Self = Self {
+        id: 1226,
         registry_key: "glow_item_frame",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12103,8 +12136,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOW_LICHEN: Item = Item {
-        id: 411,
+    pub const GLOW_LICHEN: Self = Self {
+        id: 412,
         registry_key: "glow_lichen",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12122,8 +12155,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOW_SQUID_SPAWN_EGG: Item = Item {
-        id: 1155,
+    pub const GLOW_SQUID_SPAWN_EGG: Self = Self {
+        id: 1156,
         registry_key: "glow_squid_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12141,8 +12174,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOWSTONE: Item = Item {
-        id: 367,
+    pub const GLOWSTONE: Self = Self {
+        id: 368,
         registry_key: "glowstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12160,8 +12193,8 @@ impl Item {
             ),
         ],
     };
-    pub const GLOWSTONE_DUST: Item = Item {
-        id: 1056,
+    pub const GLOWSTONE_DUST: Self = Self {
+        id: 1057,
         registry_key: "glowstone_dust",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12179,8 +12212,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOAT_HORN: Item = Item {
-        id: 1352,
+    pub const GOAT_HORN: Self = Self {
+        id: 1353,
         registry_key: "goat_horn",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12198,8 +12231,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOAT_SPAWN_EGG: Item = Item {
-        id: 1145,
+    pub const GOAT_SPAWN_EGG: Self = Self {
+        id: 1146,
         registry_key: "goat_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12217,7 +12250,7 @@ impl Item {
             ),
         ],
     };
-    pub const GOLD_BLOCK: Item = Item {
+    pub const GOLD_BLOCK: Self = Self {
         id: 92,
         registry_key: "gold_block",
         components: &[
@@ -12236,8 +12269,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLD_INGOT: Item = Item {
-        id: 908,
+    pub const GOLD_INGOT: Self = Self {
+        id: 909,
         registry_key: "gold_ingot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12255,8 +12288,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLD_NUGGET: Item = Item {
-        id: 1118,
+    pub const GOLD_NUGGET: Self = Self {
+        id: 1119,
         registry_key: "gold_nugget",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12274,7 +12307,7 @@ impl Item {
             ),
         ],
     };
-    pub const GOLD_ORE: Item = Item {
+    pub const GOLD_ORE: Self = Self {
         id: 70,
         registry_key: "gold_ore",
         components: &[
@@ -12293,8 +12326,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLDEN_APPLE: Item = Item {
-        id: 986,
+    pub const GOLDEN_APPLE: Self = Self {
+        id: 987,
         registry_key: "golden_apple",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12350,8 +12383,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLDEN_AXE: Item = Item {
-        id: 929,
+    pub const GOLDEN_AXE: Self = Self {
+        id: 930,
         registry_key: "golden_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12410,10 +12443,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 22 }),
         ],
     };
-    pub const GOLDEN_BOOTS: Item = Item {
-        id: 977,
+    pub const GOLDEN_BOOTS: Self = Self {
+        id: 978,
         registry_key: "golden_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12462,10 +12496,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 25 }),
         ],
     };
-    pub const GOLDEN_CARROT: Item = Item {
-        id: 1232,
+    pub const GOLDEN_CARROT: Self = Self {
+        id: 1233,
         registry_key: "golden_carrot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -12501,8 +12536,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLDEN_CHESTPLATE: Item = Item {
-        id: 975,
+    pub const GOLDEN_CHESTPLATE: Self = Self {
+        id: 976,
         registry_key: "golden_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12551,10 +12586,30 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 25 }),
         ],
     };
-    pub const GOLDEN_HELMET: Item = Item {
-        id: 974,
+    pub const GOLDEN_DANDELION: Self = Self {
+        id: 230,
+        registry_key: "golden_dandelion",
+        components: &[
+            (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
+            (
+                ItemName,
+                &ItemNameImpl {
+                    name: "block.minecraft.golden_dandelion",
+                },
+            ),
+            (
+                AttributeModifiers,
+                &AttributeModifiersImpl {
+                    attribute_modifiers: Cow::Borrowed(&[]),
+                },
+            ),
+        ],
+    };
+    pub const GOLDEN_HELMET: Self = Self {
+        id: 975,
         registry_key: "golden_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12603,10 +12658,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 25 }),
         ],
     };
-    pub const GOLDEN_HOE: Item = Item {
-        id: 930,
+    pub const GOLDEN_HOE: Self = Self {
+        id: 931,
         registry_key: "golden_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12665,10 +12721,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 22 }),
         ],
     };
-    pub const GOLDEN_HORSE_ARMOR: Item = Item {
-        id: 1257,
+    pub const GOLDEN_HORSE_ARMOR: Self = Self {
+        id: 1258,
         registry_key: "golden_horse_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12717,8 +12774,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLDEN_LEGGINGS: Item = Item {
-        id: 976,
+    pub const GOLDEN_LEGGINGS: Self = Self {
+        id: 977,
         registry_key: "golden_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12767,10 +12824,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 25 }),
         ],
     };
-    pub const GOLDEN_NAUTILUS_ARMOR: Item = Item {
-        id: 1334,
+    pub const GOLDEN_NAUTILUS_ARMOR: Self = Self {
+        id: 1335,
         registry_key: "golden_nautilus_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12819,8 +12877,8 @@ impl Item {
             ),
         ],
     };
-    pub const GOLDEN_PICKAXE: Item = Item {
-        id: 928,
+    pub const GOLDEN_PICKAXE: Self = Self {
+        id: 929,
         registry_key: "golden_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12879,10 +12937,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 22 }),
         ],
     };
-    pub const GOLDEN_SHOVEL: Item = Item {
-        id: 927,
+    pub const GOLDEN_SHOVEL: Self = Self {
+        id: 928,
         registry_key: "golden_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12941,10 +13000,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 22 }),
         ],
     };
-    pub const GOLDEN_SPEAR: Item = Item {
-        id: 1300,
+    pub const GOLDEN_SPEAR: Self = Self {
+        id: 1301,
         registry_key: "golden_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -12983,10 +13043,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 22 }),
         ],
     };
-    pub const GOLDEN_SWORD: Item = Item {
-        id: 926,
+    pub const GOLDEN_SWORD: Self = Self {
+        id: 927,
         registry_key: "golden_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13050,9 +13111,10 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 22 }),
         ],
     };
-    pub const GRANITE: Item = Item {
+    pub const GRANITE: Self = Self {
         id: 2,
         registry_key: "granite",
         components: &[
@@ -13071,8 +13133,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRANITE_SLAB: Item = Item {
-        id: 707,
+    pub const GRANITE_SLAB: Self = Self {
+        id: 708,
         registry_key: "granite_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13090,8 +13152,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRANITE_STAIRS: Item = Item {
-        id: 690,
+    pub const GRANITE_STAIRS: Self = Self {
+        id: 691,
         registry_key: "granite_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13109,8 +13171,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRANITE_WALL: Item = Item {
-        id: 462,
+    pub const GRANITE_WALL: Self = Self {
+        id: 463,
         registry_key: "granite_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13128,7 +13190,7 @@ impl Item {
             ),
         ],
     };
-    pub const GRASS_BLOCK: Item = Item {
+    pub const GRASS_BLOCK: Self = Self {
         id: 27,
         registry_key: "grass_block",
         components: &[
@@ -13147,7 +13209,7 @@ impl Item {
             ),
         ],
     };
-    pub const GRAVEL: Item = Item {
+    pub const GRAVEL: Self = Self {
         id: 63,
         registry_key: "gravel",
         components: &[
@@ -13166,8 +13228,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_BANNER: Item = Item {
-        id: 1273,
+    pub const GRAY_BANNER: Self = Self {
+        id: 1274,
         registry_key: "gray_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -13185,8 +13247,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_BED: Item = Item {
-        id: 1093,
+    pub const GRAY_BED: Self = Self {
+        id: 1094,
         registry_key: "gray_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13204,8 +13266,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_BUNDLE: Item = Item {
-        id: 1044,
+    pub const GRAY_BUNDLE: Self = Self {
+        id: 1045,
         registry_key: "gray_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13223,8 +13285,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_CANDLE: Item = Item {
-        id: 1406,
+    pub const GRAY_CANDLE: Self = Self {
+        id: 1407,
         registry_key: "gray_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13242,8 +13304,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_CARPET: Item = Item {
-        id: 512,
+    pub const GRAY_CARPET: Self = Self {
+        id: 513,
         registry_key: "gray_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13280,8 +13342,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_CONCRETE: Item = Item {
-        id: 621,
+    pub const GRAY_CONCRETE: Self = Self {
+        id: 622,
         registry_key: "gray_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13299,8 +13361,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_CONCRETE_POWDER: Item = Item {
-        id: 637,
+    pub const GRAY_CONCRETE_POWDER: Self = Self {
+        id: 638,
         registry_key: "gray_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13318,8 +13380,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_DYE: Item = Item {
-        id: 1073,
+    pub const GRAY_DYE: Self = Self {
+        id: 1074,
         registry_key: "gray_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13337,8 +13399,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_GLAZED_TERRACOTTA: Item = Item {
-        id: 605,
+    pub const GRAY_GLAZED_TERRACOTTA: Self = Self {
+        id: 606,
         registry_key: "gray_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13356,8 +13418,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_HARNESS: Item = Item {
-        id: 845,
+    pub const GRAY_HARNESS: Self = Self {
+        id: 846,
         registry_key: "gray_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13391,8 +13453,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_SHULKER_BOX: Item = Item {
-        id: 589,
+    pub const GRAY_SHULKER_BOX: Self = Self {
+        id: 590,
         registry_key: "gray_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13410,8 +13472,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_STAINED_GLASS: Item = Item {
-        id: 537,
+    pub const GRAY_STAINED_GLASS: Self = Self {
+        id: 538,
         registry_key: "gray_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13429,8 +13491,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_STAINED_GLASS_PANE: Item = Item {
-        id: 553,
+    pub const GRAY_STAINED_GLASS_PANE: Self = Self {
+        id: 554,
         registry_key: "gray_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13448,8 +13510,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_TERRACOTTA: Item = Item {
-        id: 493,
+    pub const GRAY_TERRACOTTA: Self = Self {
+        id: 494,
         registry_key: "gray_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13467,7 +13529,7 @@ impl Item {
             ),
         ],
     };
-    pub const GRAY_WOOL: Item = Item {
+    pub const GRAY_WOOL: Self = Self {
         id: 220,
         registry_key: "gray_wool",
         components: &[
@@ -13486,8 +13548,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_BANNER: Item = Item {
-        id: 1279,
+    pub const GREEN_BANNER: Self = Self {
+        id: 1280,
         registry_key: "green_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -13505,8 +13567,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_BED: Item = Item {
-        id: 1099,
+    pub const GREEN_BED: Self = Self {
+        id: 1100,
         registry_key: "green_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13524,8 +13586,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_BUNDLE: Item = Item {
-        id: 1050,
+    pub const GREEN_BUNDLE: Self = Self {
+        id: 1051,
         registry_key: "green_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13543,8 +13605,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_CANDLE: Item = Item {
-        id: 1412,
+    pub const GREEN_CANDLE: Self = Self {
+        id: 1413,
         registry_key: "green_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13562,8 +13624,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_CARPET: Item = Item {
-        id: 518,
+    pub const GREEN_CARPET: Self = Self {
+        id: 519,
         registry_key: "green_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13600,8 +13662,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_CONCRETE: Item = Item {
-        id: 627,
+    pub const GREEN_CONCRETE: Self = Self {
+        id: 628,
         registry_key: "green_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13619,8 +13681,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_CONCRETE_POWDER: Item = Item {
-        id: 643,
+    pub const GREEN_CONCRETE_POWDER: Self = Self {
+        id: 644,
         registry_key: "green_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13638,8 +13700,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_DYE: Item = Item {
-        id: 1079,
+    pub const GREEN_DYE: Self = Self {
+        id: 1080,
         registry_key: "green_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13657,8 +13719,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_GLAZED_TERRACOTTA: Item = Item {
-        id: 611,
+    pub const GREEN_GLAZED_TERRACOTTA: Self = Self {
+        id: 612,
         registry_key: "green_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13676,8 +13738,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_HARNESS: Item = Item {
-        id: 851,
+    pub const GREEN_HARNESS: Self = Self {
+        id: 852,
         registry_key: "green_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13711,8 +13773,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_SHULKER_BOX: Item = Item {
-        id: 595,
+    pub const GREEN_SHULKER_BOX: Self = Self {
+        id: 596,
         registry_key: "green_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13730,8 +13792,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_STAINED_GLASS: Item = Item {
-        id: 543,
+    pub const GREEN_STAINED_GLASS: Self = Self {
+        id: 544,
         registry_key: "green_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13749,8 +13811,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_STAINED_GLASS_PANE: Item = Item {
-        id: 559,
+    pub const GREEN_STAINED_GLASS_PANE: Self = Self {
+        id: 560,
         registry_key: "green_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13768,8 +13830,8 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_TERRACOTTA: Item = Item {
-        id: 499,
+    pub const GREEN_TERRACOTTA: Self = Self {
+        id: 500,
         registry_key: "green_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13787,7 +13849,7 @@ impl Item {
             ),
         ],
     };
-    pub const GREEN_WOOL: Item = Item {
+    pub const GREEN_WOOL: Self = Self {
         id: 226,
         registry_key: "green_wool",
         components: &[
@@ -13806,8 +13868,8 @@ impl Item {
             ),
         ],
     };
-    pub const GRINDSTONE: Item = Item {
-        id: 1359,
+    pub const GRINDSTONE: Self = Self {
+        id: 1360,
         registry_key: "grindstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13825,8 +13887,8 @@ impl Item {
             ),
         ],
     };
-    pub const GUARDIAN_SPAWN_EGG: Item = Item {
-        id: 1192,
+    pub const GUARDIAN_SPAWN_EGG: Self = Self {
+        id: 1193,
         registry_key: "guardian_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13844,8 +13906,8 @@ impl Item {
             ),
         ],
     };
-    pub const GUNPOWDER: Item = Item {
-        id: 950,
+    pub const GUNPOWDER: Self = Self {
+        id: 951,
         registry_key: "gunpowder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13863,8 +13925,8 @@ impl Item {
             ),
         ],
     };
-    pub const GUSTER_BANNER_PATTERN: Item = Item {
-        id: 1349,
+    pub const GUSTER_BANNER_PATTERN: Self = Self {
+        id: 1350,
         registry_key: "guster_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -13882,8 +13944,8 @@ impl Item {
             ),
         ],
     };
-    pub const GUSTER_POTTERY_SHERD: Item = Item {
-        id: 1455,
+    pub const GUSTER_POTTERY_SHERD: Self = Self {
+        id: 1456,
         registry_key: "guster_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13901,8 +13963,8 @@ impl Item {
             ),
         ],
     };
-    pub const HANGING_ROOTS: Item = Item {
-        id: 266,
+    pub const HANGING_ROOTS: Self = Self {
+        id: 267,
         registry_key: "hanging_roots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13920,8 +13982,8 @@ impl Item {
             ),
         ],
     };
-    pub const HAPPY_GHAST_SPAWN_EGG: Item = Item {
-        id: 1205,
+    pub const HAPPY_GHAST_SPAWN_EGG: Self = Self {
+        id: 1206,
         registry_key: "happy_ghast_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13939,8 +14001,8 @@ impl Item {
             ),
         ],
     };
-    pub const HAY_BLOCK: Item = Item {
-        id: 504,
+    pub const HAY_BLOCK: Self = Self {
+        id: 505,
         registry_key: "hay_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13958,8 +14020,8 @@ impl Item {
             ),
         ],
     };
-    pub const HEART_OF_THE_SEA: Item = Item {
-        id: 1338,
+    pub const HEART_OF_THE_SEA: Self = Self {
+        id: 1339,
         registry_key: "heart_of_the_sea",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13977,8 +14039,8 @@ impl Item {
             ),
         ],
     };
-    pub const HEART_POTTERY_SHERD: Item = Item {
-        id: 1456,
+    pub const HEART_POTTERY_SHERD: Self = Self {
+        id: 1457,
         registry_key: "heart_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -13996,8 +14058,8 @@ impl Item {
             ),
         ],
     };
-    pub const HEARTBREAK_POTTERY_SHERD: Item = Item {
-        id: 1457,
+    pub const HEARTBREAK_POTTERY_SHERD: Self = Self {
+        id: 1458,
         registry_key: "heartbreak_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14015,7 +14077,7 @@ impl Item {
             ),
         ],
     };
-    pub const HEAVY_CORE: Item = Item {
+    pub const HEAVY_CORE: Self = Self {
         id: 87,
         registry_key: "heavy_core",
         components: &[
@@ -14034,8 +14096,8 @@ impl Item {
             ),
         ],
     };
-    pub const HEAVY_WEIGHTED_PRESSURE_PLATE: Item = Item {
-        id: 766,
+    pub const HEAVY_WEIGHTED_PRESSURE_PLATE: Self = Self {
+        id: 767,
         registry_key: "heavy_weighted_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14053,8 +14115,8 @@ impl Item {
             ),
         ],
     };
-    pub const HOGLIN_SPAWN_EGG: Item = Item {
-        id: 1206,
+    pub const HOGLIN_SPAWN_EGG: Self = Self {
+        id: 1207,
         registry_key: "hoglin_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14072,8 +14134,8 @@ impl Item {
             ),
         ],
     };
-    pub const HONEY_BLOCK: Item = Item {
-        id: 725,
+    pub const HONEY_BLOCK: Self = Self {
+        id: 726,
         registry_key: "honey_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14091,8 +14153,8 @@ impl Item {
             ),
         ],
     };
-    pub const HONEY_BOTTLE: Item = Item {
-        id: 1381,
+    pub const HONEY_BOTTLE: Self = Self {
+        id: 1382,
         registry_key: "honey_bottle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -14130,8 +14192,8 @@ impl Item {
             ),
         ],
     };
-    pub const HONEYCOMB: Item = Item {
-        id: 1378,
+    pub const HONEYCOMB: Self = Self {
+        id: 1379,
         registry_key: "honeycomb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14149,8 +14211,8 @@ impl Item {
             ),
         ],
     };
-    pub const HONEYCOMB_BLOCK: Item = Item {
-        id: 1382,
+    pub const HONEYCOMB_BLOCK: Self = Self {
+        id: 1383,
         registry_key: "honeycomb_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14168,8 +14230,8 @@ impl Item {
             ),
         ],
     };
-    pub const HOPPER: Item = Item {
-        id: 727,
+    pub const HOPPER: Self = Self {
+        id: 728,
         registry_key: "hopper",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14187,8 +14249,8 @@ impl Item {
             ),
         ],
     };
-    pub const HOPPER_MINECART: Item = Item {
-        id: 858,
+    pub const HOPPER_MINECART: Self = Self {
+        id: 859,
         registry_key: "hopper_minecart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14206,8 +14268,8 @@ impl Item {
             ),
         ],
     };
-    pub const HORN_CORAL: Item = Item {
-        id: 663,
+    pub const HORN_CORAL: Self = Self {
+        id: 664,
         registry_key: "horn_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14225,8 +14287,8 @@ impl Item {
             ),
         ],
     };
-    pub const HORN_CORAL_BLOCK: Item = Item {
-        id: 658,
+    pub const HORN_CORAL_BLOCK: Self = Self {
+        id: 659,
         registry_key: "horn_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14244,8 +14306,8 @@ impl Item {
             ),
         ],
     };
-    pub const HORN_CORAL_FAN: Item = Item {
-        id: 673,
+    pub const HORN_CORAL_FAN: Self = Self {
+        id: 674,
         registry_key: "horn_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14263,8 +14325,8 @@ impl Item {
             ),
         ],
     };
-    pub const HORSE_SPAWN_EGG: Item = Item {
-        id: 1136,
+    pub const HORSE_SPAWN_EGG: Self = Self {
+        id: 1137,
         registry_key: "horse_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14282,8 +14344,8 @@ impl Item {
             ),
         ],
     };
-    pub const HOST_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1442,
+    pub const HOST_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1443,
         registry_key: "host_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14301,8 +14363,8 @@ impl Item {
             ),
         ],
     };
-    pub const HOWL_POTTERY_SHERD: Item = Item {
-        id: 1458,
+    pub const HOWL_POTTERY_SHERD: Self = Self {
+        id: 1459,
         registry_key: "howl_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14320,8 +14382,8 @@ impl Item {
             ),
         ],
     };
-    pub const HUSK_SPAWN_EGG: Item = Item {
-        id: 1175,
+    pub const HUSK_SPAWN_EGG: Self = Self {
+        id: 1176,
         registry_key: "husk_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14339,8 +14401,8 @@ impl Item {
             ),
         ],
     };
-    pub const ICE: Item = Item {
-        id: 338,
+    pub const ICE: Self = Self {
+        id: 339,
         registry_key: "ice",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14358,8 +14420,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_CHISELED_STONE_BRICKS: Item = Item {
-        id: 373,
+    pub const INFESTED_CHISELED_STONE_BRICKS: Self = Self {
+        id: 374,
         registry_key: "infested_chiseled_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14377,8 +14439,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_COBBLESTONE: Item = Item {
-        id: 369,
+    pub const INFESTED_COBBLESTONE: Self = Self {
+        id: 370,
         registry_key: "infested_cobblestone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14396,8 +14458,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_CRACKED_STONE_BRICKS: Item = Item {
-        id: 372,
+    pub const INFESTED_CRACKED_STONE_BRICKS: Self = Self {
+        id: 373,
         registry_key: "infested_cracked_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14415,8 +14477,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_DEEPSLATE: Item = Item {
-        id: 374,
+    pub const INFESTED_DEEPSLATE: Self = Self {
+        id: 375,
         registry_key: "infested_deepslate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14434,8 +14496,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_MOSSY_STONE_BRICKS: Item = Item {
-        id: 371,
+    pub const INFESTED_MOSSY_STONE_BRICKS: Self = Self {
+        id: 372,
         registry_key: "infested_mossy_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14453,8 +14515,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_STONE: Item = Item {
-        id: 368,
+    pub const INFESTED_STONE: Self = Self {
+        id: 369,
         registry_key: "infested_stone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14472,8 +14534,8 @@ impl Item {
             ),
         ],
     };
-    pub const INFESTED_STONE_BRICKS: Item = Item {
-        id: 370,
+    pub const INFESTED_STONE_BRICKS: Self = Self {
+        id: 371,
         registry_key: "infested_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14491,8 +14553,8 @@ impl Item {
             ),
         ],
     };
-    pub const INK_SAC: Item = Item {
-        id: 1063,
+    pub const INK_SAC: Self = Self {
+        id: 1064,
         registry_key: "ink_sac",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14510,8 +14572,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_AXE: Item = Item {
-        id: 934,
+    pub const IRON_AXE: Self = Self {
+        id: 935,
         registry_key: "iron_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14570,10 +14632,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 14 }),
         ],
     };
-    pub const IRON_BARS: Item = Item {
-        id: 390,
+    pub const IRON_BARS: Self = Self {
+        id: 391,
         registry_key: "iron_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14591,7 +14654,7 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_BLOCK: Item = Item {
+    pub const IRON_BLOCK: Self = Self {
         id: 90,
         registry_key: "iron_block",
         components: &[
@@ -14610,8 +14673,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_BOOTS: Item = Item {
-        id: 969,
+    pub const IRON_BOOTS: Self = Self {
+        id: 970,
         registry_key: "iron_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14660,10 +14723,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 9 }),
         ],
     };
-    pub const IRON_CHAIN: Item = Item {
-        id: 399,
+    pub const IRON_CHAIN: Self = Self {
+        id: 400,
         registry_key: "iron_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14681,8 +14745,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_CHESTPLATE: Item = Item {
-        id: 967,
+    pub const IRON_CHESTPLATE: Self = Self {
+        id: 968,
         registry_key: "iron_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14731,10 +14795,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 9 }),
         ],
     };
-    pub const IRON_DOOR: Item = Item {
-        id: 779,
+    pub const IRON_DOOR: Self = Self {
+        id: 780,
         registry_key: "iron_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14752,8 +14817,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_GOLEM_SPAWN_EGG: Item = Item {
-        id: 1167,
+    pub const IRON_GOLEM_SPAWN_EGG: Self = Self {
+        id: 1168,
         registry_key: "iron_golem_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14771,8 +14836,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_HELMET: Item = Item {
-        id: 966,
+    pub const IRON_HELMET: Self = Self {
+        id: 967,
         registry_key: "iron_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14821,10 +14886,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 9 }),
         ],
     };
-    pub const IRON_HOE: Item = Item {
-        id: 935,
+    pub const IRON_HOE: Self = Self {
+        id: 936,
         registry_key: "iron_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14883,10 +14949,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 14 }),
         ],
     };
-    pub const IRON_HORSE_ARMOR: Item = Item {
-        id: 1256,
+    pub const IRON_HORSE_ARMOR: Self = Self {
+        id: 1257,
         registry_key: "iron_horse_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -14935,8 +15002,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_INGOT: Item = Item {
-        id: 904,
+    pub const IRON_INGOT: Self = Self {
+        id: 905,
         registry_key: "iron_ingot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -14954,8 +15021,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_LEGGINGS: Item = Item {
-        id: 968,
+    pub const IRON_LEGGINGS: Self = Self {
+        id: 969,
         registry_key: "iron_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15004,10 +15071,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 9 }),
         ],
     };
-    pub const IRON_NAUTILUS_ARMOR: Item = Item {
-        id: 1333,
+    pub const IRON_NAUTILUS_ARMOR: Self = Self {
+        id: 1334,
         registry_key: "iron_nautilus_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15056,8 +15124,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_NUGGET: Item = Item {
-        id: 1305,
+    pub const IRON_NUGGET: Self = Self {
+        id: 1306,
         registry_key: "iron_nugget",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15075,7 +15143,7 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_ORE: Item = Item {
+    pub const IRON_ORE: Self = Self {
         id: 66,
         registry_key: "iron_ore",
         components: &[
@@ -15094,8 +15162,8 @@ impl Item {
             ),
         ],
     };
-    pub const IRON_PICKAXE: Item = Item {
-        id: 933,
+    pub const IRON_PICKAXE: Self = Self {
+        id: 934,
         registry_key: "iron_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15154,10 +15222,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 14 }),
         ],
     };
-    pub const IRON_SHOVEL: Item = Item {
-        id: 932,
+    pub const IRON_SHOVEL: Self = Self {
+        id: 933,
         registry_key: "iron_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15216,10 +15285,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 14 }),
         ],
     };
-    pub const IRON_SPEAR: Item = Item {
-        id: 1299,
+    pub const IRON_SPEAR: Self = Self {
+        id: 1300,
         registry_key: "iron_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15258,10 +15328,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 14 }),
         ],
     };
-    pub const IRON_SWORD: Item = Item {
-        id: 931,
+    pub const IRON_SWORD: Self = Self {
+        id: 932,
         registry_key: "iron_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15325,10 +15396,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 14 }),
         ],
     };
-    pub const IRON_TRAPDOOR: Item = Item {
-        id: 800,
+    pub const IRON_TRAPDOOR: Self = Self {
+        id: 801,
         registry_key: "iron_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15346,8 +15418,8 @@ impl Item {
             ),
         ],
     };
-    pub const ITEM_FRAME: Item = Item {
-        id: 1224,
+    pub const ITEM_FRAME: Self = Self {
+        id: 1225,
         registry_key: "item_frame",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15365,8 +15437,8 @@ impl Item {
             ),
         ],
     };
-    pub const JACK_O_LANTERN: Item = Item {
-        id: 358,
+    pub const JACK_O_LANTERN: Self = Self {
+        id: 359,
         registry_key: "jack_o_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15384,8 +15456,8 @@ impl Item {
             ),
         ],
     };
-    pub const JIGSAW: Item = Item {
-        id: 884,
+    pub const JIGSAW: Self = Self {
+        id: 885,
         registry_key: "jigsaw",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15403,8 +15475,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUKEBOX: Item = Item {
-        id: 343,
+    pub const JUKEBOX: Self = Self {
+        id: 344,
         registry_key: "jukebox",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15422,8 +15494,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_BOAT: Item = Item {
-        id: 869,
+    pub const JUNGLE_BOAT: Self = Self {
+        id: 870,
         registry_key: "jungle_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15441,8 +15513,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_BUTTON: Item = Item {
-        id: 754,
+    pub const JUNGLE_BUTTON: Self = Self {
+        id: 755,
         registry_key: "jungle_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15460,8 +15532,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_CHEST_BOAT: Item = Item {
-        id: 870,
+    pub const JUNGLE_CHEST_BOAT: Self = Self {
+        id: 871,
         registry_key: "jungle_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15479,8 +15551,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_DOOR: Item = Item {
-        id: 783,
+    pub const JUNGLE_DOOR: Self = Self {
+        id: 784,
         registry_key: "jungle_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15498,8 +15570,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_FENCE: Item = Item {
-        id: 347,
+    pub const JUNGLE_FENCE: Self = Self {
+        id: 348,
         registry_key: "jungle_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15517,8 +15589,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_FENCE_GATE: Item = Item {
-        id: 824,
+    pub const JUNGLE_FENCE_GATE: Self = Self {
+        id: 825,
         registry_key: "jungle_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15536,8 +15608,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_HANGING_SIGN: Item = Item {
-        id: 1003,
+    pub const JUNGLE_HANGING_SIGN: Self = Self {
+        id: 1004,
         registry_key: "jungle_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -15555,7 +15627,7 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_LEAVES: Item = Item {
+    pub const JUNGLE_LEAVES: Self = Self {
         id: 185,
         registry_key: "jungle_leaves",
         components: &[
@@ -15574,7 +15646,7 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_LOG: Item = Item {
+    pub const JUNGLE_LOG: Self = Self {
         id: 137,
         registry_key: "jungle_log",
         components: &[
@@ -15593,7 +15665,7 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_PLANKS: Item = Item {
+    pub const JUNGLE_PLANKS: Self = Self {
         id: 39,
         registry_key: "jungle_planks",
         components: &[
@@ -15612,8 +15684,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_PRESSURE_PLATE: Item = Item {
-        id: 770,
+    pub const JUNGLE_PRESSURE_PLATE: Self = Self {
+        id: 771,
         registry_key: "jungle_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15631,7 +15703,7 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_SAPLING: Item = Item {
+    pub const JUNGLE_SAPLING: Self = Self {
         id: 52,
         registry_key: "jungle_sapling",
         components: &[
@@ -15650,8 +15722,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_SHELF: Item = Item {
-        id: 311,
+    pub const JUNGLE_SHELF: Self = Self {
+        id: 312,
         registry_key: "jungle_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15669,8 +15741,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_SIGN: Item = Item {
-        id: 991,
+    pub const JUNGLE_SIGN: Self = Self {
+        id: 992,
         registry_key: "jungle_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -15688,8 +15760,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_SLAB: Item = Item {
-        id: 273,
+    pub const JUNGLE_SLAB: Self = Self {
+        id: 274,
         registry_key: "jungle_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15707,8 +15779,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_STAIRS: Item = Item {
-        id: 444,
+    pub const JUNGLE_STAIRS: Self = Self {
+        id: 445,
         registry_key: "jungle_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15726,8 +15798,8 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_TRAPDOOR: Item = Item {
-        id: 804,
+    pub const JUNGLE_TRAPDOOR: Self = Self {
+        id: 805,
         registry_key: "jungle_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15745,7 +15817,7 @@ impl Item {
             ),
         ],
     };
-    pub const JUNGLE_WOOD: Item = Item {
+    pub const JUNGLE_WOOD: Self = Self {
         id: 174,
         registry_key: "jungle_wood",
         components: &[
@@ -15764,8 +15836,8 @@ impl Item {
             ),
         ],
     };
-    pub const KELP: Item = Item {
-        id: 257,
+    pub const KELP: Self = Self {
+        id: 258,
         registry_key: "kelp",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15783,8 +15855,8 @@ impl Item {
             ),
         ],
     };
-    pub const KNOWLEDGE_BOOK: Item = Item {
-        id: 1307,
+    pub const KNOWLEDGE_BOOK: Self = Self {
+        id: 1308,
         registry_key: "knowledge_book",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15802,8 +15874,8 @@ impl Item {
             ),
         ],
     };
-    pub const LADDER: Item = Item {
-        id: 335,
+    pub const LADDER: Self = Self {
+        id: 336,
         registry_key: "ladder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15821,8 +15893,8 @@ impl Item {
             ),
         ],
     };
-    pub const LANTERN: Item = Item {
-        id: 1363,
+    pub const LANTERN: Self = Self {
+        id: 1364,
         registry_key: "lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15840,7 +15912,7 @@ impl Item {
             ),
         ],
     };
-    pub const LAPIS_BLOCK: Item = Item {
+    pub const LAPIS_BLOCK: Self = Self {
         id: 197,
         registry_key: "lapis_block",
         components: &[
@@ -15859,8 +15931,8 @@ impl Item {
             ),
         ],
     };
-    pub const LAPIS_LAZULI: Item = Item {
-        id: 900,
+    pub const LAPIS_LAZULI: Self = Self {
+        id: 901,
         registry_key: "lapis_lazuli",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15878,7 +15950,7 @@ impl Item {
             ),
         ],
     };
-    pub const LAPIS_ORE: Item = Item {
+    pub const LAPIS_ORE: Self = Self {
         id: 76,
         registry_key: "lapis_ore",
         components: &[
@@ -15897,8 +15969,8 @@ impl Item {
             ),
         ],
     };
-    pub const LARGE_AMETHYST_BUD: Item = Item {
-        id: 1417,
+    pub const LARGE_AMETHYST_BUD: Self = Self {
+        id: 1418,
         registry_key: "large_amethyst_bud",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15916,8 +15988,8 @@ impl Item {
             ),
         ],
     };
-    pub const LARGE_FERN: Item = Item {
-        id: 529,
+    pub const LARGE_FERN: Self = Self {
+        id: 530,
         registry_key: "large_fern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15935,8 +16007,8 @@ impl Item {
             ),
         ],
     };
-    pub const LAVA_BUCKET: Item = Item {
-        id: 1014,
+    pub const LAVA_BUCKET: Self = Self {
+        id: 1015,
         registry_key: "lava_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -15954,8 +16026,8 @@ impl Item {
             ),
         ],
     };
-    pub const LEAD: Item = Item {
-        id: 1261,
+    pub const LEAD: Self = Self {
+        id: 1262,
         registry_key: "lead",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15973,8 +16045,8 @@ impl Item {
             ),
         ],
     };
-    pub const LEAF_LITTER: Item = Item {
-        id: 260,
+    pub const LEAF_LITTER: Self = Self {
+        id: 261,
         registry_key: "leaf_litter",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -15992,8 +16064,8 @@ impl Item {
             ),
         ],
     };
-    pub const LEATHER: Item = Item {
-        id: 1017,
+    pub const LEATHER: Self = Self {
+        id: 1018,
         registry_key: "leather",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16011,8 +16083,8 @@ impl Item {
             ),
         ],
     };
-    pub const LEATHER_BOOTS: Item = Item {
-        id: 957,
+    pub const LEATHER_BOOTS: Self = Self {
+        id: 958,
         registry_key: "leather_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16061,10 +16133,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const LEATHER_CHESTPLATE: Item = Item {
-        id: 955,
+    pub const LEATHER_CHESTPLATE: Self = Self {
+        id: 956,
         registry_key: "leather_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16113,10 +16186,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const LEATHER_HELMET: Item = Item {
-        id: 954,
+    pub const LEATHER_HELMET: Self = Self {
+        id: 955,
         registry_key: "leather_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16165,10 +16239,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const LEATHER_HORSE_ARMOR: Item = Item {
-        id: 1260,
+    pub const LEATHER_HORSE_ARMOR: Self = Self {
+        id: 1261,
         registry_key: "leather_horse_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16217,8 +16292,8 @@ impl Item {
             ),
         ],
     };
-    pub const LEATHER_LEGGINGS: Item = Item {
-        id: 956,
+    pub const LEATHER_LEGGINGS: Self = Self {
+        id: 957,
         registry_key: "leather_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16267,10 +16342,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const LECTERN: Item = Item {
-        id: 730,
+    pub const LECTERN: Self = Self {
+        id: 731,
         registry_key: "lectern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16288,8 +16364,8 @@ impl Item {
             ),
         ],
     };
-    pub const LEVER: Item = Item {
-        id: 732,
+    pub const LEVER: Self = Self {
+        id: 733,
         registry_key: "lever",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16307,8 +16383,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT: Item = Item {
-        id: 503,
+    pub const LIGHT: Self = Self {
+        id: 504,
         registry_key: "light",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16326,8 +16402,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_BANNER: Item = Item {
-        id: 1269,
+    pub const LIGHT_BLUE_BANNER: Self = Self {
+        id: 1270,
         registry_key: "light_blue_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -16345,8 +16421,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_BED: Item = Item {
-        id: 1089,
+    pub const LIGHT_BLUE_BED: Self = Self {
+        id: 1090,
         registry_key: "light_blue_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16364,8 +16440,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_BUNDLE: Item = Item {
-        id: 1040,
+    pub const LIGHT_BLUE_BUNDLE: Self = Self {
+        id: 1041,
         registry_key: "light_blue_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16383,8 +16459,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_CANDLE: Item = Item {
-        id: 1402,
+    pub const LIGHT_BLUE_CANDLE: Self = Self {
+        id: 1403,
         registry_key: "light_blue_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16402,8 +16478,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_CARPET: Item = Item {
-        id: 508,
+    pub const LIGHT_BLUE_CARPET: Self = Self {
+        id: 509,
         registry_key: "light_blue_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16440,8 +16516,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_CONCRETE: Item = Item {
-        id: 617,
+    pub const LIGHT_BLUE_CONCRETE: Self = Self {
+        id: 618,
         registry_key: "light_blue_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16459,8 +16535,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_CONCRETE_POWDER: Item = Item {
-        id: 633,
+    pub const LIGHT_BLUE_CONCRETE_POWDER: Self = Self {
+        id: 634,
         registry_key: "light_blue_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16478,8 +16554,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_DYE: Item = Item {
-        id: 1069,
+    pub const LIGHT_BLUE_DYE: Self = Self {
+        id: 1070,
         registry_key: "light_blue_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16497,8 +16573,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_GLAZED_TERRACOTTA: Item = Item {
-        id: 601,
+    pub const LIGHT_BLUE_GLAZED_TERRACOTTA: Self = Self {
+        id: 602,
         registry_key: "light_blue_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16516,8 +16592,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_HARNESS: Item = Item {
-        id: 841,
+    pub const LIGHT_BLUE_HARNESS: Self = Self {
+        id: 842,
         registry_key: "light_blue_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16551,8 +16627,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_SHULKER_BOX: Item = Item {
-        id: 585,
+    pub const LIGHT_BLUE_SHULKER_BOX: Self = Self {
+        id: 586,
         registry_key: "light_blue_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16570,8 +16646,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_STAINED_GLASS: Item = Item {
-        id: 533,
+    pub const LIGHT_BLUE_STAINED_GLASS: Self = Self {
+        id: 534,
         registry_key: "light_blue_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16589,8 +16665,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_STAINED_GLASS_PANE: Item = Item {
-        id: 549,
+    pub const LIGHT_BLUE_STAINED_GLASS_PANE: Self = Self {
+        id: 550,
         registry_key: "light_blue_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16608,8 +16684,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_TERRACOTTA: Item = Item {
-        id: 489,
+    pub const LIGHT_BLUE_TERRACOTTA: Self = Self {
+        id: 490,
         registry_key: "light_blue_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16627,7 +16703,7 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_BLUE_WOOL: Item = Item {
+    pub const LIGHT_BLUE_WOOL: Self = Self {
         id: 216,
         registry_key: "light_blue_wool",
         components: &[
@@ -16646,8 +16722,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_BANNER: Item = Item {
-        id: 1274,
+    pub const LIGHT_GRAY_BANNER: Self = Self {
+        id: 1275,
         registry_key: "light_gray_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -16665,8 +16741,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_BED: Item = Item {
-        id: 1094,
+    pub const LIGHT_GRAY_BED: Self = Self {
+        id: 1095,
         registry_key: "light_gray_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16684,8 +16760,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_BUNDLE: Item = Item {
-        id: 1045,
+    pub const LIGHT_GRAY_BUNDLE: Self = Self {
+        id: 1046,
         registry_key: "light_gray_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16703,8 +16779,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_CANDLE: Item = Item {
-        id: 1407,
+    pub const LIGHT_GRAY_CANDLE: Self = Self {
+        id: 1408,
         registry_key: "light_gray_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16722,8 +16798,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_CARPET: Item = Item {
-        id: 513,
+    pub const LIGHT_GRAY_CARPET: Self = Self {
+        id: 514,
         registry_key: "light_gray_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16760,8 +16836,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_CONCRETE: Item = Item {
-        id: 622,
+    pub const LIGHT_GRAY_CONCRETE: Self = Self {
+        id: 623,
         registry_key: "light_gray_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16779,8 +16855,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_CONCRETE_POWDER: Item = Item {
-        id: 638,
+    pub const LIGHT_GRAY_CONCRETE_POWDER: Self = Self {
+        id: 639,
         registry_key: "light_gray_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16798,8 +16874,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_DYE: Item = Item {
-        id: 1074,
+    pub const LIGHT_GRAY_DYE: Self = Self {
+        id: 1075,
         registry_key: "light_gray_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16817,8 +16893,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_GLAZED_TERRACOTTA: Item = Item {
-        id: 606,
+    pub const LIGHT_GRAY_GLAZED_TERRACOTTA: Self = Self {
+        id: 607,
         registry_key: "light_gray_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16836,8 +16912,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_HARNESS: Item = Item {
-        id: 846,
+    pub const LIGHT_GRAY_HARNESS: Self = Self {
+        id: 847,
         registry_key: "light_gray_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16871,8 +16947,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_SHULKER_BOX: Item = Item {
-        id: 590,
+    pub const LIGHT_GRAY_SHULKER_BOX: Self = Self {
+        id: 591,
         registry_key: "light_gray_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -16890,8 +16966,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_STAINED_GLASS: Item = Item {
-        id: 538,
+    pub const LIGHT_GRAY_STAINED_GLASS: Self = Self {
+        id: 539,
         registry_key: "light_gray_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16909,8 +16985,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_STAINED_GLASS_PANE: Item = Item {
-        id: 554,
+    pub const LIGHT_GRAY_STAINED_GLASS_PANE: Self = Self {
+        id: 555,
         registry_key: "light_gray_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16928,8 +17004,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_TERRACOTTA: Item = Item {
-        id: 494,
+    pub const LIGHT_GRAY_TERRACOTTA: Self = Self {
+        id: 495,
         registry_key: "light_gray_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16947,7 +17023,7 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_GRAY_WOOL: Item = Item {
+    pub const LIGHT_GRAY_WOOL: Self = Self {
         id: 221,
         registry_key: "light_gray_wool",
         components: &[
@@ -16966,8 +17042,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHT_WEIGHTED_PRESSURE_PLATE: Item = Item {
-        id: 765,
+    pub const LIGHT_WEIGHTED_PRESSURE_PLATE: Self = Self {
+        id: 766,
         registry_key: "light_weighted_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -16985,8 +17061,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIGHTNING_ROD: Item = Item {
-        id: 733,
+    pub const LIGHTNING_ROD: Self = Self {
+        id: 734,
         registry_key: "lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17004,8 +17080,8 @@ impl Item {
             ),
         ],
     };
-    pub const LILAC: Item = Item {
-        id: 525,
+    pub const LILAC: Self = Self {
+        id: 526,
         registry_key: "lilac",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17023,8 +17099,8 @@ impl Item {
             ),
         ],
     };
-    pub const LILY_OF_THE_VALLEY: Item = Item {
-        id: 242,
+    pub const LILY_OF_THE_VALLEY: Self = Self {
+        id: 243,
         registry_key: "lily_of_the_valley",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17042,8 +17118,8 @@ impl Item {
             ),
         ],
     };
-    pub const LILY_PAD: Item = Item {
-        id: 423,
+    pub const LILY_PAD: Self = Self {
+        id: 424,
         registry_key: "lily_pad",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17061,8 +17137,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_BANNER: Item = Item {
-        id: 1271,
+    pub const LIME_BANNER: Self = Self {
+        id: 1272,
         registry_key: "lime_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -17080,8 +17156,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_BED: Item = Item {
-        id: 1091,
+    pub const LIME_BED: Self = Self {
+        id: 1092,
         registry_key: "lime_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17099,8 +17175,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_BUNDLE: Item = Item {
-        id: 1042,
+    pub const LIME_BUNDLE: Self = Self {
+        id: 1043,
         registry_key: "lime_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17118,8 +17194,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_CANDLE: Item = Item {
-        id: 1404,
+    pub const LIME_CANDLE: Self = Self {
+        id: 1405,
         registry_key: "lime_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17137,8 +17213,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_CARPET: Item = Item {
-        id: 510,
+    pub const LIME_CARPET: Self = Self {
+        id: 511,
         registry_key: "lime_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17175,8 +17251,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_CONCRETE: Item = Item {
-        id: 619,
+    pub const LIME_CONCRETE: Self = Self {
+        id: 620,
         registry_key: "lime_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17194,8 +17270,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_CONCRETE_POWDER: Item = Item {
-        id: 635,
+    pub const LIME_CONCRETE_POWDER: Self = Self {
+        id: 636,
         registry_key: "lime_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17213,8 +17289,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_DYE: Item = Item {
-        id: 1071,
+    pub const LIME_DYE: Self = Self {
+        id: 1072,
         registry_key: "lime_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17232,8 +17308,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_GLAZED_TERRACOTTA: Item = Item {
-        id: 603,
+    pub const LIME_GLAZED_TERRACOTTA: Self = Self {
+        id: 604,
         registry_key: "lime_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17251,8 +17327,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_HARNESS: Item = Item {
-        id: 843,
+    pub const LIME_HARNESS: Self = Self {
+        id: 844,
         registry_key: "lime_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17286,8 +17362,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_SHULKER_BOX: Item = Item {
-        id: 587,
+    pub const LIME_SHULKER_BOX: Self = Self {
+        id: 588,
         registry_key: "lime_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17305,8 +17381,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_STAINED_GLASS: Item = Item {
-        id: 535,
+    pub const LIME_STAINED_GLASS: Self = Self {
+        id: 536,
         registry_key: "lime_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17324,8 +17400,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_STAINED_GLASS_PANE: Item = Item {
-        id: 551,
+    pub const LIME_STAINED_GLASS_PANE: Self = Self {
+        id: 552,
         registry_key: "lime_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17343,8 +17419,8 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_TERRACOTTA: Item = Item {
-        id: 491,
+    pub const LIME_TERRACOTTA: Self = Self {
+        id: 492,
         registry_key: "lime_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17362,7 +17438,7 @@ impl Item {
             ),
         ],
     };
-    pub const LIME_WOOL: Item = Item {
+    pub const LIME_WOOL: Self = Self {
         id: 218,
         registry_key: "lime_wool",
         components: &[
@@ -17381,8 +17457,8 @@ impl Item {
             ),
         ],
     };
-    pub const LINGERING_POTION: Item = Item {
-        id: 1294,
+    pub const LINGERING_POTION: Self = Self {
+        id: 1295,
         registry_key: "lingering_potion",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17400,8 +17476,8 @@ impl Item {
             ),
         ],
     };
-    pub const LLAMA_SPAWN_EGG: Item = Item {
-        id: 1146,
+    pub const LLAMA_SPAWN_EGG: Self = Self {
+        id: 1147,
         registry_key: "llama_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17419,8 +17495,8 @@ impl Item {
             ),
         ],
     };
-    pub const LODESTONE: Item = Item {
-        id: 1383,
+    pub const LODESTONE: Self = Self {
+        id: 1384,
         registry_key: "lodestone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17438,8 +17514,8 @@ impl Item {
             ),
         ],
     };
-    pub const LOOM: Item = Item {
-        id: 1341,
+    pub const LOOM: Self = Self {
+        id: 1342,
         registry_key: "loom",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17457,8 +17533,8 @@ impl Item {
             ),
         ],
     };
-    pub const MACE: Item = Item {
-        id: 1223,
+    pub const MACE: Self = Self {
+        id: 1224,
         registry_key: "mace",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17506,10 +17582,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const MAGENTA_BANNER: Item = Item {
-        id: 1268,
+    pub const MAGENTA_BANNER: Self = Self {
+        id: 1269,
         registry_key: "magenta_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -17527,8 +17604,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_BED: Item = Item {
-        id: 1088,
+    pub const MAGENTA_BED: Self = Self {
+        id: 1089,
         registry_key: "magenta_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17546,8 +17623,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_BUNDLE: Item = Item {
-        id: 1039,
+    pub const MAGENTA_BUNDLE: Self = Self {
+        id: 1040,
         registry_key: "magenta_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17565,8 +17642,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_CANDLE: Item = Item {
-        id: 1401,
+    pub const MAGENTA_CANDLE: Self = Self {
+        id: 1402,
         registry_key: "magenta_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17584,8 +17661,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_CARPET: Item = Item {
-        id: 507,
+    pub const MAGENTA_CARPET: Self = Self {
+        id: 508,
         registry_key: "magenta_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17622,8 +17699,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_CONCRETE: Item = Item {
-        id: 616,
+    pub const MAGENTA_CONCRETE: Self = Self {
+        id: 617,
         registry_key: "magenta_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17641,8 +17718,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_CONCRETE_POWDER: Item = Item {
-        id: 632,
+    pub const MAGENTA_CONCRETE_POWDER: Self = Self {
+        id: 633,
         registry_key: "magenta_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17660,8 +17737,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_DYE: Item = Item {
-        id: 1068,
+    pub const MAGENTA_DYE: Self = Self {
+        id: 1069,
         registry_key: "magenta_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17679,8 +17756,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_GLAZED_TERRACOTTA: Item = Item {
-        id: 600,
+    pub const MAGENTA_GLAZED_TERRACOTTA: Self = Self {
+        id: 601,
         registry_key: "magenta_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17698,8 +17775,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_HARNESS: Item = Item {
-        id: 840,
+    pub const MAGENTA_HARNESS: Self = Self {
+        id: 841,
         registry_key: "magenta_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17733,8 +17810,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_SHULKER_BOX: Item = Item {
-        id: 584,
+    pub const MAGENTA_SHULKER_BOX: Self = Self {
+        id: 585,
         registry_key: "magenta_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17752,8 +17829,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_STAINED_GLASS: Item = Item {
-        id: 532,
+    pub const MAGENTA_STAINED_GLASS: Self = Self {
+        id: 533,
         registry_key: "magenta_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17771,8 +17848,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_STAINED_GLASS_PANE: Item = Item {
-        id: 548,
+    pub const MAGENTA_STAINED_GLASS_PANE: Self = Self {
+        id: 549,
         registry_key: "magenta_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17790,8 +17867,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_TERRACOTTA: Item = Item {
-        id: 488,
+    pub const MAGENTA_TERRACOTTA: Self = Self {
+        id: 489,
         registry_key: "magenta_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17809,7 +17886,7 @@ impl Item {
             ),
         ],
     };
-    pub const MAGENTA_WOOL: Item = Item {
+    pub const MAGENTA_WOOL: Self = Self {
         id: 215,
         registry_key: "magenta_wool",
         components: &[
@@ -17828,8 +17905,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGMA_BLOCK: Item = Item {
-        id: 575,
+    pub const MAGMA_BLOCK: Self = Self {
+        id: 576,
         registry_key: "magma_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17847,8 +17924,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGMA_CREAM: Item = Item {
-        id: 1125,
+    pub const MAGMA_CREAM: Self = Self {
+        id: 1126,
         registry_key: "magma_cream",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17866,8 +17943,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAGMA_CUBE_SPAWN_EGG: Item = Item {
-        id: 1207,
+    pub const MAGMA_CUBE_SPAWN_EGG: Self = Self {
+        id: 1208,
         registry_key: "magma_cube_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17885,8 +17962,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_BOAT: Item = Item {
-        id: 879,
+    pub const MANGROVE_BOAT: Self = Self {
+        id: 880,
         registry_key: "mangrove_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17904,8 +17981,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_BUTTON: Item = Item {
-        id: 759,
+    pub const MANGROVE_BUTTON: Self = Self {
+        id: 760,
         registry_key: "mangrove_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17923,8 +18000,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_CHEST_BOAT: Item = Item {
-        id: 880,
+    pub const MANGROVE_CHEST_BOAT: Self = Self {
+        id: 881,
         registry_key: "mangrove_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -17942,8 +18019,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_DOOR: Item = Item {
-        id: 788,
+    pub const MANGROVE_DOOR: Self = Self {
+        id: 789,
         registry_key: "mangrove_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17961,8 +18038,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_FENCE: Item = Item {
-        id: 352,
+    pub const MANGROVE_FENCE: Self = Self {
+        id: 353,
         registry_key: "mangrove_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17980,8 +18057,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_FENCE_GATE: Item = Item {
-        id: 829,
+    pub const MANGROVE_FENCE_GATE: Self = Self {
+        id: 830,
         registry_key: "mangrove_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -17999,8 +18076,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_HANGING_SIGN: Item = Item {
-        id: 1008,
+    pub const MANGROVE_HANGING_SIGN: Self = Self {
+        id: 1009,
         registry_key: "mangrove_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -18018,7 +18095,7 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_LEAVES: Item = Item {
+    pub const MANGROVE_LEAVES: Self = Self {
         id: 190,
         registry_key: "mangrove_leaves",
         components: &[
@@ -18037,7 +18114,7 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_LOG: Item = Item {
+    pub const MANGROVE_LOG: Self = Self {
         id: 142,
         registry_key: "mangrove_log",
         components: &[
@@ -18056,7 +18133,7 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_PLANKS: Item = Item {
+    pub const MANGROVE_PLANKS: Self = Self {
         id: 44,
         registry_key: "mangrove_planks",
         components: &[
@@ -18075,8 +18152,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_PRESSURE_PLATE: Item = Item {
-        id: 775,
+    pub const MANGROVE_PRESSURE_PLATE: Self = Self {
+        id: 776,
         registry_key: "mangrove_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18094,7 +18171,7 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_PROPAGULE: Item = Item {
+    pub const MANGROVE_PROPAGULE: Self = Self {
         id: 57,
         registry_key: "mangrove_propagule",
         components: &[
@@ -18113,7 +18190,7 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_ROOTS: Item = Item {
+    pub const MANGROVE_ROOTS: Self = Self {
         id: 143,
         registry_key: "mangrove_roots",
         components: &[
@@ -18132,8 +18209,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_SHELF: Item = Item {
-        id: 312,
+    pub const MANGROVE_SHELF: Self = Self {
+        id: 313,
         registry_key: "mangrove_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18151,8 +18228,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_SIGN: Item = Item {
-        id: 996,
+    pub const MANGROVE_SIGN: Self = Self {
+        id: 997,
         registry_key: "mangrove_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -18170,8 +18247,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_SLAB: Item = Item {
-        id: 278,
+    pub const MANGROVE_SLAB: Self = Self {
+        id: 279,
         registry_key: "mangrove_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18189,8 +18266,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_STAIRS: Item = Item {
-        id: 449,
+    pub const MANGROVE_STAIRS: Self = Self {
+        id: 450,
         registry_key: "mangrove_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18208,8 +18285,8 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_TRAPDOOR: Item = Item {
-        id: 809,
+    pub const MANGROVE_TRAPDOOR: Self = Self {
+        id: 810,
         registry_key: "mangrove_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18227,7 +18304,7 @@ impl Item {
             ),
         ],
     };
-    pub const MANGROVE_WOOD: Item = Item {
+    pub const MANGROVE_WOOD: Self = Self {
         id: 179,
         registry_key: "mangrove_wood",
         components: &[
@@ -18246,8 +18323,8 @@ impl Item {
             ),
         ],
     };
-    pub const MAP: Item = Item {
-        id: 1231,
+    pub const MAP: Self = Self {
+        id: 1232,
         registry_key: "map",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18265,8 +18342,8 @@ impl Item {
             ),
         ],
     };
-    pub const MEDIUM_AMETHYST_BUD: Item = Item {
-        id: 1416,
+    pub const MEDIUM_AMETHYST_BUD: Self = Self {
+        id: 1417,
         registry_key: "medium_amethyst_bud",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18284,8 +18361,8 @@ impl Item {
             ),
         ],
     };
-    pub const MELON: Item = Item {
-        id: 409,
+    pub const MELON: Self = Self {
+        id: 410,
         registry_key: "melon",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18303,8 +18380,8 @@ impl Item {
             ),
         ],
     };
-    pub const MELON_SEEDS: Item = Item {
-        id: 1109,
+    pub const MELON_SEEDS: Self = Self {
+        id: 1110,
         registry_key: "melon_seeds",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18322,8 +18399,8 @@ impl Item {
             ),
         ],
     };
-    pub const MELON_SLICE: Item = Item {
-        id: 1106,
+    pub const MELON_SLICE: Self = Self {
+        id: 1107,
         registry_key: "melon_slice",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18359,8 +18436,8 @@ impl Item {
             ),
         ],
     };
-    pub const MILK_BUCKET: Item = Item {
-        id: 1018,
+    pub const MILK_BUCKET: Self = Self {
+        id: 1019,
         registry_key: "milk_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18388,8 +18465,8 @@ impl Item {
             ),
         ],
     };
-    pub const MINECART: Item = Item {
-        id: 854,
+    pub const MINECART: Self = Self {
+        id: 855,
         registry_key: "minecart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18407,8 +18484,8 @@ impl Item {
             ),
         ],
     };
-    pub const MINER_POTTERY_SHERD: Item = Item {
-        id: 1459,
+    pub const MINER_POTTERY_SHERD: Self = Self {
+        id: 1460,
         registry_key: "miner_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18426,8 +18503,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOJANG_BANNER_PATTERN: Item = Item {
-        id: 1345,
+    pub const MOJANG_BANNER_PATTERN: Self = Self {
+        id: 1346,
         registry_key: "mojang_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18445,8 +18522,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOOSHROOM_SPAWN_EGG: Item = Item {
-        id: 1164,
+    pub const MOOSHROOM_SPAWN_EGG: Self = Self {
+        id: 1165,
         registry_key: "mooshroom_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18464,8 +18541,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSS_BLOCK: Item = Item {
-        id: 262,
+    pub const MOSS_BLOCK: Self = Self {
+        id: 263,
         registry_key: "moss_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18483,8 +18560,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSS_CARPET: Item = Item {
-        id: 261,
+    pub const MOSS_CARPET: Self = Self {
+        id: 262,
         registry_key: "moss_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18502,8 +18579,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_COBBLESTONE: Item = Item {
-        id: 320,
+    pub const MOSSY_COBBLESTONE: Self = Self {
+        id: 321,
         registry_key: "mossy_cobblestone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18521,8 +18598,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_COBBLESTONE_SLAB: Item = Item {
-        id: 703,
+    pub const MOSSY_COBBLESTONE_SLAB: Self = Self {
+        id: 704,
         registry_key: "mossy_cobblestone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18540,8 +18617,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_COBBLESTONE_STAIRS: Item = Item {
-        id: 685,
+    pub const MOSSY_COBBLESTONE_STAIRS: Self = Self {
+        id: 686,
         registry_key: "mossy_cobblestone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18559,8 +18636,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_COBBLESTONE_WALL: Item = Item {
-        id: 457,
+    pub const MOSSY_COBBLESTONE_WALL: Self = Self {
+        id: 458,
         registry_key: "mossy_cobblestone_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18578,8 +18655,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_STONE_BRICK_SLAB: Item = Item {
-        id: 701,
+    pub const MOSSY_STONE_BRICK_SLAB: Self = Self {
+        id: 702,
         registry_key: "mossy_stone_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18597,8 +18674,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_STONE_BRICK_STAIRS: Item = Item {
-        id: 683,
+    pub const MOSSY_STONE_BRICK_STAIRS: Self = Self {
+        id: 684,
         registry_key: "mossy_stone_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18616,8 +18693,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_STONE_BRICK_WALL: Item = Item {
-        id: 461,
+    pub const MOSSY_STONE_BRICK_WALL: Self = Self {
+        id: 462,
         registry_key: "mossy_stone_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18635,8 +18712,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOSSY_STONE_BRICKS: Item = Item {
-        id: 376,
+    pub const MOSSY_STONE_BRICKS: Self = Self {
+        id: 377,
         registry_key: "mossy_stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18654,8 +18731,8 @@ impl Item {
             ),
         ],
     };
-    pub const MOURNER_POTTERY_SHERD: Item = Item {
-        id: 1460,
+    pub const MOURNER_POTTERY_SHERD: Self = Self {
+        id: 1461,
         registry_key: "mourner_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18673,7 +18750,7 @@ impl Item {
             ),
         ],
     };
-    pub const MUD: Item = Item {
+    pub const MUD: Self = Self {
         id: 32,
         registry_key: "mud",
         components: &[
@@ -18692,8 +18769,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUD_BRICK_SLAB: Item = Item {
-        id: 291,
+    pub const MUD_BRICK_SLAB: Self = Self {
+        id: 292,
         registry_key: "mud_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18711,8 +18788,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUD_BRICK_STAIRS: Item = Item {
-        id: 421,
+    pub const MUD_BRICK_STAIRS: Self = Self {
+        id: 422,
         registry_key: "mud_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18730,8 +18807,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUD_BRICK_WALL: Item = Item {
-        id: 464,
+    pub const MUD_BRICK_WALL: Self = Self {
+        id: 465,
         registry_key: "mud_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18749,8 +18826,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUD_BRICKS: Item = Item {
-        id: 380,
+    pub const MUD_BRICKS: Self = Self {
+        id: 381,
         registry_key: "mud_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18768,7 +18845,7 @@ impl Item {
             ),
         ],
     };
-    pub const MUDDY_MANGROVE_ROOTS: Item = Item {
+    pub const MUDDY_MANGROVE_ROOTS: Self = Self {
         id: 144,
         registry_key: "muddy_mangrove_roots",
         components: &[
@@ -18787,8 +18864,8 @@ impl Item {
             ),
         ],
     };
-    pub const MULE_SPAWN_EGG: Item = Item {
-        id: 1137,
+    pub const MULE_SPAWN_EGG: Self = Self {
+        id: 1138,
         registry_key: "mule_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18806,8 +18883,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSHROOM_STEM: Item = Item {
-        id: 389,
+    pub const MUSHROOM_STEM: Self = Self {
+        id: 390,
         registry_key: "mushroom_stem",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -18825,8 +18902,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSHROOM_STEW: Item = Item {
-        id: 947,
+    pub const MUSHROOM_STEW: Self = Self {
+        id: 948,
         registry_key: "mushroom_stew",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18862,8 +18939,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_11: Item = Item {
-        id: 1322,
+    pub const MUSIC_DISC_11: Self = Self {
+        id: 1323,
         registry_key: "music_disc_11",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18887,8 +18964,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_13: Item = Item {
-        id: 1309,
+    pub const MUSIC_DISC_13: Self = Self {
+        id: 1310,
         registry_key: "music_disc_13",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18912,8 +18989,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_5: Item = Item {
-        id: 1326,
+    pub const MUSIC_DISC_5: Self = Self {
+        id: 1327,
         registry_key: "music_disc_5",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18937,8 +19014,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_BLOCKS: Item = Item {
-        id: 1311,
+    pub const MUSIC_DISC_BLOCKS: Self = Self {
+        id: 1312,
         registry_key: "music_disc_blocks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18962,8 +19039,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_CAT: Item = Item {
-        id: 1310,
+    pub const MUSIC_DISC_CAT: Self = Self {
+        id: 1311,
         registry_key: "music_disc_cat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -18987,8 +19064,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_CHIRP: Item = Item {
-        id: 1312,
+    pub const MUSIC_DISC_CHIRP: Self = Self {
+        id: 1313,
         registry_key: "music_disc_chirp",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19012,8 +19089,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_CREATOR: Item = Item {
-        id: 1313,
+    pub const MUSIC_DISC_CREATOR: Self = Self {
+        id: 1314,
         registry_key: "music_disc_creator",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19037,8 +19114,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_CREATOR_MUSIC_BOX: Item = Item {
-        id: 1314,
+    pub const MUSIC_DISC_CREATOR_MUSIC_BOX: Self = Self {
+        id: 1315,
         registry_key: "music_disc_creator_music_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19062,8 +19139,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_FAR: Item = Item {
-        id: 1315,
+    pub const MUSIC_DISC_FAR: Self = Self {
+        id: 1316,
         registry_key: "music_disc_far",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19087,8 +19164,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_LAVA_CHICKEN: Item = Item {
-        id: 1316,
+    pub const MUSIC_DISC_LAVA_CHICKEN: Self = Self {
+        id: 1317,
         registry_key: "music_disc_lava_chicken",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19112,8 +19189,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_MALL: Item = Item {
-        id: 1317,
+    pub const MUSIC_DISC_MALL: Self = Self {
+        id: 1318,
         registry_key: "music_disc_mall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19137,8 +19214,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_MELLOHI: Item = Item {
-        id: 1318,
+    pub const MUSIC_DISC_MELLOHI: Self = Self {
+        id: 1319,
         registry_key: "music_disc_mellohi",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19162,8 +19239,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_OTHERSIDE: Item = Item {
-        id: 1324,
+    pub const MUSIC_DISC_OTHERSIDE: Self = Self {
+        id: 1325,
         registry_key: "music_disc_otherside",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19187,8 +19264,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_PIGSTEP: Item = Item {
-        id: 1327,
+    pub const MUSIC_DISC_PIGSTEP: Self = Self {
+        id: 1328,
         registry_key: "music_disc_pigstep",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19212,8 +19289,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_PRECIPICE: Item = Item {
-        id: 1328,
+    pub const MUSIC_DISC_PRECIPICE: Self = Self {
+        id: 1329,
         registry_key: "music_disc_precipice",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19237,8 +19314,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_RELIC: Item = Item {
-        id: 1325,
+    pub const MUSIC_DISC_RELIC: Self = Self {
+        id: 1326,
         registry_key: "music_disc_relic",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19262,8 +19339,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_STAL: Item = Item {
-        id: 1319,
+    pub const MUSIC_DISC_STAL: Self = Self {
+        id: 1320,
         registry_key: "music_disc_stal",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19287,8 +19364,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_STRAD: Item = Item {
-        id: 1320,
+    pub const MUSIC_DISC_STRAD: Self = Self {
+        id: 1321,
         registry_key: "music_disc_strad",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19312,8 +19389,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_TEARS: Item = Item {
-        id: 1329,
+    pub const MUSIC_DISC_TEARS: Self = Self {
+        id: 1330,
         registry_key: "music_disc_tears",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19337,8 +19414,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_WAIT: Item = Item {
-        id: 1323,
+    pub const MUSIC_DISC_WAIT: Self = Self {
+        id: 1324,
         registry_key: "music_disc_wait",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19362,8 +19439,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUSIC_DISC_WARD: Item = Item {
-        id: 1321,
+    pub const MUSIC_DISC_WARD: Self = Self {
+        id: 1322,
         registry_key: "music_disc_ward",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19387,8 +19464,8 @@ impl Item {
             ),
         ],
     };
-    pub const MUTTON: Item = Item {
-        id: 1264,
+    pub const MUTTON: Self = Self {
+        id: 1265,
         registry_key: "mutton",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19424,8 +19501,8 @@ impl Item {
             ),
         ],
     };
-    pub const MYCELIUM: Item = Item {
-        id: 422,
+    pub const MYCELIUM: Self = Self {
+        id: 423,
         registry_key: "mycelium",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19443,8 +19520,8 @@ impl Item {
             ),
         ],
     };
-    pub const NAME_TAG: Item = Item {
-        id: 1262,
+    pub const NAME_TAG: Self = Self {
+        id: 1263,
         registry_key: "name_tag",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19462,8 +19539,8 @@ impl Item {
             ),
         ],
     };
-    pub const NAUTILUS_SHELL: Item = Item {
-        id: 1332,
+    pub const NAUTILUS_SHELL: Self = Self {
+        id: 1333,
         registry_key: "nautilus_shell",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19481,8 +19558,8 @@ impl Item {
             ),
         ],
     };
-    pub const NAUTILUS_SPAWN_EGG: Item = Item {
-        id: 1156,
+    pub const NAUTILUS_SPAWN_EGG: Self = Self {
+        id: 1157,
         registry_key: "nautilus_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19500,8 +19577,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_BRICK: Item = Item {
-        id: 1245,
+    pub const NETHER_BRICK: Self = Self {
+        id: 1246,
         registry_key: "nether_brick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19519,8 +19596,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_BRICK_FENCE: Item = Item {
-        id: 427,
+    pub const NETHER_BRICK_FENCE: Self = Self {
+        id: 428,
         registry_key: "nether_brick_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19538,8 +19615,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_BRICK_SLAB: Item = Item {
-        id: 292,
+    pub const NETHER_BRICK_SLAB: Self = Self {
+        id: 293,
         registry_key: "nether_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19557,8 +19634,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_BRICK_STAIRS: Item = Item {
-        id: 428,
+    pub const NETHER_BRICK_STAIRS: Self = Self {
+        id: 429,
         registry_key: "nether_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19576,8 +19653,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_BRICK_WALL: Item = Item {
-        id: 465,
+    pub const NETHER_BRICK_WALL: Self = Self {
+        id: 466,
         registry_key: "nether_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19595,8 +19672,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_BRICKS: Item = Item {
-        id: 424,
+    pub const NETHER_BRICKS: Self = Self {
+        id: 425,
         registry_key: "nether_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19614,7 +19691,7 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_GOLD_ORE: Item = Item {
+    pub const NETHER_GOLD_ORE: Self = Self {
         id: 80,
         registry_key: "nether_gold_ore",
         components: &[
@@ -19633,7 +19710,7 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_QUARTZ_ORE: Item = Item {
+    pub const NETHER_QUARTZ_ORE: Self = Self {
         id: 81,
         registry_key: "nether_quartz_ore",
         components: &[
@@ -19652,8 +19729,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_SPROUTS: Item = Item {
-        id: 253,
+    pub const NETHER_SPROUTS: Self = Self {
+        id: 254,
         registry_key: "nether_sprouts",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19671,8 +19748,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_STAR: Item = Item {
-        id: 1240,
+    pub const NETHER_STAR: Self = Self {
+        id: 1241,
         registry_key: "nether_star",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19696,8 +19773,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_WART: Item = Item {
-        id: 1119,
+    pub const NETHER_WART: Self = Self {
+        id: 1120,
         registry_key: "nether_wart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19715,8 +19792,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHER_WART_BLOCK: Item = Item {
-        id: 576,
+    pub const NETHER_WART_BLOCK: Self = Self {
+        id: 577,
         registry_key: "nether_wart_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -19734,8 +19811,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERITE_AXE: Item = Item {
-        id: 944,
+    pub const NETHERITE_AXE: Self = Self {
+        id: 945,
         registry_key: "netherite_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19800,9 +19877,10 @@ impl Item {
                     res_type: DamageResistantType::Fire,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_BLOCK: Item = Item {
+    pub const NETHERITE_BLOCK: Self = Self {
         id: 94,
         registry_key: "netherite_block",
         components: &[
@@ -19827,8 +19905,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERITE_BOOTS: Item = Item {
-        id: 981,
+    pub const NETHERITE_BOOTS: Self = Self {
+        id: 982,
         registry_key: "netherite_boots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19890,10 +19968,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_CHESTPLATE: Item = Item {
-        id: 979,
+    pub const NETHERITE_CHESTPLATE: Self = Self {
+        id: 980,
         registry_key: "netherite_chestplate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -19955,10 +20034,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_HELMET: Item = Item {
-        id: 978,
+    pub const NETHERITE_HELMET: Self = Self {
+        id: 979,
         registry_key: "netherite_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20020,10 +20100,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_HOE: Item = Item {
-        id: 945,
+    pub const NETHERITE_HOE: Self = Self {
+        id: 946,
         registry_key: "netherite_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20088,10 +20169,11 @@ impl Item {
                     res_type: DamageResistantType::Fire,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_HORSE_ARMOR: Item = Item {
-        id: 1259,
+    pub const NETHERITE_HORSE_ARMOR: Self = Self {
+        id: 1260,
         registry_key: "netherite_horse_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20153,8 +20235,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERITE_INGOT: Item = Item {
-        id: 909,
+    pub const NETHERITE_INGOT: Self = Self {
+        id: 910,
         registry_key: "netherite_ingot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20178,8 +20260,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERITE_LEGGINGS: Item = Item {
-        id: 980,
+    pub const NETHERITE_LEGGINGS: Self = Self {
+        id: 981,
         registry_key: "netherite_leggings",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20241,10 +20323,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_NAUTILUS_ARMOR: Item = Item {
-        id: 1336,
+    pub const NETHERITE_NAUTILUS_ARMOR: Self = Self {
+        id: 1337,
         registry_key: "netherite_nautilus_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20306,8 +20389,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERITE_PICKAXE: Item = Item {
-        id: 943,
+    pub const NETHERITE_PICKAXE: Self = Self {
+        id: 944,
         registry_key: "netherite_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20372,10 +20455,11 @@ impl Item {
                     res_type: DamageResistantType::Fire,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_SCRAP: Item = Item {
-        id: 910,
+    pub const NETHERITE_SCRAP: Self = Self {
+        id: 911,
         registry_key: "netherite_scrap",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20399,8 +20483,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERITE_SHOVEL: Item = Item {
-        id: 942,
+    pub const NETHERITE_SHOVEL: Self = Self {
+        id: 943,
         registry_key: "netherite_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20465,10 +20549,11 @@ impl Item {
                     res_type: DamageResistantType::Fire,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_SPEAR: Item = Item {
-        id: 1302,
+    pub const NETHERITE_SPEAR: Self = Self {
+        id: 1303,
         registry_key: "netherite_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20513,10 +20598,11 @@ impl Item {
                     res_type: DamageResistantType::Fire,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_SWORD: Item = Item {
-        id: 941,
+    pub const NETHERITE_SWORD: Self = Self {
+        id: 942,
         registry_key: "netherite_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20586,10 +20672,11 @@ impl Item {
                     res_type: DamageResistantType::Fire,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const NETHERITE_UPGRADE_SMITHING_TEMPLATE: Item = Item {
-        id: 1426,
+    pub const NETHERITE_UPGRADE_SMITHING_TEMPLATE: Self = Self {
+        id: 1427,
         registry_key: "netherite_upgrade_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20607,8 +20694,8 @@ impl Item {
             ),
         ],
     };
-    pub const NETHERRACK: Item = Item {
-        id: 359,
+    pub const NETHERRACK: Self = Self {
+        id: 360,
         registry_key: "netherrack",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20626,8 +20713,8 @@ impl Item {
             ),
         ],
     };
-    pub const NOTE_BLOCK: Item = Item {
-        id: 748,
+    pub const NOTE_BLOCK: Self = Self {
+        id: 749,
         registry_key: "note_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20645,8 +20732,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_BOAT: Item = Item {
-        id: 863,
+    pub const OAK_BOAT: Self = Self {
+        id: 864,
         registry_key: "oak_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20664,8 +20751,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_BUTTON: Item = Item {
-        id: 751,
+    pub const OAK_BUTTON: Self = Self {
+        id: 752,
         registry_key: "oak_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20683,8 +20770,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_CHEST_BOAT: Item = Item {
-        id: 864,
+    pub const OAK_CHEST_BOAT: Self = Self {
+        id: 865,
         registry_key: "oak_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -20702,8 +20789,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_DOOR: Item = Item {
-        id: 780,
+    pub const OAK_DOOR: Self = Self {
+        id: 781,
         registry_key: "oak_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20721,8 +20808,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_FENCE: Item = Item {
-        id: 344,
+    pub const OAK_FENCE: Self = Self {
+        id: 345,
         registry_key: "oak_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20740,8 +20827,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_FENCE_GATE: Item = Item {
-        id: 821,
+    pub const OAK_FENCE_GATE: Self = Self {
+        id: 822,
         registry_key: "oak_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20759,8 +20846,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_HANGING_SIGN: Item = Item {
-        id: 1000,
+    pub const OAK_HANGING_SIGN: Self = Self {
+        id: 1001,
         registry_key: "oak_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -20778,7 +20865,7 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_LEAVES: Item = Item {
+    pub const OAK_LEAVES: Self = Self {
         id: 182,
         registry_key: "oak_leaves",
         components: &[
@@ -20797,7 +20884,7 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_LOG: Item = Item {
+    pub const OAK_LOG: Self = Self {
         id: 134,
         registry_key: "oak_log",
         components: &[
@@ -20816,7 +20903,7 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_PLANKS: Item = Item {
+    pub const OAK_PLANKS: Self = Self {
         id: 36,
         registry_key: "oak_planks",
         components: &[
@@ -20835,8 +20922,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_PRESSURE_PLATE: Item = Item {
-        id: 767,
+    pub const OAK_PRESSURE_PLATE: Self = Self {
+        id: 768,
         registry_key: "oak_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20854,7 +20941,7 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_SAPLING: Item = Item {
+    pub const OAK_SAPLING: Self = Self {
         id: 49,
         registry_key: "oak_sapling",
         components: &[
@@ -20873,8 +20960,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_SHELF: Item = Item {
-        id: 313,
+    pub const OAK_SHELF: Self = Self {
+        id: 314,
         registry_key: "oak_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20892,8 +20979,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_SIGN: Item = Item {
-        id: 988,
+    pub const OAK_SIGN: Self = Self {
+        id: 989,
         registry_key: "oak_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -20911,8 +20998,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_SLAB: Item = Item {
-        id: 270,
+    pub const OAK_SLAB: Self = Self {
+        id: 271,
         registry_key: "oak_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20930,8 +21017,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_STAIRS: Item = Item {
-        id: 441,
+    pub const OAK_STAIRS: Self = Self {
+        id: 442,
         registry_key: "oak_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20949,8 +21036,8 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_TRAPDOOR: Item = Item {
-        id: 801,
+    pub const OAK_TRAPDOOR: Self = Self {
+        id: 802,
         registry_key: "oak_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -20968,7 +21055,7 @@ impl Item {
             ),
         ],
     };
-    pub const OAK_WOOD: Item = Item {
+    pub const OAK_WOOD: Self = Self {
         id: 171,
         registry_key: "oak_wood",
         components: &[
@@ -20987,8 +21074,8 @@ impl Item {
             ),
         ],
     };
-    pub const OBSERVER: Item = Item {
-        id: 726,
+    pub const OBSERVER: Self = Self {
+        id: 727,
         registry_key: "observer",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21006,8 +21093,8 @@ impl Item {
             ),
         ],
     };
-    pub const OBSIDIAN: Item = Item {
-        id: 321,
+    pub const OBSIDIAN: Self = Self {
+        id: 322,
         registry_key: "obsidian",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21025,8 +21112,8 @@ impl Item {
             ),
         ],
     };
-    pub const OCELOT_SPAWN_EGG: Item = Item {
-        id: 1147,
+    pub const OCELOT_SPAWN_EGG: Self = Self {
+        id: 1148,
         registry_key: "ocelot_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21044,8 +21131,8 @@ impl Item {
             ),
         ],
     };
-    pub const OCHRE_FROGLIGHT: Item = Item {
-        id: 1420,
+    pub const OCHRE_FROGLIGHT: Self = Self {
+        id: 1421,
         registry_key: "ochre_froglight",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21063,8 +21150,8 @@ impl Item {
             ),
         ],
     };
-    pub const OMINOUS_BOTTLE: Item = Item {
-        id: 1504,
+    pub const OMINOUS_BOTTLE: Self = Self {
+        id: 1505,
         registry_key: "ominous_bottle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21094,8 +21181,8 @@ impl Item {
             ),
         ],
     };
-    pub const OMINOUS_TRIAL_KEY: Item = Item {
-        id: 1502,
+    pub const OMINOUS_TRIAL_KEY: Self = Self {
+        id: 1503,
         registry_key: "ominous_trial_key",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21113,8 +21200,8 @@ impl Item {
             ),
         ],
     };
-    pub const OPEN_EYEBLOSSOM: Item = Item {
-        id: 230,
+    pub const OPEN_EYEBLOSSOM: Self = Self {
+        id: 231,
         registry_key: "open_eyeblossom",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21132,8 +21219,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_BANNER: Item = Item {
-        id: 1267,
+    pub const ORANGE_BANNER: Self = Self {
+        id: 1268,
         registry_key: "orange_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -21151,8 +21238,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_BED: Item = Item {
-        id: 1087,
+    pub const ORANGE_BED: Self = Self {
+        id: 1088,
         registry_key: "orange_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -21170,8 +21257,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_BUNDLE: Item = Item {
-        id: 1038,
+    pub const ORANGE_BUNDLE: Self = Self {
+        id: 1039,
         registry_key: "orange_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -21189,8 +21276,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_CANDLE: Item = Item {
-        id: 1400,
+    pub const ORANGE_CANDLE: Self = Self {
+        id: 1401,
         registry_key: "orange_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21208,8 +21295,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_CARPET: Item = Item {
-        id: 506,
+    pub const ORANGE_CARPET: Self = Self {
+        id: 507,
         registry_key: "orange_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21246,8 +21333,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_CONCRETE: Item = Item {
-        id: 615,
+    pub const ORANGE_CONCRETE: Self = Self {
+        id: 616,
         registry_key: "orange_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21265,8 +21352,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_CONCRETE_POWDER: Item = Item {
-        id: 631,
+    pub const ORANGE_CONCRETE_POWDER: Self = Self {
+        id: 632,
         registry_key: "orange_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21284,8 +21371,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_DYE: Item = Item {
-        id: 1067,
+    pub const ORANGE_DYE: Self = Self {
+        id: 1068,
         registry_key: "orange_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21303,8 +21390,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_GLAZED_TERRACOTTA: Item = Item {
-        id: 599,
+    pub const ORANGE_GLAZED_TERRACOTTA: Self = Self {
+        id: 600,
         registry_key: "orange_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21322,8 +21409,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_HARNESS: Item = Item {
-        id: 839,
+    pub const ORANGE_HARNESS: Self = Self {
+        id: 840,
         registry_key: "orange_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -21357,8 +21444,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_SHULKER_BOX: Item = Item {
-        id: 583,
+    pub const ORANGE_SHULKER_BOX: Self = Self {
+        id: 584,
         registry_key: "orange_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -21376,8 +21463,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_STAINED_GLASS: Item = Item {
-        id: 531,
+    pub const ORANGE_STAINED_GLASS: Self = Self {
+        id: 532,
         registry_key: "orange_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21395,8 +21482,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_STAINED_GLASS_PANE: Item = Item {
-        id: 547,
+    pub const ORANGE_STAINED_GLASS_PANE: Self = Self {
+        id: 548,
         registry_key: "orange_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21414,8 +21501,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_TERRACOTTA: Item = Item {
-        id: 487,
+    pub const ORANGE_TERRACOTTA: Self = Self {
+        id: 488,
         registry_key: "orange_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21433,8 +21520,8 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_TULIP: Item = Item {
-        id: 237,
+    pub const ORANGE_TULIP: Self = Self {
+        id: 238,
         registry_key: "orange_tulip",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21452,7 +21539,7 @@ impl Item {
             ),
         ],
     };
-    pub const ORANGE_WOOL: Item = Item {
+    pub const ORANGE_WOOL: Self = Self {
         id: 214,
         registry_key: "orange_wool",
         components: &[
@@ -21471,8 +21558,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXEYE_DAISY: Item = Item {
-        id: 240,
+    pub const OXEYE_DAISY: Self = Self {
+        id: 241,
         registry_key: "oxeye_daisy",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21490,7 +21577,7 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_CHISELED_COPPER: Item = Item {
+    pub const OXIDIZED_CHISELED_COPPER: Self = Self {
         id: 101,
         registry_key: "oxidized_chiseled_copper",
         components: &[
@@ -21509,7 +21596,7 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER: Item = Item {
+    pub const OXIDIZED_COPPER: Self = Self {
         id: 97,
         registry_key: "oxidized_copper",
         components: &[
@@ -21528,8 +21615,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_BARS: Item = Item {
-        id: 394,
+    pub const OXIDIZED_COPPER_BARS: Self = Self {
+        id: 395,
         registry_key: "oxidized_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21547,8 +21634,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_BULB: Item = Item {
-        id: 1479,
+    pub const OXIDIZED_COPPER_BULB: Self = Self {
+        id: 1480,
         registry_key: "oxidized_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21566,8 +21653,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_CHAIN: Item = Item {
-        id: 403,
+    pub const OXIDIZED_COPPER_CHAIN: Self = Self {
+        id: 404,
         registry_key: "oxidized_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21585,8 +21672,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_CHEST: Item = Item {
-        id: 1487,
+    pub const OXIDIZED_COPPER_CHEST: Self = Self {
+        id: 1488,
         registry_key: "oxidized_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21604,8 +21691,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_DOOR: Item = Item {
-        id: 795,
+    pub const OXIDIZED_COPPER_DOOR: Self = Self {
+        id: 796,
         registry_key: "oxidized_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21623,8 +21710,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1495,
+    pub const OXIDIZED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1496,
         registry_key: "oxidized_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21642,8 +21729,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_GRATE: Item = Item {
-        id: 1471,
+    pub const OXIDIZED_COPPER_GRATE: Self = Self {
+        id: 1472,
         registry_key: "oxidized_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21661,8 +21748,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_LANTERN: Item = Item {
-        id: 1368,
+    pub const OXIDIZED_COPPER_LANTERN: Self = Self {
+        id: 1369,
         registry_key: "oxidized_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21680,8 +21767,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_COPPER_TRAPDOOR: Item = Item {
-        id: 816,
+    pub const OXIDIZED_COPPER_TRAPDOOR: Self = Self {
+        id: 817,
         registry_key: "oxidized_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21699,7 +21786,7 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_CUT_COPPER: Item = Item {
+    pub const OXIDIZED_CUT_COPPER: Self = Self {
         id: 105,
         registry_key: "oxidized_cut_copper",
         components: &[
@@ -21718,7 +21805,7 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_CUT_COPPER_SLAB: Item = Item {
+    pub const OXIDIZED_CUT_COPPER_SLAB: Self = Self {
         id: 113,
         registry_key: "oxidized_cut_copper_slab",
         components: &[
@@ -21737,7 +21824,7 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_CUT_COPPER_STAIRS: Item = Item {
+    pub const OXIDIZED_CUT_COPPER_STAIRS: Self = Self {
         id: 109,
         registry_key: "oxidized_cut_copper_stairs",
         components: &[
@@ -21756,8 +21843,8 @@ impl Item {
             ),
         ],
     };
-    pub const OXIDIZED_LIGHTNING_ROD: Item = Item {
-        id: 736,
+    pub const OXIDIZED_LIGHTNING_ROD: Self = Self {
+        id: 737,
         registry_key: "oxidized_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21775,8 +21862,8 @@ impl Item {
             ),
         ],
     };
-    pub const PACKED_ICE: Item = Item {
-        id: 522,
+    pub const PACKED_ICE: Self = Self {
+        id: 523,
         registry_key: "packed_ice",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21794,8 +21881,8 @@ impl Item {
             ),
         ],
     };
-    pub const PACKED_MUD: Item = Item {
-        id: 379,
+    pub const PACKED_MUD: Self = Self {
+        id: 380,
         registry_key: "packed_mud",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21813,8 +21900,8 @@ impl Item {
             ),
         ],
     };
-    pub const PAINTING: Item = Item {
-        id: 985,
+    pub const PAINTING: Self = Self {
+        id: 986,
         registry_key: "painting",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21832,8 +21919,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_HANGING_MOSS: Item = Item {
-        id: 264,
+    pub const PALE_HANGING_MOSS: Self = Self {
+        id: 265,
         registry_key: "pale_hanging_moss",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21851,8 +21938,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_MOSS_BLOCK: Item = Item {
-        id: 265,
+    pub const PALE_MOSS_BLOCK: Self = Self {
+        id: 266,
         registry_key: "pale_moss_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21870,8 +21957,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_MOSS_CARPET: Item = Item {
-        id: 263,
+    pub const PALE_MOSS_CARPET: Self = Self {
+        id: 264,
         registry_key: "pale_moss_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21889,8 +21976,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_BOAT: Item = Item {
-        id: 877,
+    pub const PALE_OAK_BOAT: Self = Self {
+        id: 878,
         registry_key: "pale_oak_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -21908,8 +21995,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_BUTTON: Item = Item {
-        id: 758,
+    pub const PALE_OAK_BUTTON: Self = Self {
+        id: 759,
         registry_key: "pale_oak_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21927,8 +22014,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_CHEST_BOAT: Item = Item {
-        id: 878,
+    pub const PALE_OAK_CHEST_BOAT: Self = Self {
+        id: 879,
         registry_key: "pale_oak_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -21946,8 +22033,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_DOOR: Item = Item {
-        id: 787,
+    pub const PALE_OAK_DOOR: Self = Self {
+        id: 788,
         registry_key: "pale_oak_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21965,8 +22052,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_FENCE: Item = Item {
-        id: 351,
+    pub const PALE_OAK_FENCE: Self = Self {
+        id: 352,
         registry_key: "pale_oak_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -21984,8 +22071,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_FENCE_GATE: Item = Item {
-        id: 828,
+    pub const PALE_OAK_FENCE_GATE: Self = Self {
+        id: 829,
         registry_key: "pale_oak_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22003,8 +22090,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_HANGING_SIGN: Item = Item {
-        id: 1007,
+    pub const PALE_OAK_HANGING_SIGN: Self = Self {
+        id: 1008,
         registry_key: "pale_oak_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -22022,7 +22109,7 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_LEAVES: Item = Item {
+    pub const PALE_OAK_LEAVES: Self = Self {
         id: 189,
         registry_key: "pale_oak_leaves",
         components: &[
@@ -22041,7 +22128,7 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_LOG: Item = Item {
+    pub const PALE_OAK_LOG: Self = Self {
         id: 140,
         registry_key: "pale_oak_log",
         components: &[
@@ -22060,7 +22147,7 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_PLANKS: Item = Item {
+    pub const PALE_OAK_PLANKS: Self = Self {
         id: 43,
         registry_key: "pale_oak_planks",
         components: &[
@@ -22079,8 +22166,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_PRESSURE_PLATE: Item = Item {
-        id: 774,
+    pub const PALE_OAK_PRESSURE_PLATE: Self = Self {
+        id: 775,
         registry_key: "pale_oak_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22098,7 +22185,7 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_SAPLING: Item = Item {
+    pub const PALE_OAK_SAPLING: Self = Self {
         id: 56,
         registry_key: "pale_oak_sapling",
         components: &[
@@ -22117,8 +22204,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_SHELF: Item = Item {
-        id: 314,
+    pub const PALE_OAK_SHELF: Self = Self {
+        id: 315,
         registry_key: "pale_oak_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22136,8 +22223,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_SIGN: Item = Item {
-        id: 995,
+    pub const PALE_OAK_SIGN: Self = Self {
+        id: 996,
         registry_key: "pale_oak_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -22155,8 +22242,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_SLAB: Item = Item {
-        id: 277,
+    pub const PALE_OAK_SLAB: Self = Self {
+        id: 278,
         registry_key: "pale_oak_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22174,8 +22261,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_STAIRS: Item = Item {
-        id: 448,
+    pub const PALE_OAK_STAIRS: Self = Self {
+        id: 449,
         registry_key: "pale_oak_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22193,8 +22280,8 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_TRAPDOOR: Item = Item {
-        id: 808,
+    pub const PALE_OAK_TRAPDOOR: Self = Self {
+        id: 809,
         registry_key: "pale_oak_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22212,7 +22299,7 @@ impl Item {
             ),
         ],
     };
-    pub const PALE_OAK_WOOD: Item = Item {
+    pub const PALE_OAK_WOOD: Self = Self {
         id: 177,
         registry_key: "pale_oak_wood",
         components: &[
@@ -22231,8 +22318,8 @@ impl Item {
             ),
         ],
     };
-    pub const PANDA_SPAWN_EGG: Item = Item {
-        id: 1148,
+    pub const PANDA_SPAWN_EGG: Self = Self {
+        id: 1149,
         registry_key: "panda_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22250,8 +22337,8 @@ impl Item {
             ),
         ],
     };
-    pub const PAPER: Item = Item {
-        id: 1028,
+    pub const PAPER: Self = Self {
+        id: 1029,
         registry_key: "paper",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22269,8 +22356,8 @@ impl Item {
             ),
         ],
     };
-    pub const PARCHED_SPAWN_EGG: Item = Item {
-        id: 1176,
+    pub const PARCHED_SPAWN_EGG: Self = Self {
+        id: 1177,
         registry_key: "parched_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22288,8 +22375,8 @@ impl Item {
             ),
         ],
     };
-    pub const PARROT_SPAWN_EGG: Item = Item {
-        id: 1139,
+    pub const PARROT_SPAWN_EGG: Self = Self {
+        id: 1140,
         registry_key: "parrot_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22307,8 +22394,8 @@ impl Item {
             ),
         ],
     };
-    pub const PEARLESCENT_FROGLIGHT: Item = Item {
-        id: 1422,
+    pub const PEARLESCENT_FROGLIGHT: Self = Self {
+        id: 1423,
         registry_key: "pearlescent_froglight",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22326,8 +22413,8 @@ impl Item {
             ),
         ],
     };
-    pub const PEONY: Item = Item {
-        id: 527,
+    pub const PEONY: Self = Self {
+        id: 528,
         registry_key: "peony",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22345,8 +22432,8 @@ impl Item {
             ),
         ],
     };
-    pub const PETRIFIED_OAK_SLAB: Item = Item {
-        id: 287,
+    pub const PETRIFIED_OAK_SLAB: Self = Self {
+        id: 288,
         registry_key: "petrified_oak_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22364,8 +22451,8 @@ impl Item {
             ),
         ],
     };
-    pub const PHANTOM_MEMBRANE: Item = Item {
-        id: 861,
+    pub const PHANTOM_MEMBRANE: Self = Self {
+        id: 862,
         registry_key: "phantom_membrane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22383,8 +22470,8 @@ impl Item {
             ),
         ],
     };
-    pub const PHANTOM_SPAWN_EGG: Item = Item {
-        id: 1193,
+    pub const PHANTOM_SPAWN_EGG: Self = Self {
+        id: 1194,
         registry_key: "phantom_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22402,8 +22489,8 @@ impl Item {
             ),
         ],
     };
-    pub const PIG_SPAWN_EGG: Item = Item {
-        id: 1132,
+    pub const PIG_SPAWN_EGG: Self = Self {
+        id: 1133,
         registry_key: "pig_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22421,8 +22508,8 @@ impl Item {
             ),
         ],
     };
-    pub const PIGLIN_BANNER_PATTERN: Item = Item {
-        id: 1347,
+    pub const PIGLIN_BANNER_PATTERN: Self = Self {
+        id: 1348,
         registry_key: "piglin_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -22440,8 +22527,8 @@ impl Item {
             ),
         ],
     };
-    pub const PIGLIN_BRUTE_SPAWN_EGG: Item = Item {
-        id: 1209,
+    pub const PIGLIN_BRUTE_SPAWN_EGG: Self = Self {
+        id: 1210,
         registry_key: "piglin_brute_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22459,8 +22546,8 @@ impl Item {
             ),
         ],
     };
-    pub const PIGLIN_HEAD: Item = Item {
-        id: 1239,
+    pub const PIGLIN_HEAD: Self = Self {
+        id: 1240,
         registry_key: "piglin_head",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22500,8 +22587,8 @@ impl Item {
             ),
         ],
     };
-    pub const PIGLIN_SPAWN_EGG: Item = Item {
-        id: 1208,
+    pub const PIGLIN_SPAWN_EGG: Self = Self {
+        id: 1209,
         registry_key: "piglin_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22519,8 +22606,8 @@ impl Item {
             ),
         ],
     };
-    pub const PILLAGER_SPAWN_EGG: Item = Item {
-        id: 1199,
+    pub const PILLAGER_SPAWN_EGG: Self = Self {
+        id: 1200,
         registry_key: "pillager_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22538,8 +22625,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_BANNER: Item = Item {
-        id: 1272,
+    pub const PINK_BANNER: Self = Self {
+        id: 1273,
         registry_key: "pink_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -22557,8 +22644,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_BED: Item = Item {
-        id: 1092,
+    pub const PINK_BED: Self = Self {
+        id: 1093,
         registry_key: "pink_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -22576,8 +22663,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_BUNDLE: Item = Item {
-        id: 1043,
+    pub const PINK_BUNDLE: Self = Self {
+        id: 1044,
         registry_key: "pink_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -22595,8 +22682,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_CANDLE: Item = Item {
-        id: 1405,
+    pub const PINK_CANDLE: Self = Self {
+        id: 1406,
         registry_key: "pink_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22614,8 +22701,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_CARPET: Item = Item {
-        id: 511,
+    pub const PINK_CARPET: Self = Self {
+        id: 512,
         registry_key: "pink_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22652,8 +22739,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_CONCRETE: Item = Item {
-        id: 620,
+    pub const PINK_CONCRETE: Self = Self {
+        id: 621,
         registry_key: "pink_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22671,8 +22758,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_CONCRETE_POWDER: Item = Item {
-        id: 636,
+    pub const PINK_CONCRETE_POWDER: Self = Self {
+        id: 637,
         registry_key: "pink_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22690,8 +22777,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_DYE: Item = Item {
-        id: 1072,
+    pub const PINK_DYE: Self = Self {
+        id: 1073,
         registry_key: "pink_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22709,8 +22796,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_GLAZED_TERRACOTTA: Item = Item {
-        id: 604,
+    pub const PINK_GLAZED_TERRACOTTA: Self = Self {
+        id: 605,
         registry_key: "pink_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22728,8 +22815,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_HARNESS: Item = Item {
-        id: 844,
+    pub const PINK_HARNESS: Self = Self {
+        id: 845,
         registry_key: "pink_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -22763,8 +22850,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_PETALS: Item = Item {
-        id: 258,
+    pub const PINK_PETALS: Self = Self {
+        id: 259,
         registry_key: "pink_petals",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22782,8 +22869,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_SHULKER_BOX: Item = Item {
-        id: 588,
+    pub const PINK_SHULKER_BOX: Self = Self {
+        id: 589,
         registry_key: "pink_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -22801,8 +22888,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_STAINED_GLASS: Item = Item {
-        id: 536,
+    pub const PINK_STAINED_GLASS: Self = Self {
+        id: 537,
         registry_key: "pink_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22820,8 +22907,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_STAINED_GLASS_PANE: Item = Item {
-        id: 552,
+    pub const PINK_STAINED_GLASS_PANE: Self = Self {
+        id: 553,
         registry_key: "pink_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22839,8 +22926,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_TERRACOTTA: Item = Item {
-        id: 492,
+    pub const PINK_TERRACOTTA: Self = Self {
+        id: 493,
         registry_key: "pink_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22858,8 +22945,8 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_TULIP: Item = Item {
-        id: 239,
+    pub const PINK_TULIP: Self = Self {
+        id: 240,
         registry_key: "pink_tulip",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22877,7 +22964,7 @@ impl Item {
             ),
         ],
     };
-    pub const PINK_WOOL: Item = Item {
+    pub const PINK_WOOL: Self = Self {
         id: 219,
         registry_key: "pink_wool",
         components: &[
@@ -22896,8 +22983,8 @@ impl Item {
             ),
         ],
     };
-    pub const PISTON: Item = Item {
-        id: 722,
+    pub const PISTON: Self = Self {
+        id: 723,
         registry_key: "piston",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22915,8 +23002,8 @@ impl Item {
             ),
         ],
     };
-    pub const PITCHER_PLANT: Item = Item {
-        id: 245,
+    pub const PITCHER_PLANT: Self = Self {
+        id: 246,
         registry_key: "pitcher_plant",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22934,8 +23021,8 @@ impl Item {
             ),
         ],
     };
-    pub const PITCHER_POD: Item = Item {
-        id: 1286,
+    pub const PITCHER_POD: Self = Self {
+        id: 1287,
         registry_key: "pitcher_pod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22953,8 +23040,8 @@ impl Item {
             ),
         ],
     };
-    pub const PLAYER_HEAD: Item = Item {
-        id: 1235,
+    pub const PLAYER_HEAD: Self = Self {
+        id: 1236,
         registry_key: "player_head",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -22994,8 +23081,8 @@ impl Item {
             ),
         ],
     };
-    pub const PLENTY_POTTERY_SHERD: Item = Item {
-        id: 1461,
+    pub const PLENTY_POTTERY_SHERD: Self = Self {
+        id: 1462,
         registry_key: "plenty_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23013,7 +23100,7 @@ impl Item {
             ),
         ],
     };
-    pub const PODZOL: Item = Item {
+    pub const PODZOL: Self = Self {
         id: 30,
         registry_key: "podzol",
         components: &[
@@ -23032,8 +23119,8 @@ impl Item {
             ),
         ],
     };
-    pub const POINTED_DRIPSTONE: Item = Item {
-        id: 1419,
+    pub const POINTED_DRIPSTONE: Self = Self {
+        id: 1420,
         registry_key: "pointed_dripstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23051,8 +23138,8 @@ impl Item {
             ),
         ],
     };
-    pub const POISONOUS_POTATO: Item = Item {
-        id: 1230,
+    pub const POISONOUS_POTATO: Self = Self {
+        id: 1231,
         registry_key: "poisonous_potato",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23098,8 +23185,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLAR_BEAR_SPAWN_EGG: Item = Item {
-        id: 1149,
+    pub const POLAR_BEAR_SPAWN_EGG: Self = Self {
+        id: 1150,
         registry_key: "polar_bear_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23117,7 +23204,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_ANDESITE: Item = Item {
+    pub const POLISHED_ANDESITE: Self = Self {
         id: 7,
         registry_key: "polished_andesite",
         components: &[
@@ -23136,8 +23223,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_ANDESITE_SLAB: Item = Item {
-        id: 710,
+    pub const POLISHED_ANDESITE_SLAB: Self = Self {
+        id: 711,
         registry_key: "polished_andesite_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23155,8 +23242,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_ANDESITE_STAIRS: Item = Item {
-        id: 693,
+    pub const POLISHED_ANDESITE_STAIRS: Self = Self {
+        id: 694,
         registry_key: "polished_andesite_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23174,8 +23261,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BASALT: Item = Item {
-        id: 363,
+    pub const POLISHED_BASALT: Self = Self {
+        id: 364,
         registry_key: "polished_basalt",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23193,8 +23280,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE: Item = Item {
-        id: 1389,
+    pub const POLISHED_BLACKSTONE: Self = Self {
+        id: 1390,
         registry_key: "polished_blackstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23212,8 +23299,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_BRICK_SLAB: Item = Item {
-        id: 1394,
+    pub const POLISHED_BLACKSTONE_BRICK_SLAB: Self = Self {
+        id: 1395,
         registry_key: "polished_blackstone_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23231,8 +23318,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_BRICK_STAIRS: Item = Item {
-        id: 1395,
+    pub const POLISHED_BLACKSTONE_BRICK_STAIRS: Self = Self {
+        id: 1396,
         registry_key: "polished_blackstone_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23250,8 +23337,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_BRICK_WALL: Item = Item {
-        id: 473,
+    pub const POLISHED_BLACKSTONE_BRICK_WALL: Self = Self {
+        id: 474,
         registry_key: "polished_blackstone_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23269,8 +23356,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_BRICKS: Item = Item {
-        id: 1393,
+    pub const POLISHED_BLACKSTONE_BRICKS: Self = Self {
+        id: 1394,
         registry_key: "polished_blackstone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23288,8 +23375,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_BUTTON: Item = Item {
-        id: 750,
+    pub const POLISHED_BLACKSTONE_BUTTON: Self = Self {
+        id: 751,
         registry_key: "polished_blackstone_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23307,8 +23394,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_PRESSURE_PLATE: Item = Item {
-        id: 764,
+    pub const POLISHED_BLACKSTONE_PRESSURE_PLATE: Self = Self {
+        id: 765,
         registry_key: "polished_blackstone_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23326,8 +23413,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_SLAB: Item = Item {
-        id: 1390,
+    pub const POLISHED_BLACKSTONE_SLAB: Self = Self {
+        id: 1391,
         registry_key: "polished_blackstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23345,8 +23432,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_STAIRS: Item = Item {
-        id: 1391,
+    pub const POLISHED_BLACKSTONE_STAIRS: Self = Self {
+        id: 1392,
         registry_key: "polished_blackstone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23364,8 +23451,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_BLACKSTONE_WALL: Item = Item {
-        id: 472,
+    pub const POLISHED_BLACKSTONE_WALL: Self = Self {
+        id: 473,
         registry_key: "polished_blackstone_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23383,7 +23470,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DEEPSLATE: Item = Item {
+    pub const POLISHED_DEEPSLATE: Self = Self {
         id: 10,
         registry_key: "polished_deepslate",
         components: &[
@@ -23402,8 +23489,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DEEPSLATE_SLAB: Item = Item {
-        id: 713,
+    pub const POLISHED_DEEPSLATE_SLAB: Self = Self {
+        id: 714,
         registry_key: "polished_deepslate_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23421,8 +23508,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DEEPSLATE_STAIRS: Item = Item {
-        id: 696,
+    pub const POLISHED_DEEPSLATE_STAIRS: Self = Self {
+        id: 697,
         registry_key: "polished_deepslate_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23440,8 +23527,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DEEPSLATE_WALL: Item = Item {
-        id: 475,
+    pub const POLISHED_DEEPSLATE_WALL: Self = Self {
+        id: 476,
         registry_key: "polished_deepslate_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23459,7 +23546,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DIORITE: Item = Item {
+    pub const POLISHED_DIORITE: Self = Self {
         id: 5,
         registry_key: "polished_diorite",
         components: &[
@@ -23478,8 +23565,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DIORITE_SLAB: Item = Item {
-        id: 702,
+    pub const POLISHED_DIORITE_SLAB: Self = Self {
+        id: 703,
         registry_key: "polished_diorite_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23497,8 +23584,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_DIORITE_STAIRS: Item = Item {
-        id: 684,
+    pub const POLISHED_DIORITE_STAIRS: Self = Self {
+        id: 685,
         registry_key: "polished_diorite_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23516,7 +23603,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_GRANITE: Item = Item {
+    pub const POLISHED_GRANITE: Self = Self {
         id: 3,
         registry_key: "polished_granite",
         components: &[
@@ -23535,8 +23622,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_GRANITE_SLAB: Item = Item {
-        id: 699,
+    pub const POLISHED_GRANITE_SLAB: Self = Self {
+        id: 700,
         registry_key: "polished_granite_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23554,8 +23641,8 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_GRANITE_STAIRS: Item = Item {
-        id: 681,
+    pub const POLISHED_GRANITE_STAIRS: Self = Self {
+        id: 682,
         registry_key: "polished_granite_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23573,7 +23660,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_TUFF: Item = Item {
+    pub const POLISHED_TUFF: Self = Self {
         id: 17,
         registry_key: "polished_tuff",
         components: &[
@@ -23592,7 +23679,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_TUFF_SLAB: Item = Item {
+    pub const POLISHED_TUFF_SLAB: Self = Self {
         id: 18,
         registry_key: "polished_tuff_slab",
         components: &[
@@ -23611,7 +23698,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_TUFF_STAIRS: Item = Item {
+    pub const POLISHED_TUFF_STAIRS: Self = Self {
         id: 19,
         registry_key: "polished_tuff_stairs",
         components: &[
@@ -23630,7 +23717,7 @@ impl Item {
             ),
         ],
     };
-    pub const POLISHED_TUFF_WALL: Item = Item {
+    pub const POLISHED_TUFF_WALL: Self = Self {
         id: 20,
         registry_key: "polished_tuff_wall",
         components: &[
@@ -23649,8 +23736,8 @@ impl Item {
             ),
         ],
     };
-    pub const POPPED_CHORUS_FRUIT: Item = Item {
-        id: 1284,
+    pub const POPPED_CHORUS_FRUIT: Self = Self {
+        id: 1285,
         registry_key: "popped_chorus_fruit",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23668,8 +23755,8 @@ impl Item {
             ),
         ],
     };
-    pub const POPPY: Item = Item {
-        id: 232,
+    pub const POPPY: Self = Self {
+        id: 233,
         registry_key: "poppy",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23687,8 +23774,8 @@ impl Item {
             ),
         ],
     };
-    pub const PORKCHOP: Item = Item {
-        id: 983,
+    pub const PORKCHOP: Self = Self {
+        id: 984,
         registry_key: "porkchop",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23724,8 +23811,8 @@ impl Item {
             ),
         ],
     };
-    pub const POTATO: Item = Item {
-        id: 1228,
+    pub const POTATO: Self = Self {
+        id: 1229,
         registry_key: "potato",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23761,8 +23848,8 @@ impl Item {
             ),
         ],
     };
-    pub const POTION: Item = Item {
-        id: 1121,
+    pub const POTION: Self = Self {
+        id: 1122,
         registry_key: "potion",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -23790,8 +23877,8 @@ impl Item {
             ),
         ],
     };
-    pub const POWDER_SNOW_BUCKET: Item = Item {
-        id: 1015,
+    pub const POWDER_SNOW_BUCKET: Self = Self {
+        id: 1016,
         registry_key: "powder_snow_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -23809,8 +23896,8 @@ impl Item {
             ),
         ],
     };
-    pub const POWERED_RAIL: Item = Item {
-        id: 833,
+    pub const POWERED_RAIL: Self = Self {
+        id: 834,
         registry_key: "powered_rail",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23828,8 +23915,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE: Item = Item {
-        id: 562,
+    pub const PRISMARINE: Self = Self {
+        id: 563,
         registry_key: "prismarine",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23847,8 +23934,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_BRICK_SLAB: Item = Item {
-        id: 298,
+    pub const PRISMARINE_BRICK_SLAB: Self = Self {
+        id: 299,
         registry_key: "prismarine_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23866,8 +23953,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_BRICK_STAIRS: Item = Item {
-        id: 566,
+    pub const PRISMARINE_BRICK_STAIRS: Self = Self {
+        id: 567,
         registry_key: "prismarine_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23885,8 +23972,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_BRICKS: Item = Item {
-        id: 563,
+    pub const PRISMARINE_BRICKS: Self = Self {
+        id: 564,
         registry_key: "prismarine_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23904,8 +23991,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_CRYSTALS: Item = Item {
-        id: 1248,
+    pub const PRISMARINE_CRYSTALS: Self = Self {
+        id: 1249,
         registry_key: "prismarine_crystals",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23923,8 +24010,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_SHARD: Item = Item {
-        id: 1247,
+    pub const PRISMARINE_SHARD: Self = Self {
+        id: 1248,
         registry_key: "prismarine_shard",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23942,8 +24029,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_SLAB: Item = Item {
-        id: 297,
+    pub const PRISMARINE_SLAB: Self = Self {
+        id: 298,
         registry_key: "prismarine_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23961,8 +24048,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_STAIRS: Item = Item {
-        id: 565,
+    pub const PRISMARINE_STAIRS: Self = Self {
+        id: 566,
         registry_key: "prismarine_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23980,8 +24067,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRISMARINE_WALL: Item = Item {
-        id: 459,
+    pub const PRISMARINE_WALL: Self = Self {
+        id: 460,
         registry_key: "prismarine_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -23999,8 +24086,8 @@ impl Item {
             ),
         ],
     };
-    pub const PRIZE_POTTERY_SHERD: Item = Item {
-        id: 1462,
+    pub const PRIZE_POTTERY_SHERD: Self = Self {
+        id: 1463,
         registry_key: "prize_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24018,8 +24105,8 @@ impl Item {
             ),
         ],
     };
-    pub const PUFFERFISH: Item = Item {
-        id: 1060,
+    pub const PUFFERFISH: Self = Self {
+        id: 1061,
         registry_key: "pufferfish",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24083,8 +24170,8 @@ impl Item {
             ),
         ],
     };
-    pub const PUFFERFISH_BUCKET: Item = Item {
-        id: 1019,
+    pub const PUFFERFISH_BUCKET: Self = Self {
+        id: 1020,
         registry_key: "pufferfish_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -24110,8 +24197,8 @@ impl Item {
             ),
         ],
     };
-    pub const PUFFERFISH_SPAWN_EGG: Item = Item {
-        id: 1157,
+    pub const PUFFERFISH_SPAWN_EGG: Self = Self {
+        id: 1158,
         registry_key: "pufferfish_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24129,8 +24216,8 @@ impl Item {
             ),
         ],
     };
-    pub const PUMPKIN: Item = Item {
-        id: 356,
+    pub const PUMPKIN: Self = Self {
+        id: 357,
         registry_key: "pumpkin",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24148,8 +24235,8 @@ impl Item {
             ),
         ],
     };
-    pub const PUMPKIN_PIE: Item = Item {
-        id: 1241,
+    pub const PUMPKIN_PIE: Self = Self {
+        id: 1242,
         registry_key: "pumpkin_pie",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24185,8 +24272,8 @@ impl Item {
             ),
         ],
     };
-    pub const PUMPKIN_SEEDS: Item = Item {
-        id: 1108,
+    pub const PUMPKIN_SEEDS: Self = Self {
+        id: 1109,
         registry_key: "pumpkin_seeds",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24204,8 +24291,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_BANNER: Item = Item {
-        id: 1276,
+    pub const PURPLE_BANNER: Self = Self {
+        id: 1277,
         registry_key: "purple_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -24223,8 +24310,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_BED: Item = Item {
-        id: 1096,
+    pub const PURPLE_BED: Self = Self {
+        id: 1097,
         registry_key: "purple_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -24242,8 +24329,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_BUNDLE: Item = Item {
-        id: 1047,
+    pub const PURPLE_BUNDLE: Self = Self {
+        id: 1048,
         registry_key: "purple_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -24261,8 +24348,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_CANDLE: Item = Item {
-        id: 1409,
+    pub const PURPLE_CANDLE: Self = Self {
+        id: 1410,
         registry_key: "purple_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24280,8 +24367,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_CARPET: Item = Item {
-        id: 515,
+    pub const PURPLE_CARPET: Self = Self {
+        id: 516,
         registry_key: "purple_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24318,8 +24405,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_CONCRETE: Item = Item {
-        id: 624,
+    pub const PURPLE_CONCRETE: Self = Self {
+        id: 625,
         registry_key: "purple_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24337,8 +24424,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_CONCRETE_POWDER: Item = Item {
-        id: 640,
+    pub const PURPLE_CONCRETE_POWDER: Self = Self {
+        id: 641,
         registry_key: "purple_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24356,8 +24443,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_DYE: Item = Item {
-        id: 1076,
+    pub const PURPLE_DYE: Self = Self {
+        id: 1077,
         registry_key: "purple_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24375,8 +24462,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_GLAZED_TERRACOTTA: Item = Item {
-        id: 608,
+    pub const PURPLE_GLAZED_TERRACOTTA: Self = Self {
+        id: 609,
         registry_key: "purple_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24394,8 +24481,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_HARNESS: Item = Item {
-        id: 848,
+    pub const PURPLE_HARNESS: Self = Self {
+        id: 849,
         registry_key: "purple_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -24429,8 +24516,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_SHULKER_BOX: Item = Item {
-        id: 592,
+    pub const PURPLE_SHULKER_BOX: Self = Self {
+        id: 593,
         registry_key: "purple_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -24448,8 +24535,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_STAINED_GLASS: Item = Item {
-        id: 540,
+    pub const PURPLE_STAINED_GLASS: Self = Self {
+        id: 541,
         registry_key: "purple_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24467,8 +24554,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_STAINED_GLASS_PANE: Item = Item {
-        id: 556,
+    pub const PURPLE_STAINED_GLASS_PANE: Self = Self {
+        id: 557,
         registry_key: "purple_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24486,8 +24573,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_TERRACOTTA: Item = Item {
-        id: 496,
+    pub const PURPLE_TERRACOTTA: Self = Self {
+        id: 497,
         registry_key: "purple_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24505,7 +24592,7 @@ impl Item {
             ),
         ],
     };
-    pub const PURPLE_WOOL: Item = Item {
+    pub const PURPLE_WOOL: Self = Self {
         id: 223,
         registry_key: "purple_wool",
         components: &[
@@ -24524,8 +24611,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPUR_BLOCK: Item = Item {
-        id: 326,
+    pub const PURPUR_BLOCK: Self = Self {
+        id: 327,
         registry_key: "purpur_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24543,8 +24630,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPUR_PILLAR: Item = Item {
-        id: 327,
+    pub const PURPUR_PILLAR: Self = Self {
+        id: 328,
         registry_key: "purpur_pillar",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24562,8 +24649,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPUR_SLAB: Item = Item {
-        id: 296,
+    pub const PURPUR_SLAB: Self = Self {
+        id: 297,
         registry_key: "purpur_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24581,8 +24668,8 @@ impl Item {
             ),
         ],
     };
-    pub const PURPUR_STAIRS: Item = Item {
-        id: 328,
+    pub const PURPUR_STAIRS: Self = Self {
+        id: 329,
         registry_key: "purpur_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24600,8 +24687,8 @@ impl Item {
             ),
         ],
     };
-    pub const QUARTZ: Item = Item {
-        id: 901,
+    pub const QUARTZ: Self = Self {
+        id: 902,
         registry_key: "quartz",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24619,8 +24706,8 @@ impl Item {
             ),
         ],
     };
-    pub const QUARTZ_BLOCK: Item = Item {
-        id: 482,
+    pub const QUARTZ_BLOCK: Self = Self {
+        id: 483,
         registry_key: "quartz_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24638,8 +24725,8 @@ impl Item {
             ),
         ],
     };
-    pub const QUARTZ_BRICKS: Item = Item {
-        id: 483,
+    pub const QUARTZ_BRICKS: Self = Self {
+        id: 484,
         registry_key: "quartz_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24657,8 +24744,8 @@ impl Item {
             ),
         ],
     };
-    pub const QUARTZ_PILLAR: Item = Item {
-        id: 484,
+    pub const QUARTZ_PILLAR: Self = Self {
+        id: 485,
         registry_key: "quartz_pillar",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24676,8 +24763,8 @@ impl Item {
             ),
         ],
     };
-    pub const QUARTZ_SLAB: Item = Item {
-        id: 293,
+    pub const QUARTZ_SLAB: Self = Self {
+        id: 294,
         registry_key: "quartz_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24695,8 +24782,8 @@ impl Item {
             ),
         ],
     };
-    pub const QUARTZ_STAIRS: Item = Item {
-        id: 485,
+    pub const QUARTZ_STAIRS: Self = Self {
+        id: 486,
         registry_key: "quartz_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24714,8 +24801,8 @@ impl Item {
             ),
         ],
     };
-    pub const RABBIT: Item = Item {
-        id: 1249,
+    pub const RABBIT: Self = Self {
+        id: 1250,
         registry_key: "rabbit",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24751,8 +24838,8 @@ impl Item {
             ),
         ],
     };
-    pub const RABBIT_FOOT: Item = Item {
-        id: 1252,
+    pub const RABBIT_FOOT: Self = Self {
+        id: 1253,
         registry_key: "rabbit_foot",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24770,8 +24857,8 @@ impl Item {
             ),
         ],
     };
-    pub const RABBIT_HIDE: Item = Item {
-        id: 1253,
+    pub const RABBIT_HIDE: Self = Self {
+        id: 1254,
         registry_key: "rabbit_hide",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24789,8 +24876,8 @@ impl Item {
             ),
         ],
     };
-    pub const RABBIT_SPAWN_EGG: Item = Item {
-        id: 1150,
+    pub const RABBIT_SPAWN_EGG: Self = Self {
+        id: 1151,
         registry_key: "rabbit_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24808,8 +24895,8 @@ impl Item {
             ),
         ],
     };
-    pub const RABBIT_STEW: Item = Item {
-        id: 1251,
+    pub const RABBIT_STEW: Self = Self {
+        id: 1252,
         registry_key: "rabbit_stew",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -24845,8 +24932,8 @@ impl Item {
             ),
         ],
     };
-    pub const RAIL: Item = Item {
-        id: 835,
+    pub const RAIL: Self = Self {
+        id: 836,
         registry_key: "rail",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24864,8 +24951,8 @@ impl Item {
             ),
         ],
     };
-    pub const RAISER_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1441,
+    pub const RAISER_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1442,
         registry_key: "raiser_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24883,8 +24970,8 @@ impl Item {
             ),
         ],
     };
-    pub const RAVAGER_SPAWN_EGG: Item = Item {
-        id: 1200,
+    pub const RAVAGER_SPAWN_EGG: Self = Self {
+        id: 1201,
         registry_key: "ravager_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24902,8 +24989,8 @@ impl Item {
             ),
         ],
     };
-    pub const RAW_COPPER: Item = Item {
-        id: 905,
+    pub const RAW_COPPER: Self = Self {
+        id: 906,
         registry_key: "raw_copper",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24921,7 +25008,7 @@ impl Item {
             ),
         ],
     };
-    pub const RAW_COPPER_BLOCK: Item = Item {
+    pub const RAW_COPPER_BLOCK: Self = Self {
         id: 85,
         registry_key: "raw_copper_block",
         components: &[
@@ -24940,8 +25027,8 @@ impl Item {
             ),
         ],
     };
-    pub const RAW_GOLD: Item = Item {
-        id: 907,
+    pub const RAW_GOLD: Self = Self {
+        id: 908,
         registry_key: "raw_gold",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24959,7 +25046,7 @@ impl Item {
             ),
         ],
     };
-    pub const RAW_GOLD_BLOCK: Item = Item {
+    pub const RAW_GOLD_BLOCK: Self = Self {
         id: 86,
         registry_key: "raw_gold_block",
         components: &[
@@ -24978,8 +25065,8 @@ impl Item {
             ),
         ],
     };
-    pub const RAW_IRON: Item = Item {
-        id: 903,
+    pub const RAW_IRON: Self = Self {
+        id: 904,
         registry_key: "raw_iron",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -24997,7 +25084,7 @@ impl Item {
             ),
         ],
     };
-    pub const RAW_IRON_BLOCK: Item = Item {
+    pub const RAW_IRON_BLOCK: Self = Self {
         id: 84,
         registry_key: "raw_iron_block",
         components: &[
@@ -25016,8 +25103,8 @@ impl Item {
             ),
         ],
     };
-    pub const RECOVERY_COMPASS: Item = Item {
-        id: 1035,
+    pub const RECOVERY_COMPASS: Self = Self {
+        id: 1036,
         registry_key: "recovery_compass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25035,8 +25122,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_BANNER: Item = Item {
-        id: 1280,
+    pub const RED_BANNER: Self = Self {
+        id: 1281,
         registry_key: "red_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -25054,8 +25141,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_BED: Item = Item {
-        id: 1100,
+    pub const RED_BED: Self = Self {
+        id: 1101,
         registry_key: "red_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -25073,8 +25160,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_BUNDLE: Item = Item {
-        id: 1051,
+    pub const RED_BUNDLE: Self = Self {
+        id: 1052,
         registry_key: "red_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -25092,8 +25179,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_CANDLE: Item = Item {
-        id: 1413,
+    pub const RED_CANDLE: Self = Self {
+        id: 1414,
         registry_key: "red_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25111,8 +25198,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_CARPET: Item = Item {
-        id: 519,
+    pub const RED_CARPET: Self = Self {
+        id: 520,
         registry_key: "red_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25149,8 +25236,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_CONCRETE: Item = Item {
-        id: 628,
+    pub const RED_CONCRETE: Self = Self {
+        id: 629,
         registry_key: "red_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25168,8 +25255,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_CONCRETE_POWDER: Item = Item {
-        id: 644,
+    pub const RED_CONCRETE_POWDER: Self = Self {
+        id: 645,
         registry_key: "red_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25187,8 +25274,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_DYE: Item = Item {
-        id: 1080,
+    pub const RED_DYE: Self = Self {
+        id: 1081,
         registry_key: "red_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25206,8 +25293,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_GLAZED_TERRACOTTA: Item = Item {
-        id: 612,
+    pub const RED_GLAZED_TERRACOTTA: Self = Self {
+        id: 613,
         registry_key: "red_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25225,8 +25312,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_HARNESS: Item = Item {
-        id: 852,
+    pub const RED_HARNESS: Self = Self {
+        id: 853,
         registry_key: "red_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -25260,8 +25347,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_MUSHROOM: Item = Item {
-        id: 248,
+    pub const RED_MUSHROOM: Self = Self {
+        id: 249,
         registry_key: "red_mushroom",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25279,8 +25366,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_MUSHROOM_BLOCK: Item = Item {
-        id: 388,
+    pub const RED_MUSHROOM_BLOCK: Self = Self {
+        id: 389,
         registry_key: "red_mushroom_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25298,8 +25385,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_NETHER_BRICK_SLAB: Item = Item {
-        id: 709,
+    pub const RED_NETHER_BRICK_SLAB: Self = Self {
+        id: 710,
         registry_key: "red_nether_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25317,8 +25404,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_NETHER_BRICK_STAIRS: Item = Item {
-        id: 692,
+    pub const RED_NETHER_BRICK_STAIRS: Self = Self {
+        id: 693,
         registry_key: "red_nether_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25336,8 +25423,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_NETHER_BRICK_WALL: Item = Item {
-        id: 467,
+    pub const RED_NETHER_BRICK_WALL: Self = Self {
+        id: 468,
         registry_key: "red_nether_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25355,8 +25442,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_NETHER_BRICKS: Item = Item {
-        id: 578,
+    pub const RED_NETHER_BRICKS: Self = Self {
+        id: 579,
         registry_key: "red_nether_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25374,7 +25461,7 @@ impl Item {
             ),
         ],
     };
-    pub const RED_SAND: Item = Item {
+    pub const RED_SAND: Self = Self {
         id: 62,
         registry_key: "red_sand",
         components: &[
@@ -25393,8 +25480,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_SANDSTONE: Item = Item {
-        id: 569,
+    pub const RED_SANDSTONE: Self = Self {
+        id: 570,
         registry_key: "red_sandstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25412,8 +25499,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_SANDSTONE_SLAB: Item = Item {
-        id: 294,
+    pub const RED_SANDSTONE_SLAB: Self = Self {
+        id: 295,
         registry_key: "red_sandstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25431,8 +25518,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_SANDSTONE_STAIRS: Item = Item {
-        id: 572,
+    pub const RED_SANDSTONE_STAIRS: Self = Self {
+        id: 573,
         registry_key: "red_sandstone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25450,8 +25537,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_SANDSTONE_WALL: Item = Item {
-        id: 460,
+    pub const RED_SANDSTONE_WALL: Self = Self {
+        id: 461,
         registry_key: "red_sandstone_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25469,8 +25556,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_SHULKER_BOX: Item = Item {
-        id: 596,
+    pub const RED_SHULKER_BOX: Self = Self {
+        id: 597,
         registry_key: "red_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -25488,8 +25575,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_STAINED_GLASS: Item = Item {
-        id: 544,
+    pub const RED_STAINED_GLASS: Self = Self {
+        id: 545,
         registry_key: "red_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25507,8 +25594,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_STAINED_GLASS_PANE: Item = Item {
-        id: 560,
+    pub const RED_STAINED_GLASS_PANE: Self = Self {
+        id: 561,
         registry_key: "red_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25526,8 +25613,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_TERRACOTTA: Item = Item {
-        id: 500,
+    pub const RED_TERRACOTTA: Self = Self {
+        id: 501,
         registry_key: "red_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25545,8 +25632,8 @@ impl Item {
             ),
         ],
     };
-    pub const RED_TULIP: Item = Item {
-        id: 236,
+    pub const RED_TULIP: Self = Self {
+        id: 237,
         registry_key: "red_tulip",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25564,7 +25651,7 @@ impl Item {
             ),
         ],
     };
-    pub const RED_WOOL: Item = Item {
+    pub const RED_WOOL: Self = Self {
         id: 227,
         registry_key: "red_wool",
         components: &[
@@ -25583,8 +25670,8 @@ impl Item {
             ),
         ],
     };
-    pub const REDSTONE: Item = Item {
-        id: 717,
+    pub const REDSTONE: Self = Self {
+        id: 718,
         registry_key: "redstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25602,8 +25689,8 @@ impl Item {
             ),
         ],
     };
-    pub const REDSTONE_BLOCK: Item = Item {
-        id: 719,
+    pub const REDSTONE_BLOCK: Self = Self {
+        id: 720,
         registry_key: "redstone_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25621,8 +25708,8 @@ impl Item {
             ),
         ],
     };
-    pub const REDSTONE_LAMP: Item = Item {
-        id: 747,
+    pub const REDSTONE_LAMP: Self = Self {
+        id: 748,
         registry_key: "redstone_lamp",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25640,7 +25727,7 @@ impl Item {
             ),
         ],
     };
-    pub const REDSTONE_ORE: Item = Item {
+    pub const REDSTONE_ORE: Self = Self {
         id: 72,
         registry_key: "redstone_ore",
         components: &[
@@ -25659,8 +25746,8 @@ impl Item {
             ),
         ],
     };
-    pub const REDSTONE_TORCH: Item = Item {
-        id: 718,
+    pub const REDSTONE_TORCH: Self = Self {
+        id: 719,
         registry_key: "redstone_torch",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25678,8 +25765,8 @@ impl Item {
             ),
         ],
     };
-    pub const REINFORCED_DEEPSLATE: Item = Item {
-        id: 386,
+    pub const REINFORCED_DEEPSLATE: Self = Self {
+        id: 387,
         registry_key: "reinforced_deepslate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25697,8 +25784,8 @@ impl Item {
             ),
         ],
     };
-    pub const REPEATER: Item = Item {
-        id: 720,
+    pub const REPEATER: Self = Self {
+        id: 721,
         registry_key: "repeater",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25716,8 +25803,8 @@ impl Item {
             ),
         ],
     };
-    pub const REPEATING_COMMAND_BLOCK: Item = Item {
-        id: 573,
+    pub const REPEATING_COMMAND_BLOCK: Self = Self {
+        id: 574,
         registry_key: "repeating_command_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25735,8 +25822,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_BLOCK: Item = Item {
-        id: 413,
+    pub const RESIN_BLOCK: Self = Self {
+        id: 414,
         registry_key: "resin_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25754,8 +25841,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_BRICK: Item = Item {
-        id: 1246,
+    pub const RESIN_BRICK: Self = Self {
+        id: 1247,
         registry_key: "resin_brick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25773,8 +25860,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_BRICK_SLAB: Item = Item {
-        id: 416,
+    pub const RESIN_BRICK_SLAB: Self = Self {
+        id: 417,
         registry_key: "resin_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25792,8 +25879,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_BRICK_STAIRS: Item = Item {
-        id: 415,
+    pub const RESIN_BRICK_STAIRS: Self = Self {
+        id: 416,
         registry_key: "resin_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25811,8 +25898,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_BRICK_WALL: Item = Item {
-        id: 417,
+    pub const RESIN_BRICK_WALL: Self = Self {
+        id: 418,
         registry_key: "resin_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25830,8 +25917,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_BRICKS: Item = Item {
-        id: 414,
+    pub const RESIN_BRICKS: Self = Self {
+        id: 415,
         registry_key: "resin_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25849,8 +25936,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESIN_CLUMP: Item = Item {
-        id: 412,
+    pub const RESIN_CLUMP: Self = Self {
+        id: 413,
         registry_key: "resin_clump",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25868,8 +25955,8 @@ impl Item {
             ),
         ],
     };
-    pub const RESPAWN_ANCHOR: Item = Item {
-        id: 1397,
+    pub const RESPAWN_ANCHOR: Self = Self {
+        id: 1398,
         registry_key: "respawn_anchor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25887,8 +25974,8 @@ impl Item {
             ),
         ],
     };
-    pub const RIB_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1436,
+    pub const RIB_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1437,
         registry_key: "rib_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25906,7 +25993,7 @@ impl Item {
             ),
         ],
     };
-    pub const ROOTED_DIRT: Item = Item {
+    pub const ROOTED_DIRT: Self = Self {
         id: 31,
         registry_key: "rooted_dirt",
         components: &[
@@ -25925,8 +26012,8 @@ impl Item {
             ),
         ],
     };
-    pub const ROSE_BUSH: Item = Item {
-        id: 526,
+    pub const ROSE_BUSH: Self = Self {
+        id: 527,
         registry_key: "rose_bush",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25944,8 +26031,8 @@ impl Item {
             ),
         ],
     };
-    pub const ROTTEN_FLESH: Item = Item {
-        id: 1114,
+    pub const ROTTEN_FLESH: Self = Self {
+        id: 1115,
         registry_key: "rotten_flesh",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -25991,8 +26078,8 @@ impl Item {
             ),
         ],
     };
-    pub const SADDLE: Item = Item {
-        id: 837,
+    pub const SADDLE: Self = Self {
+        id: 838,
         registry_key: "saddle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -26026,8 +26113,8 @@ impl Item {
             ),
         ],
     };
-    pub const SALMON: Item = Item {
-        id: 1058,
+    pub const SALMON: Self = Self {
+        id: 1059,
         registry_key: "salmon",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26063,8 +26150,8 @@ impl Item {
             ),
         ],
     };
-    pub const SALMON_BUCKET: Item = Item {
-        id: 1020,
+    pub const SALMON_BUCKET: Self = Self {
+        id: 1021,
         registry_key: "salmon_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -26090,8 +26177,8 @@ impl Item {
             ),
         ],
     };
-    pub const SALMON_SPAWN_EGG: Item = Item {
-        id: 1158,
+    pub const SALMON_SPAWN_EGG: Self = Self {
+        id: 1159,
         registry_key: "salmon_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26109,7 +26196,7 @@ impl Item {
             ),
         ],
     };
-    pub const SAND: Item = Item {
+    pub const SAND: Self = Self {
         id: 59,
         registry_key: "sand",
         components: &[
@@ -26128,7 +26215,7 @@ impl Item {
             ),
         ],
     };
-    pub const SANDSTONE: Item = Item {
+    pub const SANDSTONE: Self = Self {
         id: 198,
         registry_key: "sandstone",
         components: &[
@@ -26147,8 +26234,8 @@ impl Item {
             ),
         ],
     };
-    pub const SANDSTONE_SLAB: Item = Item {
-        id: 285,
+    pub const SANDSTONE_SLAB: Self = Self {
+        id: 286,
         registry_key: "sandstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26166,8 +26253,8 @@ impl Item {
             ),
         ],
     };
-    pub const SANDSTONE_STAIRS: Item = Item {
-        id: 438,
+    pub const SANDSTONE_STAIRS: Self = Self {
+        id: 439,
         registry_key: "sandstone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26185,8 +26272,8 @@ impl Item {
             ),
         ],
     };
-    pub const SANDSTONE_WALL: Item = Item {
-        id: 468,
+    pub const SANDSTONE_WALL: Self = Self {
+        id: 469,
         registry_key: "sandstone_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26204,8 +26291,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCAFFOLDING: Item = Item {
-        id: 716,
+    pub const SCAFFOLDING: Self = Self {
+        id: 717,
         registry_key: "scaffolding",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26223,8 +26310,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCRAPE_POTTERY_SHERD: Item = Item {
-        id: 1463,
+    pub const SCRAPE_POTTERY_SHERD: Self = Self {
+        id: 1464,
         registry_key: "scrape_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26242,8 +26329,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCULK: Item = Item {
-        id: 429,
+    pub const SCULK: Self = Self {
+        id: 430,
         registry_key: "sculk",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26261,8 +26348,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCULK_CATALYST: Item = Item {
-        id: 431,
+    pub const SCULK_CATALYST: Self = Self {
+        id: 432,
         registry_key: "sculk_catalyst",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26280,8 +26367,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCULK_SENSOR: Item = Item {
-        id: 742,
+    pub const SCULK_SENSOR: Self = Self {
+        id: 743,
         registry_key: "sculk_sensor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26299,8 +26386,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCULK_SHRIEKER: Item = Item {
-        id: 432,
+    pub const SCULK_SHRIEKER: Self = Self {
+        id: 433,
         registry_key: "sculk_shrieker",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26318,8 +26405,8 @@ impl Item {
             ),
         ],
     };
-    pub const SCULK_VEIN: Item = Item {
-        id: 430,
+    pub const SCULK_VEIN: Self = Self {
+        id: 431,
         registry_key: "sculk_vein",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26337,8 +26424,8 @@ impl Item {
             ),
         ],
     };
-    pub const SEA_LANTERN: Item = Item {
-        id: 568,
+    pub const SEA_LANTERN: Self = Self {
+        id: 569,
         registry_key: "sea_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26356,7 +26443,7 @@ impl Item {
             ),
         ],
     };
-    pub const SEA_PICKLE: Item = Item {
+    pub const SEA_PICKLE: Self = Self {
         id: 212,
         registry_key: "sea_pickle",
         components: &[
@@ -26375,7 +26462,7 @@ impl Item {
             ),
         ],
     };
-    pub const SEAGRASS: Item = Item {
+    pub const SEAGRASS: Self = Self {
         id: 211,
         registry_key: "seagrass",
         components: &[
@@ -26394,8 +26481,8 @@ impl Item {
             ),
         ],
     };
-    pub const SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1427,
+    pub const SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1428,
         registry_key: "sentry_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26413,8 +26500,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1439,
+    pub const SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1440,
         registry_key: "shaper_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26432,8 +26519,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHEAF_POTTERY_SHERD: Item = Item {
-        id: 1464,
+    pub const SHEAF_POTTERY_SHERD: Self = Self {
+        id: 1465,
         registry_key: "sheaf_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26451,8 +26538,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHEARS: Item = Item {
-        id: 1105,
+    pub const SHEARS: Self = Self {
+        id: 1106,
         registry_key: "shears",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -26502,8 +26589,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHEEP_SPAWN_EGG: Item = Item {
-        id: 1133,
+    pub const SHEEP_SPAWN_EGG: Self = Self {
+        id: 1134,
         registry_key: "sheep_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26521,8 +26608,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHELTER_POTTERY_SHERD: Item = Item {
-        id: 1465,
+    pub const SHELTER_POTTERY_SHERD: Self = Self {
+        id: 1466,
         registry_key: "shelter_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26540,8 +26627,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHIELD: Item = Item {
-        id: 1295,
+    pub const SHIELD: Self = Self {
+        id: 1296,
         registry_key: "shield",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -26578,7 +26665,7 @@ impl Item {
             ),
         ],
     };
-    pub const SHORT_DRY_GRASS: Item = Item {
+    pub const SHORT_DRY_GRASS: Self = Self {
         id: 209,
         registry_key: "short_dry_grass",
         components: &[
@@ -26597,7 +26684,7 @@ impl Item {
             ),
         ],
     };
-    pub const SHORT_GRASS: Item = Item {
+    pub const SHORT_GRASS: Self = Self {
         id: 202,
         registry_key: "short_grass",
         components: &[
@@ -26616,8 +26703,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHROOMLIGHT: Item = Item {
-        id: 1377,
+    pub const SHROOMLIGHT: Self = Self {
+        id: 1378,
         registry_key: "shroomlight",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26635,8 +26722,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHULKER_BOX: Item = Item {
-        id: 581,
+    pub const SHULKER_BOX: Self = Self {
+        id: 582,
         registry_key: "shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -26654,8 +26741,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHULKER_SHELL: Item = Item {
-        id: 1304,
+    pub const SHULKER_SHELL: Self = Self {
+        id: 1305,
         registry_key: "shulker_shell",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26673,8 +26760,8 @@ impl Item {
             ),
         ],
     };
-    pub const SHULKER_SPAWN_EGG: Item = Item {
-        id: 1216,
+    pub const SHULKER_SPAWN_EGG: Self = Self {
+        id: 1217,
         registry_key: "shulker_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26692,8 +26779,8 @@ impl Item {
             ),
         ],
     };
-    pub const SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1440,
+    pub const SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1441,
         registry_key: "silence_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26711,8 +26798,8 @@ impl Item {
             ),
         ],
     };
-    pub const SILVERFISH_SPAWN_EGG: Item = Item {
-        id: 1194,
+    pub const SILVERFISH_SPAWN_EGG: Self = Self {
+        id: 1195,
         registry_key: "silverfish_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26730,8 +26817,8 @@ impl Item {
             ),
         ],
     };
-    pub const SKELETON_HORSE_SPAWN_EGG: Item = Item {
-        id: 1178,
+    pub const SKELETON_HORSE_SPAWN_EGG: Self = Self {
+        id: 1179,
         registry_key: "skeleton_horse_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26749,8 +26836,8 @@ impl Item {
             ),
         ],
     };
-    pub const SKELETON_SKULL: Item = Item {
-        id: 1233,
+    pub const SKELETON_SKULL: Self = Self {
+        id: 1234,
         registry_key: "skeleton_skull",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26790,8 +26877,8 @@ impl Item {
             ),
         ],
     };
-    pub const SKELETON_SPAWN_EGG: Item = Item {
-        id: 1177,
+    pub const SKELETON_SPAWN_EGG: Self = Self {
+        id: 1178,
         registry_key: "skeleton_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26809,8 +26896,8 @@ impl Item {
             ),
         ],
     };
-    pub const SKULL_BANNER_PATTERN: Item = Item {
-        id: 1344,
+    pub const SKULL_BANNER_PATTERN: Self = Self {
+        id: 1345,
         registry_key: "skull_banner_pattern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -26828,8 +26915,8 @@ impl Item {
             ),
         ],
     };
-    pub const SKULL_POTTERY_SHERD: Item = Item {
-        id: 1466,
+    pub const SKULL_POTTERY_SHERD: Self = Self {
+        id: 1467,
         registry_key: "skull_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26847,8 +26934,8 @@ impl Item {
             ),
         ],
     };
-    pub const SLIME_BALL: Item = Item {
-        id: 1030,
+    pub const SLIME_BALL: Self = Self {
+        id: 1031,
         registry_key: "slime_ball",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26866,8 +26953,8 @@ impl Item {
             ),
         ],
     };
-    pub const SLIME_BLOCK: Item = Item {
-        id: 724,
+    pub const SLIME_BLOCK: Self = Self {
+        id: 725,
         registry_key: "slime_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26885,8 +26972,8 @@ impl Item {
             ),
         ],
     };
-    pub const SLIME_SPAWN_EGG: Item = Item {
-        id: 1195,
+    pub const SLIME_SPAWN_EGG: Self = Self {
+        id: 1196,
         registry_key: "slime_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26904,8 +26991,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMALL_AMETHYST_BUD: Item = Item {
-        id: 1415,
+    pub const SMALL_AMETHYST_BUD: Self = Self {
+        id: 1416,
         registry_key: "small_amethyst_bud",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26923,8 +27010,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMALL_DRIPLEAF: Item = Item {
-        id: 268,
+    pub const SMALL_DRIPLEAF: Self = Self {
+        id: 269,
         registry_key: "small_dripleaf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26942,8 +27029,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMITHING_TABLE: Item = Item {
-        id: 1360,
+    pub const SMITHING_TABLE: Self = Self {
+        id: 1361,
         registry_key: "smithing_table",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26961,8 +27048,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOKER: Item = Item {
-        id: 1355,
+    pub const SMOKER: Self = Self {
+        id: 1356,
         registry_key: "smoker",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26980,8 +27067,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_BASALT: Item = Item {
-        id: 364,
+    pub const SMOOTH_BASALT: Self = Self {
+        id: 365,
         registry_key: "smooth_basalt",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -26999,8 +27086,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_QUARTZ: Item = Item {
-        id: 300,
+    pub const SMOOTH_QUARTZ: Self = Self {
+        id: 301,
         registry_key: "smooth_quartz",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27018,8 +27105,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_QUARTZ_SLAB: Item = Item {
-        id: 706,
+    pub const SMOOTH_QUARTZ_SLAB: Self = Self {
+        id: 707,
         registry_key: "smooth_quartz_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27037,8 +27124,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_QUARTZ_STAIRS: Item = Item {
-        id: 689,
+    pub const SMOOTH_QUARTZ_STAIRS: Self = Self {
+        id: 690,
         registry_key: "smooth_quartz_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27056,8 +27143,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_RED_SANDSTONE: Item = Item {
-        id: 301,
+    pub const SMOOTH_RED_SANDSTONE: Self = Self {
+        id: 302,
         registry_key: "smooth_red_sandstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27075,8 +27162,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_RED_SANDSTONE_SLAB: Item = Item {
-        id: 700,
+    pub const SMOOTH_RED_SANDSTONE_SLAB: Self = Self {
+        id: 701,
         registry_key: "smooth_red_sandstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27094,8 +27181,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_RED_SANDSTONE_STAIRS: Item = Item {
-        id: 682,
+    pub const SMOOTH_RED_SANDSTONE_STAIRS: Self = Self {
+        id: 683,
         registry_key: "smooth_red_sandstone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27113,8 +27200,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_SANDSTONE: Item = Item {
-        id: 302,
+    pub const SMOOTH_SANDSTONE: Self = Self {
+        id: 303,
         registry_key: "smooth_sandstone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27132,8 +27219,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_SANDSTONE_SLAB: Item = Item {
-        id: 705,
+    pub const SMOOTH_SANDSTONE_SLAB: Self = Self {
+        id: 706,
         registry_key: "smooth_sandstone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27151,8 +27238,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_SANDSTONE_STAIRS: Item = Item {
-        id: 688,
+    pub const SMOOTH_SANDSTONE_STAIRS: Self = Self {
+        id: 689,
         registry_key: "smooth_sandstone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27170,8 +27257,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_STONE: Item = Item {
-        id: 303,
+    pub const SMOOTH_STONE: Self = Self {
+        id: 304,
         registry_key: "smooth_stone",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27189,8 +27276,8 @@ impl Item {
             ),
         ],
     };
-    pub const SMOOTH_STONE_SLAB: Item = Item {
-        id: 284,
+    pub const SMOOTH_STONE_SLAB: Self = Self {
+        id: 285,
         registry_key: "smooth_stone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27208,8 +27295,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNIFFER_EGG: Item = Item {
-        id: 647,
+    pub const SNIFFER_EGG: Self = Self {
+        id: 648,
         registry_key: "sniffer_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27227,8 +27314,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNIFFER_SPAWN_EGG: Item = Item {
-        id: 1165,
+    pub const SNIFFER_SPAWN_EGG: Self = Self {
+        id: 1166,
         registry_key: "sniffer_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27246,8 +27333,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNORT_POTTERY_SHERD: Item = Item {
-        id: 1467,
+    pub const SNORT_POTTERY_SHERD: Self = Self {
+        id: 1468,
         registry_key: "snort_pottery_sherd",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27265,8 +27352,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1435,
+    pub const SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1436,
         registry_key: "snout_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27284,8 +27371,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNOW: Item = Item {
-        id: 337,
+    pub const SNOW: Self = Self {
+        id: 338,
         registry_key: "snow",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27303,8 +27390,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNOW_BLOCK: Item = Item {
-        id: 339,
+    pub const SNOW_BLOCK: Self = Self {
+        id: 340,
         registry_key: "snow_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27322,8 +27409,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNOW_GOLEM_SPAWN_EGG: Item = Item {
-        id: 1168,
+    pub const SNOW_GOLEM_SPAWN_EGG: Self = Self {
+        id: 1169,
         registry_key: "snow_golem_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27341,8 +27428,8 @@ impl Item {
             ),
         ],
     };
-    pub const SNOWBALL: Item = Item {
-        id: 1016,
+    pub const SNOWBALL: Self = Self {
+        id: 1017,
         registry_key: "snowball",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -27360,8 +27447,8 @@ impl Item {
             ),
         ],
     };
-    pub const SOUL_CAMPFIRE: Item = Item {
-        id: 1376,
+    pub const SOUL_CAMPFIRE: Self = Self {
+        id: 1377,
         registry_key: "soul_campfire",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27379,8 +27466,8 @@ impl Item {
             ),
         ],
     };
-    pub const SOUL_LANTERN: Item = Item {
-        id: 1364,
+    pub const SOUL_LANTERN: Self = Self {
+        id: 1365,
         registry_key: "soul_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27398,8 +27485,8 @@ impl Item {
             ),
         ],
     };
-    pub const SOUL_SAND: Item = Item {
-        id: 360,
+    pub const SOUL_SAND: Self = Self {
+        id: 361,
         registry_key: "soul_sand",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27417,8 +27504,8 @@ impl Item {
             ),
         ],
     };
-    pub const SOUL_SOIL: Item = Item {
-        id: 361,
+    pub const SOUL_SOIL: Self = Self {
+        id: 362,
         registry_key: "soul_soil",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27436,8 +27523,8 @@ impl Item {
             ),
         ],
     };
-    pub const SOUL_TORCH: Item = Item {
-        id: 365,
+    pub const SOUL_TORCH: Self = Self {
+        id: 366,
         registry_key: "soul_torch",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27455,8 +27542,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPAWNER: Item = Item {
-        id: 329,
+    pub const SPAWNER: Self = Self {
+        id: 330,
         registry_key: "spawner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27474,8 +27561,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPECTRAL_ARROW: Item = Item {
-        id: 1292,
+    pub const SPECTRAL_ARROW: Self = Self {
+        id: 1293,
         registry_key: "spectral_arrow",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27493,8 +27580,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPIDER_EYE: Item = Item {
-        id: 1122,
+    pub const SPIDER_EYE: Self = Self {
+        id: 1123,
         registry_key: "spider_eye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27540,8 +27627,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPIDER_SPAWN_EGG: Item = Item {
-        id: 1187,
+    pub const SPIDER_SPAWN_EGG: Self = Self {
+        id: 1188,
         registry_key: "spider_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27559,8 +27646,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1437,
+    pub const SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1438,
         registry_key: "spire_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27578,8 +27665,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPLASH_POTION: Item = Item {
-        id: 1291,
+    pub const SPLASH_POTION: Self = Self {
+        id: 1292,
         registry_key: "splash_potion",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -27597,7 +27684,7 @@ impl Item {
             ),
         ],
     };
-    pub const SPONGE: Item = Item {
+    pub const SPONGE: Self = Self {
         id: 193,
         registry_key: "sponge",
         components: &[
@@ -27616,8 +27703,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPORE_BLOSSOM: Item = Item {
-        id: 246,
+    pub const SPORE_BLOSSOM: Self = Self {
+        id: 247,
         registry_key: "spore_blossom",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27635,8 +27722,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_BOAT: Item = Item {
-        id: 865,
+    pub const SPRUCE_BOAT: Self = Self {
+        id: 866,
         registry_key: "spruce_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -27654,8 +27741,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_BUTTON: Item = Item {
-        id: 752,
+    pub const SPRUCE_BUTTON: Self = Self {
+        id: 753,
         registry_key: "spruce_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27673,8 +27760,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_CHEST_BOAT: Item = Item {
-        id: 866,
+    pub const SPRUCE_CHEST_BOAT: Self = Self {
+        id: 867,
         registry_key: "spruce_chest_boat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -27692,8 +27779,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_DOOR: Item = Item {
-        id: 781,
+    pub const SPRUCE_DOOR: Self = Self {
+        id: 782,
         registry_key: "spruce_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27711,8 +27798,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_FENCE: Item = Item {
-        id: 345,
+    pub const SPRUCE_FENCE: Self = Self {
+        id: 346,
         registry_key: "spruce_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27730,8 +27817,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_FENCE_GATE: Item = Item {
-        id: 822,
+    pub const SPRUCE_FENCE_GATE: Self = Self {
+        id: 823,
         registry_key: "spruce_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27749,8 +27836,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_HANGING_SIGN: Item = Item {
-        id: 1001,
+    pub const SPRUCE_HANGING_SIGN: Self = Self {
+        id: 1002,
         registry_key: "spruce_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -27768,7 +27855,7 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_LEAVES: Item = Item {
+    pub const SPRUCE_LEAVES: Self = Self {
         id: 183,
         registry_key: "spruce_leaves",
         components: &[
@@ -27787,7 +27874,7 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_LOG: Item = Item {
+    pub const SPRUCE_LOG: Self = Self {
         id: 135,
         registry_key: "spruce_log",
         components: &[
@@ -27806,7 +27893,7 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_PLANKS: Item = Item {
+    pub const SPRUCE_PLANKS: Self = Self {
         id: 37,
         registry_key: "spruce_planks",
         components: &[
@@ -27825,8 +27912,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_PRESSURE_PLATE: Item = Item {
-        id: 768,
+    pub const SPRUCE_PRESSURE_PLATE: Self = Self {
+        id: 769,
         registry_key: "spruce_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27844,7 +27931,7 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_SAPLING: Item = Item {
+    pub const SPRUCE_SAPLING: Self = Self {
         id: 50,
         registry_key: "spruce_sapling",
         components: &[
@@ -27863,8 +27950,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_SHELF: Item = Item {
-        id: 315,
+    pub const SPRUCE_SHELF: Self = Self {
+        id: 316,
         registry_key: "spruce_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27882,8 +27969,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_SIGN: Item = Item {
-        id: 989,
+    pub const SPRUCE_SIGN: Self = Self {
+        id: 990,
         registry_key: "spruce_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -27901,8 +27988,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_SLAB: Item = Item {
-        id: 271,
+    pub const SPRUCE_SLAB: Self = Self {
+        id: 272,
         registry_key: "spruce_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27920,8 +28007,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_STAIRS: Item = Item {
-        id: 442,
+    pub const SPRUCE_STAIRS: Self = Self {
+        id: 443,
         registry_key: "spruce_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27939,8 +28026,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_TRAPDOOR: Item = Item {
-        id: 802,
+    pub const SPRUCE_TRAPDOOR: Self = Self {
+        id: 803,
         registry_key: "spruce_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -27958,7 +28045,7 @@ impl Item {
             ),
         ],
     };
-    pub const SPRUCE_WOOD: Item = Item {
+    pub const SPRUCE_WOOD: Self = Self {
         id: 172,
         registry_key: "spruce_wood",
         components: &[
@@ -27977,8 +28064,8 @@ impl Item {
             ),
         ],
     };
-    pub const SPYGLASS: Item = Item {
-        id: 1055,
+    pub const SPYGLASS: Self = Self {
+        id: 1056,
         registry_key: "spyglass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -27996,8 +28083,8 @@ impl Item {
             ),
         ],
     };
-    pub const SQUID_SPAWN_EGG: Item = Item {
-        id: 1159,
+    pub const SQUID_SPAWN_EGG: Self = Self {
+        id: 1160,
         registry_key: "squid_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28015,8 +28102,8 @@ impl Item {
             ),
         ],
     };
-    pub const STICK: Item = Item {
-        id: 946,
+    pub const STICK: Self = Self {
+        id: 947,
         registry_key: "stick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28034,8 +28121,8 @@ impl Item {
             ),
         ],
     };
-    pub const STICKY_PISTON: Item = Item {
-        id: 723,
+    pub const STICKY_PISTON: Self = Self {
+        id: 724,
         registry_key: "sticky_piston",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28053,7 +28140,7 @@ impl Item {
             ),
         ],
     };
-    pub const STONE: Item = Item {
+    pub const STONE: Self = Self {
         id: 1,
         registry_key: "stone",
         components: &[
@@ -28072,8 +28159,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_AXE: Item = Item {
-        id: 924,
+    pub const STONE_AXE: Self = Self {
+        id: 925,
         registry_key: "stone_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -28132,10 +28219,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 5 }),
         ],
     };
-    pub const STONE_BRICK_SLAB: Item = Item {
-        id: 290,
+    pub const STONE_BRICK_SLAB: Self = Self {
+        id: 291,
         registry_key: "stone_brick_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28153,8 +28241,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_BRICK_STAIRS: Item = Item {
-        id: 420,
+    pub const STONE_BRICK_STAIRS: Self = Self {
+        id: 421,
         registry_key: "stone_brick_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28172,8 +28260,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_BRICK_WALL: Item = Item {
-        id: 463,
+    pub const STONE_BRICK_WALL: Self = Self {
+        id: 464,
         registry_key: "stone_brick_wall",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28191,8 +28279,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_BRICKS: Item = Item {
-        id: 375,
+    pub const STONE_BRICKS: Self = Self {
+        id: 376,
         registry_key: "stone_bricks",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28210,8 +28298,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_BUTTON: Item = Item {
-        id: 749,
+    pub const STONE_BUTTON: Self = Self {
+        id: 750,
         registry_key: "stone_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28229,8 +28317,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_HOE: Item = Item {
-        id: 925,
+    pub const STONE_HOE: Self = Self {
+        id: 926,
         registry_key: "stone_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -28289,10 +28377,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 5 }),
         ],
     };
-    pub const STONE_PICKAXE: Item = Item {
-        id: 923,
+    pub const STONE_PICKAXE: Self = Self {
+        id: 924,
         registry_key: "stone_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -28351,10 +28440,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 5 }),
         ],
     };
-    pub const STONE_PRESSURE_PLATE: Item = Item {
-        id: 763,
+    pub const STONE_PRESSURE_PLATE: Self = Self {
+        id: 764,
         registry_key: "stone_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28372,8 +28462,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_SHOVEL: Item = Item {
-        id: 922,
+    pub const STONE_SHOVEL: Self = Self {
+        id: 923,
         registry_key: "stone_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -28432,10 +28522,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 5 }),
         ],
     };
-    pub const STONE_SLAB: Item = Item {
-        id: 283,
+    pub const STONE_SLAB: Self = Self {
+        id: 284,
         registry_key: "stone_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28453,8 +28544,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_SPEAR: Item = Item {
-        id: 1297,
+    pub const STONE_SPEAR: Self = Self {
+        id: 1298,
         registry_key: "stone_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -28493,10 +28584,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 5 }),
         ],
     };
-    pub const STONE_STAIRS: Item = Item {
-        id: 687,
+    pub const STONE_STAIRS: Self = Self {
+        id: 688,
         registry_key: "stone_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28514,8 +28606,8 @@ impl Item {
             ),
         ],
     };
-    pub const STONE_SWORD: Item = Item {
-        id: 921,
+    pub const STONE_SWORD: Self = Self {
+        id: 922,
         registry_key: "stone_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -28579,10 +28671,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 5 }),
         ],
     };
-    pub const STONECUTTER: Item = Item {
-        id: 1361,
+    pub const STONECUTTER: Self = Self {
+        id: 1362,
         registry_key: "stonecutter",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28600,8 +28693,8 @@ impl Item {
             ),
         ],
     };
-    pub const STRAY_SPAWN_EGG: Item = Item {
-        id: 1179,
+    pub const STRAY_SPAWN_EGG: Self = Self {
+        id: 1180,
         registry_key: "stray_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28619,8 +28712,8 @@ impl Item {
             ),
         ],
     };
-    pub const STRIDER_SPAWN_EGG: Item = Item {
-        id: 1210,
+    pub const STRIDER_SPAWN_EGG: Self = Self {
+        id: 1211,
         registry_key: "strider_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28638,8 +28731,8 @@ impl Item {
             ),
         ],
     };
-    pub const STRING: Item = Item {
-        id: 948,
+    pub const STRING: Self = Self {
+        id: 949,
         registry_key: "string",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -28657,7 +28750,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_ACACIA_LOG: Item = Item {
+    pub const STRIPPED_ACACIA_LOG: Self = Self {
         id: 152,
         registry_key: "stripped_acacia_log",
         components: &[
@@ -28676,7 +28769,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_ACACIA_WOOD: Item = Item {
+    pub const STRIPPED_ACACIA_WOOD: Self = Self {
         id: 163,
         registry_key: "stripped_acacia_wood",
         components: &[
@@ -28695,7 +28788,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_BAMBOO_BLOCK: Item = Item {
+    pub const STRIPPED_BAMBOO_BLOCK: Self = Self {
         id: 170,
         registry_key: "stripped_bamboo_block",
         components: &[
@@ -28714,7 +28807,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_BIRCH_LOG: Item = Item {
+    pub const STRIPPED_BIRCH_LOG: Self = Self {
         id: 150,
         registry_key: "stripped_birch_log",
         components: &[
@@ -28733,7 +28826,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_BIRCH_WOOD: Item = Item {
+    pub const STRIPPED_BIRCH_WOOD: Self = Self {
         id: 161,
         registry_key: "stripped_birch_wood",
         components: &[
@@ -28752,7 +28845,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_CHERRY_LOG: Item = Item {
+    pub const STRIPPED_CHERRY_LOG: Self = Self {
         id: 153,
         registry_key: "stripped_cherry_log",
         components: &[
@@ -28771,7 +28864,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_CHERRY_WOOD: Item = Item {
+    pub const STRIPPED_CHERRY_WOOD: Self = Self {
         id: 164,
         registry_key: "stripped_cherry_wood",
         components: &[
@@ -28790,7 +28883,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_CRIMSON_HYPHAE: Item = Item {
+    pub const STRIPPED_CRIMSON_HYPHAE: Self = Self {
         id: 168,
         registry_key: "stripped_crimson_hyphae",
         components: &[
@@ -28809,7 +28902,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_CRIMSON_STEM: Item = Item {
+    pub const STRIPPED_CRIMSON_STEM: Self = Self {
         id: 157,
         registry_key: "stripped_crimson_stem",
         components: &[
@@ -28828,7 +28921,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_DARK_OAK_LOG: Item = Item {
+    pub const STRIPPED_DARK_OAK_LOG: Self = Self {
         id: 154,
         registry_key: "stripped_dark_oak_log",
         components: &[
@@ -28847,7 +28940,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_DARK_OAK_WOOD: Item = Item {
+    pub const STRIPPED_DARK_OAK_WOOD: Self = Self {
         id: 165,
         registry_key: "stripped_dark_oak_wood",
         components: &[
@@ -28866,7 +28959,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_JUNGLE_LOG: Item = Item {
+    pub const STRIPPED_JUNGLE_LOG: Self = Self {
         id: 151,
         registry_key: "stripped_jungle_log",
         components: &[
@@ -28885,7 +28978,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_JUNGLE_WOOD: Item = Item {
+    pub const STRIPPED_JUNGLE_WOOD: Self = Self {
         id: 162,
         registry_key: "stripped_jungle_wood",
         components: &[
@@ -28904,7 +28997,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_MANGROVE_LOG: Item = Item {
+    pub const STRIPPED_MANGROVE_LOG: Self = Self {
         id: 156,
         registry_key: "stripped_mangrove_log",
         components: &[
@@ -28923,7 +29016,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_MANGROVE_WOOD: Item = Item {
+    pub const STRIPPED_MANGROVE_WOOD: Self = Self {
         id: 167,
         registry_key: "stripped_mangrove_wood",
         components: &[
@@ -28942,7 +29035,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_OAK_LOG: Item = Item {
+    pub const STRIPPED_OAK_LOG: Self = Self {
         id: 148,
         registry_key: "stripped_oak_log",
         components: &[
@@ -28961,7 +29054,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_OAK_WOOD: Item = Item {
+    pub const STRIPPED_OAK_WOOD: Self = Self {
         id: 159,
         registry_key: "stripped_oak_wood",
         components: &[
@@ -28980,7 +29073,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_PALE_OAK_LOG: Item = Item {
+    pub const STRIPPED_PALE_OAK_LOG: Self = Self {
         id: 155,
         registry_key: "stripped_pale_oak_log",
         components: &[
@@ -28999,7 +29092,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_PALE_OAK_WOOD: Item = Item {
+    pub const STRIPPED_PALE_OAK_WOOD: Self = Self {
         id: 166,
         registry_key: "stripped_pale_oak_wood",
         components: &[
@@ -29018,7 +29111,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_SPRUCE_LOG: Item = Item {
+    pub const STRIPPED_SPRUCE_LOG: Self = Self {
         id: 149,
         registry_key: "stripped_spruce_log",
         components: &[
@@ -29037,7 +29130,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_SPRUCE_WOOD: Item = Item {
+    pub const STRIPPED_SPRUCE_WOOD: Self = Self {
         id: 160,
         registry_key: "stripped_spruce_wood",
         components: &[
@@ -29056,7 +29149,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_WARPED_HYPHAE: Item = Item {
+    pub const STRIPPED_WARPED_HYPHAE: Self = Self {
         id: 169,
         registry_key: "stripped_warped_hyphae",
         components: &[
@@ -29075,7 +29168,7 @@ impl Item {
             ),
         ],
     };
-    pub const STRIPPED_WARPED_STEM: Item = Item {
+    pub const STRIPPED_WARPED_STEM: Self = Self {
         id: 158,
         registry_key: "stripped_warped_stem",
         components: &[
@@ -29094,8 +29187,8 @@ impl Item {
             ),
         ],
     };
-    pub const STRUCTURE_BLOCK: Item = Item {
-        id: 883,
+    pub const STRUCTURE_BLOCK: Self = Self {
+        id: 884,
         registry_key: "structure_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29113,8 +29206,8 @@ impl Item {
             ),
         ],
     };
-    pub const STRUCTURE_VOID: Item = Item {
-        id: 580,
+    pub const STRUCTURE_VOID: Self = Self {
+        id: 581,
         registry_key: "structure_void",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29132,8 +29225,8 @@ impl Item {
             ),
         ],
     };
-    pub const SUGAR: Item = Item {
-        id: 1084,
+    pub const SUGAR: Self = Self {
+        id: 1085,
         registry_key: "sugar",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29151,8 +29244,8 @@ impl Item {
             ),
         ],
     };
-    pub const SUGAR_CANE: Item = Item {
-        id: 256,
+    pub const SUGAR_CANE: Self = Self {
+        id: 257,
         registry_key: "sugar_cane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29170,8 +29263,8 @@ impl Item {
             ),
         ],
     };
-    pub const SUNFLOWER: Item = Item {
-        id: 524,
+    pub const SUNFLOWER: Self = Self {
+        id: 525,
         registry_key: "sunflower",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29189,7 +29282,7 @@ impl Item {
             ),
         ],
     };
-    pub const SUSPICIOUS_GRAVEL: Item = Item {
+    pub const SUSPICIOUS_GRAVEL: Self = Self {
         id: 61,
         registry_key: "suspicious_gravel",
         components: &[
@@ -29208,7 +29301,7 @@ impl Item {
             ),
         ],
     };
-    pub const SUSPICIOUS_SAND: Item = Item {
+    pub const SUSPICIOUS_SAND: Self = Self {
         id: 60,
         registry_key: "suspicious_sand",
         components: &[
@@ -29227,8 +29320,8 @@ impl Item {
             ),
         ],
     };
-    pub const SUSPICIOUS_STEW: Item = Item {
-        id: 1340,
+    pub const SUSPICIOUS_STEW: Self = Self {
+        id: 1341,
         registry_key: "suspicious_stew",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -29264,8 +29357,8 @@ impl Item {
             ),
         ],
     };
-    pub const SWEET_BERRIES: Item = Item {
-        id: 1373,
+    pub const SWEET_BERRIES: Self = Self {
+        id: 1374,
         registry_key: "sweet_berries",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29301,8 +29394,8 @@ impl Item {
             ),
         ],
     };
-    pub const TADPOLE_BUCKET: Item = Item {
-        id: 1024,
+    pub const TADPOLE_BUCKET: Self = Self {
+        id: 1025,
         registry_key: "tadpole_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -29320,8 +29413,8 @@ impl Item {
             ),
         ],
     };
-    pub const TADPOLE_SPAWN_EGG: Item = Item {
-        id: 1160,
+    pub const TADPOLE_SPAWN_EGG: Self = Self {
+        id: 1161,
         registry_key: "tadpole_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29339,7 +29432,7 @@ impl Item {
             ),
         ],
     };
-    pub const TALL_DRY_GRASS: Item = Item {
+    pub const TALL_DRY_GRASS: Self = Self {
         id: 210,
         registry_key: "tall_dry_grass",
         components: &[
@@ -29358,8 +29451,8 @@ impl Item {
             ),
         ],
     };
-    pub const TALL_GRASS: Item = Item {
-        id: 528,
+    pub const TALL_GRASS: Self = Self {
+        id: 529,
         registry_key: "tall_grass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29377,8 +29470,8 @@ impl Item {
             ),
         ],
     };
-    pub const TARGET: Item = Item {
-        id: 731,
+    pub const TARGET: Self = Self {
+        id: 732,
         registry_key: "target",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29396,8 +29489,8 @@ impl Item {
             ),
         ],
     };
-    pub const TERRACOTTA: Item = Item {
-        id: 521,
+    pub const TERRACOTTA: Self = Self {
+        id: 522,
         registry_key: "terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29415,8 +29508,8 @@ impl Item {
             ),
         ],
     };
-    pub const TEST_BLOCK: Item = Item {
-        id: 885,
+    pub const TEST_BLOCK: Self = Self {
+        id: 886,
         registry_key: "test_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29434,8 +29527,8 @@ impl Item {
             ),
         ],
     };
-    pub const TEST_INSTANCE_BLOCK: Item = Item {
-        id: 886,
+    pub const TEST_INSTANCE_BLOCK: Self = Self {
+        id: 887,
         registry_key: "test_instance_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29453,8 +29546,8 @@ impl Item {
             ),
         ],
     };
-    pub const TIDE_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1434,
+    pub const TIDE_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1435,
         registry_key: "tide_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29472,7 +29565,7 @@ impl Item {
             ),
         ],
     };
-    pub const TINTED_GLASS: Item = Item {
+    pub const TINTED_GLASS: Self = Self {
         id: 196,
         registry_key: "tinted_glass",
         components: &[
@@ -29491,8 +29584,8 @@ impl Item {
             ),
         ],
     };
-    pub const TIPPED_ARROW: Item = Item {
-        id: 1293,
+    pub const TIPPED_ARROW: Self = Self {
+        id: 1294,
         registry_key: "tipped_arrow",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29510,8 +29603,8 @@ impl Item {
             ),
         ],
     };
-    pub const TNT: Item = Item {
-        id: 746,
+    pub const TNT: Self = Self {
+        id: 747,
         registry_key: "tnt",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29529,8 +29622,8 @@ impl Item {
             ),
         ],
     };
-    pub const TNT_MINECART: Item = Item {
-        id: 857,
+    pub const TNT_MINECART: Self = Self {
+        id: 858,
         registry_key: "tnt_minecart",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -29548,8 +29641,8 @@ impl Item {
             ),
         ],
     };
-    pub const TORCH: Item = Item {
-        id: 322,
+    pub const TORCH: Self = Self {
+        id: 323,
         registry_key: "torch",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29567,8 +29660,8 @@ impl Item {
             ),
         ],
     };
-    pub const TORCHFLOWER: Item = Item {
-        id: 244,
+    pub const TORCHFLOWER: Self = Self {
+        id: 245,
         registry_key: "torchflower",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29586,8 +29679,8 @@ impl Item {
             ),
         ],
     };
-    pub const TORCHFLOWER_SEEDS: Item = Item {
-        id: 1285,
+    pub const TORCHFLOWER_SEEDS: Self = Self {
+        id: 1286,
         registry_key: "torchflower_seeds",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29605,8 +29698,8 @@ impl Item {
             ),
         ],
     };
-    pub const TOTEM_OF_UNDYING: Item = Item {
-        id: 1303,
+    pub const TOTEM_OF_UNDYING: Self = Self {
+        id: 1304,
         registry_key: "totem_of_undying",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -29625,8 +29718,8 @@ impl Item {
             (DeathProtection, &DeathProtectionImpl),
         ],
     };
-    pub const TRADER_LLAMA_SPAWN_EGG: Item = Item {
-        id: 1169,
+    pub const TRADER_LLAMA_SPAWN_EGG: Self = Self {
+        id: 1170,
         registry_key: "trader_llama_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29644,8 +29737,8 @@ impl Item {
             ),
         ],
     };
-    pub const TRAPPED_CHEST: Item = Item {
-        id: 745,
+    pub const TRAPPED_CHEST: Self = Self {
+        id: 746,
         registry_key: "trapped_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29663,8 +29756,8 @@ impl Item {
             ),
         ],
     };
-    pub const TRIAL_KEY: Item = Item {
-        id: 1501,
+    pub const TRIAL_KEY: Self = Self {
+        id: 1502,
         registry_key: "trial_key",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29682,8 +29775,8 @@ impl Item {
             ),
         ],
     };
-    pub const TRIAL_SPAWNER: Item = Item {
-        id: 1500,
+    pub const TRIAL_SPAWNER: Self = Self {
+        id: 1501,
         registry_key: "trial_spawner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29701,8 +29794,8 @@ impl Item {
             ),
         ],
     };
-    pub const TRIDENT: Item = Item {
-        id: 1331,
+    pub const TRIDENT: Self = Self {
+        id: 1332,
         registry_key: "trident",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -29750,10 +29843,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 1 }),
         ],
     };
-    pub const TRIPWIRE_HOOK: Item = Item {
-        id: 744,
+    pub const TRIPWIRE_HOOK: Self = Self {
+        id: 745,
         registry_key: "tripwire_hook",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29771,8 +29865,8 @@ impl Item {
             ),
         ],
     };
-    pub const TROPICAL_FISH: Item = Item {
-        id: 1059,
+    pub const TROPICAL_FISH: Self = Self {
+        id: 1060,
         registry_key: "tropical_fish",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29808,8 +29902,8 @@ impl Item {
             ),
         ],
     };
-    pub const TROPICAL_FISH_BUCKET: Item = Item {
-        id: 1022,
+    pub const TROPICAL_FISH_BUCKET: Self = Self {
+        id: 1023,
         registry_key: "tropical_fish_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -29835,8 +29929,8 @@ impl Item {
             ),
         ],
     };
-    pub const TROPICAL_FISH_SPAWN_EGG: Item = Item {
-        id: 1161,
+    pub const TROPICAL_FISH_SPAWN_EGG: Self = Self {
+        id: 1162,
         registry_key: "tropical_fish_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29854,8 +29948,8 @@ impl Item {
             ),
         ],
     };
-    pub const TUBE_CORAL: Item = Item {
-        id: 659,
+    pub const TUBE_CORAL: Self = Self {
+        id: 660,
         registry_key: "tube_coral",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29873,8 +29967,8 @@ impl Item {
             ),
         ],
     };
-    pub const TUBE_CORAL_BLOCK: Item = Item {
-        id: 654,
+    pub const TUBE_CORAL_BLOCK: Self = Self {
+        id: 655,
         registry_key: "tube_coral_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29892,8 +29986,8 @@ impl Item {
             ),
         ],
     };
-    pub const TUBE_CORAL_FAN: Item = Item {
-        id: 669,
+    pub const TUBE_CORAL_FAN: Self = Self {
+        id: 670,
         registry_key: "tube_coral_fan",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -29911,7 +30005,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF: Item = Item {
+    pub const TUFF: Self = Self {
         id: 12,
         registry_key: "tuff",
         components: &[
@@ -29930,7 +30024,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_BRICK_SLAB: Item = Item {
+    pub const TUFF_BRICK_SLAB: Self = Self {
         id: 22,
         registry_key: "tuff_brick_slab",
         components: &[
@@ -29949,7 +30043,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_BRICK_STAIRS: Item = Item {
+    pub const TUFF_BRICK_STAIRS: Self = Self {
         id: 23,
         registry_key: "tuff_brick_stairs",
         components: &[
@@ -29968,7 +30062,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_BRICK_WALL: Item = Item {
+    pub const TUFF_BRICK_WALL: Self = Self {
         id: 24,
         registry_key: "tuff_brick_wall",
         components: &[
@@ -29987,7 +30081,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_BRICKS: Item = Item {
+    pub const TUFF_BRICKS: Self = Self {
         id: 21,
         registry_key: "tuff_bricks",
         components: &[
@@ -30006,7 +30100,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_SLAB: Item = Item {
+    pub const TUFF_SLAB: Self = Self {
         id: 13,
         registry_key: "tuff_slab",
         components: &[
@@ -30025,7 +30119,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_STAIRS: Item = Item {
+    pub const TUFF_STAIRS: Self = Self {
         id: 14,
         registry_key: "tuff_stairs",
         components: &[
@@ -30044,7 +30138,7 @@ impl Item {
             ),
         ],
     };
-    pub const TUFF_WALL: Item = Item {
+    pub const TUFF_WALL: Self = Self {
         id: 15,
         registry_key: "tuff_wall",
         components: &[
@@ -30063,8 +30157,8 @@ impl Item {
             ),
         ],
     };
-    pub const TURTLE_EGG: Item = Item {
-        id: 646,
+    pub const TURTLE_EGG: Self = Self {
+        id: 647,
         registry_key: "turtle_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30082,8 +30176,8 @@ impl Item {
             ),
         ],
     };
-    pub const TURTLE_HELMET: Item = Item {
-        id: 887,
+    pub const TURTLE_HELMET: Self = Self {
+        id: 888,
         registry_key: "turtle_helmet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -30132,10 +30226,11 @@ impl Item {
                     shearing_sound: IdOr::Id(Sound::ItemShearsSnip),
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 9 }),
         ],
     };
-    pub const TURTLE_SCUTE: Item = Item {
-        id: 888,
+    pub const TURTLE_SCUTE: Self = Self {
+        id: 889,
         registry_key: "turtle_scute",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30153,8 +30248,8 @@ impl Item {
             ),
         ],
     };
-    pub const TURTLE_SPAWN_EGG: Item = Item {
-        id: 1162,
+    pub const TURTLE_SPAWN_EGG: Self = Self {
+        id: 1163,
         registry_key: "turtle_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30172,8 +30267,8 @@ impl Item {
             ),
         ],
     };
-    pub const TWISTING_VINES: Item = Item {
-        id: 255,
+    pub const TWISTING_VINES: Self = Self {
+        id: 256,
         registry_key: "twisting_vines",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30191,8 +30286,8 @@ impl Item {
             ),
         ],
     };
-    pub const VAULT: Item = Item {
-        id: 1503,
+    pub const VAULT: Self = Self {
+        id: 1504,
         registry_key: "vault",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30210,8 +30305,8 @@ impl Item {
             ),
         ],
     };
-    pub const VERDANT_FROGLIGHT: Item = Item {
-        id: 1421,
+    pub const VERDANT_FROGLIGHT: Self = Self {
+        id: 1422,
         registry_key: "verdant_froglight",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30229,8 +30324,8 @@ impl Item {
             ),
         ],
     };
-    pub const VEX_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1433,
+    pub const VEX_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1434,
         registry_key: "vex_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30248,8 +30343,8 @@ impl Item {
             ),
         ],
     };
-    pub const VEX_SPAWN_EGG: Item = Item {
-        id: 1202,
+    pub const VEX_SPAWN_EGG: Self = Self {
+        id: 1203,
         registry_key: "vex_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30267,8 +30362,8 @@ impl Item {
             ),
         ],
     };
-    pub const VILLAGER_SPAWN_EGG: Item = Item {
-        id: 1170,
+    pub const VILLAGER_SPAWN_EGG: Self = Self {
+        id: 1171,
         registry_key: "villager_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30286,8 +30381,8 @@ impl Item {
             ),
         ],
     };
-    pub const VINDICATOR_SPAWN_EGG: Item = Item {
-        id: 1201,
+    pub const VINDICATOR_SPAWN_EGG: Self = Self {
+        id: 1202,
         registry_key: "vindicator_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30305,8 +30400,8 @@ impl Item {
             ),
         ],
     };
-    pub const VINE: Item = Item {
-        id: 410,
+    pub const VINE: Self = Self {
+        id: 411,
         registry_key: "vine",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30324,8 +30419,8 @@ impl Item {
             ),
         ],
     };
-    pub const WANDERING_TRADER_SPAWN_EGG: Item = Item {
-        id: 1171,
+    pub const WANDERING_TRADER_SPAWN_EGG: Self = Self {
+        id: 1172,
         registry_key: "wandering_trader_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30343,8 +30438,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARD_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1431,
+    pub const WARD_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1432,
         registry_key: "ward_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30362,8 +30457,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARDEN_SPAWN_EGG: Item = Item {
-        id: 1196,
+    pub const WARDEN_SPAWN_EGG: Self = Self {
+        id: 1197,
         registry_key: "warden_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30381,8 +30476,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_BUTTON: Item = Item {
-        id: 762,
+    pub const WARPED_BUTTON: Self = Self {
+        id: 763,
         registry_key: "warped_button",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30400,8 +30495,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_DOOR: Item = Item {
-        id: 791,
+    pub const WARPED_DOOR: Self = Self {
+        id: 792,
         registry_key: "warped_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30419,8 +30514,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_FENCE: Item = Item {
-        id: 355,
+    pub const WARPED_FENCE: Self = Self {
+        id: 356,
         registry_key: "warped_fence",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30438,8 +30533,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_FENCE_GATE: Item = Item {
-        id: 832,
+    pub const WARPED_FENCE_GATE: Self = Self {
+        id: 833,
         registry_key: "warped_fence_gate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30457,8 +30552,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_FUNGUS: Item = Item {
-        id: 250,
+    pub const WARPED_FUNGUS: Self = Self {
+        id: 251,
         registry_key: "warped_fungus",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30476,8 +30571,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_FUNGUS_ON_A_STICK: Item = Item {
-        id: 860,
+    pub const WARPED_FUNGUS_ON_A_STICK: Self = Self {
+        id: 861,
         registry_key: "warped_fungus_on_a_stick",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -30497,8 +30592,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_HANGING_SIGN: Item = Item {
-        id: 1011,
+    pub const WARPED_HANGING_SIGN: Self = Self {
+        id: 1012,
         registry_key: "warped_hanging_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -30516,7 +30611,7 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_HYPHAE: Item = Item {
+    pub const WARPED_HYPHAE: Self = Self {
         id: 181,
         registry_key: "warped_hyphae",
         components: &[
@@ -30535,7 +30630,7 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_NYLIUM: Item = Item {
+    pub const WARPED_NYLIUM: Self = Self {
         id: 34,
         registry_key: "warped_nylium",
         components: &[
@@ -30554,7 +30649,7 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_PLANKS: Item = Item {
+    pub const WARPED_PLANKS: Self = Self {
         id: 47,
         registry_key: "warped_planks",
         components: &[
@@ -30573,8 +30668,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_PRESSURE_PLATE: Item = Item {
-        id: 778,
+    pub const WARPED_PRESSURE_PLATE: Self = Self {
+        id: 779,
         registry_key: "warped_pressure_plate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30592,8 +30687,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_ROOTS: Item = Item {
-        id: 252,
+    pub const WARPED_ROOTS: Self = Self {
+        id: 253,
         registry_key: "warped_roots",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30611,8 +30706,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_SHELF: Item = Item {
-        id: 316,
+    pub const WARPED_SHELF: Self = Self {
+        id: 317,
         registry_key: "warped_shelf",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30630,8 +30725,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_SIGN: Item = Item {
-        id: 999,
+    pub const WARPED_SIGN: Self = Self {
+        id: 1000,
         registry_key: "warped_sign",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -30649,8 +30744,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_SLAB: Item = Item {
-        id: 282,
+    pub const WARPED_SLAB: Self = Self {
+        id: 283,
         registry_key: "warped_slab",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30668,8 +30763,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_STAIRS: Item = Item {
-        id: 453,
+    pub const WARPED_STAIRS: Self = Self {
+        id: 454,
         registry_key: "warped_stairs",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30687,7 +30782,7 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_STEM: Item = Item {
+    pub const WARPED_STEM: Self = Self {
         id: 146,
         registry_key: "warped_stem",
         components: &[
@@ -30706,8 +30801,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_TRAPDOOR: Item = Item {
-        id: 812,
+    pub const WARPED_TRAPDOOR: Self = Self {
+        id: 813,
         registry_key: "warped_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30725,8 +30820,8 @@ impl Item {
             ),
         ],
     };
-    pub const WARPED_WART_BLOCK: Item = Item {
-        id: 577,
+    pub const WARPED_WART_BLOCK: Self = Self {
+        id: 578,
         registry_key: "warped_wart_block",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30744,8 +30839,8 @@ impl Item {
             ),
         ],
     };
-    pub const WATER_BUCKET: Item = Item {
-        id: 1013,
+    pub const WATER_BUCKET: Self = Self {
+        id: 1014,
         registry_key: "water_bucket",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -30763,7 +30858,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_CHISELED_COPPER: Item = Item {
+    pub const WAXED_CHISELED_COPPER: Self = Self {
         id: 118,
         registry_key: "waxed_chiseled_copper",
         components: &[
@@ -30782,8 +30877,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_BARS: Item = Item {
-        id: 395,
+    pub const WAXED_COPPER_BARS: Self = Self {
+        id: 396,
         registry_key: "waxed_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30801,7 +30896,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_BLOCK: Item = Item {
+    pub const WAXED_COPPER_BLOCK: Self = Self {
         id: 114,
         registry_key: "waxed_copper_block",
         components: &[
@@ -30820,8 +30915,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_BULB: Item = Item {
-        id: 1480,
+    pub const WAXED_COPPER_BULB: Self = Self {
+        id: 1481,
         registry_key: "waxed_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30839,8 +30934,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_CHAIN: Item = Item {
-        id: 404,
+    pub const WAXED_COPPER_CHAIN: Self = Self {
+        id: 405,
         registry_key: "waxed_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30858,8 +30953,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_CHEST: Item = Item {
-        id: 1488,
+    pub const WAXED_COPPER_CHEST: Self = Self {
+        id: 1489,
         registry_key: "waxed_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30877,8 +30972,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_DOOR: Item = Item {
-        id: 796,
+    pub const WAXED_COPPER_DOOR: Self = Self {
+        id: 797,
         registry_key: "waxed_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30896,8 +30991,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1496,
+    pub const WAXED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1497,
         registry_key: "waxed_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30915,8 +31010,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_GRATE: Item = Item {
-        id: 1472,
+    pub const WAXED_COPPER_GRATE: Self = Self {
+        id: 1473,
         registry_key: "waxed_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30934,8 +31029,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_LANTERN: Item = Item {
-        id: 1369,
+    pub const WAXED_COPPER_LANTERN: Self = Self {
+        id: 1370,
         registry_key: "waxed_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30953,8 +31048,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_COPPER_TRAPDOOR: Item = Item {
-        id: 817,
+    pub const WAXED_COPPER_TRAPDOOR: Self = Self {
+        id: 818,
         registry_key: "waxed_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -30972,7 +31067,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_CUT_COPPER: Item = Item {
+    pub const WAXED_CUT_COPPER: Self = Self {
         id: 122,
         registry_key: "waxed_cut_copper",
         components: &[
@@ -30991,7 +31086,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_CUT_COPPER_SLAB: Item = Item {
+    pub const WAXED_CUT_COPPER_SLAB: Self = Self {
         id: 130,
         registry_key: "waxed_cut_copper_slab",
         components: &[
@@ -31010,7 +31105,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_CUT_COPPER_STAIRS: Item = Item {
+    pub const WAXED_CUT_COPPER_STAIRS: Self = Self {
         id: 126,
         registry_key: "waxed_cut_copper_stairs",
         components: &[
@@ -31029,7 +31124,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_CHISELED_COPPER: Item = Item {
+    pub const WAXED_EXPOSED_CHISELED_COPPER: Self = Self {
         id: 119,
         registry_key: "waxed_exposed_chiseled_copper",
         components: &[
@@ -31048,7 +31143,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER: Item = Item {
+    pub const WAXED_EXPOSED_COPPER: Self = Self {
         id: 115,
         registry_key: "waxed_exposed_copper",
         components: &[
@@ -31067,8 +31162,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_BARS: Item = Item {
-        id: 396,
+    pub const WAXED_EXPOSED_COPPER_BARS: Self = Self {
+        id: 397,
         registry_key: "waxed_exposed_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31086,8 +31181,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_BULB: Item = Item {
-        id: 1481,
+    pub const WAXED_EXPOSED_COPPER_BULB: Self = Self {
+        id: 1482,
         registry_key: "waxed_exposed_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31105,8 +31200,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_CHAIN: Item = Item {
-        id: 405,
+    pub const WAXED_EXPOSED_COPPER_CHAIN: Self = Self {
+        id: 406,
         registry_key: "waxed_exposed_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31124,8 +31219,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_CHEST: Item = Item {
-        id: 1489,
+    pub const WAXED_EXPOSED_COPPER_CHEST: Self = Self {
+        id: 1490,
         registry_key: "waxed_exposed_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31143,8 +31238,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_DOOR: Item = Item {
-        id: 797,
+    pub const WAXED_EXPOSED_COPPER_DOOR: Self = Self {
+        id: 798,
         registry_key: "waxed_exposed_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31162,8 +31257,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1497,
+    pub const WAXED_EXPOSED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1498,
         registry_key: "waxed_exposed_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31181,8 +31276,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_GRATE: Item = Item {
-        id: 1473,
+    pub const WAXED_EXPOSED_COPPER_GRATE: Self = Self {
+        id: 1474,
         registry_key: "waxed_exposed_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31200,8 +31295,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_LANTERN: Item = Item {
-        id: 1370,
+    pub const WAXED_EXPOSED_COPPER_LANTERN: Self = Self {
+        id: 1371,
         registry_key: "waxed_exposed_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31219,8 +31314,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_COPPER_TRAPDOOR: Item = Item {
-        id: 818,
+    pub const WAXED_EXPOSED_COPPER_TRAPDOOR: Self = Self {
+        id: 819,
         registry_key: "waxed_exposed_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31238,7 +31333,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_CUT_COPPER: Item = Item {
+    pub const WAXED_EXPOSED_CUT_COPPER: Self = Self {
         id: 123,
         registry_key: "waxed_exposed_cut_copper",
         components: &[
@@ -31257,7 +31352,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_CUT_COPPER_SLAB: Item = Item {
+    pub const WAXED_EXPOSED_CUT_COPPER_SLAB: Self = Self {
         id: 131,
         registry_key: "waxed_exposed_cut_copper_slab",
         components: &[
@@ -31276,7 +31371,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_CUT_COPPER_STAIRS: Item = Item {
+    pub const WAXED_EXPOSED_CUT_COPPER_STAIRS: Self = Self {
         id: 127,
         registry_key: "waxed_exposed_cut_copper_stairs",
         components: &[
@@ -31295,8 +31390,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_EXPOSED_LIGHTNING_ROD: Item = Item {
-        id: 738,
+    pub const WAXED_EXPOSED_LIGHTNING_ROD: Self = Self {
+        id: 739,
         registry_key: "waxed_exposed_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31314,8 +31409,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_LIGHTNING_ROD: Item = Item {
-        id: 737,
+    pub const WAXED_LIGHTNING_ROD: Self = Self {
+        id: 738,
         registry_key: "waxed_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31333,7 +31428,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_CHISELED_COPPER: Item = Item {
+    pub const WAXED_OXIDIZED_CHISELED_COPPER: Self = Self {
         id: 121,
         registry_key: "waxed_oxidized_chiseled_copper",
         components: &[
@@ -31352,7 +31447,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER: Item = Item {
+    pub const WAXED_OXIDIZED_COPPER: Self = Self {
         id: 117,
         registry_key: "waxed_oxidized_copper",
         components: &[
@@ -31371,8 +31466,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_BARS: Item = Item {
-        id: 398,
+    pub const WAXED_OXIDIZED_COPPER_BARS: Self = Self {
+        id: 399,
         registry_key: "waxed_oxidized_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31390,8 +31485,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_BULB: Item = Item {
-        id: 1483,
+    pub const WAXED_OXIDIZED_COPPER_BULB: Self = Self {
+        id: 1484,
         registry_key: "waxed_oxidized_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31409,8 +31504,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_CHAIN: Item = Item {
-        id: 407,
+    pub const WAXED_OXIDIZED_COPPER_CHAIN: Self = Self {
+        id: 408,
         registry_key: "waxed_oxidized_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31428,8 +31523,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_CHEST: Item = Item {
-        id: 1491,
+    pub const WAXED_OXIDIZED_COPPER_CHEST: Self = Self {
+        id: 1492,
         registry_key: "waxed_oxidized_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31447,8 +31542,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_DOOR: Item = Item {
-        id: 799,
+    pub const WAXED_OXIDIZED_COPPER_DOOR: Self = Self {
+        id: 800,
         registry_key: "waxed_oxidized_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31466,8 +31561,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1499,
+    pub const WAXED_OXIDIZED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1500,
         registry_key: "waxed_oxidized_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31485,8 +31580,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_GRATE: Item = Item {
-        id: 1475,
+    pub const WAXED_OXIDIZED_COPPER_GRATE: Self = Self {
+        id: 1476,
         registry_key: "waxed_oxidized_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31504,8 +31599,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_LANTERN: Item = Item {
-        id: 1372,
+    pub const WAXED_OXIDIZED_COPPER_LANTERN: Self = Self {
+        id: 1373,
         registry_key: "waxed_oxidized_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31523,8 +31618,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_COPPER_TRAPDOOR: Item = Item {
-        id: 820,
+    pub const WAXED_OXIDIZED_COPPER_TRAPDOOR: Self = Self {
+        id: 821,
         registry_key: "waxed_oxidized_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31542,7 +31637,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_CUT_COPPER: Item = Item {
+    pub const WAXED_OXIDIZED_CUT_COPPER: Self = Self {
         id: 125,
         registry_key: "waxed_oxidized_cut_copper",
         components: &[
@@ -31561,7 +31656,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_CUT_COPPER_SLAB: Item = Item {
+    pub const WAXED_OXIDIZED_CUT_COPPER_SLAB: Self = Self {
         id: 133,
         registry_key: "waxed_oxidized_cut_copper_slab",
         components: &[
@@ -31580,7 +31675,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_CUT_COPPER_STAIRS: Item = Item {
+    pub const WAXED_OXIDIZED_CUT_COPPER_STAIRS: Self = Self {
         id: 129,
         registry_key: "waxed_oxidized_cut_copper_stairs",
         components: &[
@@ -31599,8 +31694,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_OXIDIZED_LIGHTNING_ROD: Item = Item {
-        id: 740,
+    pub const WAXED_OXIDIZED_LIGHTNING_ROD: Self = Self {
+        id: 741,
         registry_key: "waxed_oxidized_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31618,7 +31713,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_CHISELED_COPPER: Item = Item {
+    pub const WAXED_WEATHERED_CHISELED_COPPER: Self = Self {
         id: 120,
         registry_key: "waxed_weathered_chiseled_copper",
         components: &[
@@ -31637,7 +31732,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER: Item = Item {
+    pub const WAXED_WEATHERED_COPPER: Self = Self {
         id: 116,
         registry_key: "waxed_weathered_copper",
         components: &[
@@ -31656,8 +31751,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_BARS: Item = Item {
-        id: 397,
+    pub const WAXED_WEATHERED_COPPER_BARS: Self = Self {
+        id: 398,
         registry_key: "waxed_weathered_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31675,8 +31770,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_BULB: Item = Item {
-        id: 1482,
+    pub const WAXED_WEATHERED_COPPER_BULB: Self = Self {
+        id: 1483,
         registry_key: "waxed_weathered_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31694,8 +31789,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_CHAIN: Item = Item {
-        id: 406,
+    pub const WAXED_WEATHERED_COPPER_CHAIN: Self = Self {
+        id: 407,
         registry_key: "waxed_weathered_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31713,8 +31808,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_CHEST: Item = Item {
-        id: 1490,
+    pub const WAXED_WEATHERED_COPPER_CHEST: Self = Self {
+        id: 1491,
         registry_key: "waxed_weathered_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31732,8 +31827,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_DOOR: Item = Item {
-        id: 798,
+    pub const WAXED_WEATHERED_COPPER_DOOR: Self = Self {
+        id: 799,
         registry_key: "waxed_weathered_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31751,8 +31846,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1498,
+    pub const WAXED_WEATHERED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1499,
         registry_key: "waxed_weathered_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31770,8 +31865,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_GRATE: Item = Item {
-        id: 1474,
+    pub const WAXED_WEATHERED_COPPER_GRATE: Self = Self {
+        id: 1475,
         registry_key: "waxed_weathered_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31789,8 +31884,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_LANTERN: Item = Item {
-        id: 1371,
+    pub const WAXED_WEATHERED_COPPER_LANTERN: Self = Self {
+        id: 1372,
         registry_key: "waxed_weathered_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31808,8 +31903,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_COPPER_TRAPDOOR: Item = Item {
-        id: 819,
+    pub const WAXED_WEATHERED_COPPER_TRAPDOOR: Self = Self {
+        id: 820,
         registry_key: "waxed_weathered_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31827,7 +31922,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_CUT_COPPER: Item = Item {
+    pub const WAXED_WEATHERED_CUT_COPPER: Self = Self {
         id: 124,
         registry_key: "waxed_weathered_cut_copper",
         components: &[
@@ -31846,7 +31941,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_CUT_COPPER_SLAB: Item = Item {
+    pub const WAXED_WEATHERED_CUT_COPPER_SLAB: Self = Self {
         id: 132,
         registry_key: "waxed_weathered_cut_copper_slab",
         components: &[
@@ -31865,7 +31960,7 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_CUT_COPPER_STAIRS: Item = Item {
+    pub const WAXED_WEATHERED_CUT_COPPER_STAIRS: Self = Self {
         id: 128,
         registry_key: "waxed_weathered_cut_copper_stairs",
         components: &[
@@ -31884,8 +31979,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAXED_WEATHERED_LIGHTNING_ROD: Item = Item {
-        id: 739,
+    pub const WAXED_WEATHERED_LIGHTNING_ROD: Self = Self {
+        id: 740,
         registry_key: "waxed_weathered_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31903,8 +31998,8 @@ impl Item {
             ),
         ],
     };
-    pub const WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1438,
+    pub const WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1439,
         registry_key: "wayfinder_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31922,7 +32017,7 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_CHISELED_COPPER: Item = Item {
+    pub const WEATHERED_CHISELED_COPPER: Self = Self {
         id: 100,
         registry_key: "weathered_chiseled_copper",
         components: &[
@@ -31941,7 +32036,7 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER: Item = Item {
+    pub const WEATHERED_COPPER: Self = Self {
         id: 96,
         registry_key: "weathered_copper",
         components: &[
@@ -31960,8 +32055,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_BARS: Item = Item {
-        id: 393,
+    pub const WEATHERED_COPPER_BARS: Self = Self {
+        id: 394,
         registry_key: "weathered_copper_bars",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31979,8 +32074,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_BULB: Item = Item {
-        id: 1478,
+    pub const WEATHERED_COPPER_BULB: Self = Self {
+        id: 1479,
         registry_key: "weathered_copper_bulb",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -31998,8 +32093,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_CHAIN: Item = Item {
-        id: 402,
+    pub const WEATHERED_COPPER_CHAIN: Self = Self {
+        id: 403,
         registry_key: "weathered_copper_chain",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32017,8 +32112,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_CHEST: Item = Item {
-        id: 1486,
+    pub const WEATHERED_COPPER_CHEST: Self = Self {
+        id: 1487,
         registry_key: "weathered_copper_chest",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32036,8 +32131,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_DOOR: Item = Item {
-        id: 794,
+    pub const WEATHERED_COPPER_DOOR: Self = Self {
+        id: 795,
         registry_key: "weathered_copper_door",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32055,8 +32150,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_GOLEM_STATUE: Item = Item {
-        id: 1494,
+    pub const WEATHERED_COPPER_GOLEM_STATUE: Self = Self {
+        id: 1495,
         registry_key: "weathered_copper_golem_statue",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32074,8 +32169,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_GRATE: Item = Item {
-        id: 1470,
+    pub const WEATHERED_COPPER_GRATE: Self = Self {
+        id: 1471,
         registry_key: "weathered_copper_grate",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32093,8 +32188,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_LANTERN: Item = Item {
-        id: 1367,
+    pub const WEATHERED_COPPER_LANTERN: Self = Self {
+        id: 1368,
         registry_key: "weathered_copper_lantern",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32112,8 +32207,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_COPPER_TRAPDOOR: Item = Item {
-        id: 815,
+    pub const WEATHERED_COPPER_TRAPDOOR: Self = Self {
+        id: 816,
         registry_key: "weathered_copper_trapdoor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32131,7 +32226,7 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_CUT_COPPER: Item = Item {
+    pub const WEATHERED_CUT_COPPER: Self = Self {
         id: 104,
         registry_key: "weathered_cut_copper",
         components: &[
@@ -32150,7 +32245,7 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_CUT_COPPER_SLAB: Item = Item {
+    pub const WEATHERED_CUT_COPPER_SLAB: Self = Self {
         id: 112,
         registry_key: "weathered_cut_copper_slab",
         components: &[
@@ -32169,7 +32264,7 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_CUT_COPPER_STAIRS: Item = Item {
+    pub const WEATHERED_CUT_COPPER_STAIRS: Self = Self {
         id: 108,
         registry_key: "weathered_cut_copper_stairs",
         components: &[
@@ -32188,8 +32283,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEATHERED_LIGHTNING_ROD: Item = Item {
-        id: 735,
+    pub const WEATHERED_LIGHTNING_ROD: Self = Self {
+        id: 736,
         registry_key: "weathered_lightning_rod",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32207,8 +32302,8 @@ impl Item {
             ),
         ],
     };
-    pub const WEEPING_VINES: Item = Item {
-        id: 254,
+    pub const WEEPING_VINES: Self = Self {
+        id: 255,
         registry_key: "weeping_vines",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32226,7 +32321,7 @@ impl Item {
             ),
         ],
     };
-    pub const WET_SPONGE: Item = Item {
+    pub const WET_SPONGE: Self = Self {
         id: 194,
         registry_key: "wet_sponge",
         components: &[
@@ -32245,8 +32340,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHEAT: Item = Item {
-        id: 952,
+    pub const WHEAT: Self = Self {
+        id: 953,
         registry_key: "wheat",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32264,8 +32359,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHEAT_SEEDS: Item = Item {
-        id: 951,
+    pub const WHEAT_SEEDS: Self = Self {
+        id: 952,
         registry_key: "wheat_seeds",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32283,8 +32378,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_BANNER: Item = Item {
-        id: 1266,
+    pub const WHITE_BANNER: Self = Self {
+        id: 1267,
         registry_key: "white_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -32302,8 +32397,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_BED: Item = Item {
-        id: 1086,
+    pub const WHITE_BED: Self = Self {
+        id: 1087,
         registry_key: "white_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32321,8 +32416,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_BUNDLE: Item = Item {
-        id: 1037,
+    pub const WHITE_BUNDLE: Self = Self {
+        id: 1038,
         registry_key: "white_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32340,8 +32435,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_CANDLE: Item = Item {
-        id: 1399,
+    pub const WHITE_CANDLE: Self = Self {
+        id: 1400,
         registry_key: "white_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32359,8 +32454,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_CARPET: Item = Item {
-        id: 505,
+    pub const WHITE_CARPET: Self = Self {
+        id: 506,
         registry_key: "white_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32397,8 +32492,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_CONCRETE: Item = Item {
-        id: 614,
+    pub const WHITE_CONCRETE: Self = Self {
+        id: 615,
         registry_key: "white_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32416,8 +32511,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_CONCRETE_POWDER: Item = Item {
-        id: 630,
+    pub const WHITE_CONCRETE_POWDER: Self = Self {
+        id: 631,
         registry_key: "white_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32435,8 +32530,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_DYE: Item = Item {
-        id: 1066,
+    pub const WHITE_DYE: Self = Self {
+        id: 1067,
         registry_key: "white_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32454,8 +32549,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_GLAZED_TERRACOTTA: Item = Item {
-        id: 598,
+    pub const WHITE_GLAZED_TERRACOTTA: Self = Self {
+        id: 599,
         registry_key: "white_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32473,8 +32568,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_HARNESS: Item = Item {
-        id: 838,
+    pub const WHITE_HARNESS: Self = Self {
+        id: 839,
         registry_key: "white_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32508,8 +32603,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_SHULKER_BOX: Item = Item {
-        id: 582,
+    pub const WHITE_SHULKER_BOX: Self = Self {
+        id: 583,
         registry_key: "white_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32527,8 +32622,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_STAINED_GLASS: Item = Item {
-        id: 530,
+    pub const WHITE_STAINED_GLASS: Self = Self {
+        id: 531,
         registry_key: "white_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32546,8 +32641,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_STAINED_GLASS_PANE: Item = Item {
-        id: 546,
+    pub const WHITE_STAINED_GLASS_PANE: Self = Self {
+        id: 547,
         registry_key: "white_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32565,8 +32660,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_TERRACOTTA: Item = Item {
-        id: 486,
+    pub const WHITE_TERRACOTTA: Self = Self {
+        id: 487,
         registry_key: "white_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32584,8 +32679,8 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_TULIP: Item = Item {
-        id: 238,
+    pub const WHITE_TULIP: Self = Self {
+        id: 239,
         registry_key: "white_tulip",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32603,7 +32698,7 @@ impl Item {
             ),
         ],
     };
-    pub const WHITE_WOOL: Item = Item {
+    pub const WHITE_WOOL: Self = Self {
         id: 213,
         registry_key: "white_wool",
         components: &[
@@ -32622,8 +32717,8 @@ impl Item {
             ),
         ],
     };
-    pub const WILD_ARMOR_TRIM_SMITHING_TEMPLATE: Item = Item {
-        id: 1430,
+    pub const WILD_ARMOR_TRIM_SMITHING_TEMPLATE: Self = Self {
+        id: 1431,
         registry_key: "wild_armor_trim_smithing_template",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32641,8 +32736,8 @@ impl Item {
             ),
         ],
     };
-    pub const WILDFLOWERS: Item = Item {
-        id: 259,
+    pub const WILDFLOWERS: Self = Self {
+        id: 260,
         registry_key: "wildflowers",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32660,8 +32755,8 @@ impl Item {
             ),
         ],
     };
-    pub const WIND_CHARGE: Item = Item {
-        id: 1219,
+    pub const WIND_CHARGE: Self = Self {
+        id: 1220,
         registry_key: "wind_charge",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32679,8 +32774,8 @@ impl Item {
             ),
         ],
     };
-    pub const WITCH_SPAWN_EGG: Item = Item {
-        id: 1197,
+    pub const WITCH_SPAWN_EGG: Self = Self {
+        id: 1198,
         registry_key: "witch_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32698,8 +32793,8 @@ impl Item {
             ),
         ],
     };
-    pub const WITHER_ROSE: Item = Item {
-        id: 243,
+    pub const WITHER_ROSE: Self = Self {
+        id: 244,
         registry_key: "wither_rose",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32717,8 +32812,8 @@ impl Item {
             ),
         ],
     };
-    pub const WITHER_SKELETON_SKULL: Item = Item {
-        id: 1234,
+    pub const WITHER_SKELETON_SKULL: Self = Self {
+        id: 1235,
         registry_key: "wither_skeleton_skull",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32758,8 +32853,8 @@ impl Item {
             ),
         ],
     };
-    pub const WITHER_SKELETON_SPAWN_EGG: Item = Item {
-        id: 1181,
+    pub const WITHER_SKELETON_SPAWN_EGG: Self = Self {
+        id: 1182,
         registry_key: "wither_skeleton_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32777,8 +32872,8 @@ impl Item {
             ),
         ],
     };
-    pub const WITHER_SPAWN_EGG: Item = Item {
-        id: 1180,
+    pub const WITHER_SPAWN_EGG: Self = Self {
+        id: 1181,
         registry_key: "wither_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32796,8 +32891,8 @@ impl Item {
             ),
         ],
     };
-    pub const WOLF_ARMOR: Item = Item {
-        id: 890,
+    pub const WOLF_ARMOR: Self = Self {
+        id: 891,
         registry_key: "wolf_armor",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32850,8 +32945,8 @@ impl Item {
             ),
         ],
     };
-    pub const WOLF_SPAWN_EGG: Item = Item {
-        id: 1140,
+    pub const WOLF_SPAWN_EGG: Self = Self {
+        id: 1141,
         registry_key: "wolf_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -32869,8 +32964,8 @@ impl Item {
             ),
         ],
     };
-    pub const WOODEN_AXE: Item = Item {
-        id: 914,
+    pub const WOODEN_AXE: Self = Self {
+        id: 915,
         registry_key: "wooden_axe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32929,10 +33024,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const WOODEN_HOE: Item = Item {
-        id: 915,
+    pub const WOODEN_HOE: Self = Self {
+        id: 916,
         registry_key: "wooden_hoe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -32991,10 +33087,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const WOODEN_PICKAXE: Item = Item {
-        id: 913,
+    pub const WOODEN_PICKAXE: Self = Self {
+        id: 914,
         registry_key: "wooden_pickaxe",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33053,10 +33150,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const WOODEN_SHOVEL: Item = Item {
-        id: 912,
+    pub const WOODEN_SHOVEL: Self = Self {
+        id: 913,
         registry_key: "wooden_shovel",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33115,10 +33213,11 @@ impl Item {
                     item_damage_per_attack: 2,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const WOODEN_SPEAR: Item = Item {
-        id: 1296,
+    pub const WOODEN_SPEAR: Self = Self {
+        id: 1297,
         registry_key: "wooden_spear",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33157,10 +33256,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const WOODEN_SWORD: Item = Item {
-        id: 911,
+    pub const WOODEN_SWORD: Self = Self {
+        id: 912,
         registry_key: "wooden_sword",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33224,10 +33324,11 @@ impl Item {
                     item_damage_per_attack: 1,
                 },
             ),
+            (Enchantable, &EnchantableImpl { value: 15 }),
         ],
     };
-    pub const WRITABLE_BOOK: Item = Item {
-        id: 1220,
+    pub const WRITABLE_BOOK: Self = Self {
+        id: 1221,
         registry_key: "writable_book",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33245,8 +33346,8 @@ impl Item {
             ),
         ],
     };
-    pub const WRITTEN_BOOK: Item = Item {
-        id: 1221,
+    pub const WRITTEN_BOOK: Self = Self {
+        id: 1222,
         registry_key: "written_book",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -33264,8 +33365,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_BANNER: Item = Item {
-        id: 1270,
+    pub const YELLOW_BANNER: Self = Self {
+        id: 1271,
         registry_key: "yellow_banner",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 16 }),
@@ -33283,8 +33384,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_BED: Item = Item {
-        id: 1090,
+    pub const YELLOW_BED: Self = Self {
+        id: 1091,
         registry_key: "yellow_bed",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33302,8 +33403,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_BUNDLE: Item = Item {
-        id: 1041,
+    pub const YELLOW_BUNDLE: Self = Self {
+        id: 1042,
         registry_key: "yellow_bundle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33321,8 +33422,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_CANDLE: Item = Item {
-        id: 1403,
+    pub const YELLOW_CANDLE: Self = Self {
+        id: 1404,
         registry_key: "yellow_candle",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33340,8 +33441,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_CARPET: Item = Item {
-        id: 509,
+    pub const YELLOW_CARPET: Self = Self {
+        id: 510,
         registry_key: "yellow_carpet",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33378,8 +33479,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_CONCRETE: Item = Item {
-        id: 618,
+    pub const YELLOW_CONCRETE: Self = Self {
+        id: 619,
         registry_key: "yellow_concrete",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33397,8 +33498,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_CONCRETE_POWDER: Item = Item {
-        id: 634,
+    pub const YELLOW_CONCRETE_POWDER: Self = Self {
+        id: 635,
         registry_key: "yellow_concrete_powder",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33416,8 +33517,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_DYE: Item = Item {
-        id: 1070,
+    pub const YELLOW_DYE: Self = Self {
+        id: 1071,
         registry_key: "yellow_dye",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33435,8 +33536,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_GLAZED_TERRACOTTA: Item = Item {
-        id: 602,
+    pub const YELLOW_GLAZED_TERRACOTTA: Self = Self {
+        id: 603,
         registry_key: "yellow_glazed_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33454,8 +33555,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_HARNESS: Item = Item {
-        id: 842,
+    pub const YELLOW_HARNESS: Self = Self {
+        id: 843,
         registry_key: "yellow_harness",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33489,8 +33590,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_SHULKER_BOX: Item = Item {
-        id: 586,
+    pub const YELLOW_SHULKER_BOX: Self = Self {
+        id: 587,
         registry_key: "yellow_shulker_box",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 1 }),
@@ -33508,8 +33609,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_STAINED_GLASS: Item = Item {
-        id: 534,
+    pub const YELLOW_STAINED_GLASS: Self = Self {
+        id: 535,
         registry_key: "yellow_stained_glass",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33527,8 +33628,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_STAINED_GLASS_PANE: Item = Item {
-        id: 550,
+    pub const YELLOW_STAINED_GLASS_PANE: Self = Self {
+        id: 551,
         registry_key: "yellow_stained_glass_pane",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33546,8 +33647,8 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_TERRACOTTA: Item = Item {
-        id: 490,
+    pub const YELLOW_TERRACOTTA: Self = Self {
+        id: 491,
         registry_key: "yellow_terracotta",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33565,7 +33666,7 @@ impl Item {
             ),
         ],
     };
-    pub const YELLOW_WOOL: Item = Item {
+    pub const YELLOW_WOOL: Self = Self {
         id: 217,
         registry_key: "yellow_wool",
         components: &[
@@ -33584,8 +33685,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOGLIN_SPAWN_EGG: Item = Item {
-        id: 1211,
+    pub const ZOGLIN_SPAWN_EGG: Self = Self {
+        id: 1212,
         registry_key: "zoglin_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33603,8 +33704,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOMBIE_HEAD: Item = Item {
-        id: 1236,
+    pub const ZOMBIE_HEAD: Self = Self {
+        id: 1237,
         registry_key: "zombie_head",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33644,8 +33745,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOMBIE_HORSE_SPAWN_EGG: Item = Item {
-        id: 1183,
+    pub const ZOMBIE_HORSE_SPAWN_EGG: Self = Self {
+        id: 1184,
         registry_key: "zombie_horse_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33663,8 +33764,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOMBIE_NAUTILUS_SPAWN_EGG: Item = Item {
-        id: 1184,
+    pub const ZOMBIE_NAUTILUS_SPAWN_EGG: Self = Self {
+        id: 1185,
         registry_key: "zombie_nautilus_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33682,8 +33783,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOMBIE_SPAWN_EGG: Item = Item {
-        id: 1182,
+    pub const ZOMBIE_SPAWN_EGG: Self = Self {
+        id: 1183,
         registry_key: "zombie_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33701,8 +33802,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOMBIE_VILLAGER_SPAWN_EGG: Item = Item {
-        id: 1185,
+    pub const ZOMBIE_VILLAGER_SPAWN_EGG: Self = Self {
+        id: 1186,
         registry_key: "zombie_villager_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33720,8 +33821,8 @@ impl Item {
             ),
         ],
     };
-    pub const ZOMBIFIED_PIGLIN_SPAWN_EGG: Item = Item {
-        id: 1212,
+    pub const ZOMBIFIED_PIGLIN_SPAWN_EGG: Self = Self {
+        id: 1213,
         registry_key: "zombified_piglin_spawn_egg",
         components: &[
             (MaxStackSize, &MaxStackSizeImpl { size: 64 }),
@@ -33739,22 +33840,21 @@ impl Item {
             ),
         ],
     };
+    #[must_use]
     pub fn translated_name(&self) -> TextComponent {
         TextComponent::translate(
             self.components
                 .iter()
                 .find_map(|(id, data)| {
-                    if id == &ItemName {
-                        Some(data.as_any().downcast_ref::<ItemNameImpl>().unwrap().name)
-                    } else {
-                        None
-                    }
+                    (id == &ItemName)
+                        .then(|| data.as_any().downcast_ref::<ItemNameImpl>().unwrap().name)
                 })
                 .unwrap(),
             &[],
         )
     }
     #[doc = "Try to parse an item from a resource location string."]
+    #[must_use]
     pub fn from_registry_key(name: &str) -> Option<&'static Self> {
         let name = name.strip_prefix("minecraft:").unwrap_or(name);
         match name {
@@ -34320,6 +34420,7 @@ impl Item {
             "golden_boots" => Some(&Self::GOLDEN_BOOTS),
             "golden_carrot" => Some(&Self::GOLDEN_CARROT),
             "golden_chestplate" => Some(&Self::GOLDEN_CHESTPLATE),
+            "golden_dandelion" => Some(&Self::GOLDEN_DANDELION),
             "golden_helmet" => Some(&Self::GOLDEN_HELMET),
             "golden_hoe" => Some(&Self::GOLDEN_HOE),
             "golden_horse_armor" => Some(&Self::GOLDEN_HORSE_ARMOR),
@@ -35281,423 +35382,424 @@ impl Item {
         }
     }
     #[doc = "Try to parse an item from a raw id."]
+    #[must_use]
     pub const fn from_id(id: u16) -> Option<&'static Self> {
         match id {
-            871 => Some(&Self::ACACIA_BOAT),
-            755 => Some(&Self::ACACIA_BUTTON),
-            872 => Some(&Self::ACACIA_CHEST_BOAT),
-            784 => Some(&Self::ACACIA_DOOR),
-            348 => Some(&Self::ACACIA_FENCE),
-            825 => Some(&Self::ACACIA_FENCE_GATE),
-            1004 => Some(&Self::ACACIA_HANGING_SIGN),
+            872 => Some(&Self::ACACIA_BOAT),
+            756 => Some(&Self::ACACIA_BUTTON),
+            873 => Some(&Self::ACACIA_CHEST_BOAT),
+            785 => Some(&Self::ACACIA_DOOR),
+            349 => Some(&Self::ACACIA_FENCE),
+            826 => Some(&Self::ACACIA_FENCE_GATE),
+            1005 => Some(&Self::ACACIA_HANGING_SIGN),
             186 => Some(&Self::ACACIA_LEAVES),
             138 => Some(&Self::ACACIA_LOG),
             40 => Some(&Self::ACACIA_PLANKS),
-            771 => Some(&Self::ACACIA_PRESSURE_PLATE),
+            772 => Some(&Self::ACACIA_PRESSURE_PLATE),
             53 => Some(&Self::ACACIA_SAPLING),
-            305 => Some(&Self::ACACIA_SHELF),
-            992 => Some(&Self::ACACIA_SIGN),
-            274 => Some(&Self::ACACIA_SLAB),
-            445 => Some(&Self::ACACIA_STAIRS),
-            805 => Some(&Self::ACACIA_TRAPDOOR),
+            306 => Some(&Self::ACACIA_SHELF),
+            993 => Some(&Self::ACACIA_SIGN),
+            275 => Some(&Self::ACACIA_SLAB),
+            446 => Some(&Self::ACACIA_STAIRS),
+            806 => Some(&Self::ACACIA_TRAPDOOR),
             175 => Some(&Self::ACACIA_WOOD),
-            836 => Some(&Self::ACTIVATOR_RAIL),
+            837 => Some(&Self::ACTIVATOR_RAIL),
             0 => Some(&Self::AIR),
-            1163 => Some(&Self::ALLAY_SPAWN_EGG),
-            234 => Some(&Self::ALLIUM),
+            1164 => Some(&Self::ALLAY_SPAWN_EGG),
+            235 => Some(&Self::ALLIUM),
             88 => Some(&Self::AMETHYST_BLOCK),
-            1418 => Some(&Self::AMETHYST_CLUSTER),
-            902 => Some(&Self::AMETHYST_SHARD),
+            1419 => Some(&Self::AMETHYST_CLUSTER),
+            903 => Some(&Self::AMETHYST_SHARD),
             82 => Some(&Self::ANCIENT_DEBRIS),
             6 => Some(&Self::ANDESITE),
-            708 => Some(&Self::ANDESITE_SLAB),
-            691 => Some(&Self::ANDESITE_STAIRS),
-            466 => Some(&Self::ANDESITE_WALL),
-            1445 => Some(&Self::ANGLER_POTTERY_SHERD),
-            478 => Some(&Self::ANVIL),
-            893 => Some(&Self::APPLE),
-            1446 => Some(&Self::ARCHER_POTTERY_SHERD),
-            889 => Some(&Self::ARMADILLO_SCUTE),
-            1141 => Some(&Self::ARMADILLO_SPAWN_EGG),
-            1254 => Some(&Self::ARMOR_STAND),
-            1447 => Some(&Self::ARMS_UP_POTTERY_SHERD),
-            895 => Some(&Self::ARROW),
-            1023 => Some(&Self::AXOLOTL_BUCKET),
-            1151 => Some(&Self::AXOLOTL_SPAWN_EGG),
+            709 => Some(&Self::ANDESITE_SLAB),
+            692 => Some(&Self::ANDESITE_STAIRS),
+            467 => Some(&Self::ANDESITE_WALL),
+            1446 => Some(&Self::ANGLER_POTTERY_SHERD),
+            479 => Some(&Self::ANVIL),
+            894 => Some(&Self::APPLE),
+            1447 => Some(&Self::ARCHER_POTTERY_SHERD),
+            890 => Some(&Self::ARMADILLO_SCUTE),
+            1142 => Some(&Self::ARMADILLO_SPAWN_EGG),
+            1255 => Some(&Self::ARMOR_STAND),
+            1448 => Some(&Self::ARMS_UP_POTTERY_SHERD),
+            896 => Some(&Self::ARROW),
+            1024 => Some(&Self::AXOLOTL_BUCKET),
+            1152 => Some(&Self::AXOLOTL_SPAWN_EGG),
             205 => Some(&Self::AZALEA),
             191 => Some(&Self::AZALEA_LEAVES),
-            235 => Some(&Self::AZURE_BLUET),
-            1229 => Some(&Self::BAKED_POTATO),
-            269 => Some(&Self::BAMBOO),
+            236 => Some(&Self::AZURE_BLUET),
+            1230 => Some(&Self::BAKED_POTATO),
+            270 => Some(&Self::BAMBOO),
             147 => Some(&Self::BAMBOO_BLOCK),
-            760 => Some(&Self::BAMBOO_BUTTON),
-            882 => Some(&Self::BAMBOO_CHEST_RAFT),
-            789 => Some(&Self::BAMBOO_DOOR),
-            353 => Some(&Self::BAMBOO_FENCE),
-            830 => Some(&Self::BAMBOO_FENCE_GATE),
-            1009 => Some(&Self::BAMBOO_HANGING_SIGN),
+            761 => Some(&Self::BAMBOO_BUTTON),
+            883 => Some(&Self::BAMBOO_CHEST_RAFT),
+            790 => Some(&Self::BAMBOO_DOOR),
+            354 => Some(&Self::BAMBOO_FENCE),
+            831 => Some(&Self::BAMBOO_FENCE_GATE),
+            1010 => Some(&Self::BAMBOO_HANGING_SIGN),
             48 => Some(&Self::BAMBOO_MOSAIC),
-            280 => Some(&Self::BAMBOO_MOSAIC_SLAB),
-            451 => Some(&Self::BAMBOO_MOSAIC_STAIRS),
+            281 => Some(&Self::BAMBOO_MOSAIC_SLAB),
+            452 => Some(&Self::BAMBOO_MOSAIC_STAIRS),
             45 => Some(&Self::BAMBOO_PLANKS),
-            776 => Some(&Self::BAMBOO_PRESSURE_PLATE),
-            881 => Some(&Self::BAMBOO_RAFT),
-            306 => Some(&Self::BAMBOO_SHELF),
-            997 => Some(&Self::BAMBOO_SIGN),
-            279 => Some(&Self::BAMBOO_SLAB),
-            450 => Some(&Self::BAMBOO_STAIRS),
-            810 => Some(&Self::BAMBOO_TRAPDOOR),
-            1354 => Some(&Self::BARREL),
-            502 => Some(&Self::BARRIER),
-            362 => Some(&Self::BASALT),
-            1142 => Some(&Self::BAT_SPAWN_EGG),
-            455 => Some(&Self::BEACON),
+            777 => Some(&Self::BAMBOO_PRESSURE_PLATE),
+            882 => Some(&Self::BAMBOO_RAFT),
+            307 => Some(&Self::BAMBOO_SHELF),
+            998 => Some(&Self::BAMBOO_SIGN),
+            280 => Some(&Self::BAMBOO_SLAB),
+            451 => Some(&Self::BAMBOO_STAIRS),
+            811 => Some(&Self::BAMBOO_TRAPDOOR),
+            1355 => Some(&Self::BARREL),
+            503 => Some(&Self::BARRIER),
+            363 => Some(&Self::BASALT),
+            1143 => Some(&Self::BAT_SPAWN_EGG),
+            456 => Some(&Self::BEACON),
             58 => Some(&Self::BEDROCK),
-            1379 => Some(&Self::BEE_NEST),
-            1143 => Some(&Self::BEE_SPAWN_EGG),
-            1110 => Some(&Self::BEEF),
-            1380 => Some(&Self::BEEHIVE),
-            1287 => Some(&Self::BEETROOT),
-            1288 => Some(&Self::BEETROOT_SEEDS),
-            1289 => Some(&Self::BEETROOT_SOUP),
-            1362 => Some(&Self::BELL),
-            267 => Some(&Self::BIG_DRIPLEAF),
-            867 => Some(&Self::BIRCH_BOAT),
-            753 => Some(&Self::BIRCH_BUTTON),
-            868 => Some(&Self::BIRCH_CHEST_BOAT),
-            782 => Some(&Self::BIRCH_DOOR),
-            346 => Some(&Self::BIRCH_FENCE),
-            823 => Some(&Self::BIRCH_FENCE_GATE),
-            1002 => Some(&Self::BIRCH_HANGING_SIGN),
+            1380 => Some(&Self::BEE_NEST),
+            1144 => Some(&Self::BEE_SPAWN_EGG),
+            1111 => Some(&Self::BEEF),
+            1381 => Some(&Self::BEEHIVE),
+            1288 => Some(&Self::BEETROOT),
+            1289 => Some(&Self::BEETROOT_SEEDS),
+            1290 => Some(&Self::BEETROOT_SOUP),
+            1363 => Some(&Self::BELL),
+            268 => Some(&Self::BIG_DRIPLEAF),
+            868 => Some(&Self::BIRCH_BOAT),
+            754 => Some(&Self::BIRCH_BUTTON),
+            869 => Some(&Self::BIRCH_CHEST_BOAT),
+            783 => Some(&Self::BIRCH_DOOR),
+            347 => Some(&Self::BIRCH_FENCE),
+            824 => Some(&Self::BIRCH_FENCE_GATE),
+            1003 => Some(&Self::BIRCH_HANGING_SIGN),
             184 => Some(&Self::BIRCH_LEAVES),
             136 => Some(&Self::BIRCH_LOG),
             38 => Some(&Self::BIRCH_PLANKS),
-            769 => Some(&Self::BIRCH_PRESSURE_PLATE),
+            770 => Some(&Self::BIRCH_PRESSURE_PLATE),
             51 => Some(&Self::BIRCH_SAPLING),
-            307 => Some(&Self::BIRCH_SHELF),
-            990 => Some(&Self::BIRCH_SIGN),
-            272 => Some(&Self::BIRCH_SLAB),
-            443 => Some(&Self::BIRCH_STAIRS),
-            803 => Some(&Self::BIRCH_TRAPDOOR),
+            308 => Some(&Self::BIRCH_SHELF),
+            991 => Some(&Self::BIRCH_SIGN),
+            273 => Some(&Self::BIRCH_SLAB),
+            444 => Some(&Self::BIRCH_STAIRS),
+            804 => Some(&Self::BIRCH_TRAPDOOR),
             173 => Some(&Self::BIRCH_WOOD),
-            1281 => Some(&Self::BLACK_BANNER),
-            1101 => Some(&Self::BLACK_BED),
-            1052 => Some(&Self::BLACK_BUNDLE),
-            1414 => Some(&Self::BLACK_CANDLE),
-            520 => Some(&Self::BLACK_CARPET),
-            629 => Some(&Self::BLACK_CONCRETE),
-            645 => Some(&Self::BLACK_CONCRETE_POWDER),
-            1081 => Some(&Self::BLACK_DYE),
-            613 => Some(&Self::BLACK_GLAZED_TERRACOTTA),
-            853 => Some(&Self::BLACK_HARNESS),
-            597 => Some(&Self::BLACK_SHULKER_BOX),
-            545 => Some(&Self::BLACK_STAINED_GLASS),
-            561 => Some(&Self::BLACK_STAINED_GLASS_PANE),
-            501 => Some(&Self::BLACK_TERRACOTTA),
+            1282 => Some(&Self::BLACK_BANNER),
+            1102 => Some(&Self::BLACK_BED),
+            1053 => Some(&Self::BLACK_BUNDLE),
+            1415 => Some(&Self::BLACK_CANDLE),
+            521 => Some(&Self::BLACK_CARPET),
+            630 => Some(&Self::BLACK_CONCRETE),
+            646 => Some(&Self::BLACK_CONCRETE_POWDER),
+            1082 => Some(&Self::BLACK_DYE),
+            614 => Some(&Self::BLACK_GLAZED_TERRACOTTA),
+            854 => Some(&Self::BLACK_HARNESS),
+            598 => Some(&Self::BLACK_SHULKER_BOX),
+            546 => Some(&Self::BLACK_STAINED_GLASS),
+            562 => Some(&Self::BLACK_STAINED_GLASS_PANE),
+            502 => Some(&Self::BLACK_TERRACOTTA),
             228 => Some(&Self::BLACK_WOOL),
-            1385 => Some(&Self::BLACKSTONE),
-            1386 => Some(&Self::BLACKSTONE_SLAB),
-            1387 => Some(&Self::BLACKSTONE_STAIRS),
-            471 => Some(&Self::BLACKSTONE_WALL),
-            1448 => Some(&Self::BLADE_POTTERY_SHERD),
-            1356 => Some(&Self::BLAST_FURNACE),
-            1124 => Some(&Self::BLAZE_POWDER),
-            1116 => Some(&Self::BLAZE_ROD),
-            1203 => Some(&Self::BLAZE_SPAWN_EGG),
-            1277 => Some(&Self::BLUE_BANNER),
-            1097 => Some(&Self::BLUE_BED),
-            1048 => Some(&Self::BLUE_BUNDLE),
-            1410 => Some(&Self::BLUE_CANDLE),
-            516 => Some(&Self::BLUE_CARPET),
-            625 => Some(&Self::BLUE_CONCRETE),
-            641 => Some(&Self::BLUE_CONCRETE_POWDER),
-            1077 => Some(&Self::BLUE_DYE),
-            1032 => Some(&Self::BLUE_EGG),
-            609 => Some(&Self::BLUE_GLAZED_TERRACOTTA),
-            849 => Some(&Self::BLUE_HARNESS),
-            679 => Some(&Self::BLUE_ICE),
-            233 => Some(&Self::BLUE_ORCHID),
-            593 => Some(&Self::BLUE_SHULKER_BOX),
-            541 => Some(&Self::BLUE_STAINED_GLASS),
-            557 => Some(&Self::BLUE_STAINED_GLASS_PANE),
-            497 => Some(&Self::BLUE_TERRACOTTA),
+            1386 => Some(&Self::BLACKSTONE),
+            1387 => Some(&Self::BLACKSTONE_SLAB),
+            1388 => Some(&Self::BLACKSTONE_STAIRS),
+            472 => Some(&Self::BLACKSTONE_WALL),
+            1449 => Some(&Self::BLADE_POTTERY_SHERD),
+            1357 => Some(&Self::BLAST_FURNACE),
+            1125 => Some(&Self::BLAZE_POWDER),
+            1117 => Some(&Self::BLAZE_ROD),
+            1204 => Some(&Self::BLAZE_SPAWN_EGG),
+            1278 => Some(&Self::BLUE_BANNER),
+            1098 => Some(&Self::BLUE_BED),
+            1049 => Some(&Self::BLUE_BUNDLE),
+            1411 => Some(&Self::BLUE_CANDLE),
+            517 => Some(&Self::BLUE_CARPET),
+            626 => Some(&Self::BLUE_CONCRETE),
+            642 => Some(&Self::BLUE_CONCRETE_POWDER),
+            1078 => Some(&Self::BLUE_DYE),
+            1033 => Some(&Self::BLUE_EGG),
+            610 => Some(&Self::BLUE_GLAZED_TERRACOTTA),
+            850 => Some(&Self::BLUE_HARNESS),
+            680 => Some(&Self::BLUE_ICE),
+            234 => Some(&Self::BLUE_ORCHID),
+            594 => Some(&Self::BLUE_SHULKER_BOX),
+            542 => Some(&Self::BLUE_STAINED_GLASS),
+            558 => Some(&Self::BLUE_STAINED_GLASS_PANE),
+            498 => Some(&Self::BLUE_TERRACOTTA),
             224 => Some(&Self::BLUE_WOOL),
-            1172 => Some(&Self::BOGGED_SPAWN_EGG),
-            1444 => Some(&Self::BOLT_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1083 => Some(&Self::BONE),
-            579 => Some(&Self::BONE_BLOCK),
-            1082 => Some(&Self::BONE_MEAL),
-            1029 => Some(&Self::BOOK),
-            317 => Some(&Self::BOOKSHELF),
-            1351 => Some(&Self::BORDURE_INDENTED_BANNER_PATTERN),
-            894 => Some(&Self::BOW),
-            892 => Some(&Self::BOWL),
-            660 => Some(&Self::BRAIN_CORAL),
-            655 => Some(&Self::BRAIN_CORAL_BLOCK),
-            670 => Some(&Self::BRAIN_CORAL_FAN),
-            953 => Some(&Self::BREAD),
-            1222 => Some(&Self::BREEZE_ROD),
-            1188 => Some(&Self::BREEZE_SPAWN_EGG),
-            1449 => Some(&Self::BREWER_POTTERY_SHERD),
-            1126 => Some(&Self::BREWING_STAND),
-            1025 => Some(&Self::BRICK),
-            289 => Some(&Self::BRICK_SLAB),
-            419 => Some(&Self::BRICK_STAIRS),
-            458 => Some(&Self::BRICK_WALL),
-            304 => Some(&Self::BRICKS),
-            1278 => Some(&Self::BROWN_BANNER),
-            1098 => Some(&Self::BROWN_BED),
-            1049 => Some(&Self::BROWN_BUNDLE),
-            1411 => Some(&Self::BROWN_CANDLE),
-            517 => Some(&Self::BROWN_CARPET),
-            626 => Some(&Self::BROWN_CONCRETE),
-            642 => Some(&Self::BROWN_CONCRETE_POWDER),
-            1078 => Some(&Self::BROWN_DYE),
-            1033 => Some(&Self::BROWN_EGG),
-            610 => Some(&Self::BROWN_GLAZED_TERRACOTTA),
-            850 => Some(&Self::BROWN_HARNESS),
-            247 => Some(&Self::BROWN_MUSHROOM),
-            387 => Some(&Self::BROWN_MUSHROOM_BLOCK),
-            594 => Some(&Self::BROWN_SHULKER_BOX),
-            542 => Some(&Self::BROWN_STAINED_GLASS),
-            558 => Some(&Self::BROWN_STAINED_GLASS_PANE),
-            498 => Some(&Self::BROWN_TERRACOTTA),
+            1173 => Some(&Self::BOGGED_SPAWN_EGG),
+            1445 => Some(&Self::BOLT_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1084 => Some(&Self::BONE),
+            580 => Some(&Self::BONE_BLOCK),
+            1083 => Some(&Self::BONE_MEAL),
+            1030 => Some(&Self::BOOK),
+            318 => Some(&Self::BOOKSHELF),
+            1352 => Some(&Self::BORDURE_INDENTED_BANNER_PATTERN),
+            895 => Some(&Self::BOW),
+            893 => Some(&Self::BOWL),
+            661 => Some(&Self::BRAIN_CORAL),
+            656 => Some(&Self::BRAIN_CORAL_BLOCK),
+            671 => Some(&Self::BRAIN_CORAL_FAN),
+            954 => Some(&Self::BREAD),
+            1223 => Some(&Self::BREEZE_ROD),
+            1189 => Some(&Self::BREEZE_SPAWN_EGG),
+            1450 => Some(&Self::BREWER_POTTERY_SHERD),
+            1127 => Some(&Self::BREWING_STAND),
+            1026 => Some(&Self::BRICK),
+            290 => Some(&Self::BRICK_SLAB),
+            420 => Some(&Self::BRICK_STAIRS),
+            459 => Some(&Self::BRICK_WALL),
+            305 => Some(&Self::BRICKS),
+            1279 => Some(&Self::BROWN_BANNER),
+            1099 => Some(&Self::BROWN_BED),
+            1050 => Some(&Self::BROWN_BUNDLE),
+            1412 => Some(&Self::BROWN_CANDLE),
+            518 => Some(&Self::BROWN_CARPET),
+            627 => Some(&Self::BROWN_CONCRETE),
+            643 => Some(&Self::BROWN_CONCRETE_POWDER),
+            1079 => Some(&Self::BROWN_DYE),
+            1034 => Some(&Self::BROWN_EGG),
+            611 => Some(&Self::BROWN_GLAZED_TERRACOTTA),
+            851 => Some(&Self::BROWN_HARNESS),
+            248 => Some(&Self::BROWN_MUSHROOM),
+            388 => Some(&Self::BROWN_MUSHROOM_BLOCK),
+            595 => Some(&Self::BROWN_SHULKER_BOX),
+            543 => Some(&Self::BROWN_STAINED_GLASS),
+            559 => Some(&Self::BROWN_STAINED_GLASS_PANE),
+            499 => Some(&Self::BROWN_TERRACOTTA),
             225 => Some(&Self::BROWN_WOOL),
-            1425 => Some(&Self::BRUSH),
-            661 => Some(&Self::BUBBLE_CORAL),
-            656 => Some(&Self::BUBBLE_CORAL_BLOCK),
-            671 => Some(&Self::BUBBLE_CORAL_FAN),
-            1012 => Some(&Self::BUCKET),
+            1426 => Some(&Self::BRUSH),
+            662 => Some(&Self::BUBBLE_CORAL),
+            657 => Some(&Self::BUBBLE_CORAL_BLOCK),
+            672 => Some(&Self::BUBBLE_CORAL_FAN),
+            1013 => Some(&Self::BUCKET),
             89 => Some(&Self::BUDDING_AMETHYST),
-            1036 => Some(&Self::BUNDLE),
-            1450 => Some(&Self::BURN_POTTERY_SHERD),
+            1037 => Some(&Self::BUNDLE),
+            1451 => Some(&Self::BURN_POTTERY_SHERD),
             204 => Some(&Self::BUSH),
-            340 => Some(&Self::CACTUS),
-            341 => Some(&Self::CACTUS_FLOWER),
-            1085 => Some(&Self::CAKE),
+            341 => Some(&Self::CACTUS),
+            342 => Some(&Self::CACTUS_FLOWER),
+            1086 => Some(&Self::CAKE),
             11 => Some(&Self::CALCITE),
-            743 => Some(&Self::CALIBRATED_SCULK_SENSOR),
-            1173 => Some(&Self::CAMEL_HUSK_SPAWN_EGG),
-            1134 => Some(&Self::CAMEL_SPAWN_EGG),
-            1375 => Some(&Self::CAMPFIRE),
-            1398 => Some(&Self::CANDLE),
-            1227 => Some(&Self::CARROT),
-            859 => Some(&Self::CARROT_ON_A_STICK),
-            1357 => Some(&Self::CARTOGRAPHY_TABLE),
-            357 => Some(&Self::CARVED_PUMPKIN),
-            1138 => Some(&Self::CAT_SPAWN_EGG),
-            1127 => Some(&Self::CAULDRON),
-            1186 => Some(&Self::CAVE_SPIDER_SPAWN_EGG),
-            574 => Some(&Self::CHAIN_COMMAND_BLOCK),
-            965 => Some(&Self::CHAINMAIL_BOOTS),
-            963 => Some(&Self::CHAINMAIL_CHESTPLATE),
-            962 => Some(&Self::CHAINMAIL_HELMET),
-            964 => Some(&Self::CHAINMAIL_LEGGINGS),
-            897 => Some(&Self::CHARCOAL),
-            873 => Some(&Self::CHERRY_BOAT),
-            756 => Some(&Self::CHERRY_BUTTON),
-            874 => Some(&Self::CHERRY_CHEST_BOAT),
-            785 => Some(&Self::CHERRY_DOOR),
-            349 => Some(&Self::CHERRY_FENCE),
-            826 => Some(&Self::CHERRY_FENCE_GATE),
-            1005 => Some(&Self::CHERRY_HANGING_SIGN),
+            744 => Some(&Self::CALIBRATED_SCULK_SENSOR),
+            1174 => Some(&Self::CAMEL_HUSK_SPAWN_EGG),
+            1135 => Some(&Self::CAMEL_SPAWN_EGG),
+            1376 => Some(&Self::CAMPFIRE),
+            1399 => Some(&Self::CANDLE),
+            1228 => Some(&Self::CARROT),
+            860 => Some(&Self::CARROT_ON_A_STICK),
+            1358 => Some(&Self::CARTOGRAPHY_TABLE),
+            358 => Some(&Self::CARVED_PUMPKIN),
+            1139 => Some(&Self::CAT_SPAWN_EGG),
+            1128 => Some(&Self::CAULDRON),
+            1187 => Some(&Self::CAVE_SPIDER_SPAWN_EGG),
+            575 => Some(&Self::CHAIN_COMMAND_BLOCK),
+            966 => Some(&Self::CHAINMAIL_BOOTS),
+            964 => Some(&Self::CHAINMAIL_CHESTPLATE),
+            963 => Some(&Self::CHAINMAIL_HELMET),
+            965 => Some(&Self::CHAINMAIL_LEGGINGS),
+            898 => Some(&Self::CHARCOAL),
+            874 => Some(&Self::CHERRY_BOAT),
+            757 => Some(&Self::CHERRY_BUTTON),
+            875 => Some(&Self::CHERRY_CHEST_BOAT),
+            786 => Some(&Self::CHERRY_DOOR),
+            350 => Some(&Self::CHERRY_FENCE),
+            827 => Some(&Self::CHERRY_FENCE_GATE),
+            1006 => Some(&Self::CHERRY_HANGING_SIGN),
             187 => Some(&Self::CHERRY_LEAVES),
             139 => Some(&Self::CHERRY_LOG),
             41 => Some(&Self::CHERRY_PLANKS),
-            772 => Some(&Self::CHERRY_PRESSURE_PLATE),
+            773 => Some(&Self::CHERRY_PRESSURE_PLATE),
             54 => Some(&Self::CHERRY_SAPLING),
-            308 => Some(&Self::CHERRY_SHELF),
-            993 => Some(&Self::CHERRY_SIGN),
-            275 => Some(&Self::CHERRY_SLAB),
-            446 => Some(&Self::CHERRY_STAIRS),
-            806 => Some(&Self::CHERRY_TRAPDOOR),
+            309 => Some(&Self::CHERRY_SHELF),
+            994 => Some(&Self::CHERRY_SIGN),
+            276 => Some(&Self::CHERRY_SLAB),
+            447 => Some(&Self::CHERRY_STAIRS),
+            807 => Some(&Self::CHERRY_TRAPDOOR),
             176 => Some(&Self::CHERRY_WOOD),
-            331 => Some(&Self::CHEST),
-            855 => Some(&Self::CHEST_MINECART),
-            1112 => Some(&Self::CHICKEN),
-            1130 => Some(&Self::CHICKEN_SPAWN_EGG),
-            479 => Some(&Self::CHIPPED_ANVIL),
-            318 => Some(&Self::CHISELED_BOOKSHELF),
+            332 => Some(&Self::CHEST),
+            856 => Some(&Self::CHEST_MINECART),
+            1113 => Some(&Self::CHICKEN),
+            1131 => Some(&Self::CHICKEN_SPAWN_EGG),
+            480 => Some(&Self::CHIPPED_ANVIL),
+            319 => Some(&Self::CHISELED_BOOKSHELF),
             98 => Some(&Self::CHISELED_COPPER),
-            385 => Some(&Self::CHISELED_DEEPSLATE),
-            426 => Some(&Self::CHISELED_NETHER_BRICKS),
-            1392 => Some(&Self::CHISELED_POLISHED_BLACKSTONE),
-            481 => Some(&Self::CHISELED_QUARTZ_BLOCK),
-            570 => Some(&Self::CHISELED_RED_SANDSTONE),
-            418 => Some(&Self::CHISELED_RESIN_BRICKS),
+            386 => Some(&Self::CHISELED_DEEPSLATE),
+            427 => Some(&Self::CHISELED_NETHER_BRICKS),
+            1393 => Some(&Self::CHISELED_POLISHED_BLACKSTONE),
+            482 => Some(&Self::CHISELED_QUARTZ_BLOCK),
+            571 => Some(&Self::CHISELED_RED_SANDSTONE),
+            419 => Some(&Self::CHISELED_RESIN_BRICKS),
             199 => Some(&Self::CHISELED_SANDSTONE),
-            378 => Some(&Self::CHISELED_STONE_BRICKS),
+            379 => Some(&Self::CHISELED_STONE_BRICKS),
             16 => Some(&Self::CHISELED_TUFF),
             25 => Some(&Self::CHISELED_TUFF_BRICKS),
-            325 => Some(&Self::CHORUS_FLOWER),
-            1283 => Some(&Self::CHORUS_FRUIT),
-            324 => Some(&Self::CHORUS_PLANT),
-            342 => Some(&Self::CLAY),
-            1026 => Some(&Self::CLAY_BALL),
-            1054 => Some(&Self::CLOCK),
-            231 => Some(&Self::CLOSED_EYEBLOSSOM),
-            896 => Some(&Self::COAL),
+            326 => Some(&Self::CHORUS_FLOWER),
+            1284 => Some(&Self::CHORUS_FRUIT),
+            325 => Some(&Self::CHORUS_PLANT),
+            343 => Some(&Self::CLAY),
+            1027 => Some(&Self::CLAY_BALL),
+            1055 => Some(&Self::CLOCK),
+            232 => Some(&Self::CLOSED_EYEBLOSSOM),
+            897 => Some(&Self::COAL),
             83 => Some(&Self::COAL_BLOCK),
             64 => Some(&Self::COAL_ORE),
             29 => Some(&Self::COARSE_DIRT),
-            1429 => Some(&Self::COAST_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1430 => Some(&Self::COAST_ARMOR_TRIM_SMITHING_TEMPLATE),
             9 => Some(&Self::COBBLED_DEEPSLATE),
-            712 => Some(&Self::COBBLED_DEEPSLATE_SLAB),
-            695 => Some(&Self::COBBLED_DEEPSLATE_STAIRS),
-            474 => Some(&Self::COBBLED_DEEPSLATE_WALL),
+            713 => Some(&Self::COBBLED_DEEPSLATE_SLAB),
+            696 => Some(&Self::COBBLED_DEEPSLATE_STAIRS),
+            475 => Some(&Self::COBBLED_DEEPSLATE_WALL),
             35 => Some(&Self::COBBLESTONE),
-            288 => Some(&Self::COBBLESTONE_SLAB),
-            336 => Some(&Self::COBBLESTONE_STAIRS),
-            456 => Some(&Self::COBBLESTONE_WALL),
+            289 => Some(&Self::COBBLESTONE_SLAB),
+            337 => Some(&Self::COBBLESTONE_STAIRS),
+            457 => Some(&Self::COBBLESTONE_WALL),
             201 => Some(&Self::COBWEB),
-            1065 => Some(&Self::COCOA_BEANS),
-            1057 => Some(&Self::COD),
-            1021 => Some(&Self::COD_BUCKET),
-            1152 => Some(&Self::COD_SPAWN_EGG),
-            454 => Some(&Self::COMMAND_BLOCK),
-            1263 => Some(&Self::COMMAND_BLOCK_MINECART),
-            721 => Some(&Self::COMPARATOR),
-            1034 => Some(&Self::COMPASS),
-            1353 => Some(&Self::COMPOSTER),
-            680 => Some(&Self::CONDUIT),
-            1111 => Some(&Self::COOKED_BEEF),
-            1113 => Some(&Self::COOKED_CHICKEN),
-            1061 => Some(&Self::COOKED_COD),
-            1265 => Some(&Self::COOKED_MUTTON),
-            984 => Some(&Self::COOKED_PORKCHOP),
-            1250 => Some(&Self::COOKED_RABBIT),
-            1062 => Some(&Self::COOKED_SALMON),
-            1102 => Some(&Self::COOKIE),
-            919 => Some(&Self::COPPER_AXE),
-            391 => Some(&Self::COPPER_BARS),
+            1066 => Some(&Self::COCOA_BEANS),
+            1058 => Some(&Self::COD),
+            1022 => Some(&Self::COD_BUCKET),
+            1153 => Some(&Self::COD_SPAWN_EGG),
+            455 => Some(&Self::COMMAND_BLOCK),
+            1264 => Some(&Self::COMMAND_BLOCK_MINECART),
+            722 => Some(&Self::COMPARATOR),
+            1035 => Some(&Self::COMPASS),
+            1354 => Some(&Self::COMPOSTER),
+            681 => Some(&Self::CONDUIT),
+            1112 => Some(&Self::COOKED_BEEF),
+            1114 => Some(&Self::COOKED_CHICKEN),
+            1062 => Some(&Self::COOKED_COD),
+            1266 => Some(&Self::COOKED_MUTTON),
+            985 => Some(&Self::COOKED_PORKCHOP),
+            1251 => Some(&Self::COOKED_RABBIT),
+            1063 => Some(&Self::COOKED_SALMON),
+            1103 => Some(&Self::COOKIE),
+            920 => Some(&Self::COPPER_AXE),
+            392 => Some(&Self::COPPER_BARS),
             91 => Some(&Self::COPPER_BLOCK),
-            961 => Some(&Self::COPPER_BOOTS),
-            1476 => Some(&Self::COPPER_BULB),
-            400 => Some(&Self::COPPER_CHAIN),
-            1484 => Some(&Self::COPPER_CHEST),
-            959 => Some(&Self::COPPER_CHESTPLATE),
-            792 => Some(&Self::COPPER_DOOR),
-            1166 => Some(&Self::COPPER_GOLEM_SPAWN_EGG),
-            1492 => Some(&Self::COPPER_GOLEM_STATUE),
-            1468 => Some(&Self::COPPER_GRATE),
-            958 => Some(&Self::COPPER_HELMET),
-            920 => Some(&Self::COPPER_HOE),
-            1255 => Some(&Self::COPPER_HORSE_ARMOR),
-            906 => Some(&Self::COPPER_INGOT),
-            1365 => Some(&Self::COPPER_LANTERN),
-            960 => Some(&Self::COPPER_LEGGINGS),
-            1337 => Some(&Self::COPPER_NAUTILUS_ARMOR),
-            1306 => Some(&Self::COPPER_NUGGET),
+            962 => Some(&Self::COPPER_BOOTS),
+            1477 => Some(&Self::COPPER_BULB),
+            401 => Some(&Self::COPPER_CHAIN),
+            1485 => Some(&Self::COPPER_CHEST),
+            960 => Some(&Self::COPPER_CHESTPLATE),
+            793 => Some(&Self::COPPER_DOOR),
+            1167 => Some(&Self::COPPER_GOLEM_SPAWN_EGG),
+            1493 => Some(&Self::COPPER_GOLEM_STATUE),
+            1469 => Some(&Self::COPPER_GRATE),
+            959 => Some(&Self::COPPER_HELMET),
+            921 => Some(&Self::COPPER_HOE),
+            1256 => Some(&Self::COPPER_HORSE_ARMOR),
+            907 => Some(&Self::COPPER_INGOT),
+            1366 => Some(&Self::COPPER_LANTERN),
+            961 => Some(&Self::COPPER_LEGGINGS),
+            1338 => Some(&Self::COPPER_NAUTILUS_ARMOR),
+            1307 => Some(&Self::COPPER_NUGGET),
             68 => Some(&Self::COPPER_ORE),
-            918 => Some(&Self::COPPER_PICKAXE),
-            917 => Some(&Self::COPPER_SHOVEL),
-            1298 => Some(&Self::COPPER_SPEAR),
-            916 => Some(&Self::COPPER_SWORD),
-            366 => Some(&Self::COPPER_TORCH),
-            813 => Some(&Self::COPPER_TRAPDOOR),
-            241 => Some(&Self::CORNFLOWER),
-            1131 => Some(&Self::COW_SPAWN_EGG),
-            382 => Some(&Self::CRACKED_DEEPSLATE_BRICKS),
-            384 => Some(&Self::CRACKED_DEEPSLATE_TILES),
-            425 => Some(&Self::CRACKED_NETHER_BRICKS),
-            1396 => Some(&Self::CRACKED_POLISHED_BLACKSTONE_BRICKS),
-            377 => Some(&Self::CRACKED_STONE_BRICKS),
-            1103 => Some(&Self::CRAFTER),
-            332 => Some(&Self::CRAFTING_TABLE),
-            330 => Some(&Self::CREAKING_HEART),
-            1189 => Some(&Self::CREAKING_SPAWN_EGG),
-            1343 => Some(&Self::CREEPER_BANNER_PATTERN),
-            1237 => Some(&Self::CREEPER_HEAD),
-            1190 => Some(&Self::CREEPER_SPAWN_EGG),
-            761 => Some(&Self::CRIMSON_BUTTON),
-            790 => Some(&Self::CRIMSON_DOOR),
-            354 => Some(&Self::CRIMSON_FENCE),
-            831 => Some(&Self::CRIMSON_FENCE_GATE),
-            249 => Some(&Self::CRIMSON_FUNGUS),
-            1010 => Some(&Self::CRIMSON_HANGING_SIGN),
+            919 => Some(&Self::COPPER_PICKAXE),
+            918 => Some(&Self::COPPER_SHOVEL),
+            1299 => Some(&Self::COPPER_SPEAR),
+            917 => Some(&Self::COPPER_SWORD),
+            367 => Some(&Self::COPPER_TORCH),
+            814 => Some(&Self::COPPER_TRAPDOOR),
+            242 => Some(&Self::CORNFLOWER),
+            1132 => Some(&Self::COW_SPAWN_EGG),
+            383 => Some(&Self::CRACKED_DEEPSLATE_BRICKS),
+            385 => Some(&Self::CRACKED_DEEPSLATE_TILES),
+            426 => Some(&Self::CRACKED_NETHER_BRICKS),
+            1397 => Some(&Self::CRACKED_POLISHED_BLACKSTONE_BRICKS),
+            378 => Some(&Self::CRACKED_STONE_BRICKS),
+            1104 => Some(&Self::CRAFTER),
+            333 => Some(&Self::CRAFTING_TABLE),
+            331 => Some(&Self::CREAKING_HEART),
+            1190 => Some(&Self::CREAKING_SPAWN_EGG),
+            1344 => Some(&Self::CREEPER_BANNER_PATTERN),
+            1238 => Some(&Self::CREEPER_HEAD),
+            1191 => Some(&Self::CREEPER_SPAWN_EGG),
+            762 => Some(&Self::CRIMSON_BUTTON),
+            791 => Some(&Self::CRIMSON_DOOR),
+            355 => Some(&Self::CRIMSON_FENCE),
+            832 => Some(&Self::CRIMSON_FENCE_GATE),
+            250 => Some(&Self::CRIMSON_FUNGUS),
+            1011 => Some(&Self::CRIMSON_HANGING_SIGN),
             180 => Some(&Self::CRIMSON_HYPHAE),
             33 => Some(&Self::CRIMSON_NYLIUM),
             46 => Some(&Self::CRIMSON_PLANKS),
-            777 => Some(&Self::CRIMSON_PRESSURE_PLATE),
-            251 => Some(&Self::CRIMSON_ROOTS),
-            309 => Some(&Self::CRIMSON_SHELF),
-            998 => Some(&Self::CRIMSON_SIGN),
-            281 => Some(&Self::CRIMSON_SLAB),
-            452 => Some(&Self::CRIMSON_STAIRS),
+            778 => Some(&Self::CRIMSON_PRESSURE_PLATE),
+            252 => Some(&Self::CRIMSON_ROOTS),
+            310 => Some(&Self::CRIMSON_SHELF),
+            999 => Some(&Self::CRIMSON_SIGN),
+            282 => Some(&Self::CRIMSON_SLAB),
+            453 => Some(&Self::CRIMSON_STAIRS),
             145 => Some(&Self::CRIMSON_STEM),
-            811 => Some(&Self::CRIMSON_TRAPDOOR),
-            1339 => Some(&Self::CROSSBOW),
-            1384 => Some(&Self::CRYING_OBSIDIAN),
+            812 => Some(&Self::CRIMSON_TRAPDOOR),
+            1340 => Some(&Self::CROSSBOW),
+            1385 => Some(&Self::CRYING_OBSIDIAN),
             102 => Some(&Self::CUT_COPPER),
             110 => Some(&Self::CUT_COPPER_SLAB),
             106 => Some(&Self::CUT_COPPER_STAIRS),
-            571 => Some(&Self::CUT_RED_SANDSTONE),
-            295 => Some(&Self::CUT_RED_SANDSTONE_SLAB),
+            572 => Some(&Self::CUT_RED_SANDSTONE),
+            296 => Some(&Self::CUT_RED_SANDSTONE_SLAB),
             200 => Some(&Self::CUT_SANDSTONE),
-            286 => Some(&Self::CUT_SANDSTONE_SLAB),
-            1275 => Some(&Self::CYAN_BANNER),
-            1095 => Some(&Self::CYAN_BED),
-            1046 => Some(&Self::CYAN_BUNDLE),
-            1408 => Some(&Self::CYAN_CANDLE),
-            514 => Some(&Self::CYAN_CARPET),
-            623 => Some(&Self::CYAN_CONCRETE),
-            639 => Some(&Self::CYAN_CONCRETE_POWDER),
-            1075 => Some(&Self::CYAN_DYE),
-            607 => Some(&Self::CYAN_GLAZED_TERRACOTTA),
-            847 => Some(&Self::CYAN_HARNESS),
-            591 => Some(&Self::CYAN_SHULKER_BOX),
-            539 => Some(&Self::CYAN_STAINED_GLASS),
-            555 => Some(&Self::CYAN_STAINED_GLASS_PANE),
-            495 => Some(&Self::CYAN_TERRACOTTA),
+            287 => Some(&Self::CUT_SANDSTONE_SLAB),
+            1276 => Some(&Self::CYAN_BANNER),
+            1096 => Some(&Self::CYAN_BED),
+            1047 => Some(&Self::CYAN_BUNDLE),
+            1409 => Some(&Self::CYAN_CANDLE),
+            515 => Some(&Self::CYAN_CARPET),
+            624 => Some(&Self::CYAN_CONCRETE),
+            640 => Some(&Self::CYAN_CONCRETE_POWDER),
+            1076 => Some(&Self::CYAN_DYE),
+            608 => Some(&Self::CYAN_GLAZED_TERRACOTTA),
+            848 => Some(&Self::CYAN_HARNESS),
+            592 => Some(&Self::CYAN_SHULKER_BOX),
+            540 => Some(&Self::CYAN_STAINED_GLASS),
+            556 => Some(&Self::CYAN_STAINED_GLASS_PANE),
+            496 => Some(&Self::CYAN_TERRACOTTA),
             222 => Some(&Self::CYAN_WOOL),
-            480 => Some(&Self::DAMAGED_ANVIL),
+            481 => Some(&Self::DAMAGED_ANVIL),
             229 => Some(&Self::DANDELION),
-            1451 => Some(&Self::DANGER_POTTERY_SHERD),
-            875 => Some(&Self::DARK_OAK_BOAT),
-            757 => Some(&Self::DARK_OAK_BUTTON),
-            876 => Some(&Self::DARK_OAK_CHEST_BOAT),
-            786 => Some(&Self::DARK_OAK_DOOR),
-            350 => Some(&Self::DARK_OAK_FENCE),
-            827 => Some(&Self::DARK_OAK_FENCE_GATE),
-            1006 => Some(&Self::DARK_OAK_HANGING_SIGN),
+            1452 => Some(&Self::DANGER_POTTERY_SHERD),
+            876 => Some(&Self::DARK_OAK_BOAT),
+            758 => Some(&Self::DARK_OAK_BUTTON),
+            877 => Some(&Self::DARK_OAK_CHEST_BOAT),
+            787 => Some(&Self::DARK_OAK_DOOR),
+            351 => Some(&Self::DARK_OAK_FENCE),
+            828 => Some(&Self::DARK_OAK_FENCE_GATE),
+            1007 => Some(&Self::DARK_OAK_HANGING_SIGN),
             188 => Some(&Self::DARK_OAK_LEAVES),
             141 => Some(&Self::DARK_OAK_LOG),
             42 => Some(&Self::DARK_OAK_PLANKS),
-            773 => Some(&Self::DARK_OAK_PRESSURE_PLATE),
+            774 => Some(&Self::DARK_OAK_PRESSURE_PLATE),
             55 => Some(&Self::DARK_OAK_SAPLING),
-            310 => Some(&Self::DARK_OAK_SHELF),
-            994 => Some(&Self::DARK_OAK_SIGN),
-            276 => Some(&Self::DARK_OAK_SLAB),
-            447 => Some(&Self::DARK_OAK_STAIRS),
-            807 => Some(&Self::DARK_OAK_TRAPDOOR),
+            311 => Some(&Self::DARK_OAK_SHELF),
+            995 => Some(&Self::DARK_OAK_SIGN),
+            277 => Some(&Self::DARK_OAK_SLAB),
+            448 => Some(&Self::DARK_OAK_STAIRS),
+            808 => Some(&Self::DARK_OAK_TRAPDOOR),
             178 => Some(&Self::DARK_OAK_WOOD),
-            564 => Some(&Self::DARK_PRISMARINE),
-            299 => Some(&Self::DARK_PRISMARINE_SLAB),
-            567 => Some(&Self::DARK_PRISMARINE_STAIRS),
-            741 => Some(&Self::DAYLIGHT_DETECTOR),
-            664 => Some(&Self::DEAD_BRAIN_CORAL),
-            650 => Some(&Self::DEAD_BRAIN_CORAL_BLOCK),
-            675 => Some(&Self::DEAD_BRAIN_CORAL_FAN),
-            665 => Some(&Self::DEAD_BUBBLE_CORAL),
-            651 => Some(&Self::DEAD_BUBBLE_CORAL_BLOCK),
-            676 => Some(&Self::DEAD_BUBBLE_CORAL_FAN),
+            565 => Some(&Self::DARK_PRISMARINE),
+            300 => Some(&Self::DARK_PRISMARINE_SLAB),
+            568 => Some(&Self::DARK_PRISMARINE_STAIRS),
+            742 => Some(&Self::DAYLIGHT_DETECTOR),
+            665 => Some(&Self::DEAD_BRAIN_CORAL),
+            651 => Some(&Self::DEAD_BRAIN_CORAL_BLOCK),
+            676 => Some(&Self::DEAD_BRAIN_CORAL_FAN),
+            666 => Some(&Self::DEAD_BUBBLE_CORAL),
+            652 => Some(&Self::DEAD_BUBBLE_CORAL_BLOCK),
+            677 => Some(&Self::DEAD_BUBBLE_CORAL_FAN),
             207 => Some(&Self::DEAD_BUSH),
-            666 => Some(&Self::DEAD_FIRE_CORAL),
-            652 => Some(&Self::DEAD_FIRE_CORAL_BLOCK),
-            677 => Some(&Self::DEAD_FIRE_CORAL_FAN),
-            667 => Some(&Self::DEAD_HORN_CORAL),
-            653 => Some(&Self::DEAD_HORN_CORAL_BLOCK),
-            678 => Some(&Self::DEAD_HORN_CORAL_FAN),
-            668 => Some(&Self::DEAD_TUBE_CORAL),
-            649 => Some(&Self::DEAD_TUBE_CORAL_BLOCK),
-            674 => Some(&Self::DEAD_TUBE_CORAL_FAN),
-            1308 => Some(&Self::DEBUG_STICK),
-            319 => Some(&Self::DECORATED_POT),
+            667 => Some(&Self::DEAD_FIRE_CORAL),
+            653 => Some(&Self::DEAD_FIRE_CORAL_BLOCK),
+            678 => Some(&Self::DEAD_FIRE_CORAL_FAN),
+            668 => Some(&Self::DEAD_HORN_CORAL),
+            654 => Some(&Self::DEAD_HORN_CORAL_BLOCK),
+            679 => Some(&Self::DEAD_HORN_CORAL_FAN),
+            669 => Some(&Self::DEAD_TUBE_CORAL),
+            650 => Some(&Self::DEAD_TUBE_CORAL_BLOCK),
+            675 => Some(&Self::DEAD_TUBE_CORAL_FAN),
+            1309 => Some(&Self::DEBUG_STICK),
+            320 => Some(&Self::DECORATED_POT),
             8 => Some(&Self::DEEPSLATE),
-            714 => Some(&Self::DEEPSLATE_BRICK_SLAB),
-            697 => Some(&Self::DEEPSLATE_BRICK_STAIRS),
-            476 => Some(&Self::DEEPSLATE_BRICK_WALL),
-            381 => Some(&Self::DEEPSLATE_BRICKS),
+            715 => Some(&Self::DEEPSLATE_BRICK_SLAB),
+            698 => Some(&Self::DEEPSLATE_BRICK_STAIRS),
+            477 => Some(&Self::DEEPSLATE_BRICK_WALL),
+            382 => Some(&Self::DEEPSLATE_BRICKS),
             65 => Some(&Self::DEEPSLATE_COAL_ORE),
             69 => Some(&Self::DEEPSLATE_COPPER_ORE),
             79 => Some(&Self::DEEPSLATE_DIAMOND_ORE),
@@ -35706,848 +35808,849 @@ impl Item {
             67 => Some(&Self::DEEPSLATE_IRON_ORE),
             77 => Some(&Self::DEEPSLATE_LAPIS_ORE),
             73 => Some(&Self::DEEPSLATE_REDSTONE_ORE),
-            715 => Some(&Self::DEEPSLATE_TILE_SLAB),
-            698 => Some(&Self::DEEPSLATE_TILE_STAIRS),
-            477 => Some(&Self::DEEPSLATE_TILE_WALL),
-            383 => Some(&Self::DEEPSLATE_TILES),
-            834 => Some(&Self::DETECTOR_RAIL),
-            898 => Some(&Self::DIAMOND),
-            939 => Some(&Self::DIAMOND_AXE),
+            716 => Some(&Self::DEEPSLATE_TILE_SLAB),
+            699 => Some(&Self::DEEPSLATE_TILE_STAIRS),
+            478 => Some(&Self::DEEPSLATE_TILE_WALL),
+            384 => Some(&Self::DEEPSLATE_TILES),
+            835 => Some(&Self::DETECTOR_RAIL),
+            899 => Some(&Self::DIAMOND),
+            940 => Some(&Self::DIAMOND_AXE),
             93 => Some(&Self::DIAMOND_BLOCK),
-            973 => Some(&Self::DIAMOND_BOOTS),
-            971 => Some(&Self::DIAMOND_CHESTPLATE),
-            970 => Some(&Self::DIAMOND_HELMET),
-            940 => Some(&Self::DIAMOND_HOE),
-            1258 => Some(&Self::DIAMOND_HORSE_ARMOR),
-            972 => Some(&Self::DIAMOND_LEGGINGS),
-            1335 => Some(&Self::DIAMOND_NAUTILUS_ARMOR),
+            974 => Some(&Self::DIAMOND_BOOTS),
+            972 => Some(&Self::DIAMOND_CHESTPLATE),
+            971 => Some(&Self::DIAMOND_HELMET),
+            941 => Some(&Self::DIAMOND_HOE),
+            1259 => Some(&Self::DIAMOND_HORSE_ARMOR),
+            973 => Some(&Self::DIAMOND_LEGGINGS),
+            1336 => Some(&Self::DIAMOND_NAUTILUS_ARMOR),
             78 => Some(&Self::DIAMOND_ORE),
-            938 => Some(&Self::DIAMOND_PICKAXE),
-            937 => Some(&Self::DIAMOND_SHOVEL),
-            1301 => Some(&Self::DIAMOND_SPEAR),
-            936 => Some(&Self::DIAMOND_SWORD),
+            939 => Some(&Self::DIAMOND_PICKAXE),
+            938 => Some(&Self::DIAMOND_SHOVEL),
+            1302 => Some(&Self::DIAMOND_SPEAR),
+            937 => Some(&Self::DIAMOND_SWORD),
             4 => Some(&Self::DIORITE),
-            711 => Some(&Self::DIORITE_SLAB),
-            694 => Some(&Self::DIORITE_STAIRS),
-            470 => Some(&Self::DIORITE_WALL),
+            712 => Some(&Self::DIORITE_SLAB),
+            695 => Some(&Self::DIORITE_STAIRS),
+            471 => Some(&Self::DIORITE_WALL),
             28 => Some(&Self::DIRT),
-            523 => Some(&Self::DIRT_PATH),
-            1330 => Some(&Self::DISC_FRAGMENT_5),
-            728 => Some(&Self::DISPENSER),
-            1153 => Some(&Self::DOLPHIN_SPAWN_EGG),
-            1135 => Some(&Self::DONKEY_SPAWN_EGG),
-            1290 => Some(&Self::DRAGON_BREATH),
-            437 => Some(&Self::DRAGON_EGG),
-            1238 => Some(&Self::DRAGON_HEAD),
-            648 => Some(&Self::DRIED_GHAST),
-            1107 => Some(&Self::DRIED_KELP),
-            1027 => Some(&Self::DRIED_KELP_BLOCK),
+            524 => Some(&Self::DIRT_PATH),
+            1331 => Some(&Self::DISC_FRAGMENT_5),
+            729 => Some(&Self::DISPENSER),
+            1154 => Some(&Self::DOLPHIN_SPAWN_EGG),
+            1136 => Some(&Self::DONKEY_SPAWN_EGG),
+            1291 => Some(&Self::DRAGON_BREATH),
+            438 => Some(&Self::DRAGON_EGG),
+            1239 => Some(&Self::DRAGON_HEAD),
+            649 => Some(&Self::DRIED_GHAST),
+            1108 => Some(&Self::DRIED_KELP),
+            1028 => Some(&Self::DRIED_KELP_BLOCK),
             26 => Some(&Self::DRIPSTONE_BLOCK),
-            729 => Some(&Self::DROPPER),
-            1174 => Some(&Self::DROWNED_SPAWN_EGG),
-            1428 => Some(&Self::DUNE_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1424 => Some(&Self::ECHO_SHARD),
-            1031 => Some(&Self::EGG),
-            1191 => Some(&Self::ELDER_GUARDIAN_SPAWN_EGG),
-            862 => Some(&Self::ELYTRA),
-            899 => Some(&Self::EMERALD),
-            440 => Some(&Self::EMERALD_BLOCK),
+            730 => Some(&Self::DROPPER),
+            1175 => Some(&Self::DROWNED_SPAWN_EGG),
+            1429 => Some(&Self::DUNE_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1425 => Some(&Self::ECHO_SHARD),
+            1032 => Some(&Self::EGG),
+            1192 => Some(&Self::ELDER_GUARDIAN_SPAWN_EGG),
+            863 => Some(&Self::ELYTRA),
+            900 => Some(&Self::EMERALD),
+            441 => Some(&Self::EMERALD_BLOCK),
             74 => Some(&Self::EMERALD_ORE),
-            1244 => Some(&Self::ENCHANTED_BOOK),
-            987 => Some(&Self::ENCHANTED_GOLDEN_APPLE),
-            433 => Some(&Self::ENCHANTING_TABLE),
-            1282 => Some(&Self::END_CRYSTAL),
-            434 => Some(&Self::END_PORTAL_FRAME),
-            323 => Some(&Self::END_ROD),
-            435 => Some(&Self::END_STONE),
-            704 => Some(&Self::END_STONE_BRICK_SLAB),
-            686 => Some(&Self::END_STONE_BRICK_STAIRS),
-            469 => Some(&Self::END_STONE_BRICK_WALL),
-            436 => Some(&Self::END_STONE_BRICKS),
-            439 => Some(&Self::ENDER_CHEST),
-            1213 => Some(&Self::ENDER_DRAGON_SPAWN_EGG),
-            1128 => Some(&Self::ENDER_EYE),
-            1115 => Some(&Self::ENDER_PEARL),
-            1214 => Some(&Self::ENDERMAN_SPAWN_EGG),
-            1215 => Some(&Self::ENDERMITE_SPAWN_EGG),
-            1198 => Some(&Self::EVOKER_SPAWN_EGG),
-            1217 => Some(&Self::EXPERIENCE_BOTTLE),
-            1452 => Some(&Self::EXPLORER_POTTERY_SHERD),
+            1245 => Some(&Self::ENCHANTED_BOOK),
+            988 => Some(&Self::ENCHANTED_GOLDEN_APPLE),
+            434 => Some(&Self::ENCHANTING_TABLE),
+            1283 => Some(&Self::END_CRYSTAL),
+            435 => Some(&Self::END_PORTAL_FRAME),
+            324 => Some(&Self::END_ROD),
+            436 => Some(&Self::END_STONE),
+            705 => Some(&Self::END_STONE_BRICK_SLAB),
+            687 => Some(&Self::END_STONE_BRICK_STAIRS),
+            470 => Some(&Self::END_STONE_BRICK_WALL),
+            437 => Some(&Self::END_STONE_BRICKS),
+            440 => Some(&Self::ENDER_CHEST),
+            1214 => Some(&Self::ENDER_DRAGON_SPAWN_EGG),
+            1129 => Some(&Self::ENDER_EYE),
+            1116 => Some(&Self::ENDER_PEARL),
+            1215 => Some(&Self::ENDERMAN_SPAWN_EGG),
+            1216 => Some(&Self::ENDERMITE_SPAWN_EGG),
+            1199 => Some(&Self::EVOKER_SPAWN_EGG),
+            1218 => Some(&Self::EXPERIENCE_BOTTLE),
+            1453 => Some(&Self::EXPLORER_POTTERY_SHERD),
             99 => Some(&Self::EXPOSED_CHISELED_COPPER),
             95 => Some(&Self::EXPOSED_COPPER),
-            392 => Some(&Self::EXPOSED_COPPER_BARS),
-            1477 => Some(&Self::EXPOSED_COPPER_BULB),
-            401 => Some(&Self::EXPOSED_COPPER_CHAIN),
-            1485 => Some(&Self::EXPOSED_COPPER_CHEST),
-            793 => Some(&Self::EXPOSED_COPPER_DOOR),
-            1493 => Some(&Self::EXPOSED_COPPER_GOLEM_STATUE),
-            1469 => Some(&Self::EXPOSED_COPPER_GRATE),
-            1366 => Some(&Self::EXPOSED_COPPER_LANTERN),
-            814 => Some(&Self::EXPOSED_COPPER_TRAPDOOR),
+            393 => Some(&Self::EXPOSED_COPPER_BARS),
+            1478 => Some(&Self::EXPOSED_COPPER_BULB),
+            402 => Some(&Self::EXPOSED_COPPER_CHAIN),
+            1486 => Some(&Self::EXPOSED_COPPER_CHEST),
+            794 => Some(&Self::EXPOSED_COPPER_DOOR),
+            1494 => Some(&Self::EXPOSED_COPPER_GOLEM_STATUE),
+            1470 => Some(&Self::EXPOSED_COPPER_GRATE),
+            1367 => Some(&Self::EXPOSED_COPPER_LANTERN),
+            815 => Some(&Self::EXPOSED_COPPER_TRAPDOOR),
             103 => Some(&Self::EXPOSED_CUT_COPPER),
             111 => Some(&Self::EXPOSED_CUT_COPPER_SLAB),
             107 => Some(&Self::EXPOSED_CUT_COPPER_STAIRS),
-            734 => Some(&Self::EXPOSED_LIGHTNING_ROD),
-            1432 => Some(&Self::EYE_ARMOR_TRIM_SMITHING_TEMPLATE),
-            333 => Some(&Self::FARMLAND),
-            949 => Some(&Self::FEATHER),
-            1123 => Some(&Self::FERMENTED_SPIDER_EYE),
+            735 => Some(&Self::EXPOSED_LIGHTNING_ROD),
+            1433 => Some(&Self::EYE_ARMOR_TRIM_SMITHING_TEMPLATE),
+            334 => Some(&Self::FARMLAND),
+            950 => Some(&Self::FEATHER),
+            1124 => Some(&Self::FERMENTED_SPIDER_EYE),
             203 => Some(&Self::FERN),
-            1350 => Some(&Self::FIELD_MASONED_BANNER_PATTERN),
-            1104 => Some(&Self::FILLED_MAP),
-            1218 => Some(&Self::FIRE_CHARGE),
-            662 => Some(&Self::FIRE_CORAL),
-            657 => Some(&Self::FIRE_CORAL_BLOCK),
-            672 => Some(&Self::FIRE_CORAL_FAN),
+            1351 => Some(&Self::FIELD_MASONED_BANNER_PATTERN),
+            1105 => Some(&Self::FILLED_MAP),
+            1219 => Some(&Self::FIRE_CHARGE),
+            663 => Some(&Self::FIRE_CORAL),
+            658 => Some(&Self::FIRE_CORAL_BLOCK),
+            673 => Some(&Self::FIRE_CORAL_FAN),
             208 => Some(&Self::FIREFLY_BUSH),
-            1242 => Some(&Self::FIREWORK_ROCKET),
-            1243 => Some(&Self::FIREWORK_STAR),
-            1053 => Some(&Self::FISHING_ROD),
-            1358 => Some(&Self::FLETCHING_TABLE),
-            982 => Some(&Self::FLINT),
-            891 => Some(&Self::FLINT_AND_STEEL),
-            1443 => Some(&Self::FLOW_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1348 => Some(&Self::FLOW_BANNER_PATTERN),
-            1453 => Some(&Self::FLOW_POTTERY_SHERD),
-            1342 => Some(&Self::FLOWER_BANNER_PATTERN),
-            1226 => Some(&Self::FLOWER_POT),
+            1243 => Some(&Self::FIREWORK_ROCKET),
+            1244 => Some(&Self::FIREWORK_STAR),
+            1054 => Some(&Self::FISHING_ROD),
+            1359 => Some(&Self::FLETCHING_TABLE),
+            983 => Some(&Self::FLINT),
+            892 => Some(&Self::FLINT_AND_STEEL),
+            1444 => Some(&Self::FLOW_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1349 => Some(&Self::FLOW_BANNER_PATTERN),
+            1454 => Some(&Self::FLOW_POTTERY_SHERD),
+            1343 => Some(&Self::FLOWER_BANNER_PATTERN),
+            1227 => Some(&Self::FLOWER_POT),
             206 => Some(&Self::FLOWERING_AZALEA),
             192 => Some(&Self::FLOWERING_AZALEA_LEAVES),
-            1144 => Some(&Self::FOX_SPAWN_EGG),
-            1454 => Some(&Self::FRIEND_POTTERY_SHERD),
-            1154 => Some(&Self::FROG_SPAWN_EGG),
-            1423 => Some(&Self::FROGSPAWN),
-            334 => Some(&Self::FURNACE),
-            856 => Some(&Self::FURNACE_MINECART),
-            1204 => Some(&Self::GHAST_SPAWN_EGG),
-            1117 => Some(&Self::GHAST_TEAR),
-            1388 => Some(&Self::GILDED_BLACKSTONE),
+            1145 => Some(&Self::FOX_SPAWN_EGG),
+            1455 => Some(&Self::FRIEND_POTTERY_SHERD),
+            1155 => Some(&Self::FROG_SPAWN_EGG),
+            1424 => Some(&Self::FROGSPAWN),
+            335 => Some(&Self::FURNACE),
+            857 => Some(&Self::FURNACE_MINECART),
+            1205 => Some(&Self::GHAST_SPAWN_EGG),
+            1118 => Some(&Self::GHAST_TEAR),
+            1389 => Some(&Self::GILDED_BLACKSTONE),
             195 => Some(&Self::GLASS),
-            1120 => Some(&Self::GLASS_BOTTLE),
-            408 => Some(&Self::GLASS_PANE),
-            1129 => Some(&Self::GLISTERING_MELON_SLICE),
-            1346 => Some(&Self::GLOBE_BANNER_PATTERN),
-            1374 => Some(&Self::GLOW_BERRIES),
-            1064 => Some(&Self::GLOW_INK_SAC),
-            1225 => Some(&Self::GLOW_ITEM_FRAME),
-            411 => Some(&Self::GLOW_LICHEN),
-            1155 => Some(&Self::GLOW_SQUID_SPAWN_EGG),
-            367 => Some(&Self::GLOWSTONE),
-            1056 => Some(&Self::GLOWSTONE_DUST),
-            1352 => Some(&Self::GOAT_HORN),
-            1145 => Some(&Self::GOAT_SPAWN_EGG),
+            1121 => Some(&Self::GLASS_BOTTLE),
+            409 => Some(&Self::GLASS_PANE),
+            1130 => Some(&Self::GLISTERING_MELON_SLICE),
+            1347 => Some(&Self::GLOBE_BANNER_PATTERN),
+            1375 => Some(&Self::GLOW_BERRIES),
+            1065 => Some(&Self::GLOW_INK_SAC),
+            1226 => Some(&Self::GLOW_ITEM_FRAME),
+            412 => Some(&Self::GLOW_LICHEN),
+            1156 => Some(&Self::GLOW_SQUID_SPAWN_EGG),
+            368 => Some(&Self::GLOWSTONE),
+            1057 => Some(&Self::GLOWSTONE_DUST),
+            1353 => Some(&Self::GOAT_HORN),
+            1146 => Some(&Self::GOAT_SPAWN_EGG),
             92 => Some(&Self::GOLD_BLOCK),
-            908 => Some(&Self::GOLD_INGOT),
-            1118 => Some(&Self::GOLD_NUGGET),
+            909 => Some(&Self::GOLD_INGOT),
+            1119 => Some(&Self::GOLD_NUGGET),
             70 => Some(&Self::GOLD_ORE),
-            986 => Some(&Self::GOLDEN_APPLE),
-            929 => Some(&Self::GOLDEN_AXE),
-            977 => Some(&Self::GOLDEN_BOOTS),
-            1232 => Some(&Self::GOLDEN_CARROT),
-            975 => Some(&Self::GOLDEN_CHESTPLATE),
-            974 => Some(&Self::GOLDEN_HELMET),
-            930 => Some(&Self::GOLDEN_HOE),
-            1257 => Some(&Self::GOLDEN_HORSE_ARMOR),
-            976 => Some(&Self::GOLDEN_LEGGINGS),
-            1334 => Some(&Self::GOLDEN_NAUTILUS_ARMOR),
-            928 => Some(&Self::GOLDEN_PICKAXE),
-            927 => Some(&Self::GOLDEN_SHOVEL),
-            1300 => Some(&Self::GOLDEN_SPEAR),
-            926 => Some(&Self::GOLDEN_SWORD),
+            987 => Some(&Self::GOLDEN_APPLE),
+            930 => Some(&Self::GOLDEN_AXE),
+            978 => Some(&Self::GOLDEN_BOOTS),
+            1233 => Some(&Self::GOLDEN_CARROT),
+            976 => Some(&Self::GOLDEN_CHESTPLATE),
+            230 => Some(&Self::GOLDEN_DANDELION),
+            975 => Some(&Self::GOLDEN_HELMET),
+            931 => Some(&Self::GOLDEN_HOE),
+            1258 => Some(&Self::GOLDEN_HORSE_ARMOR),
+            977 => Some(&Self::GOLDEN_LEGGINGS),
+            1335 => Some(&Self::GOLDEN_NAUTILUS_ARMOR),
+            929 => Some(&Self::GOLDEN_PICKAXE),
+            928 => Some(&Self::GOLDEN_SHOVEL),
+            1301 => Some(&Self::GOLDEN_SPEAR),
+            927 => Some(&Self::GOLDEN_SWORD),
             2 => Some(&Self::GRANITE),
-            707 => Some(&Self::GRANITE_SLAB),
-            690 => Some(&Self::GRANITE_STAIRS),
-            462 => Some(&Self::GRANITE_WALL),
+            708 => Some(&Self::GRANITE_SLAB),
+            691 => Some(&Self::GRANITE_STAIRS),
+            463 => Some(&Self::GRANITE_WALL),
             27 => Some(&Self::GRASS_BLOCK),
             63 => Some(&Self::GRAVEL),
-            1273 => Some(&Self::GRAY_BANNER),
-            1093 => Some(&Self::GRAY_BED),
-            1044 => Some(&Self::GRAY_BUNDLE),
-            1406 => Some(&Self::GRAY_CANDLE),
-            512 => Some(&Self::GRAY_CARPET),
-            621 => Some(&Self::GRAY_CONCRETE),
-            637 => Some(&Self::GRAY_CONCRETE_POWDER),
-            1073 => Some(&Self::GRAY_DYE),
-            605 => Some(&Self::GRAY_GLAZED_TERRACOTTA),
-            845 => Some(&Self::GRAY_HARNESS),
-            589 => Some(&Self::GRAY_SHULKER_BOX),
-            537 => Some(&Self::GRAY_STAINED_GLASS),
-            553 => Some(&Self::GRAY_STAINED_GLASS_PANE),
-            493 => Some(&Self::GRAY_TERRACOTTA),
+            1274 => Some(&Self::GRAY_BANNER),
+            1094 => Some(&Self::GRAY_BED),
+            1045 => Some(&Self::GRAY_BUNDLE),
+            1407 => Some(&Self::GRAY_CANDLE),
+            513 => Some(&Self::GRAY_CARPET),
+            622 => Some(&Self::GRAY_CONCRETE),
+            638 => Some(&Self::GRAY_CONCRETE_POWDER),
+            1074 => Some(&Self::GRAY_DYE),
+            606 => Some(&Self::GRAY_GLAZED_TERRACOTTA),
+            846 => Some(&Self::GRAY_HARNESS),
+            590 => Some(&Self::GRAY_SHULKER_BOX),
+            538 => Some(&Self::GRAY_STAINED_GLASS),
+            554 => Some(&Self::GRAY_STAINED_GLASS_PANE),
+            494 => Some(&Self::GRAY_TERRACOTTA),
             220 => Some(&Self::GRAY_WOOL),
-            1279 => Some(&Self::GREEN_BANNER),
-            1099 => Some(&Self::GREEN_BED),
-            1050 => Some(&Self::GREEN_BUNDLE),
-            1412 => Some(&Self::GREEN_CANDLE),
-            518 => Some(&Self::GREEN_CARPET),
-            627 => Some(&Self::GREEN_CONCRETE),
-            643 => Some(&Self::GREEN_CONCRETE_POWDER),
-            1079 => Some(&Self::GREEN_DYE),
-            611 => Some(&Self::GREEN_GLAZED_TERRACOTTA),
-            851 => Some(&Self::GREEN_HARNESS),
-            595 => Some(&Self::GREEN_SHULKER_BOX),
-            543 => Some(&Self::GREEN_STAINED_GLASS),
-            559 => Some(&Self::GREEN_STAINED_GLASS_PANE),
-            499 => Some(&Self::GREEN_TERRACOTTA),
+            1280 => Some(&Self::GREEN_BANNER),
+            1100 => Some(&Self::GREEN_BED),
+            1051 => Some(&Self::GREEN_BUNDLE),
+            1413 => Some(&Self::GREEN_CANDLE),
+            519 => Some(&Self::GREEN_CARPET),
+            628 => Some(&Self::GREEN_CONCRETE),
+            644 => Some(&Self::GREEN_CONCRETE_POWDER),
+            1080 => Some(&Self::GREEN_DYE),
+            612 => Some(&Self::GREEN_GLAZED_TERRACOTTA),
+            852 => Some(&Self::GREEN_HARNESS),
+            596 => Some(&Self::GREEN_SHULKER_BOX),
+            544 => Some(&Self::GREEN_STAINED_GLASS),
+            560 => Some(&Self::GREEN_STAINED_GLASS_PANE),
+            500 => Some(&Self::GREEN_TERRACOTTA),
             226 => Some(&Self::GREEN_WOOL),
-            1359 => Some(&Self::GRINDSTONE),
-            1192 => Some(&Self::GUARDIAN_SPAWN_EGG),
-            950 => Some(&Self::GUNPOWDER),
-            1349 => Some(&Self::GUSTER_BANNER_PATTERN),
-            1455 => Some(&Self::GUSTER_POTTERY_SHERD),
-            266 => Some(&Self::HANGING_ROOTS),
-            1205 => Some(&Self::HAPPY_GHAST_SPAWN_EGG),
-            504 => Some(&Self::HAY_BLOCK),
-            1338 => Some(&Self::HEART_OF_THE_SEA),
-            1456 => Some(&Self::HEART_POTTERY_SHERD),
-            1457 => Some(&Self::HEARTBREAK_POTTERY_SHERD),
+            1360 => Some(&Self::GRINDSTONE),
+            1193 => Some(&Self::GUARDIAN_SPAWN_EGG),
+            951 => Some(&Self::GUNPOWDER),
+            1350 => Some(&Self::GUSTER_BANNER_PATTERN),
+            1456 => Some(&Self::GUSTER_POTTERY_SHERD),
+            267 => Some(&Self::HANGING_ROOTS),
+            1206 => Some(&Self::HAPPY_GHAST_SPAWN_EGG),
+            505 => Some(&Self::HAY_BLOCK),
+            1339 => Some(&Self::HEART_OF_THE_SEA),
+            1457 => Some(&Self::HEART_POTTERY_SHERD),
+            1458 => Some(&Self::HEARTBREAK_POTTERY_SHERD),
             87 => Some(&Self::HEAVY_CORE),
-            766 => Some(&Self::HEAVY_WEIGHTED_PRESSURE_PLATE),
-            1206 => Some(&Self::HOGLIN_SPAWN_EGG),
-            725 => Some(&Self::HONEY_BLOCK),
-            1381 => Some(&Self::HONEY_BOTTLE),
-            1378 => Some(&Self::HONEYCOMB),
-            1382 => Some(&Self::HONEYCOMB_BLOCK),
-            727 => Some(&Self::HOPPER),
-            858 => Some(&Self::HOPPER_MINECART),
-            663 => Some(&Self::HORN_CORAL),
-            658 => Some(&Self::HORN_CORAL_BLOCK),
-            673 => Some(&Self::HORN_CORAL_FAN),
-            1136 => Some(&Self::HORSE_SPAWN_EGG),
-            1442 => Some(&Self::HOST_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1458 => Some(&Self::HOWL_POTTERY_SHERD),
-            1175 => Some(&Self::HUSK_SPAWN_EGG),
-            338 => Some(&Self::ICE),
-            373 => Some(&Self::INFESTED_CHISELED_STONE_BRICKS),
-            369 => Some(&Self::INFESTED_COBBLESTONE),
-            372 => Some(&Self::INFESTED_CRACKED_STONE_BRICKS),
-            374 => Some(&Self::INFESTED_DEEPSLATE),
-            371 => Some(&Self::INFESTED_MOSSY_STONE_BRICKS),
-            368 => Some(&Self::INFESTED_STONE),
-            370 => Some(&Self::INFESTED_STONE_BRICKS),
-            1063 => Some(&Self::INK_SAC),
-            934 => Some(&Self::IRON_AXE),
-            390 => Some(&Self::IRON_BARS),
+            767 => Some(&Self::HEAVY_WEIGHTED_PRESSURE_PLATE),
+            1207 => Some(&Self::HOGLIN_SPAWN_EGG),
+            726 => Some(&Self::HONEY_BLOCK),
+            1382 => Some(&Self::HONEY_BOTTLE),
+            1379 => Some(&Self::HONEYCOMB),
+            1383 => Some(&Self::HONEYCOMB_BLOCK),
+            728 => Some(&Self::HOPPER),
+            859 => Some(&Self::HOPPER_MINECART),
+            664 => Some(&Self::HORN_CORAL),
+            659 => Some(&Self::HORN_CORAL_BLOCK),
+            674 => Some(&Self::HORN_CORAL_FAN),
+            1137 => Some(&Self::HORSE_SPAWN_EGG),
+            1443 => Some(&Self::HOST_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1459 => Some(&Self::HOWL_POTTERY_SHERD),
+            1176 => Some(&Self::HUSK_SPAWN_EGG),
+            339 => Some(&Self::ICE),
+            374 => Some(&Self::INFESTED_CHISELED_STONE_BRICKS),
+            370 => Some(&Self::INFESTED_COBBLESTONE),
+            373 => Some(&Self::INFESTED_CRACKED_STONE_BRICKS),
+            375 => Some(&Self::INFESTED_DEEPSLATE),
+            372 => Some(&Self::INFESTED_MOSSY_STONE_BRICKS),
+            369 => Some(&Self::INFESTED_STONE),
+            371 => Some(&Self::INFESTED_STONE_BRICKS),
+            1064 => Some(&Self::INK_SAC),
+            935 => Some(&Self::IRON_AXE),
+            391 => Some(&Self::IRON_BARS),
             90 => Some(&Self::IRON_BLOCK),
-            969 => Some(&Self::IRON_BOOTS),
-            399 => Some(&Self::IRON_CHAIN),
-            967 => Some(&Self::IRON_CHESTPLATE),
-            779 => Some(&Self::IRON_DOOR),
-            1167 => Some(&Self::IRON_GOLEM_SPAWN_EGG),
-            966 => Some(&Self::IRON_HELMET),
-            935 => Some(&Self::IRON_HOE),
-            1256 => Some(&Self::IRON_HORSE_ARMOR),
-            904 => Some(&Self::IRON_INGOT),
-            968 => Some(&Self::IRON_LEGGINGS),
-            1333 => Some(&Self::IRON_NAUTILUS_ARMOR),
-            1305 => Some(&Self::IRON_NUGGET),
+            970 => Some(&Self::IRON_BOOTS),
+            400 => Some(&Self::IRON_CHAIN),
+            968 => Some(&Self::IRON_CHESTPLATE),
+            780 => Some(&Self::IRON_DOOR),
+            1168 => Some(&Self::IRON_GOLEM_SPAWN_EGG),
+            967 => Some(&Self::IRON_HELMET),
+            936 => Some(&Self::IRON_HOE),
+            1257 => Some(&Self::IRON_HORSE_ARMOR),
+            905 => Some(&Self::IRON_INGOT),
+            969 => Some(&Self::IRON_LEGGINGS),
+            1334 => Some(&Self::IRON_NAUTILUS_ARMOR),
+            1306 => Some(&Self::IRON_NUGGET),
             66 => Some(&Self::IRON_ORE),
-            933 => Some(&Self::IRON_PICKAXE),
-            932 => Some(&Self::IRON_SHOVEL),
-            1299 => Some(&Self::IRON_SPEAR),
-            931 => Some(&Self::IRON_SWORD),
-            800 => Some(&Self::IRON_TRAPDOOR),
-            1224 => Some(&Self::ITEM_FRAME),
-            358 => Some(&Self::JACK_O_LANTERN),
-            884 => Some(&Self::JIGSAW),
-            343 => Some(&Self::JUKEBOX),
-            869 => Some(&Self::JUNGLE_BOAT),
-            754 => Some(&Self::JUNGLE_BUTTON),
-            870 => Some(&Self::JUNGLE_CHEST_BOAT),
-            783 => Some(&Self::JUNGLE_DOOR),
-            347 => Some(&Self::JUNGLE_FENCE),
-            824 => Some(&Self::JUNGLE_FENCE_GATE),
-            1003 => Some(&Self::JUNGLE_HANGING_SIGN),
+            934 => Some(&Self::IRON_PICKAXE),
+            933 => Some(&Self::IRON_SHOVEL),
+            1300 => Some(&Self::IRON_SPEAR),
+            932 => Some(&Self::IRON_SWORD),
+            801 => Some(&Self::IRON_TRAPDOOR),
+            1225 => Some(&Self::ITEM_FRAME),
+            359 => Some(&Self::JACK_O_LANTERN),
+            885 => Some(&Self::JIGSAW),
+            344 => Some(&Self::JUKEBOX),
+            870 => Some(&Self::JUNGLE_BOAT),
+            755 => Some(&Self::JUNGLE_BUTTON),
+            871 => Some(&Self::JUNGLE_CHEST_BOAT),
+            784 => Some(&Self::JUNGLE_DOOR),
+            348 => Some(&Self::JUNGLE_FENCE),
+            825 => Some(&Self::JUNGLE_FENCE_GATE),
+            1004 => Some(&Self::JUNGLE_HANGING_SIGN),
             185 => Some(&Self::JUNGLE_LEAVES),
             137 => Some(&Self::JUNGLE_LOG),
             39 => Some(&Self::JUNGLE_PLANKS),
-            770 => Some(&Self::JUNGLE_PRESSURE_PLATE),
+            771 => Some(&Self::JUNGLE_PRESSURE_PLATE),
             52 => Some(&Self::JUNGLE_SAPLING),
-            311 => Some(&Self::JUNGLE_SHELF),
-            991 => Some(&Self::JUNGLE_SIGN),
-            273 => Some(&Self::JUNGLE_SLAB),
-            444 => Some(&Self::JUNGLE_STAIRS),
-            804 => Some(&Self::JUNGLE_TRAPDOOR),
+            312 => Some(&Self::JUNGLE_SHELF),
+            992 => Some(&Self::JUNGLE_SIGN),
+            274 => Some(&Self::JUNGLE_SLAB),
+            445 => Some(&Self::JUNGLE_STAIRS),
+            805 => Some(&Self::JUNGLE_TRAPDOOR),
             174 => Some(&Self::JUNGLE_WOOD),
-            257 => Some(&Self::KELP),
-            1307 => Some(&Self::KNOWLEDGE_BOOK),
-            335 => Some(&Self::LADDER),
-            1363 => Some(&Self::LANTERN),
+            258 => Some(&Self::KELP),
+            1308 => Some(&Self::KNOWLEDGE_BOOK),
+            336 => Some(&Self::LADDER),
+            1364 => Some(&Self::LANTERN),
             197 => Some(&Self::LAPIS_BLOCK),
-            900 => Some(&Self::LAPIS_LAZULI),
+            901 => Some(&Self::LAPIS_LAZULI),
             76 => Some(&Self::LAPIS_ORE),
-            1417 => Some(&Self::LARGE_AMETHYST_BUD),
-            529 => Some(&Self::LARGE_FERN),
-            1014 => Some(&Self::LAVA_BUCKET),
-            1261 => Some(&Self::LEAD),
-            260 => Some(&Self::LEAF_LITTER),
-            1017 => Some(&Self::LEATHER),
-            957 => Some(&Self::LEATHER_BOOTS),
-            955 => Some(&Self::LEATHER_CHESTPLATE),
-            954 => Some(&Self::LEATHER_HELMET),
-            1260 => Some(&Self::LEATHER_HORSE_ARMOR),
-            956 => Some(&Self::LEATHER_LEGGINGS),
-            730 => Some(&Self::LECTERN),
-            732 => Some(&Self::LEVER),
-            503 => Some(&Self::LIGHT),
-            1269 => Some(&Self::LIGHT_BLUE_BANNER),
-            1089 => Some(&Self::LIGHT_BLUE_BED),
-            1040 => Some(&Self::LIGHT_BLUE_BUNDLE),
-            1402 => Some(&Self::LIGHT_BLUE_CANDLE),
-            508 => Some(&Self::LIGHT_BLUE_CARPET),
-            617 => Some(&Self::LIGHT_BLUE_CONCRETE),
-            633 => Some(&Self::LIGHT_BLUE_CONCRETE_POWDER),
-            1069 => Some(&Self::LIGHT_BLUE_DYE),
-            601 => Some(&Self::LIGHT_BLUE_GLAZED_TERRACOTTA),
-            841 => Some(&Self::LIGHT_BLUE_HARNESS),
-            585 => Some(&Self::LIGHT_BLUE_SHULKER_BOX),
-            533 => Some(&Self::LIGHT_BLUE_STAINED_GLASS),
-            549 => Some(&Self::LIGHT_BLUE_STAINED_GLASS_PANE),
-            489 => Some(&Self::LIGHT_BLUE_TERRACOTTA),
+            1418 => Some(&Self::LARGE_AMETHYST_BUD),
+            530 => Some(&Self::LARGE_FERN),
+            1015 => Some(&Self::LAVA_BUCKET),
+            1262 => Some(&Self::LEAD),
+            261 => Some(&Self::LEAF_LITTER),
+            1018 => Some(&Self::LEATHER),
+            958 => Some(&Self::LEATHER_BOOTS),
+            956 => Some(&Self::LEATHER_CHESTPLATE),
+            955 => Some(&Self::LEATHER_HELMET),
+            1261 => Some(&Self::LEATHER_HORSE_ARMOR),
+            957 => Some(&Self::LEATHER_LEGGINGS),
+            731 => Some(&Self::LECTERN),
+            733 => Some(&Self::LEVER),
+            504 => Some(&Self::LIGHT),
+            1270 => Some(&Self::LIGHT_BLUE_BANNER),
+            1090 => Some(&Self::LIGHT_BLUE_BED),
+            1041 => Some(&Self::LIGHT_BLUE_BUNDLE),
+            1403 => Some(&Self::LIGHT_BLUE_CANDLE),
+            509 => Some(&Self::LIGHT_BLUE_CARPET),
+            618 => Some(&Self::LIGHT_BLUE_CONCRETE),
+            634 => Some(&Self::LIGHT_BLUE_CONCRETE_POWDER),
+            1070 => Some(&Self::LIGHT_BLUE_DYE),
+            602 => Some(&Self::LIGHT_BLUE_GLAZED_TERRACOTTA),
+            842 => Some(&Self::LIGHT_BLUE_HARNESS),
+            586 => Some(&Self::LIGHT_BLUE_SHULKER_BOX),
+            534 => Some(&Self::LIGHT_BLUE_STAINED_GLASS),
+            550 => Some(&Self::LIGHT_BLUE_STAINED_GLASS_PANE),
+            490 => Some(&Self::LIGHT_BLUE_TERRACOTTA),
             216 => Some(&Self::LIGHT_BLUE_WOOL),
-            1274 => Some(&Self::LIGHT_GRAY_BANNER),
-            1094 => Some(&Self::LIGHT_GRAY_BED),
-            1045 => Some(&Self::LIGHT_GRAY_BUNDLE),
-            1407 => Some(&Self::LIGHT_GRAY_CANDLE),
-            513 => Some(&Self::LIGHT_GRAY_CARPET),
-            622 => Some(&Self::LIGHT_GRAY_CONCRETE),
-            638 => Some(&Self::LIGHT_GRAY_CONCRETE_POWDER),
-            1074 => Some(&Self::LIGHT_GRAY_DYE),
-            606 => Some(&Self::LIGHT_GRAY_GLAZED_TERRACOTTA),
-            846 => Some(&Self::LIGHT_GRAY_HARNESS),
-            590 => Some(&Self::LIGHT_GRAY_SHULKER_BOX),
-            538 => Some(&Self::LIGHT_GRAY_STAINED_GLASS),
-            554 => Some(&Self::LIGHT_GRAY_STAINED_GLASS_PANE),
-            494 => Some(&Self::LIGHT_GRAY_TERRACOTTA),
+            1275 => Some(&Self::LIGHT_GRAY_BANNER),
+            1095 => Some(&Self::LIGHT_GRAY_BED),
+            1046 => Some(&Self::LIGHT_GRAY_BUNDLE),
+            1408 => Some(&Self::LIGHT_GRAY_CANDLE),
+            514 => Some(&Self::LIGHT_GRAY_CARPET),
+            623 => Some(&Self::LIGHT_GRAY_CONCRETE),
+            639 => Some(&Self::LIGHT_GRAY_CONCRETE_POWDER),
+            1075 => Some(&Self::LIGHT_GRAY_DYE),
+            607 => Some(&Self::LIGHT_GRAY_GLAZED_TERRACOTTA),
+            847 => Some(&Self::LIGHT_GRAY_HARNESS),
+            591 => Some(&Self::LIGHT_GRAY_SHULKER_BOX),
+            539 => Some(&Self::LIGHT_GRAY_STAINED_GLASS),
+            555 => Some(&Self::LIGHT_GRAY_STAINED_GLASS_PANE),
+            495 => Some(&Self::LIGHT_GRAY_TERRACOTTA),
             221 => Some(&Self::LIGHT_GRAY_WOOL),
-            765 => Some(&Self::LIGHT_WEIGHTED_PRESSURE_PLATE),
-            733 => Some(&Self::LIGHTNING_ROD),
-            525 => Some(&Self::LILAC),
-            242 => Some(&Self::LILY_OF_THE_VALLEY),
-            423 => Some(&Self::LILY_PAD),
-            1271 => Some(&Self::LIME_BANNER),
-            1091 => Some(&Self::LIME_BED),
-            1042 => Some(&Self::LIME_BUNDLE),
-            1404 => Some(&Self::LIME_CANDLE),
-            510 => Some(&Self::LIME_CARPET),
-            619 => Some(&Self::LIME_CONCRETE),
-            635 => Some(&Self::LIME_CONCRETE_POWDER),
-            1071 => Some(&Self::LIME_DYE),
-            603 => Some(&Self::LIME_GLAZED_TERRACOTTA),
-            843 => Some(&Self::LIME_HARNESS),
-            587 => Some(&Self::LIME_SHULKER_BOX),
-            535 => Some(&Self::LIME_STAINED_GLASS),
-            551 => Some(&Self::LIME_STAINED_GLASS_PANE),
-            491 => Some(&Self::LIME_TERRACOTTA),
+            766 => Some(&Self::LIGHT_WEIGHTED_PRESSURE_PLATE),
+            734 => Some(&Self::LIGHTNING_ROD),
+            526 => Some(&Self::LILAC),
+            243 => Some(&Self::LILY_OF_THE_VALLEY),
+            424 => Some(&Self::LILY_PAD),
+            1272 => Some(&Self::LIME_BANNER),
+            1092 => Some(&Self::LIME_BED),
+            1043 => Some(&Self::LIME_BUNDLE),
+            1405 => Some(&Self::LIME_CANDLE),
+            511 => Some(&Self::LIME_CARPET),
+            620 => Some(&Self::LIME_CONCRETE),
+            636 => Some(&Self::LIME_CONCRETE_POWDER),
+            1072 => Some(&Self::LIME_DYE),
+            604 => Some(&Self::LIME_GLAZED_TERRACOTTA),
+            844 => Some(&Self::LIME_HARNESS),
+            588 => Some(&Self::LIME_SHULKER_BOX),
+            536 => Some(&Self::LIME_STAINED_GLASS),
+            552 => Some(&Self::LIME_STAINED_GLASS_PANE),
+            492 => Some(&Self::LIME_TERRACOTTA),
             218 => Some(&Self::LIME_WOOL),
-            1294 => Some(&Self::LINGERING_POTION),
-            1146 => Some(&Self::LLAMA_SPAWN_EGG),
-            1383 => Some(&Self::LODESTONE),
-            1341 => Some(&Self::LOOM),
-            1223 => Some(&Self::MACE),
-            1268 => Some(&Self::MAGENTA_BANNER),
-            1088 => Some(&Self::MAGENTA_BED),
-            1039 => Some(&Self::MAGENTA_BUNDLE),
-            1401 => Some(&Self::MAGENTA_CANDLE),
-            507 => Some(&Self::MAGENTA_CARPET),
-            616 => Some(&Self::MAGENTA_CONCRETE),
-            632 => Some(&Self::MAGENTA_CONCRETE_POWDER),
-            1068 => Some(&Self::MAGENTA_DYE),
-            600 => Some(&Self::MAGENTA_GLAZED_TERRACOTTA),
-            840 => Some(&Self::MAGENTA_HARNESS),
-            584 => Some(&Self::MAGENTA_SHULKER_BOX),
-            532 => Some(&Self::MAGENTA_STAINED_GLASS),
-            548 => Some(&Self::MAGENTA_STAINED_GLASS_PANE),
-            488 => Some(&Self::MAGENTA_TERRACOTTA),
+            1295 => Some(&Self::LINGERING_POTION),
+            1147 => Some(&Self::LLAMA_SPAWN_EGG),
+            1384 => Some(&Self::LODESTONE),
+            1342 => Some(&Self::LOOM),
+            1224 => Some(&Self::MACE),
+            1269 => Some(&Self::MAGENTA_BANNER),
+            1089 => Some(&Self::MAGENTA_BED),
+            1040 => Some(&Self::MAGENTA_BUNDLE),
+            1402 => Some(&Self::MAGENTA_CANDLE),
+            508 => Some(&Self::MAGENTA_CARPET),
+            617 => Some(&Self::MAGENTA_CONCRETE),
+            633 => Some(&Self::MAGENTA_CONCRETE_POWDER),
+            1069 => Some(&Self::MAGENTA_DYE),
+            601 => Some(&Self::MAGENTA_GLAZED_TERRACOTTA),
+            841 => Some(&Self::MAGENTA_HARNESS),
+            585 => Some(&Self::MAGENTA_SHULKER_BOX),
+            533 => Some(&Self::MAGENTA_STAINED_GLASS),
+            549 => Some(&Self::MAGENTA_STAINED_GLASS_PANE),
+            489 => Some(&Self::MAGENTA_TERRACOTTA),
             215 => Some(&Self::MAGENTA_WOOL),
-            575 => Some(&Self::MAGMA_BLOCK),
-            1125 => Some(&Self::MAGMA_CREAM),
-            1207 => Some(&Self::MAGMA_CUBE_SPAWN_EGG),
-            879 => Some(&Self::MANGROVE_BOAT),
-            759 => Some(&Self::MANGROVE_BUTTON),
-            880 => Some(&Self::MANGROVE_CHEST_BOAT),
-            788 => Some(&Self::MANGROVE_DOOR),
-            352 => Some(&Self::MANGROVE_FENCE),
-            829 => Some(&Self::MANGROVE_FENCE_GATE),
-            1008 => Some(&Self::MANGROVE_HANGING_SIGN),
+            576 => Some(&Self::MAGMA_BLOCK),
+            1126 => Some(&Self::MAGMA_CREAM),
+            1208 => Some(&Self::MAGMA_CUBE_SPAWN_EGG),
+            880 => Some(&Self::MANGROVE_BOAT),
+            760 => Some(&Self::MANGROVE_BUTTON),
+            881 => Some(&Self::MANGROVE_CHEST_BOAT),
+            789 => Some(&Self::MANGROVE_DOOR),
+            353 => Some(&Self::MANGROVE_FENCE),
+            830 => Some(&Self::MANGROVE_FENCE_GATE),
+            1009 => Some(&Self::MANGROVE_HANGING_SIGN),
             190 => Some(&Self::MANGROVE_LEAVES),
             142 => Some(&Self::MANGROVE_LOG),
             44 => Some(&Self::MANGROVE_PLANKS),
-            775 => Some(&Self::MANGROVE_PRESSURE_PLATE),
+            776 => Some(&Self::MANGROVE_PRESSURE_PLATE),
             57 => Some(&Self::MANGROVE_PROPAGULE),
             143 => Some(&Self::MANGROVE_ROOTS),
-            312 => Some(&Self::MANGROVE_SHELF),
-            996 => Some(&Self::MANGROVE_SIGN),
-            278 => Some(&Self::MANGROVE_SLAB),
-            449 => Some(&Self::MANGROVE_STAIRS),
-            809 => Some(&Self::MANGROVE_TRAPDOOR),
+            313 => Some(&Self::MANGROVE_SHELF),
+            997 => Some(&Self::MANGROVE_SIGN),
+            279 => Some(&Self::MANGROVE_SLAB),
+            450 => Some(&Self::MANGROVE_STAIRS),
+            810 => Some(&Self::MANGROVE_TRAPDOOR),
             179 => Some(&Self::MANGROVE_WOOD),
-            1231 => Some(&Self::MAP),
-            1416 => Some(&Self::MEDIUM_AMETHYST_BUD),
-            409 => Some(&Self::MELON),
-            1109 => Some(&Self::MELON_SEEDS),
-            1106 => Some(&Self::MELON_SLICE),
-            1018 => Some(&Self::MILK_BUCKET),
-            854 => Some(&Self::MINECART),
-            1459 => Some(&Self::MINER_POTTERY_SHERD),
-            1345 => Some(&Self::MOJANG_BANNER_PATTERN),
-            1164 => Some(&Self::MOOSHROOM_SPAWN_EGG),
-            262 => Some(&Self::MOSS_BLOCK),
-            261 => Some(&Self::MOSS_CARPET),
-            320 => Some(&Self::MOSSY_COBBLESTONE),
-            703 => Some(&Self::MOSSY_COBBLESTONE_SLAB),
-            685 => Some(&Self::MOSSY_COBBLESTONE_STAIRS),
-            457 => Some(&Self::MOSSY_COBBLESTONE_WALL),
-            701 => Some(&Self::MOSSY_STONE_BRICK_SLAB),
-            683 => Some(&Self::MOSSY_STONE_BRICK_STAIRS),
-            461 => Some(&Self::MOSSY_STONE_BRICK_WALL),
-            376 => Some(&Self::MOSSY_STONE_BRICKS),
-            1460 => Some(&Self::MOURNER_POTTERY_SHERD),
+            1232 => Some(&Self::MAP),
+            1417 => Some(&Self::MEDIUM_AMETHYST_BUD),
+            410 => Some(&Self::MELON),
+            1110 => Some(&Self::MELON_SEEDS),
+            1107 => Some(&Self::MELON_SLICE),
+            1019 => Some(&Self::MILK_BUCKET),
+            855 => Some(&Self::MINECART),
+            1460 => Some(&Self::MINER_POTTERY_SHERD),
+            1346 => Some(&Self::MOJANG_BANNER_PATTERN),
+            1165 => Some(&Self::MOOSHROOM_SPAWN_EGG),
+            263 => Some(&Self::MOSS_BLOCK),
+            262 => Some(&Self::MOSS_CARPET),
+            321 => Some(&Self::MOSSY_COBBLESTONE),
+            704 => Some(&Self::MOSSY_COBBLESTONE_SLAB),
+            686 => Some(&Self::MOSSY_COBBLESTONE_STAIRS),
+            458 => Some(&Self::MOSSY_COBBLESTONE_WALL),
+            702 => Some(&Self::MOSSY_STONE_BRICK_SLAB),
+            684 => Some(&Self::MOSSY_STONE_BRICK_STAIRS),
+            462 => Some(&Self::MOSSY_STONE_BRICK_WALL),
+            377 => Some(&Self::MOSSY_STONE_BRICKS),
+            1461 => Some(&Self::MOURNER_POTTERY_SHERD),
             32 => Some(&Self::MUD),
-            291 => Some(&Self::MUD_BRICK_SLAB),
-            421 => Some(&Self::MUD_BRICK_STAIRS),
-            464 => Some(&Self::MUD_BRICK_WALL),
-            380 => Some(&Self::MUD_BRICKS),
+            292 => Some(&Self::MUD_BRICK_SLAB),
+            422 => Some(&Self::MUD_BRICK_STAIRS),
+            465 => Some(&Self::MUD_BRICK_WALL),
+            381 => Some(&Self::MUD_BRICKS),
             144 => Some(&Self::MUDDY_MANGROVE_ROOTS),
-            1137 => Some(&Self::MULE_SPAWN_EGG),
-            389 => Some(&Self::MUSHROOM_STEM),
-            947 => Some(&Self::MUSHROOM_STEW),
-            1322 => Some(&Self::MUSIC_DISC_11),
-            1309 => Some(&Self::MUSIC_DISC_13),
-            1326 => Some(&Self::MUSIC_DISC_5),
-            1311 => Some(&Self::MUSIC_DISC_BLOCKS),
-            1310 => Some(&Self::MUSIC_DISC_CAT),
-            1312 => Some(&Self::MUSIC_DISC_CHIRP),
-            1313 => Some(&Self::MUSIC_DISC_CREATOR),
-            1314 => Some(&Self::MUSIC_DISC_CREATOR_MUSIC_BOX),
-            1315 => Some(&Self::MUSIC_DISC_FAR),
-            1316 => Some(&Self::MUSIC_DISC_LAVA_CHICKEN),
-            1317 => Some(&Self::MUSIC_DISC_MALL),
-            1318 => Some(&Self::MUSIC_DISC_MELLOHI),
-            1324 => Some(&Self::MUSIC_DISC_OTHERSIDE),
-            1327 => Some(&Self::MUSIC_DISC_PIGSTEP),
-            1328 => Some(&Self::MUSIC_DISC_PRECIPICE),
-            1325 => Some(&Self::MUSIC_DISC_RELIC),
-            1319 => Some(&Self::MUSIC_DISC_STAL),
-            1320 => Some(&Self::MUSIC_DISC_STRAD),
-            1329 => Some(&Self::MUSIC_DISC_TEARS),
-            1323 => Some(&Self::MUSIC_DISC_WAIT),
-            1321 => Some(&Self::MUSIC_DISC_WARD),
-            1264 => Some(&Self::MUTTON),
-            422 => Some(&Self::MYCELIUM),
-            1262 => Some(&Self::NAME_TAG),
-            1332 => Some(&Self::NAUTILUS_SHELL),
-            1156 => Some(&Self::NAUTILUS_SPAWN_EGG),
-            1245 => Some(&Self::NETHER_BRICK),
-            427 => Some(&Self::NETHER_BRICK_FENCE),
-            292 => Some(&Self::NETHER_BRICK_SLAB),
-            428 => Some(&Self::NETHER_BRICK_STAIRS),
-            465 => Some(&Self::NETHER_BRICK_WALL),
-            424 => Some(&Self::NETHER_BRICKS),
+            1138 => Some(&Self::MULE_SPAWN_EGG),
+            390 => Some(&Self::MUSHROOM_STEM),
+            948 => Some(&Self::MUSHROOM_STEW),
+            1323 => Some(&Self::MUSIC_DISC_11),
+            1310 => Some(&Self::MUSIC_DISC_13),
+            1327 => Some(&Self::MUSIC_DISC_5),
+            1312 => Some(&Self::MUSIC_DISC_BLOCKS),
+            1311 => Some(&Self::MUSIC_DISC_CAT),
+            1313 => Some(&Self::MUSIC_DISC_CHIRP),
+            1314 => Some(&Self::MUSIC_DISC_CREATOR),
+            1315 => Some(&Self::MUSIC_DISC_CREATOR_MUSIC_BOX),
+            1316 => Some(&Self::MUSIC_DISC_FAR),
+            1317 => Some(&Self::MUSIC_DISC_LAVA_CHICKEN),
+            1318 => Some(&Self::MUSIC_DISC_MALL),
+            1319 => Some(&Self::MUSIC_DISC_MELLOHI),
+            1325 => Some(&Self::MUSIC_DISC_OTHERSIDE),
+            1328 => Some(&Self::MUSIC_DISC_PIGSTEP),
+            1329 => Some(&Self::MUSIC_DISC_PRECIPICE),
+            1326 => Some(&Self::MUSIC_DISC_RELIC),
+            1320 => Some(&Self::MUSIC_DISC_STAL),
+            1321 => Some(&Self::MUSIC_DISC_STRAD),
+            1330 => Some(&Self::MUSIC_DISC_TEARS),
+            1324 => Some(&Self::MUSIC_DISC_WAIT),
+            1322 => Some(&Self::MUSIC_DISC_WARD),
+            1265 => Some(&Self::MUTTON),
+            423 => Some(&Self::MYCELIUM),
+            1263 => Some(&Self::NAME_TAG),
+            1333 => Some(&Self::NAUTILUS_SHELL),
+            1157 => Some(&Self::NAUTILUS_SPAWN_EGG),
+            1246 => Some(&Self::NETHER_BRICK),
+            428 => Some(&Self::NETHER_BRICK_FENCE),
+            293 => Some(&Self::NETHER_BRICK_SLAB),
+            429 => Some(&Self::NETHER_BRICK_STAIRS),
+            466 => Some(&Self::NETHER_BRICK_WALL),
+            425 => Some(&Self::NETHER_BRICKS),
             80 => Some(&Self::NETHER_GOLD_ORE),
             81 => Some(&Self::NETHER_QUARTZ_ORE),
-            253 => Some(&Self::NETHER_SPROUTS),
-            1240 => Some(&Self::NETHER_STAR),
-            1119 => Some(&Self::NETHER_WART),
-            576 => Some(&Self::NETHER_WART_BLOCK),
-            944 => Some(&Self::NETHERITE_AXE),
+            254 => Some(&Self::NETHER_SPROUTS),
+            1241 => Some(&Self::NETHER_STAR),
+            1120 => Some(&Self::NETHER_WART),
+            577 => Some(&Self::NETHER_WART_BLOCK),
+            945 => Some(&Self::NETHERITE_AXE),
             94 => Some(&Self::NETHERITE_BLOCK),
-            981 => Some(&Self::NETHERITE_BOOTS),
-            979 => Some(&Self::NETHERITE_CHESTPLATE),
-            978 => Some(&Self::NETHERITE_HELMET),
-            945 => Some(&Self::NETHERITE_HOE),
-            1259 => Some(&Self::NETHERITE_HORSE_ARMOR),
-            909 => Some(&Self::NETHERITE_INGOT),
-            980 => Some(&Self::NETHERITE_LEGGINGS),
-            1336 => Some(&Self::NETHERITE_NAUTILUS_ARMOR),
-            943 => Some(&Self::NETHERITE_PICKAXE),
-            910 => Some(&Self::NETHERITE_SCRAP),
-            942 => Some(&Self::NETHERITE_SHOVEL),
-            1302 => Some(&Self::NETHERITE_SPEAR),
-            941 => Some(&Self::NETHERITE_SWORD),
-            1426 => Some(&Self::NETHERITE_UPGRADE_SMITHING_TEMPLATE),
-            359 => Some(&Self::NETHERRACK),
-            748 => Some(&Self::NOTE_BLOCK),
-            863 => Some(&Self::OAK_BOAT),
-            751 => Some(&Self::OAK_BUTTON),
-            864 => Some(&Self::OAK_CHEST_BOAT),
-            780 => Some(&Self::OAK_DOOR),
-            344 => Some(&Self::OAK_FENCE),
-            821 => Some(&Self::OAK_FENCE_GATE),
-            1000 => Some(&Self::OAK_HANGING_SIGN),
+            982 => Some(&Self::NETHERITE_BOOTS),
+            980 => Some(&Self::NETHERITE_CHESTPLATE),
+            979 => Some(&Self::NETHERITE_HELMET),
+            946 => Some(&Self::NETHERITE_HOE),
+            1260 => Some(&Self::NETHERITE_HORSE_ARMOR),
+            910 => Some(&Self::NETHERITE_INGOT),
+            981 => Some(&Self::NETHERITE_LEGGINGS),
+            1337 => Some(&Self::NETHERITE_NAUTILUS_ARMOR),
+            944 => Some(&Self::NETHERITE_PICKAXE),
+            911 => Some(&Self::NETHERITE_SCRAP),
+            943 => Some(&Self::NETHERITE_SHOVEL),
+            1303 => Some(&Self::NETHERITE_SPEAR),
+            942 => Some(&Self::NETHERITE_SWORD),
+            1427 => Some(&Self::NETHERITE_UPGRADE_SMITHING_TEMPLATE),
+            360 => Some(&Self::NETHERRACK),
+            749 => Some(&Self::NOTE_BLOCK),
+            864 => Some(&Self::OAK_BOAT),
+            752 => Some(&Self::OAK_BUTTON),
+            865 => Some(&Self::OAK_CHEST_BOAT),
+            781 => Some(&Self::OAK_DOOR),
+            345 => Some(&Self::OAK_FENCE),
+            822 => Some(&Self::OAK_FENCE_GATE),
+            1001 => Some(&Self::OAK_HANGING_SIGN),
             182 => Some(&Self::OAK_LEAVES),
             134 => Some(&Self::OAK_LOG),
             36 => Some(&Self::OAK_PLANKS),
-            767 => Some(&Self::OAK_PRESSURE_PLATE),
+            768 => Some(&Self::OAK_PRESSURE_PLATE),
             49 => Some(&Self::OAK_SAPLING),
-            313 => Some(&Self::OAK_SHELF),
-            988 => Some(&Self::OAK_SIGN),
-            270 => Some(&Self::OAK_SLAB),
-            441 => Some(&Self::OAK_STAIRS),
-            801 => Some(&Self::OAK_TRAPDOOR),
+            314 => Some(&Self::OAK_SHELF),
+            989 => Some(&Self::OAK_SIGN),
+            271 => Some(&Self::OAK_SLAB),
+            442 => Some(&Self::OAK_STAIRS),
+            802 => Some(&Self::OAK_TRAPDOOR),
             171 => Some(&Self::OAK_WOOD),
-            726 => Some(&Self::OBSERVER),
-            321 => Some(&Self::OBSIDIAN),
-            1147 => Some(&Self::OCELOT_SPAWN_EGG),
-            1420 => Some(&Self::OCHRE_FROGLIGHT),
-            1504 => Some(&Self::OMINOUS_BOTTLE),
-            1502 => Some(&Self::OMINOUS_TRIAL_KEY),
-            230 => Some(&Self::OPEN_EYEBLOSSOM),
-            1267 => Some(&Self::ORANGE_BANNER),
-            1087 => Some(&Self::ORANGE_BED),
-            1038 => Some(&Self::ORANGE_BUNDLE),
-            1400 => Some(&Self::ORANGE_CANDLE),
-            506 => Some(&Self::ORANGE_CARPET),
-            615 => Some(&Self::ORANGE_CONCRETE),
-            631 => Some(&Self::ORANGE_CONCRETE_POWDER),
-            1067 => Some(&Self::ORANGE_DYE),
-            599 => Some(&Self::ORANGE_GLAZED_TERRACOTTA),
-            839 => Some(&Self::ORANGE_HARNESS),
-            583 => Some(&Self::ORANGE_SHULKER_BOX),
-            531 => Some(&Self::ORANGE_STAINED_GLASS),
-            547 => Some(&Self::ORANGE_STAINED_GLASS_PANE),
-            487 => Some(&Self::ORANGE_TERRACOTTA),
-            237 => Some(&Self::ORANGE_TULIP),
+            727 => Some(&Self::OBSERVER),
+            322 => Some(&Self::OBSIDIAN),
+            1148 => Some(&Self::OCELOT_SPAWN_EGG),
+            1421 => Some(&Self::OCHRE_FROGLIGHT),
+            1505 => Some(&Self::OMINOUS_BOTTLE),
+            1503 => Some(&Self::OMINOUS_TRIAL_KEY),
+            231 => Some(&Self::OPEN_EYEBLOSSOM),
+            1268 => Some(&Self::ORANGE_BANNER),
+            1088 => Some(&Self::ORANGE_BED),
+            1039 => Some(&Self::ORANGE_BUNDLE),
+            1401 => Some(&Self::ORANGE_CANDLE),
+            507 => Some(&Self::ORANGE_CARPET),
+            616 => Some(&Self::ORANGE_CONCRETE),
+            632 => Some(&Self::ORANGE_CONCRETE_POWDER),
+            1068 => Some(&Self::ORANGE_DYE),
+            600 => Some(&Self::ORANGE_GLAZED_TERRACOTTA),
+            840 => Some(&Self::ORANGE_HARNESS),
+            584 => Some(&Self::ORANGE_SHULKER_BOX),
+            532 => Some(&Self::ORANGE_STAINED_GLASS),
+            548 => Some(&Self::ORANGE_STAINED_GLASS_PANE),
+            488 => Some(&Self::ORANGE_TERRACOTTA),
+            238 => Some(&Self::ORANGE_TULIP),
             214 => Some(&Self::ORANGE_WOOL),
-            240 => Some(&Self::OXEYE_DAISY),
+            241 => Some(&Self::OXEYE_DAISY),
             101 => Some(&Self::OXIDIZED_CHISELED_COPPER),
             97 => Some(&Self::OXIDIZED_COPPER),
-            394 => Some(&Self::OXIDIZED_COPPER_BARS),
-            1479 => Some(&Self::OXIDIZED_COPPER_BULB),
-            403 => Some(&Self::OXIDIZED_COPPER_CHAIN),
-            1487 => Some(&Self::OXIDIZED_COPPER_CHEST),
-            795 => Some(&Self::OXIDIZED_COPPER_DOOR),
-            1495 => Some(&Self::OXIDIZED_COPPER_GOLEM_STATUE),
-            1471 => Some(&Self::OXIDIZED_COPPER_GRATE),
-            1368 => Some(&Self::OXIDIZED_COPPER_LANTERN),
-            816 => Some(&Self::OXIDIZED_COPPER_TRAPDOOR),
+            395 => Some(&Self::OXIDIZED_COPPER_BARS),
+            1480 => Some(&Self::OXIDIZED_COPPER_BULB),
+            404 => Some(&Self::OXIDIZED_COPPER_CHAIN),
+            1488 => Some(&Self::OXIDIZED_COPPER_CHEST),
+            796 => Some(&Self::OXIDIZED_COPPER_DOOR),
+            1496 => Some(&Self::OXIDIZED_COPPER_GOLEM_STATUE),
+            1472 => Some(&Self::OXIDIZED_COPPER_GRATE),
+            1369 => Some(&Self::OXIDIZED_COPPER_LANTERN),
+            817 => Some(&Self::OXIDIZED_COPPER_TRAPDOOR),
             105 => Some(&Self::OXIDIZED_CUT_COPPER),
             113 => Some(&Self::OXIDIZED_CUT_COPPER_SLAB),
             109 => Some(&Self::OXIDIZED_CUT_COPPER_STAIRS),
-            736 => Some(&Self::OXIDIZED_LIGHTNING_ROD),
-            522 => Some(&Self::PACKED_ICE),
-            379 => Some(&Self::PACKED_MUD),
-            985 => Some(&Self::PAINTING),
-            264 => Some(&Self::PALE_HANGING_MOSS),
-            265 => Some(&Self::PALE_MOSS_BLOCK),
-            263 => Some(&Self::PALE_MOSS_CARPET),
-            877 => Some(&Self::PALE_OAK_BOAT),
-            758 => Some(&Self::PALE_OAK_BUTTON),
-            878 => Some(&Self::PALE_OAK_CHEST_BOAT),
-            787 => Some(&Self::PALE_OAK_DOOR),
-            351 => Some(&Self::PALE_OAK_FENCE),
-            828 => Some(&Self::PALE_OAK_FENCE_GATE),
-            1007 => Some(&Self::PALE_OAK_HANGING_SIGN),
+            737 => Some(&Self::OXIDIZED_LIGHTNING_ROD),
+            523 => Some(&Self::PACKED_ICE),
+            380 => Some(&Self::PACKED_MUD),
+            986 => Some(&Self::PAINTING),
+            265 => Some(&Self::PALE_HANGING_MOSS),
+            266 => Some(&Self::PALE_MOSS_BLOCK),
+            264 => Some(&Self::PALE_MOSS_CARPET),
+            878 => Some(&Self::PALE_OAK_BOAT),
+            759 => Some(&Self::PALE_OAK_BUTTON),
+            879 => Some(&Self::PALE_OAK_CHEST_BOAT),
+            788 => Some(&Self::PALE_OAK_DOOR),
+            352 => Some(&Self::PALE_OAK_FENCE),
+            829 => Some(&Self::PALE_OAK_FENCE_GATE),
+            1008 => Some(&Self::PALE_OAK_HANGING_SIGN),
             189 => Some(&Self::PALE_OAK_LEAVES),
             140 => Some(&Self::PALE_OAK_LOG),
             43 => Some(&Self::PALE_OAK_PLANKS),
-            774 => Some(&Self::PALE_OAK_PRESSURE_PLATE),
+            775 => Some(&Self::PALE_OAK_PRESSURE_PLATE),
             56 => Some(&Self::PALE_OAK_SAPLING),
-            314 => Some(&Self::PALE_OAK_SHELF),
-            995 => Some(&Self::PALE_OAK_SIGN),
-            277 => Some(&Self::PALE_OAK_SLAB),
-            448 => Some(&Self::PALE_OAK_STAIRS),
-            808 => Some(&Self::PALE_OAK_TRAPDOOR),
+            315 => Some(&Self::PALE_OAK_SHELF),
+            996 => Some(&Self::PALE_OAK_SIGN),
+            278 => Some(&Self::PALE_OAK_SLAB),
+            449 => Some(&Self::PALE_OAK_STAIRS),
+            809 => Some(&Self::PALE_OAK_TRAPDOOR),
             177 => Some(&Self::PALE_OAK_WOOD),
-            1148 => Some(&Self::PANDA_SPAWN_EGG),
-            1028 => Some(&Self::PAPER),
-            1176 => Some(&Self::PARCHED_SPAWN_EGG),
-            1139 => Some(&Self::PARROT_SPAWN_EGG),
-            1422 => Some(&Self::PEARLESCENT_FROGLIGHT),
-            527 => Some(&Self::PEONY),
-            287 => Some(&Self::PETRIFIED_OAK_SLAB),
-            861 => Some(&Self::PHANTOM_MEMBRANE),
-            1193 => Some(&Self::PHANTOM_SPAWN_EGG),
-            1132 => Some(&Self::PIG_SPAWN_EGG),
-            1347 => Some(&Self::PIGLIN_BANNER_PATTERN),
-            1209 => Some(&Self::PIGLIN_BRUTE_SPAWN_EGG),
-            1239 => Some(&Self::PIGLIN_HEAD),
-            1208 => Some(&Self::PIGLIN_SPAWN_EGG),
-            1199 => Some(&Self::PILLAGER_SPAWN_EGG),
-            1272 => Some(&Self::PINK_BANNER),
-            1092 => Some(&Self::PINK_BED),
-            1043 => Some(&Self::PINK_BUNDLE),
-            1405 => Some(&Self::PINK_CANDLE),
-            511 => Some(&Self::PINK_CARPET),
-            620 => Some(&Self::PINK_CONCRETE),
-            636 => Some(&Self::PINK_CONCRETE_POWDER),
-            1072 => Some(&Self::PINK_DYE),
-            604 => Some(&Self::PINK_GLAZED_TERRACOTTA),
-            844 => Some(&Self::PINK_HARNESS),
-            258 => Some(&Self::PINK_PETALS),
-            588 => Some(&Self::PINK_SHULKER_BOX),
-            536 => Some(&Self::PINK_STAINED_GLASS),
-            552 => Some(&Self::PINK_STAINED_GLASS_PANE),
-            492 => Some(&Self::PINK_TERRACOTTA),
-            239 => Some(&Self::PINK_TULIP),
+            1149 => Some(&Self::PANDA_SPAWN_EGG),
+            1029 => Some(&Self::PAPER),
+            1177 => Some(&Self::PARCHED_SPAWN_EGG),
+            1140 => Some(&Self::PARROT_SPAWN_EGG),
+            1423 => Some(&Self::PEARLESCENT_FROGLIGHT),
+            528 => Some(&Self::PEONY),
+            288 => Some(&Self::PETRIFIED_OAK_SLAB),
+            862 => Some(&Self::PHANTOM_MEMBRANE),
+            1194 => Some(&Self::PHANTOM_SPAWN_EGG),
+            1133 => Some(&Self::PIG_SPAWN_EGG),
+            1348 => Some(&Self::PIGLIN_BANNER_PATTERN),
+            1210 => Some(&Self::PIGLIN_BRUTE_SPAWN_EGG),
+            1240 => Some(&Self::PIGLIN_HEAD),
+            1209 => Some(&Self::PIGLIN_SPAWN_EGG),
+            1200 => Some(&Self::PILLAGER_SPAWN_EGG),
+            1273 => Some(&Self::PINK_BANNER),
+            1093 => Some(&Self::PINK_BED),
+            1044 => Some(&Self::PINK_BUNDLE),
+            1406 => Some(&Self::PINK_CANDLE),
+            512 => Some(&Self::PINK_CARPET),
+            621 => Some(&Self::PINK_CONCRETE),
+            637 => Some(&Self::PINK_CONCRETE_POWDER),
+            1073 => Some(&Self::PINK_DYE),
+            605 => Some(&Self::PINK_GLAZED_TERRACOTTA),
+            845 => Some(&Self::PINK_HARNESS),
+            259 => Some(&Self::PINK_PETALS),
+            589 => Some(&Self::PINK_SHULKER_BOX),
+            537 => Some(&Self::PINK_STAINED_GLASS),
+            553 => Some(&Self::PINK_STAINED_GLASS_PANE),
+            493 => Some(&Self::PINK_TERRACOTTA),
+            240 => Some(&Self::PINK_TULIP),
             219 => Some(&Self::PINK_WOOL),
-            722 => Some(&Self::PISTON),
-            245 => Some(&Self::PITCHER_PLANT),
-            1286 => Some(&Self::PITCHER_POD),
-            1235 => Some(&Self::PLAYER_HEAD),
-            1461 => Some(&Self::PLENTY_POTTERY_SHERD),
+            723 => Some(&Self::PISTON),
+            246 => Some(&Self::PITCHER_PLANT),
+            1287 => Some(&Self::PITCHER_POD),
+            1236 => Some(&Self::PLAYER_HEAD),
+            1462 => Some(&Self::PLENTY_POTTERY_SHERD),
             30 => Some(&Self::PODZOL),
-            1419 => Some(&Self::POINTED_DRIPSTONE),
-            1230 => Some(&Self::POISONOUS_POTATO),
-            1149 => Some(&Self::POLAR_BEAR_SPAWN_EGG),
+            1420 => Some(&Self::POINTED_DRIPSTONE),
+            1231 => Some(&Self::POISONOUS_POTATO),
+            1150 => Some(&Self::POLAR_BEAR_SPAWN_EGG),
             7 => Some(&Self::POLISHED_ANDESITE),
-            710 => Some(&Self::POLISHED_ANDESITE_SLAB),
-            693 => Some(&Self::POLISHED_ANDESITE_STAIRS),
-            363 => Some(&Self::POLISHED_BASALT),
-            1389 => Some(&Self::POLISHED_BLACKSTONE),
-            1394 => Some(&Self::POLISHED_BLACKSTONE_BRICK_SLAB),
-            1395 => Some(&Self::POLISHED_BLACKSTONE_BRICK_STAIRS),
-            473 => Some(&Self::POLISHED_BLACKSTONE_BRICK_WALL),
-            1393 => Some(&Self::POLISHED_BLACKSTONE_BRICKS),
-            750 => Some(&Self::POLISHED_BLACKSTONE_BUTTON),
-            764 => Some(&Self::POLISHED_BLACKSTONE_PRESSURE_PLATE),
-            1390 => Some(&Self::POLISHED_BLACKSTONE_SLAB),
-            1391 => Some(&Self::POLISHED_BLACKSTONE_STAIRS),
-            472 => Some(&Self::POLISHED_BLACKSTONE_WALL),
+            711 => Some(&Self::POLISHED_ANDESITE_SLAB),
+            694 => Some(&Self::POLISHED_ANDESITE_STAIRS),
+            364 => Some(&Self::POLISHED_BASALT),
+            1390 => Some(&Self::POLISHED_BLACKSTONE),
+            1395 => Some(&Self::POLISHED_BLACKSTONE_BRICK_SLAB),
+            1396 => Some(&Self::POLISHED_BLACKSTONE_BRICK_STAIRS),
+            474 => Some(&Self::POLISHED_BLACKSTONE_BRICK_WALL),
+            1394 => Some(&Self::POLISHED_BLACKSTONE_BRICKS),
+            751 => Some(&Self::POLISHED_BLACKSTONE_BUTTON),
+            765 => Some(&Self::POLISHED_BLACKSTONE_PRESSURE_PLATE),
+            1391 => Some(&Self::POLISHED_BLACKSTONE_SLAB),
+            1392 => Some(&Self::POLISHED_BLACKSTONE_STAIRS),
+            473 => Some(&Self::POLISHED_BLACKSTONE_WALL),
             10 => Some(&Self::POLISHED_DEEPSLATE),
-            713 => Some(&Self::POLISHED_DEEPSLATE_SLAB),
-            696 => Some(&Self::POLISHED_DEEPSLATE_STAIRS),
-            475 => Some(&Self::POLISHED_DEEPSLATE_WALL),
+            714 => Some(&Self::POLISHED_DEEPSLATE_SLAB),
+            697 => Some(&Self::POLISHED_DEEPSLATE_STAIRS),
+            476 => Some(&Self::POLISHED_DEEPSLATE_WALL),
             5 => Some(&Self::POLISHED_DIORITE),
-            702 => Some(&Self::POLISHED_DIORITE_SLAB),
-            684 => Some(&Self::POLISHED_DIORITE_STAIRS),
+            703 => Some(&Self::POLISHED_DIORITE_SLAB),
+            685 => Some(&Self::POLISHED_DIORITE_STAIRS),
             3 => Some(&Self::POLISHED_GRANITE),
-            699 => Some(&Self::POLISHED_GRANITE_SLAB),
-            681 => Some(&Self::POLISHED_GRANITE_STAIRS),
+            700 => Some(&Self::POLISHED_GRANITE_SLAB),
+            682 => Some(&Self::POLISHED_GRANITE_STAIRS),
             17 => Some(&Self::POLISHED_TUFF),
             18 => Some(&Self::POLISHED_TUFF_SLAB),
             19 => Some(&Self::POLISHED_TUFF_STAIRS),
             20 => Some(&Self::POLISHED_TUFF_WALL),
-            1284 => Some(&Self::POPPED_CHORUS_FRUIT),
-            232 => Some(&Self::POPPY),
-            983 => Some(&Self::PORKCHOP),
-            1228 => Some(&Self::POTATO),
-            1121 => Some(&Self::POTION),
-            1015 => Some(&Self::POWDER_SNOW_BUCKET),
-            833 => Some(&Self::POWERED_RAIL),
-            562 => Some(&Self::PRISMARINE),
-            298 => Some(&Self::PRISMARINE_BRICK_SLAB),
-            566 => Some(&Self::PRISMARINE_BRICK_STAIRS),
-            563 => Some(&Self::PRISMARINE_BRICKS),
-            1248 => Some(&Self::PRISMARINE_CRYSTALS),
-            1247 => Some(&Self::PRISMARINE_SHARD),
-            297 => Some(&Self::PRISMARINE_SLAB),
-            565 => Some(&Self::PRISMARINE_STAIRS),
-            459 => Some(&Self::PRISMARINE_WALL),
-            1462 => Some(&Self::PRIZE_POTTERY_SHERD),
-            1060 => Some(&Self::PUFFERFISH),
-            1019 => Some(&Self::PUFFERFISH_BUCKET),
-            1157 => Some(&Self::PUFFERFISH_SPAWN_EGG),
-            356 => Some(&Self::PUMPKIN),
-            1241 => Some(&Self::PUMPKIN_PIE),
-            1108 => Some(&Self::PUMPKIN_SEEDS),
-            1276 => Some(&Self::PURPLE_BANNER),
-            1096 => Some(&Self::PURPLE_BED),
-            1047 => Some(&Self::PURPLE_BUNDLE),
-            1409 => Some(&Self::PURPLE_CANDLE),
-            515 => Some(&Self::PURPLE_CARPET),
-            624 => Some(&Self::PURPLE_CONCRETE),
-            640 => Some(&Self::PURPLE_CONCRETE_POWDER),
-            1076 => Some(&Self::PURPLE_DYE),
-            608 => Some(&Self::PURPLE_GLAZED_TERRACOTTA),
-            848 => Some(&Self::PURPLE_HARNESS),
-            592 => Some(&Self::PURPLE_SHULKER_BOX),
-            540 => Some(&Self::PURPLE_STAINED_GLASS),
-            556 => Some(&Self::PURPLE_STAINED_GLASS_PANE),
-            496 => Some(&Self::PURPLE_TERRACOTTA),
+            1285 => Some(&Self::POPPED_CHORUS_FRUIT),
+            233 => Some(&Self::POPPY),
+            984 => Some(&Self::PORKCHOP),
+            1229 => Some(&Self::POTATO),
+            1122 => Some(&Self::POTION),
+            1016 => Some(&Self::POWDER_SNOW_BUCKET),
+            834 => Some(&Self::POWERED_RAIL),
+            563 => Some(&Self::PRISMARINE),
+            299 => Some(&Self::PRISMARINE_BRICK_SLAB),
+            567 => Some(&Self::PRISMARINE_BRICK_STAIRS),
+            564 => Some(&Self::PRISMARINE_BRICKS),
+            1249 => Some(&Self::PRISMARINE_CRYSTALS),
+            1248 => Some(&Self::PRISMARINE_SHARD),
+            298 => Some(&Self::PRISMARINE_SLAB),
+            566 => Some(&Self::PRISMARINE_STAIRS),
+            460 => Some(&Self::PRISMARINE_WALL),
+            1463 => Some(&Self::PRIZE_POTTERY_SHERD),
+            1061 => Some(&Self::PUFFERFISH),
+            1020 => Some(&Self::PUFFERFISH_BUCKET),
+            1158 => Some(&Self::PUFFERFISH_SPAWN_EGG),
+            357 => Some(&Self::PUMPKIN),
+            1242 => Some(&Self::PUMPKIN_PIE),
+            1109 => Some(&Self::PUMPKIN_SEEDS),
+            1277 => Some(&Self::PURPLE_BANNER),
+            1097 => Some(&Self::PURPLE_BED),
+            1048 => Some(&Self::PURPLE_BUNDLE),
+            1410 => Some(&Self::PURPLE_CANDLE),
+            516 => Some(&Self::PURPLE_CARPET),
+            625 => Some(&Self::PURPLE_CONCRETE),
+            641 => Some(&Self::PURPLE_CONCRETE_POWDER),
+            1077 => Some(&Self::PURPLE_DYE),
+            609 => Some(&Self::PURPLE_GLAZED_TERRACOTTA),
+            849 => Some(&Self::PURPLE_HARNESS),
+            593 => Some(&Self::PURPLE_SHULKER_BOX),
+            541 => Some(&Self::PURPLE_STAINED_GLASS),
+            557 => Some(&Self::PURPLE_STAINED_GLASS_PANE),
+            497 => Some(&Self::PURPLE_TERRACOTTA),
             223 => Some(&Self::PURPLE_WOOL),
-            326 => Some(&Self::PURPUR_BLOCK),
-            327 => Some(&Self::PURPUR_PILLAR),
-            296 => Some(&Self::PURPUR_SLAB),
-            328 => Some(&Self::PURPUR_STAIRS),
-            901 => Some(&Self::QUARTZ),
-            482 => Some(&Self::QUARTZ_BLOCK),
-            483 => Some(&Self::QUARTZ_BRICKS),
-            484 => Some(&Self::QUARTZ_PILLAR),
-            293 => Some(&Self::QUARTZ_SLAB),
-            485 => Some(&Self::QUARTZ_STAIRS),
-            1249 => Some(&Self::RABBIT),
-            1252 => Some(&Self::RABBIT_FOOT),
-            1253 => Some(&Self::RABBIT_HIDE),
-            1150 => Some(&Self::RABBIT_SPAWN_EGG),
-            1251 => Some(&Self::RABBIT_STEW),
-            835 => Some(&Self::RAIL),
-            1441 => Some(&Self::RAISER_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1200 => Some(&Self::RAVAGER_SPAWN_EGG),
-            905 => Some(&Self::RAW_COPPER),
+            327 => Some(&Self::PURPUR_BLOCK),
+            328 => Some(&Self::PURPUR_PILLAR),
+            297 => Some(&Self::PURPUR_SLAB),
+            329 => Some(&Self::PURPUR_STAIRS),
+            902 => Some(&Self::QUARTZ),
+            483 => Some(&Self::QUARTZ_BLOCK),
+            484 => Some(&Self::QUARTZ_BRICKS),
+            485 => Some(&Self::QUARTZ_PILLAR),
+            294 => Some(&Self::QUARTZ_SLAB),
+            486 => Some(&Self::QUARTZ_STAIRS),
+            1250 => Some(&Self::RABBIT),
+            1253 => Some(&Self::RABBIT_FOOT),
+            1254 => Some(&Self::RABBIT_HIDE),
+            1151 => Some(&Self::RABBIT_SPAWN_EGG),
+            1252 => Some(&Self::RABBIT_STEW),
+            836 => Some(&Self::RAIL),
+            1442 => Some(&Self::RAISER_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1201 => Some(&Self::RAVAGER_SPAWN_EGG),
+            906 => Some(&Self::RAW_COPPER),
             85 => Some(&Self::RAW_COPPER_BLOCK),
-            907 => Some(&Self::RAW_GOLD),
+            908 => Some(&Self::RAW_GOLD),
             86 => Some(&Self::RAW_GOLD_BLOCK),
-            903 => Some(&Self::RAW_IRON),
+            904 => Some(&Self::RAW_IRON),
             84 => Some(&Self::RAW_IRON_BLOCK),
-            1035 => Some(&Self::RECOVERY_COMPASS),
-            1280 => Some(&Self::RED_BANNER),
-            1100 => Some(&Self::RED_BED),
-            1051 => Some(&Self::RED_BUNDLE),
-            1413 => Some(&Self::RED_CANDLE),
-            519 => Some(&Self::RED_CARPET),
-            628 => Some(&Self::RED_CONCRETE),
-            644 => Some(&Self::RED_CONCRETE_POWDER),
-            1080 => Some(&Self::RED_DYE),
-            612 => Some(&Self::RED_GLAZED_TERRACOTTA),
-            852 => Some(&Self::RED_HARNESS),
-            248 => Some(&Self::RED_MUSHROOM),
-            388 => Some(&Self::RED_MUSHROOM_BLOCK),
-            709 => Some(&Self::RED_NETHER_BRICK_SLAB),
-            692 => Some(&Self::RED_NETHER_BRICK_STAIRS),
-            467 => Some(&Self::RED_NETHER_BRICK_WALL),
-            578 => Some(&Self::RED_NETHER_BRICKS),
+            1036 => Some(&Self::RECOVERY_COMPASS),
+            1281 => Some(&Self::RED_BANNER),
+            1101 => Some(&Self::RED_BED),
+            1052 => Some(&Self::RED_BUNDLE),
+            1414 => Some(&Self::RED_CANDLE),
+            520 => Some(&Self::RED_CARPET),
+            629 => Some(&Self::RED_CONCRETE),
+            645 => Some(&Self::RED_CONCRETE_POWDER),
+            1081 => Some(&Self::RED_DYE),
+            613 => Some(&Self::RED_GLAZED_TERRACOTTA),
+            853 => Some(&Self::RED_HARNESS),
+            249 => Some(&Self::RED_MUSHROOM),
+            389 => Some(&Self::RED_MUSHROOM_BLOCK),
+            710 => Some(&Self::RED_NETHER_BRICK_SLAB),
+            693 => Some(&Self::RED_NETHER_BRICK_STAIRS),
+            468 => Some(&Self::RED_NETHER_BRICK_WALL),
+            579 => Some(&Self::RED_NETHER_BRICKS),
             62 => Some(&Self::RED_SAND),
-            569 => Some(&Self::RED_SANDSTONE),
-            294 => Some(&Self::RED_SANDSTONE_SLAB),
-            572 => Some(&Self::RED_SANDSTONE_STAIRS),
-            460 => Some(&Self::RED_SANDSTONE_WALL),
-            596 => Some(&Self::RED_SHULKER_BOX),
-            544 => Some(&Self::RED_STAINED_GLASS),
-            560 => Some(&Self::RED_STAINED_GLASS_PANE),
-            500 => Some(&Self::RED_TERRACOTTA),
-            236 => Some(&Self::RED_TULIP),
+            570 => Some(&Self::RED_SANDSTONE),
+            295 => Some(&Self::RED_SANDSTONE_SLAB),
+            573 => Some(&Self::RED_SANDSTONE_STAIRS),
+            461 => Some(&Self::RED_SANDSTONE_WALL),
+            597 => Some(&Self::RED_SHULKER_BOX),
+            545 => Some(&Self::RED_STAINED_GLASS),
+            561 => Some(&Self::RED_STAINED_GLASS_PANE),
+            501 => Some(&Self::RED_TERRACOTTA),
+            237 => Some(&Self::RED_TULIP),
             227 => Some(&Self::RED_WOOL),
-            717 => Some(&Self::REDSTONE),
-            719 => Some(&Self::REDSTONE_BLOCK),
-            747 => Some(&Self::REDSTONE_LAMP),
+            718 => Some(&Self::REDSTONE),
+            720 => Some(&Self::REDSTONE_BLOCK),
+            748 => Some(&Self::REDSTONE_LAMP),
             72 => Some(&Self::REDSTONE_ORE),
-            718 => Some(&Self::REDSTONE_TORCH),
-            386 => Some(&Self::REINFORCED_DEEPSLATE),
-            720 => Some(&Self::REPEATER),
-            573 => Some(&Self::REPEATING_COMMAND_BLOCK),
-            413 => Some(&Self::RESIN_BLOCK),
-            1246 => Some(&Self::RESIN_BRICK),
-            416 => Some(&Self::RESIN_BRICK_SLAB),
-            415 => Some(&Self::RESIN_BRICK_STAIRS),
-            417 => Some(&Self::RESIN_BRICK_WALL),
-            414 => Some(&Self::RESIN_BRICKS),
-            412 => Some(&Self::RESIN_CLUMP),
-            1397 => Some(&Self::RESPAWN_ANCHOR),
-            1436 => Some(&Self::RIB_ARMOR_TRIM_SMITHING_TEMPLATE),
+            719 => Some(&Self::REDSTONE_TORCH),
+            387 => Some(&Self::REINFORCED_DEEPSLATE),
+            721 => Some(&Self::REPEATER),
+            574 => Some(&Self::REPEATING_COMMAND_BLOCK),
+            414 => Some(&Self::RESIN_BLOCK),
+            1247 => Some(&Self::RESIN_BRICK),
+            417 => Some(&Self::RESIN_BRICK_SLAB),
+            416 => Some(&Self::RESIN_BRICK_STAIRS),
+            418 => Some(&Self::RESIN_BRICK_WALL),
+            415 => Some(&Self::RESIN_BRICKS),
+            413 => Some(&Self::RESIN_CLUMP),
+            1398 => Some(&Self::RESPAWN_ANCHOR),
+            1437 => Some(&Self::RIB_ARMOR_TRIM_SMITHING_TEMPLATE),
             31 => Some(&Self::ROOTED_DIRT),
-            526 => Some(&Self::ROSE_BUSH),
-            1114 => Some(&Self::ROTTEN_FLESH),
-            837 => Some(&Self::SADDLE),
-            1058 => Some(&Self::SALMON),
-            1020 => Some(&Self::SALMON_BUCKET),
-            1158 => Some(&Self::SALMON_SPAWN_EGG),
+            527 => Some(&Self::ROSE_BUSH),
+            1115 => Some(&Self::ROTTEN_FLESH),
+            838 => Some(&Self::SADDLE),
+            1059 => Some(&Self::SALMON),
+            1021 => Some(&Self::SALMON_BUCKET),
+            1159 => Some(&Self::SALMON_SPAWN_EGG),
             59 => Some(&Self::SAND),
             198 => Some(&Self::SANDSTONE),
-            285 => Some(&Self::SANDSTONE_SLAB),
-            438 => Some(&Self::SANDSTONE_STAIRS),
-            468 => Some(&Self::SANDSTONE_WALL),
-            716 => Some(&Self::SCAFFOLDING),
-            1463 => Some(&Self::SCRAPE_POTTERY_SHERD),
-            429 => Some(&Self::SCULK),
-            431 => Some(&Self::SCULK_CATALYST),
-            742 => Some(&Self::SCULK_SENSOR),
-            432 => Some(&Self::SCULK_SHRIEKER),
-            430 => Some(&Self::SCULK_VEIN),
-            568 => Some(&Self::SEA_LANTERN),
+            286 => Some(&Self::SANDSTONE_SLAB),
+            439 => Some(&Self::SANDSTONE_STAIRS),
+            469 => Some(&Self::SANDSTONE_WALL),
+            717 => Some(&Self::SCAFFOLDING),
+            1464 => Some(&Self::SCRAPE_POTTERY_SHERD),
+            430 => Some(&Self::SCULK),
+            432 => Some(&Self::SCULK_CATALYST),
+            743 => Some(&Self::SCULK_SENSOR),
+            433 => Some(&Self::SCULK_SHRIEKER),
+            431 => Some(&Self::SCULK_VEIN),
+            569 => Some(&Self::SEA_LANTERN),
             212 => Some(&Self::SEA_PICKLE),
             211 => Some(&Self::SEAGRASS),
-            1427 => Some(&Self::SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1439 => Some(&Self::SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1464 => Some(&Self::SHEAF_POTTERY_SHERD),
-            1105 => Some(&Self::SHEARS),
-            1133 => Some(&Self::SHEEP_SPAWN_EGG),
-            1465 => Some(&Self::SHELTER_POTTERY_SHERD),
-            1295 => Some(&Self::SHIELD),
+            1428 => Some(&Self::SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1440 => Some(&Self::SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1465 => Some(&Self::SHEAF_POTTERY_SHERD),
+            1106 => Some(&Self::SHEARS),
+            1134 => Some(&Self::SHEEP_SPAWN_EGG),
+            1466 => Some(&Self::SHELTER_POTTERY_SHERD),
+            1296 => Some(&Self::SHIELD),
             209 => Some(&Self::SHORT_DRY_GRASS),
             202 => Some(&Self::SHORT_GRASS),
-            1377 => Some(&Self::SHROOMLIGHT),
-            581 => Some(&Self::SHULKER_BOX),
-            1304 => Some(&Self::SHULKER_SHELL),
-            1216 => Some(&Self::SHULKER_SPAWN_EGG),
-            1440 => Some(&Self::SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1194 => Some(&Self::SILVERFISH_SPAWN_EGG),
-            1178 => Some(&Self::SKELETON_HORSE_SPAWN_EGG),
-            1233 => Some(&Self::SKELETON_SKULL),
-            1177 => Some(&Self::SKELETON_SPAWN_EGG),
-            1344 => Some(&Self::SKULL_BANNER_PATTERN),
-            1466 => Some(&Self::SKULL_POTTERY_SHERD),
-            1030 => Some(&Self::SLIME_BALL),
-            724 => Some(&Self::SLIME_BLOCK),
-            1195 => Some(&Self::SLIME_SPAWN_EGG),
-            1415 => Some(&Self::SMALL_AMETHYST_BUD),
-            268 => Some(&Self::SMALL_DRIPLEAF),
-            1360 => Some(&Self::SMITHING_TABLE),
-            1355 => Some(&Self::SMOKER),
-            364 => Some(&Self::SMOOTH_BASALT),
-            300 => Some(&Self::SMOOTH_QUARTZ),
-            706 => Some(&Self::SMOOTH_QUARTZ_SLAB),
-            689 => Some(&Self::SMOOTH_QUARTZ_STAIRS),
-            301 => Some(&Self::SMOOTH_RED_SANDSTONE),
-            700 => Some(&Self::SMOOTH_RED_SANDSTONE_SLAB),
-            682 => Some(&Self::SMOOTH_RED_SANDSTONE_STAIRS),
-            302 => Some(&Self::SMOOTH_SANDSTONE),
-            705 => Some(&Self::SMOOTH_SANDSTONE_SLAB),
-            688 => Some(&Self::SMOOTH_SANDSTONE_STAIRS),
-            303 => Some(&Self::SMOOTH_STONE),
-            284 => Some(&Self::SMOOTH_STONE_SLAB),
-            647 => Some(&Self::SNIFFER_EGG),
-            1165 => Some(&Self::SNIFFER_SPAWN_EGG),
-            1467 => Some(&Self::SNORT_POTTERY_SHERD),
-            1435 => Some(&Self::SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE),
-            337 => Some(&Self::SNOW),
-            339 => Some(&Self::SNOW_BLOCK),
-            1168 => Some(&Self::SNOW_GOLEM_SPAWN_EGG),
-            1016 => Some(&Self::SNOWBALL),
-            1376 => Some(&Self::SOUL_CAMPFIRE),
-            1364 => Some(&Self::SOUL_LANTERN),
-            360 => Some(&Self::SOUL_SAND),
-            361 => Some(&Self::SOUL_SOIL),
-            365 => Some(&Self::SOUL_TORCH),
-            329 => Some(&Self::SPAWNER),
-            1292 => Some(&Self::SPECTRAL_ARROW),
-            1122 => Some(&Self::SPIDER_EYE),
-            1187 => Some(&Self::SPIDER_SPAWN_EGG),
-            1437 => Some(&Self::SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1291 => Some(&Self::SPLASH_POTION),
+            1378 => Some(&Self::SHROOMLIGHT),
+            582 => Some(&Self::SHULKER_BOX),
+            1305 => Some(&Self::SHULKER_SHELL),
+            1217 => Some(&Self::SHULKER_SPAWN_EGG),
+            1441 => Some(&Self::SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1195 => Some(&Self::SILVERFISH_SPAWN_EGG),
+            1179 => Some(&Self::SKELETON_HORSE_SPAWN_EGG),
+            1234 => Some(&Self::SKELETON_SKULL),
+            1178 => Some(&Self::SKELETON_SPAWN_EGG),
+            1345 => Some(&Self::SKULL_BANNER_PATTERN),
+            1467 => Some(&Self::SKULL_POTTERY_SHERD),
+            1031 => Some(&Self::SLIME_BALL),
+            725 => Some(&Self::SLIME_BLOCK),
+            1196 => Some(&Self::SLIME_SPAWN_EGG),
+            1416 => Some(&Self::SMALL_AMETHYST_BUD),
+            269 => Some(&Self::SMALL_DRIPLEAF),
+            1361 => Some(&Self::SMITHING_TABLE),
+            1356 => Some(&Self::SMOKER),
+            365 => Some(&Self::SMOOTH_BASALT),
+            301 => Some(&Self::SMOOTH_QUARTZ),
+            707 => Some(&Self::SMOOTH_QUARTZ_SLAB),
+            690 => Some(&Self::SMOOTH_QUARTZ_STAIRS),
+            302 => Some(&Self::SMOOTH_RED_SANDSTONE),
+            701 => Some(&Self::SMOOTH_RED_SANDSTONE_SLAB),
+            683 => Some(&Self::SMOOTH_RED_SANDSTONE_STAIRS),
+            303 => Some(&Self::SMOOTH_SANDSTONE),
+            706 => Some(&Self::SMOOTH_SANDSTONE_SLAB),
+            689 => Some(&Self::SMOOTH_SANDSTONE_STAIRS),
+            304 => Some(&Self::SMOOTH_STONE),
+            285 => Some(&Self::SMOOTH_STONE_SLAB),
+            648 => Some(&Self::SNIFFER_EGG),
+            1166 => Some(&Self::SNIFFER_SPAWN_EGG),
+            1468 => Some(&Self::SNORT_POTTERY_SHERD),
+            1436 => Some(&Self::SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE),
+            338 => Some(&Self::SNOW),
+            340 => Some(&Self::SNOW_BLOCK),
+            1169 => Some(&Self::SNOW_GOLEM_SPAWN_EGG),
+            1017 => Some(&Self::SNOWBALL),
+            1377 => Some(&Self::SOUL_CAMPFIRE),
+            1365 => Some(&Self::SOUL_LANTERN),
+            361 => Some(&Self::SOUL_SAND),
+            362 => Some(&Self::SOUL_SOIL),
+            366 => Some(&Self::SOUL_TORCH),
+            330 => Some(&Self::SPAWNER),
+            1293 => Some(&Self::SPECTRAL_ARROW),
+            1123 => Some(&Self::SPIDER_EYE),
+            1188 => Some(&Self::SPIDER_SPAWN_EGG),
+            1438 => Some(&Self::SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1292 => Some(&Self::SPLASH_POTION),
             193 => Some(&Self::SPONGE),
-            246 => Some(&Self::SPORE_BLOSSOM),
-            865 => Some(&Self::SPRUCE_BOAT),
-            752 => Some(&Self::SPRUCE_BUTTON),
-            866 => Some(&Self::SPRUCE_CHEST_BOAT),
-            781 => Some(&Self::SPRUCE_DOOR),
-            345 => Some(&Self::SPRUCE_FENCE),
-            822 => Some(&Self::SPRUCE_FENCE_GATE),
-            1001 => Some(&Self::SPRUCE_HANGING_SIGN),
+            247 => Some(&Self::SPORE_BLOSSOM),
+            866 => Some(&Self::SPRUCE_BOAT),
+            753 => Some(&Self::SPRUCE_BUTTON),
+            867 => Some(&Self::SPRUCE_CHEST_BOAT),
+            782 => Some(&Self::SPRUCE_DOOR),
+            346 => Some(&Self::SPRUCE_FENCE),
+            823 => Some(&Self::SPRUCE_FENCE_GATE),
+            1002 => Some(&Self::SPRUCE_HANGING_SIGN),
             183 => Some(&Self::SPRUCE_LEAVES),
             135 => Some(&Self::SPRUCE_LOG),
             37 => Some(&Self::SPRUCE_PLANKS),
-            768 => Some(&Self::SPRUCE_PRESSURE_PLATE),
+            769 => Some(&Self::SPRUCE_PRESSURE_PLATE),
             50 => Some(&Self::SPRUCE_SAPLING),
-            315 => Some(&Self::SPRUCE_SHELF),
-            989 => Some(&Self::SPRUCE_SIGN),
-            271 => Some(&Self::SPRUCE_SLAB),
-            442 => Some(&Self::SPRUCE_STAIRS),
-            802 => Some(&Self::SPRUCE_TRAPDOOR),
+            316 => Some(&Self::SPRUCE_SHELF),
+            990 => Some(&Self::SPRUCE_SIGN),
+            272 => Some(&Self::SPRUCE_SLAB),
+            443 => Some(&Self::SPRUCE_STAIRS),
+            803 => Some(&Self::SPRUCE_TRAPDOOR),
             172 => Some(&Self::SPRUCE_WOOD),
-            1055 => Some(&Self::SPYGLASS),
-            1159 => Some(&Self::SQUID_SPAWN_EGG),
-            946 => Some(&Self::STICK),
-            723 => Some(&Self::STICKY_PISTON),
+            1056 => Some(&Self::SPYGLASS),
+            1160 => Some(&Self::SQUID_SPAWN_EGG),
+            947 => Some(&Self::STICK),
+            724 => Some(&Self::STICKY_PISTON),
             1 => Some(&Self::STONE),
-            924 => Some(&Self::STONE_AXE),
-            290 => Some(&Self::STONE_BRICK_SLAB),
-            420 => Some(&Self::STONE_BRICK_STAIRS),
-            463 => Some(&Self::STONE_BRICK_WALL),
-            375 => Some(&Self::STONE_BRICKS),
-            749 => Some(&Self::STONE_BUTTON),
-            925 => Some(&Self::STONE_HOE),
-            923 => Some(&Self::STONE_PICKAXE),
-            763 => Some(&Self::STONE_PRESSURE_PLATE),
-            922 => Some(&Self::STONE_SHOVEL),
-            283 => Some(&Self::STONE_SLAB),
-            1297 => Some(&Self::STONE_SPEAR),
-            687 => Some(&Self::STONE_STAIRS),
-            921 => Some(&Self::STONE_SWORD),
-            1361 => Some(&Self::STONECUTTER),
-            1179 => Some(&Self::STRAY_SPAWN_EGG),
-            1210 => Some(&Self::STRIDER_SPAWN_EGG),
-            948 => Some(&Self::STRING),
+            925 => Some(&Self::STONE_AXE),
+            291 => Some(&Self::STONE_BRICK_SLAB),
+            421 => Some(&Self::STONE_BRICK_STAIRS),
+            464 => Some(&Self::STONE_BRICK_WALL),
+            376 => Some(&Self::STONE_BRICKS),
+            750 => Some(&Self::STONE_BUTTON),
+            926 => Some(&Self::STONE_HOE),
+            924 => Some(&Self::STONE_PICKAXE),
+            764 => Some(&Self::STONE_PRESSURE_PLATE),
+            923 => Some(&Self::STONE_SHOVEL),
+            284 => Some(&Self::STONE_SLAB),
+            1298 => Some(&Self::STONE_SPEAR),
+            688 => Some(&Self::STONE_STAIRS),
+            922 => Some(&Self::STONE_SWORD),
+            1362 => Some(&Self::STONECUTTER),
+            1180 => Some(&Self::STRAY_SPAWN_EGG),
+            1211 => Some(&Self::STRIDER_SPAWN_EGG),
+            949 => Some(&Self::STRING),
             152 => Some(&Self::STRIPPED_ACACIA_LOG),
             163 => Some(&Self::STRIPPED_ACACIA_WOOD),
             170 => Some(&Self::STRIPPED_BAMBOO_BLOCK),
@@ -36571,44 +36674,44 @@ impl Item {
             160 => Some(&Self::STRIPPED_SPRUCE_WOOD),
             169 => Some(&Self::STRIPPED_WARPED_HYPHAE),
             158 => Some(&Self::STRIPPED_WARPED_STEM),
-            883 => Some(&Self::STRUCTURE_BLOCK),
-            580 => Some(&Self::STRUCTURE_VOID),
-            1084 => Some(&Self::SUGAR),
-            256 => Some(&Self::SUGAR_CANE),
-            524 => Some(&Self::SUNFLOWER),
+            884 => Some(&Self::STRUCTURE_BLOCK),
+            581 => Some(&Self::STRUCTURE_VOID),
+            1085 => Some(&Self::SUGAR),
+            257 => Some(&Self::SUGAR_CANE),
+            525 => Some(&Self::SUNFLOWER),
             61 => Some(&Self::SUSPICIOUS_GRAVEL),
             60 => Some(&Self::SUSPICIOUS_SAND),
-            1340 => Some(&Self::SUSPICIOUS_STEW),
-            1373 => Some(&Self::SWEET_BERRIES),
-            1024 => Some(&Self::TADPOLE_BUCKET),
-            1160 => Some(&Self::TADPOLE_SPAWN_EGG),
+            1341 => Some(&Self::SUSPICIOUS_STEW),
+            1374 => Some(&Self::SWEET_BERRIES),
+            1025 => Some(&Self::TADPOLE_BUCKET),
+            1161 => Some(&Self::TADPOLE_SPAWN_EGG),
             210 => Some(&Self::TALL_DRY_GRASS),
-            528 => Some(&Self::TALL_GRASS),
-            731 => Some(&Self::TARGET),
-            521 => Some(&Self::TERRACOTTA),
-            885 => Some(&Self::TEST_BLOCK),
-            886 => Some(&Self::TEST_INSTANCE_BLOCK),
-            1434 => Some(&Self::TIDE_ARMOR_TRIM_SMITHING_TEMPLATE),
+            529 => Some(&Self::TALL_GRASS),
+            732 => Some(&Self::TARGET),
+            522 => Some(&Self::TERRACOTTA),
+            886 => Some(&Self::TEST_BLOCK),
+            887 => Some(&Self::TEST_INSTANCE_BLOCK),
+            1435 => Some(&Self::TIDE_ARMOR_TRIM_SMITHING_TEMPLATE),
             196 => Some(&Self::TINTED_GLASS),
-            1293 => Some(&Self::TIPPED_ARROW),
-            746 => Some(&Self::TNT),
-            857 => Some(&Self::TNT_MINECART),
-            322 => Some(&Self::TORCH),
-            244 => Some(&Self::TORCHFLOWER),
-            1285 => Some(&Self::TORCHFLOWER_SEEDS),
-            1303 => Some(&Self::TOTEM_OF_UNDYING),
-            1169 => Some(&Self::TRADER_LLAMA_SPAWN_EGG),
-            745 => Some(&Self::TRAPPED_CHEST),
-            1501 => Some(&Self::TRIAL_KEY),
-            1500 => Some(&Self::TRIAL_SPAWNER),
-            1331 => Some(&Self::TRIDENT),
-            744 => Some(&Self::TRIPWIRE_HOOK),
-            1059 => Some(&Self::TROPICAL_FISH),
-            1022 => Some(&Self::TROPICAL_FISH_BUCKET),
-            1161 => Some(&Self::TROPICAL_FISH_SPAWN_EGG),
-            659 => Some(&Self::TUBE_CORAL),
-            654 => Some(&Self::TUBE_CORAL_BLOCK),
-            669 => Some(&Self::TUBE_CORAL_FAN),
+            1294 => Some(&Self::TIPPED_ARROW),
+            747 => Some(&Self::TNT),
+            858 => Some(&Self::TNT_MINECART),
+            323 => Some(&Self::TORCH),
+            245 => Some(&Self::TORCHFLOWER),
+            1286 => Some(&Self::TORCHFLOWER_SEEDS),
+            1304 => Some(&Self::TOTEM_OF_UNDYING),
+            1170 => Some(&Self::TRADER_LLAMA_SPAWN_EGG),
+            746 => Some(&Self::TRAPPED_CHEST),
+            1502 => Some(&Self::TRIAL_KEY),
+            1501 => Some(&Self::TRIAL_SPAWNER),
+            1332 => Some(&Self::TRIDENT),
+            745 => Some(&Self::TRIPWIRE_HOOK),
+            1060 => Some(&Self::TROPICAL_FISH),
+            1023 => Some(&Self::TROPICAL_FISH_BUCKET),
+            1162 => Some(&Self::TROPICAL_FISH_SPAWN_EGG),
+            660 => Some(&Self::TUBE_CORAL),
+            655 => Some(&Self::TUBE_CORAL_BLOCK),
+            670 => Some(&Self::TUBE_CORAL_FAN),
             12 => Some(&Self::TUFF),
             22 => Some(&Self::TUFF_BRICK_SLAB),
             23 => Some(&Self::TUFF_BRICK_STAIRS),
@@ -36617,177 +36720,177 @@ impl Item {
             13 => Some(&Self::TUFF_SLAB),
             14 => Some(&Self::TUFF_STAIRS),
             15 => Some(&Self::TUFF_WALL),
-            646 => Some(&Self::TURTLE_EGG),
-            887 => Some(&Self::TURTLE_HELMET),
-            888 => Some(&Self::TURTLE_SCUTE),
-            1162 => Some(&Self::TURTLE_SPAWN_EGG),
-            255 => Some(&Self::TWISTING_VINES),
-            1503 => Some(&Self::VAULT),
-            1421 => Some(&Self::VERDANT_FROGLIGHT),
-            1433 => Some(&Self::VEX_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1202 => Some(&Self::VEX_SPAWN_EGG),
-            1170 => Some(&Self::VILLAGER_SPAWN_EGG),
-            1201 => Some(&Self::VINDICATOR_SPAWN_EGG),
-            410 => Some(&Self::VINE),
-            1171 => Some(&Self::WANDERING_TRADER_SPAWN_EGG),
-            1431 => Some(&Self::WARD_ARMOR_TRIM_SMITHING_TEMPLATE),
-            1196 => Some(&Self::WARDEN_SPAWN_EGG),
-            762 => Some(&Self::WARPED_BUTTON),
-            791 => Some(&Self::WARPED_DOOR),
-            355 => Some(&Self::WARPED_FENCE),
-            832 => Some(&Self::WARPED_FENCE_GATE),
-            250 => Some(&Self::WARPED_FUNGUS),
-            860 => Some(&Self::WARPED_FUNGUS_ON_A_STICK),
-            1011 => Some(&Self::WARPED_HANGING_SIGN),
+            647 => Some(&Self::TURTLE_EGG),
+            888 => Some(&Self::TURTLE_HELMET),
+            889 => Some(&Self::TURTLE_SCUTE),
+            1163 => Some(&Self::TURTLE_SPAWN_EGG),
+            256 => Some(&Self::TWISTING_VINES),
+            1504 => Some(&Self::VAULT),
+            1422 => Some(&Self::VERDANT_FROGLIGHT),
+            1434 => Some(&Self::VEX_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1203 => Some(&Self::VEX_SPAWN_EGG),
+            1171 => Some(&Self::VILLAGER_SPAWN_EGG),
+            1202 => Some(&Self::VINDICATOR_SPAWN_EGG),
+            411 => Some(&Self::VINE),
+            1172 => Some(&Self::WANDERING_TRADER_SPAWN_EGG),
+            1432 => Some(&Self::WARD_ARMOR_TRIM_SMITHING_TEMPLATE),
+            1197 => Some(&Self::WARDEN_SPAWN_EGG),
+            763 => Some(&Self::WARPED_BUTTON),
+            792 => Some(&Self::WARPED_DOOR),
+            356 => Some(&Self::WARPED_FENCE),
+            833 => Some(&Self::WARPED_FENCE_GATE),
+            251 => Some(&Self::WARPED_FUNGUS),
+            861 => Some(&Self::WARPED_FUNGUS_ON_A_STICK),
+            1012 => Some(&Self::WARPED_HANGING_SIGN),
             181 => Some(&Self::WARPED_HYPHAE),
             34 => Some(&Self::WARPED_NYLIUM),
             47 => Some(&Self::WARPED_PLANKS),
-            778 => Some(&Self::WARPED_PRESSURE_PLATE),
-            252 => Some(&Self::WARPED_ROOTS),
-            316 => Some(&Self::WARPED_SHELF),
-            999 => Some(&Self::WARPED_SIGN),
-            282 => Some(&Self::WARPED_SLAB),
-            453 => Some(&Self::WARPED_STAIRS),
+            779 => Some(&Self::WARPED_PRESSURE_PLATE),
+            253 => Some(&Self::WARPED_ROOTS),
+            317 => Some(&Self::WARPED_SHELF),
+            1000 => Some(&Self::WARPED_SIGN),
+            283 => Some(&Self::WARPED_SLAB),
+            454 => Some(&Self::WARPED_STAIRS),
             146 => Some(&Self::WARPED_STEM),
-            812 => Some(&Self::WARPED_TRAPDOOR),
-            577 => Some(&Self::WARPED_WART_BLOCK),
-            1013 => Some(&Self::WATER_BUCKET),
+            813 => Some(&Self::WARPED_TRAPDOOR),
+            578 => Some(&Self::WARPED_WART_BLOCK),
+            1014 => Some(&Self::WATER_BUCKET),
             118 => Some(&Self::WAXED_CHISELED_COPPER),
-            395 => Some(&Self::WAXED_COPPER_BARS),
+            396 => Some(&Self::WAXED_COPPER_BARS),
             114 => Some(&Self::WAXED_COPPER_BLOCK),
-            1480 => Some(&Self::WAXED_COPPER_BULB),
-            404 => Some(&Self::WAXED_COPPER_CHAIN),
-            1488 => Some(&Self::WAXED_COPPER_CHEST),
-            796 => Some(&Self::WAXED_COPPER_DOOR),
-            1496 => Some(&Self::WAXED_COPPER_GOLEM_STATUE),
-            1472 => Some(&Self::WAXED_COPPER_GRATE),
-            1369 => Some(&Self::WAXED_COPPER_LANTERN),
-            817 => Some(&Self::WAXED_COPPER_TRAPDOOR),
+            1481 => Some(&Self::WAXED_COPPER_BULB),
+            405 => Some(&Self::WAXED_COPPER_CHAIN),
+            1489 => Some(&Self::WAXED_COPPER_CHEST),
+            797 => Some(&Self::WAXED_COPPER_DOOR),
+            1497 => Some(&Self::WAXED_COPPER_GOLEM_STATUE),
+            1473 => Some(&Self::WAXED_COPPER_GRATE),
+            1370 => Some(&Self::WAXED_COPPER_LANTERN),
+            818 => Some(&Self::WAXED_COPPER_TRAPDOOR),
             122 => Some(&Self::WAXED_CUT_COPPER),
             130 => Some(&Self::WAXED_CUT_COPPER_SLAB),
             126 => Some(&Self::WAXED_CUT_COPPER_STAIRS),
             119 => Some(&Self::WAXED_EXPOSED_CHISELED_COPPER),
             115 => Some(&Self::WAXED_EXPOSED_COPPER),
-            396 => Some(&Self::WAXED_EXPOSED_COPPER_BARS),
-            1481 => Some(&Self::WAXED_EXPOSED_COPPER_BULB),
-            405 => Some(&Self::WAXED_EXPOSED_COPPER_CHAIN),
-            1489 => Some(&Self::WAXED_EXPOSED_COPPER_CHEST),
-            797 => Some(&Self::WAXED_EXPOSED_COPPER_DOOR),
-            1497 => Some(&Self::WAXED_EXPOSED_COPPER_GOLEM_STATUE),
-            1473 => Some(&Self::WAXED_EXPOSED_COPPER_GRATE),
-            1370 => Some(&Self::WAXED_EXPOSED_COPPER_LANTERN),
-            818 => Some(&Self::WAXED_EXPOSED_COPPER_TRAPDOOR),
+            397 => Some(&Self::WAXED_EXPOSED_COPPER_BARS),
+            1482 => Some(&Self::WAXED_EXPOSED_COPPER_BULB),
+            406 => Some(&Self::WAXED_EXPOSED_COPPER_CHAIN),
+            1490 => Some(&Self::WAXED_EXPOSED_COPPER_CHEST),
+            798 => Some(&Self::WAXED_EXPOSED_COPPER_DOOR),
+            1498 => Some(&Self::WAXED_EXPOSED_COPPER_GOLEM_STATUE),
+            1474 => Some(&Self::WAXED_EXPOSED_COPPER_GRATE),
+            1371 => Some(&Self::WAXED_EXPOSED_COPPER_LANTERN),
+            819 => Some(&Self::WAXED_EXPOSED_COPPER_TRAPDOOR),
             123 => Some(&Self::WAXED_EXPOSED_CUT_COPPER),
             131 => Some(&Self::WAXED_EXPOSED_CUT_COPPER_SLAB),
             127 => Some(&Self::WAXED_EXPOSED_CUT_COPPER_STAIRS),
-            738 => Some(&Self::WAXED_EXPOSED_LIGHTNING_ROD),
-            737 => Some(&Self::WAXED_LIGHTNING_ROD),
+            739 => Some(&Self::WAXED_EXPOSED_LIGHTNING_ROD),
+            738 => Some(&Self::WAXED_LIGHTNING_ROD),
             121 => Some(&Self::WAXED_OXIDIZED_CHISELED_COPPER),
             117 => Some(&Self::WAXED_OXIDIZED_COPPER),
-            398 => Some(&Self::WAXED_OXIDIZED_COPPER_BARS),
-            1483 => Some(&Self::WAXED_OXIDIZED_COPPER_BULB),
-            407 => Some(&Self::WAXED_OXIDIZED_COPPER_CHAIN),
-            1491 => Some(&Self::WAXED_OXIDIZED_COPPER_CHEST),
-            799 => Some(&Self::WAXED_OXIDIZED_COPPER_DOOR),
-            1499 => Some(&Self::WAXED_OXIDIZED_COPPER_GOLEM_STATUE),
-            1475 => Some(&Self::WAXED_OXIDIZED_COPPER_GRATE),
-            1372 => Some(&Self::WAXED_OXIDIZED_COPPER_LANTERN),
-            820 => Some(&Self::WAXED_OXIDIZED_COPPER_TRAPDOOR),
+            399 => Some(&Self::WAXED_OXIDIZED_COPPER_BARS),
+            1484 => Some(&Self::WAXED_OXIDIZED_COPPER_BULB),
+            408 => Some(&Self::WAXED_OXIDIZED_COPPER_CHAIN),
+            1492 => Some(&Self::WAXED_OXIDIZED_COPPER_CHEST),
+            800 => Some(&Self::WAXED_OXIDIZED_COPPER_DOOR),
+            1500 => Some(&Self::WAXED_OXIDIZED_COPPER_GOLEM_STATUE),
+            1476 => Some(&Self::WAXED_OXIDIZED_COPPER_GRATE),
+            1373 => Some(&Self::WAXED_OXIDIZED_COPPER_LANTERN),
+            821 => Some(&Self::WAXED_OXIDIZED_COPPER_TRAPDOOR),
             125 => Some(&Self::WAXED_OXIDIZED_CUT_COPPER),
             133 => Some(&Self::WAXED_OXIDIZED_CUT_COPPER_SLAB),
             129 => Some(&Self::WAXED_OXIDIZED_CUT_COPPER_STAIRS),
-            740 => Some(&Self::WAXED_OXIDIZED_LIGHTNING_ROD),
+            741 => Some(&Self::WAXED_OXIDIZED_LIGHTNING_ROD),
             120 => Some(&Self::WAXED_WEATHERED_CHISELED_COPPER),
             116 => Some(&Self::WAXED_WEATHERED_COPPER),
-            397 => Some(&Self::WAXED_WEATHERED_COPPER_BARS),
-            1482 => Some(&Self::WAXED_WEATHERED_COPPER_BULB),
-            406 => Some(&Self::WAXED_WEATHERED_COPPER_CHAIN),
-            1490 => Some(&Self::WAXED_WEATHERED_COPPER_CHEST),
-            798 => Some(&Self::WAXED_WEATHERED_COPPER_DOOR),
-            1498 => Some(&Self::WAXED_WEATHERED_COPPER_GOLEM_STATUE),
-            1474 => Some(&Self::WAXED_WEATHERED_COPPER_GRATE),
-            1371 => Some(&Self::WAXED_WEATHERED_COPPER_LANTERN),
-            819 => Some(&Self::WAXED_WEATHERED_COPPER_TRAPDOOR),
+            398 => Some(&Self::WAXED_WEATHERED_COPPER_BARS),
+            1483 => Some(&Self::WAXED_WEATHERED_COPPER_BULB),
+            407 => Some(&Self::WAXED_WEATHERED_COPPER_CHAIN),
+            1491 => Some(&Self::WAXED_WEATHERED_COPPER_CHEST),
+            799 => Some(&Self::WAXED_WEATHERED_COPPER_DOOR),
+            1499 => Some(&Self::WAXED_WEATHERED_COPPER_GOLEM_STATUE),
+            1475 => Some(&Self::WAXED_WEATHERED_COPPER_GRATE),
+            1372 => Some(&Self::WAXED_WEATHERED_COPPER_LANTERN),
+            820 => Some(&Self::WAXED_WEATHERED_COPPER_TRAPDOOR),
             124 => Some(&Self::WAXED_WEATHERED_CUT_COPPER),
             132 => Some(&Self::WAXED_WEATHERED_CUT_COPPER_SLAB),
             128 => Some(&Self::WAXED_WEATHERED_CUT_COPPER_STAIRS),
-            739 => Some(&Self::WAXED_WEATHERED_LIGHTNING_ROD),
-            1438 => Some(&Self::WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE),
+            740 => Some(&Self::WAXED_WEATHERED_LIGHTNING_ROD),
+            1439 => Some(&Self::WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE),
             100 => Some(&Self::WEATHERED_CHISELED_COPPER),
             96 => Some(&Self::WEATHERED_COPPER),
-            393 => Some(&Self::WEATHERED_COPPER_BARS),
-            1478 => Some(&Self::WEATHERED_COPPER_BULB),
-            402 => Some(&Self::WEATHERED_COPPER_CHAIN),
-            1486 => Some(&Self::WEATHERED_COPPER_CHEST),
-            794 => Some(&Self::WEATHERED_COPPER_DOOR),
-            1494 => Some(&Self::WEATHERED_COPPER_GOLEM_STATUE),
-            1470 => Some(&Self::WEATHERED_COPPER_GRATE),
-            1367 => Some(&Self::WEATHERED_COPPER_LANTERN),
-            815 => Some(&Self::WEATHERED_COPPER_TRAPDOOR),
+            394 => Some(&Self::WEATHERED_COPPER_BARS),
+            1479 => Some(&Self::WEATHERED_COPPER_BULB),
+            403 => Some(&Self::WEATHERED_COPPER_CHAIN),
+            1487 => Some(&Self::WEATHERED_COPPER_CHEST),
+            795 => Some(&Self::WEATHERED_COPPER_DOOR),
+            1495 => Some(&Self::WEATHERED_COPPER_GOLEM_STATUE),
+            1471 => Some(&Self::WEATHERED_COPPER_GRATE),
+            1368 => Some(&Self::WEATHERED_COPPER_LANTERN),
+            816 => Some(&Self::WEATHERED_COPPER_TRAPDOOR),
             104 => Some(&Self::WEATHERED_CUT_COPPER),
             112 => Some(&Self::WEATHERED_CUT_COPPER_SLAB),
             108 => Some(&Self::WEATHERED_CUT_COPPER_STAIRS),
-            735 => Some(&Self::WEATHERED_LIGHTNING_ROD),
-            254 => Some(&Self::WEEPING_VINES),
+            736 => Some(&Self::WEATHERED_LIGHTNING_ROD),
+            255 => Some(&Self::WEEPING_VINES),
             194 => Some(&Self::WET_SPONGE),
-            952 => Some(&Self::WHEAT),
-            951 => Some(&Self::WHEAT_SEEDS),
-            1266 => Some(&Self::WHITE_BANNER),
-            1086 => Some(&Self::WHITE_BED),
-            1037 => Some(&Self::WHITE_BUNDLE),
-            1399 => Some(&Self::WHITE_CANDLE),
-            505 => Some(&Self::WHITE_CARPET),
-            614 => Some(&Self::WHITE_CONCRETE),
-            630 => Some(&Self::WHITE_CONCRETE_POWDER),
-            1066 => Some(&Self::WHITE_DYE),
-            598 => Some(&Self::WHITE_GLAZED_TERRACOTTA),
-            838 => Some(&Self::WHITE_HARNESS),
-            582 => Some(&Self::WHITE_SHULKER_BOX),
-            530 => Some(&Self::WHITE_STAINED_GLASS),
-            546 => Some(&Self::WHITE_STAINED_GLASS_PANE),
-            486 => Some(&Self::WHITE_TERRACOTTA),
-            238 => Some(&Self::WHITE_TULIP),
+            953 => Some(&Self::WHEAT),
+            952 => Some(&Self::WHEAT_SEEDS),
+            1267 => Some(&Self::WHITE_BANNER),
+            1087 => Some(&Self::WHITE_BED),
+            1038 => Some(&Self::WHITE_BUNDLE),
+            1400 => Some(&Self::WHITE_CANDLE),
+            506 => Some(&Self::WHITE_CARPET),
+            615 => Some(&Self::WHITE_CONCRETE),
+            631 => Some(&Self::WHITE_CONCRETE_POWDER),
+            1067 => Some(&Self::WHITE_DYE),
+            599 => Some(&Self::WHITE_GLAZED_TERRACOTTA),
+            839 => Some(&Self::WHITE_HARNESS),
+            583 => Some(&Self::WHITE_SHULKER_BOX),
+            531 => Some(&Self::WHITE_STAINED_GLASS),
+            547 => Some(&Self::WHITE_STAINED_GLASS_PANE),
+            487 => Some(&Self::WHITE_TERRACOTTA),
+            239 => Some(&Self::WHITE_TULIP),
             213 => Some(&Self::WHITE_WOOL),
-            1430 => Some(&Self::WILD_ARMOR_TRIM_SMITHING_TEMPLATE),
-            259 => Some(&Self::WILDFLOWERS),
-            1219 => Some(&Self::WIND_CHARGE),
-            1197 => Some(&Self::WITCH_SPAWN_EGG),
-            243 => Some(&Self::WITHER_ROSE),
-            1234 => Some(&Self::WITHER_SKELETON_SKULL),
-            1181 => Some(&Self::WITHER_SKELETON_SPAWN_EGG),
-            1180 => Some(&Self::WITHER_SPAWN_EGG),
-            890 => Some(&Self::WOLF_ARMOR),
-            1140 => Some(&Self::WOLF_SPAWN_EGG),
-            914 => Some(&Self::WOODEN_AXE),
-            915 => Some(&Self::WOODEN_HOE),
-            913 => Some(&Self::WOODEN_PICKAXE),
-            912 => Some(&Self::WOODEN_SHOVEL),
-            1296 => Some(&Self::WOODEN_SPEAR),
-            911 => Some(&Self::WOODEN_SWORD),
-            1220 => Some(&Self::WRITABLE_BOOK),
-            1221 => Some(&Self::WRITTEN_BOOK),
-            1270 => Some(&Self::YELLOW_BANNER),
-            1090 => Some(&Self::YELLOW_BED),
-            1041 => Some(&Self::YELLOW_BUNDLE),
-            1403 => Some(&Self::YELLOW_CANDLE),
-            509 => Some(&Self::YELLOW_CARPET),
-            618 => Some(&Self::YELLOW_CONCRETE),
-            634 => Some(&Self::YELLOW_CONCRETE_POWDER),
-            1070 => Some(&Self::YELLOW_DYE),
-            602 => Some(&Self::YELLOW_GLAZED_TERRACOTTA),
-            842 => Some(&Self::YELLOW_HARNESS),
-            586 => Some(&Self::YELLOW_SHULKER_BOX),
-            534 => Some(&Self::YELLOW_STAINED_GLASS),
-            550 => Some(&Self::YELLOW_STAINED_GLASS_PANE),
-            490 => Some(&Self::YELLOW_TERRACOTTA),
+            1431 => Some(&Self::WILD_ARMOR_TRIM_SMITHING_TEMPLATE),
+            260 => Some(&Self::WILDFLOWERS),
+            1220 => Some(&Self::WIND_CHARGE),
+            1198 => Some(&Self::WITCH_SPAWN_EGG),
+            244 => Some(&Self::WITHER_ROSE),
+            1235 => Some(&Self::WITHER_SKELETON_SKULL),
+            1182 => Some(&Self::WITHER_SKELETON_SPAWN_EGG),
+            1181 => Some(&Self::WITHER_SPAWN_EGG),
+            891 => Some(&Self::WOLF_ARMOR),
+            1141 => Some(&Self::WOLF_SPAWN_EGG),
+            915 => Some(&Self::WOODEN_AXE),
+            916 => Some(&Self::WOODEN_HOE),
+            914 => Some(&Self::WOODEN_PICKAXE),
+            913 => Some(&Self::WOODEN_SHOVEL),
+            1297 => Some(&Self::WOODEN_SPEAR),
+            912 => Some(&Self::WOODEN_SWORD),
+            1221 => Some(&Self::WRITABLE_BOOK),
+            1222 => Some(&Self::WRITTEN_BOOK),
+            1271 => Some(&Self::YELLOW_BANNER),
+            1091 => Some(&Self::YELLOW_BED),
+            1042 => Some(&Self::YELLOW_BUNDLE),
+            1404 => Some(&Self::YELLOW_CANDLE),
+            510 => Some(&Self::YELLOW_CARPET),
+            619 => Some(&Self::YELLOW_CONCRETE),
+            635 => Some(&Self::YELLOW_CONCRETE_POWDER),
+            1071 => Some(&Self::YELLOW_DYE),
+            603 => Some(&Self::YELLOW_GLAZED_TERRACOTTA),
+            843 => Some(&Self::YELLOW_HARNESS),
+            587 => Some(&Self::YELLOW_SHULKER_BOX),
+            535 => Some(&Self::YELLOW_STAINED_GLASS),
+            551 => Some(&Self::YELLOW_STAINED_GLASS_PANE),
+            491 => Some(&Self::YELLOW_TERRACOTTA),
             217 => Some(&Self::YELLOW_WOOL),
-            1211 => Some(&Self::ZOGLIN_SPAWN_EGG),
-            1236 => Some(&Self::ZOMBIE_HEAD),
-            1183 => Some(&Self::ZOMBIE_HORSE_SPAWN_EGG),
-            1184 => Some(&Self::ZOMBIE_NAUTILUS_SPAWN_EGG),
-            1182 => Some(&Self::ZOMBIE_SPAWN_EGG),
-            1185 => Some(&Self::ZOMBIE_VILLAGER_SPAWN_EGG),
-            1212 => Some(&Self::ZOMBIFIED_PIGLIN_SPAWN_EGG),
+            1212 => Some(&Self::ZOGLIN_SPAWN_EGG),
+            1237 => Some(&Self::ZOMBIE_HEAD),
+            1184 => Some(&Self::ZOMBIE_HORSE_SPAWN_EGG),
+            1185 => Some(&Self::ZOMBIE_NAUTILUS_SPAWN_EGG),
+            1183 => Some(&Self::ZOMBIE_SPAWN_EGG),
+            1186 => Some(&Self::ZOMBIE_VILLAGER_SPAWN_EGG),
+            1213 => Some(&Self::ZOMBIFIED_PIGLIN_SPAWN_EGG),
             _ => None,
         }
     }

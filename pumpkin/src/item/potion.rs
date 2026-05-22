@@ -1,7 +1,7 @@
 use crate::entity::EntityBase;
 use crate::entity::living::LivingEntity;
 use pumpkin_data::effect::StatusEffect;
-use pumpkin_world::item::ItemStack;
+use pumpkin_data::item_stack::ItemStack;
 
 /// Utilities for reading potion contents from an `ItemStack` and applying effects.
 pub struct PotionContents;
@@ -137,7 +137,7 @@ impl PotionContents {
                 // Apply instant effects logic directly as they don't tick
                 if effect_type.id == pumpkin_data::effect::StatusEffect::INSTANT_HEALTH.id {
                     let amount = (4 * ((amplifier as i32) + 1)) as f32 * instant_scale;
-                    target.heal(amount).await;
+                    target.heal(amount);
                 } else if effect_type.id == pumpkin_data::effect::StatusEffect::INSTANT_DAMAGE.id {
                     let amount = (6 * ((amplifier as i32) + 1)) as f32 * instant_scale;
 

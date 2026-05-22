@@ -48,9 +48,9 @@ and customizable experience. It prioritizes performance and player enjoyment whi
   - [x] Lighting
   - [x] Entity Spawning
   - [x] Bossbar
-  - [x] Chunk Loading (Vanilla, Linear)
+  - [x] Chunk Loading (Vanilla, Linear, Pump)
   - [Chunk Generation](https://github.com/Pumpkin-MC/Pumpkin/issues/36)
-  - [x] Chunk Saving (Vanilla, Linear)
+  - [x] Chunk Saving (Vanilla, Linear, Pump)
   - [Redstone](https://github.com/Pumpkin-MC/Pumpkin/issues/1402)
   - [x] Liquid Physics
   - ...
@@ -74,9 +74,8 @@ and customizable experience. It prioritizes performance and player enjoyment whi
   - [x] Mobs (W.I.P)
   - [x] Animals (W.I.P)
   - [Entity AI](https://github.com/Pumpkin-MC/Pumpkin/issues/1406)
-  - [ ] Boss
+  - [x] Boss
   - [ ] Villagers
-  - [ ] Mobs Inventory
   - [X] Entity Saving
 - Server
   - [Plugins](https://github.com/Pumpkin-MC/Pumpkin/issues/1407)
@@ -112,4 +111,4 @@ Consider joining [our Discord server](https://discord.gg/pumpkinmc) to stay up-t
 
 ## Funding
 
-If you want to fund me and help the project, check out my [GitHub sponsors](https://github.com/sponsors/Snowiiii).
+If you want to fund me and help the project, check out my [GitHub sponsors](https://github.com/sponsors/Pumpkin-MC).

@@ -67,6 +67,14 @@ impl StatusEffect {
         translation_key: "effect.minecraft.blindness",
         attribute_modifiers: &[],
     };
+    pub const BREATH_OF_THE_NAUTILUS: Self = Self {
+        minecraft_name: "minecraft:breath_of_the_nautilus",
+        id: 39u8,
+        category: MobEffectCategory::Beneficial,
+        color: 65518i32,
+        translation_key: "effect.minecraft.breath_of_the_nautilus",
+        attribute_modifiers: &[],
+    };
     pub const CONDUIT_POWER: Self = Self {
         minecraft_name: "minecraft:conduit_power",
         id: 28u8,
@@ -410,11 +418,13 @@ impl StatusEffect {
         translation_key: "effect.minecraft.wither",
         attribute_modifiers: &[],
     };
+    #[must_use]
     pub fn from_name(name: &str) -> Option<&'static Self> {
         match name {
             "absorption" => Some(&Self::ABSORPTION),
             "bad_omen" => Some(&Self::BAD_OMEN),
             "blindness" => Some(&Self::BLINDNESS),
+            "breath_of_the_nautilus" => Some(&Self::BREATH_OF_THE_NAUTILUS),
             "conduit_power" => Some(&Self::CONDUIT_POWER),
             "darkness" => Some(&Self::DARKNESS),
             "dolphins_grace" => Some(&Self::DOLPHINS_GRACE),
@@ -454,11 +464,13 @@ impl StatusEffect {
             _ => None,
         }
     }
+    #[must_use]
     pub fn from_minecraft_name(name: &str) -> Option<&'static Self> {
         match name {
             "minecraft:absorption" => Some(&Self::ABSORPTION),
             "minecraft:bad_omen" => Some(&Self::BAD_OMEN),
             "minecraft:blindness" => Some(&Self::BLINDNESS),
+            "minecraft:breath_of_the_nautilus" => Some(&Self::BREATH_OF_THE_NAUTILUS),
             "minecraft:conduit_power" => Some(&Self::CONDUIT_POWER),
             "minecraft:darkness" => Some(&Self::DARKNESS),
             "minecraft:dolphins_grace" => Some(&Self::DOLPHINS_GRACE),
@@ -500,14 +512,17 @@ impl StatusEffect {
     }
 }
 impl IDSetContent for StatusEffect {
+    
     fn registry_id(&self) -> u16 {
         self.id as u16
     }
+    
     fn from_id(id: u16) -> Option<&'static Self> {
         match id {
             21u16 => Some(&Self::ABSORPTION),
             30u16 => Some(&Self::BAD_OMEN),
             14u16 => Some(&Self::BLINDNESS),
+            39u16 => Some(&Self::BREATH_OF_THE_NAUTILUS),
             28u16 => Some(&Self::CONDUIT_POWER),
             32u16 => Some(&Self::DARKNESS),
             29u16 => Some(&Self::DOLPHINS_GRACE),
@@ -547,9 +562,11 @@ impl IDSetContent for StatusEffect {
             _ => None,
         }
     }
+    
     fn from_str(name: &str) -> Option<&'static Self> {
-        StatusEffect::from_minecraft_name(name)
+        Self::from_minecraft_name(name)
     }
+    
     fn to_string(&self) -> String {
         self.minecraft_name.to_string()
     }

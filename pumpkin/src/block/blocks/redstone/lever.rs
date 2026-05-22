@@ -7,7 +7,7 @@ use crate::block::{
 };
 use pumpkin_data::{
     Block, BlockDirection, HorizontalFacingExt,
-    block_properties::{BlockFace, BlockProperties, LeverLikeProperties},
+    block_properties::{AttachFace, BlockProperties, LeverLikeProperties},
 };
 use pumpkin_macros::pumpkin_block;
 use pumpkin_util::math::position::BlockPos;
@@ -22,7 +22,7 @@ use crate::{
 };
 
 async fn toggle_lever(world: &Arc<World>, block_pos: &BlockPos) {
-    let (block, state) = world.get_block_and_state_id(block_pos).await;
+    let (block, state) = world.get_block_and_state_id(block_pos);
 
     let mut lever_props = LeverLikeProperties::from_state_id(state, block);
     lever_props.powered = !lever_props.powered;
@@ -102,16 +102,13 @@ impl BlockBehaviour for LeverBlock {
         })
     }
 
-    fn can_place_at<'a>(&'a self, args: CanPlaceAtArgs<'a>) -> BlockFuture<'a, bool> {
-        Box::pin(async move {
-            // Use the provided direction, or fallback to the current state's direction if missing
-            let direction = args
-                .direction
-                .unwrap_or_else(|| self.get_direction(args.state.id, args.block));
+    fn can_place_at(&self, args: CanPlaceAtArgs<'_>) -> bool {
+        // Use the provided direction, or fallback to the current state's direction if missing
+        let direction = args
+            .direction
+            .unwrap_or_else(|| self.get_direction(args.state.id, args.block));
 
-            WallMountedBlock::can_place_at(self, args.block_accessor, args.position, direction)
-                .await
-        })
+        WallMountedBlock::can_place_at(self, args.block_accessor, args.position, direction)
     }
 
     fn get_state_for_neighbor_update<'a>(
@@ -126,9 +123,9 @@ impl WallMountedBlock for LeverBlock {
     fn get_direction(&self, state_id: BlockStateId, block: &Block) -> BlockDirection {
         let props = LeverLikeProperties::from_state_id(state_id, block);
         match props.face {
-            BlockFace::Floor => BlockDirection::Up,
-            BlockFace::Ceiling => BlockDirection::Down,
-            BlockFace::Wall => props.facing.to_block_direction(),
+            AttachFace::Floor => BlockDirection::Up,
+            AttachFace::Ceiling => BlockDirection::Down,
+            AttachFace::Wall => props.facing.to_block_direction(),
         }
     }
 }
@@ -154,9 +151,9 @@ pub trait LeverLikePropertiesExt {
 impl LeverLikePropertiesExt for LeverLikeProperties {
     fn get_direction(&self) -> BlockDirection {
         match self.face {
-            BlockFace::Ceiling => BlockDirection::Down,
-            BlockFace::Floor => BlockDirection::Up,
-            BlockFace::Wall => self.facing.to_block_direction(),
+            AttachFace::Ceiling => BlockDirection::Down,
+            AttachFace::Floor => BlockDirection::Up,
+            AttachFace::Wall => self.facing.to_block_direction(),
         }
     }
 }

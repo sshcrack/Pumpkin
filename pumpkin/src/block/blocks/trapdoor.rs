@@ -4,7 +4,7 @@ use crate::block::{BlockBehaviour, BlockFuture, NormalUseArgs, OnNeighborUpdateA
 use crate::entity::player::Player;
 use crate::world::World;
 use pumpkin_data::BlockDirection;
-use pumpkin_data::block_properties::{BlockHalf, BlockProperties};
+use pumpkin_data::block_properties::{BlockProperties, Half};
 use pumpkin_data::sound::{Sound, SoundCategory};
 use pumpkin_data::tag::Taggable;
 use pumpkin_data::{Block, tag};
@@ -17,18 +17,16 @@ use std::sync::Arc;
 type TrapDoorProperties = pumpkin_data::block_properties::OakTrapdoorLikeProperties;
 
 async fn toggle_trapdoor(player: &Player, world: &Arc<World>, block_pos: &BlockPos) {
-    let (block, block_state) = world.get_block_and_state_id(block_pos).await;
+    let (block, block_state) = world.get_block_and_state_id(block_pos);
     let mut trapdoor_props = TrapDoorProperties::from_state_id(block_state, block);
     trapdoor_props.open = !trapdoor_props.open;
 
-    world
-        .play_block_sound_expect(
-            player,
-            get_sound(block, trapdoor_props.open),
-            SoundCategory::Blocks,
-            *block_pos,
-        )
-        .await;
+    world.play_block_sound_expect(
+        player,
+        get_sound(block, trapdoor_props.open),
+        SoundCategory::Blocks,
+        *block_pos,
+    );
 
     world
         .set_block_state(
@@ -98,11 +96,11 @@ impl BlockBehaviour for TrapDoorBlock {
             trapdoor_props.facing = facing;
 
             trapdoor_props.half = match args.direction {
-                BlockDirection::Up => BlockHalf::Top,
-                BlockDirection::Down => BlockHalf::Bottom,
+                BlockDirection::Up => Half::Top,
+                BlockDirection::Down => Half::Bottom,
                 _ => match args.use_item_on.cursor_pos.y {
-                    0.0..0.5 => BlockHalf::Bottom,
-                    _ => BlockHalf::Top,
+                    0.0..0.5 => Half::Bottom,
+                    _ => Half::Top,
                 },
             };
 
@@ -115,7 +113,7 @@ impl BlockBehaviour for TrapDoorBlock {
 
     fn on_neighbor_update<'a>(&'a self, args: OnNeighborUpdateArgs<'a>) -> BlockFuture<'a, ()> {
         Box::pin(async move {
-            let block_state = args.world.get_block_state(args.position).await;
+            let block_state = args.world.get_block_state(args.position);
             let mut trapdoor_props = TrapDoorProperties::from_state_id(block_state.id, args.block);
             let powered = block_receives_redstone_power(args.world, args.position).await;
 
@@ -125,13 +123,11 @@ impl BlockBehaviour for TrapDoorBlock {
                 if powered != trapdoor_props.open {
                     trapdoor_props.open = trapdoor_props.powered;
 
-                    args.world
-                        .play_block_sound(
-                            get_sound(args.block, powered),
-                            SoundCategory::Blocks,
-                            *args.position,
-                        )
-                        .await;
+                    args.world.play_block_sound(
+                        get_sound(args.block, powered),
+                        SoundCategory::Blocks,
+                        *args.position,
+                    );
                 }
             }
 

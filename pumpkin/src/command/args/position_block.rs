@@ -34,9 +34,9 @@ impl ArgumentConsumer for BlockPosArgumentConsumer {
         _server: &'a Server,
         args: &'b mut RawArgs<'a>,
     ) -> ConsumeResult<'a> {
-        let x_str_opt = args.pop();
-        let y_str_opt = args.pop();
-        let z_str_opt = args.pop();
+        let x_str_opt = args.pop().map(|arg| arg.value);
+        let y_str_opt = args.pop().map(|arg| arg.value);
+        let z_str_opt = args.pop().map(|arg| arg.value);
 
         let (Some(x_str), Some(y_str), Some(z_str)) = (x_str_opt, y_str_opt, z_str_opt) else {
             return Box::pin(async move { None });
@@ -157,15 +157,21 @@ impl BlockPosArgumentConsumer {
     ) -> Result<BlockPos, CommandError> {
         let pos = Self::find_arg(args, name)?;
 
-        if world.level.try_get_chunk(&pos.chunk_position()).is_none() {
-            return Err(CommandError::CommandFailed(TextComponent::translate(
+        if world
+            .level
+            .read_chunk_sync(&pos.chunk_position(), |_| ())
+            .is_none()
+        {
+            return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                "argument.pos.unloaded",
                 "argument.pos.unloaded",
                 [],
             )));
         }
 
         if !world.is_in_build_limit(pos) {
-            return Err(CommandError::CommandFailed(TextComponent::translate(
+            return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                "argument.pos.outofworld",
                 "argument.pos.outofworld",
                 [],
             )));
@@ -181,7 +187,8 @@ impl BlockPosArgumentConsumer {
         let pos = Self::find_arg(args, name)?;
 
         if !World::is_valid(pos) {
-            return Err(CommandError::CommandFailed(TextComponent::translate(
+            return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                "argument.pos.outofbounds",
                 "argument.pos.outofbounds",
                 [],
             )));

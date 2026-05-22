@@ -2,28 +2,28 @@ use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 use std::{collections::BTreeMap, fs};
 
-use crate::version::MinecraftVersion;
+use crate::version::JavaMinecraftVersion;
 
 /// The newest protocol version used as the fallback for unknown versions in `TrackedId::get`.
-const LATEST_VERSION: MinecraftVersion = MinecraftVersion::V_1_21_11;
+const LATEST_VERSION: JavaMinecraftVersion = JavaMinecraftVersion::V_26_1;
 
 /// Generates the `TokenStream` for `TrackedId`, `TrackedData`, and all per-entity tracking constants.
 pub(crate) fn build() -> TokenStream {
     let assets = [
-        (MinecraftVersion::V_1_21, "1_21_tracked_data.json"),
-        (MinecraftVersion::V_1_21_2, "1_21_2_tracked_data.json"),
-        (MinecraftVersion::V_1_21_4, "1_21_4_tracked_data.json"),
-        (MinecraftVersion::V_1_21_5, "1_21_5_tracked_data.json"),
-        (MinecraftVersion::V_1_21_6, "1_21_6_tracked_data.json"),
-        (MinecraftVersion::V_1_21_7, "1_21_7_tracked_data.json"),
-        (MinecraftVersion::V_1_21_9, "1_21_9_tracked_data.json"),
-        (MinecraftVersion::V_1_21_11, "1_21_11_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21, "1_21_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_2, "1_21_2_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_4, "1_21_4_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_5, "1_21_5_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_6, "1_21_6_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_7, "1_21_7_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_9, "1_21_9_tracked_data.json"),
+        (JavaMinecraftVersion::V_1_21_11, "1_21_11_tracked_data.json"),
+        (JavaMinecraftVersion::V_26_1, "26_1_tracked_data.json"),
     ];
 
     let mut versions = BTreeMap::new();
     for (ver, file) in assets {
         let path = format!("../assets/tracked_data/{file}");
-        println!("cargo:rerun-if-changed={path}");
 
         let content = fs::read_to_string(&path)
             .unwrap_or_else(|e| panic!("Failed to read JSON file: {path} {e}"));
@@ -37,7 +37,7 @@ pub(crate) fn build() -> TokenStream {
     let constants = generate_consts(&versions);
 
     quote! {
-        use pumpkin_util::version::MinecraftVersion;
+        use pumpkin_util::version::JavaMinecraftVersion;
 
         #tracked_data_struct
 
@@ -50,7 +50,7 @@ pub(crate) fn build() -> TokenStream {
 }
 
 /// Generates the `TrackedId` struct definition with one `u8` field per supported version.
-fn generate_struct<T>(versions: &BTreeMap<MinecraftVersion, T>) -> TokenStream {
+fn generate_struct<T>(versions: &BTreeMap<JavaMinecraftVersion, T>) -> TokenStream {
     // Build struct fields
     let mut struct_fields = TokenStream::new();
     for ver in versions.keys() {
@@ -77,7 +77,7 @@ fn generate_struct<T>(versions: &BTreeMap<MinecraftVersion, T>) -> TokenStream {
         }
 
         impl TrackedId {
-            pub fn get(&self, version: &MinecraftVersion) -> u8 {
+            pub fn get(&self, version: &JavaMinecraftVersion) -> u8 {
                 match version {
                     #match_arms
                     _ => self.#latest_field_ident,
@@ -94,12 +94,24 @@ fn generate_struct<T>(versions: &BTreeMap<MinecraftVersion, T>) -> TokenStream {
 }
 
 /// Generates `TrackedId` constants for every tracked data key present in the latest version.
-fn generate_consts(versions: &BTreeMap<MinecraftVersion, BTreeMap<String, u8>>) -> TokenStream {
+fn generate_consts(versions: &BTreeMap<JavaMinecraftVersion, BTreeMap<String, u8>>) -> TokenStream {
     let mut constants = TokenStream::new();
+    let mut generated_names = std::collections::HashSet::new();
 
     let latest_data = versions.get(&LATEST_VERSION).unwrap();
     for name in latest_data.keys() {
-        let ident = format_ident!("DATA_{}", name.to_uppercase());
+        let name_upper = name.to_uppercase();
+        let final_name = if let Some(stripped) = name_upper.strip_prefix("DATA_") {
+            stripped.to_string()
+        } else {
+            name_upper.to_string()
+        };
+
+        if !generated_names.insert(final_name.clone()) {
+            continue;
+        }
+
+        let ident = format_ident!("{}", final_name);
 
         let mut fields = TokenStream::new();
         for (ver, data) in versions.iter() {

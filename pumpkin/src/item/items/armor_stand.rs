@@ -8,13 +8,13 @@ use crate::item::{ItemBehaviour, ItemMetadata};
 use crate::server::Server;
 use pumpkin_data::entity::EntityType;
 use pumpkin_data::item::Item;
+use pumpkin_data::item_stack::ItemStack;
 use pumpkin_data::sound::{Sound, SoundCategory};
 use pumpkin_data::{Block, BlockDirection};
 use pumpkin_util::math::boundingbox::BoundingBox;
 use pumpkin_util::math::position::BlockPos;
 use pumpkin_util::math::vector3::Vector3;
 use pumpkin_util::math::wrap_degrees;
-use pumpkin_world::item::ItemStack;
 
 pub struct ArmorStandItem;
 
@@ -71,7 +71,7 @@ impl ItemBehaviour for ArmorStandItem {
                 ),
             );
 
-            if world.is_space_empty(bounding_box).await
+            if world.is_space_empty(bounding_box)
                 && world.get_entities_at_box(&bounding_box).is_empty()
             {
                 let (player_yaw, _) = player.rotation();
@@ -81,13 +81,11 @@ impl ItemBehaviour for ArmorStandItem {
 
                 entity.set_rotation(rotation, 0.0);
 
-                world
-                    .play_sound(
-                        Sound::EntityArmorStandPlace,
-                        SoundCategory::Blocks,
-                        &entity.pos.load(),
-                    )
-                    .await;
+                world.play_sound(
+                    Sound::EntityArmorStandPlace,
+                    SoundCategory::Blocks,
+                    &entity.pos.load(),
+                );
 
                 let armor_stand = ArmorStandEntity::new(entity);
 

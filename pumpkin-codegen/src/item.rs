@@ -62,6 +62,13 @@ pub struct ItemComponents {
     pub damage_resistant: Option<DamageResistantComponent>,
     #[serde(rename = "minecraft:weapon")]
     pub weapon: Option<WeaponComponent>,
+    #[serde(rename = "minecraft:enchantable")]
+    pub enchantable: Option<EnchantableComponent>,
+}
+
+#[derive(Deserialize)]
+pub struct EnchantableComponent {
+    pub value: i32,
 }
 
 impl ToTokens for ItemComponents {
@@ -84,6 +91,7 @@ impl ToTokens for ItemComponents {
 
         let TextContent::Translate {
             translate: text,
+            bedrock_translate: _,
             with: _,
         } = *self.item_name.clone().0.content
         else {
@@ -257,29 +265,45 @@ impl ToTokens for ItemComponents {
                 .sound
                 .clone()
                 .unwrap_or("minecraft:entity.generic.eat".to_string());
-            let variant_name = format_ident!("{}", sound_id.strip_prefix("minecraft:").unwrap().to_pascal_case());
-            let effects: Vec<ConsumeEffect> = consumable.on_consume_effects.clone().unwrap_or(vec![]);
+            let variant_name = format_ident!(
+                "{}",
+                sound_id
+                    .strip_prefix("minecraft:")
+                    .unwrap()
+                    .to_pascal_case()
+            );
+            let effects: Vec<ConsumeEffect> =
+                consumable.on_consume_effects.clone().unwrap_or(vec![]);
             let mut effect_tokens = TokenStream::new();
 
             for effect in effects {
                 match effect.r#type.as_str() {
                     "minecraft:clear_all_effects" => {
                         effect_tokens.extend(quote! { ConsumeEffect::ClearAllEffects, });
-                    },
+                    }
                     "minecraft:teleport_randomly" => {
                         let diameter = effect.diameter.unwrap_or(16.);
-                        effect_tokens.extend(quote! { ConsumeEffect::TeleportRandomly(#diameter), });
-                    },
+                        effect_tokens
+                            .extend(quote! { ConsumeEffect::TeleportRandomly(#diameter), });
+                    }
                     "minecraft:play_sound" => {
                         let sound = format_ident!(
                             "{}",
-                            effect.sound.unwrap().strip_prefix("minecraft:").unwrap().to_pascal_case()
+                            effect
+                                .sound
+                                .unwrap()
+                                .strip_prefix("minecraft:")
+                                .unwrap()
+                                .to_pascal_case()
                         );
-                        effect_tokens.extend(quote! { ConsumeEffect::PlaySound(IdOr::Id(Sound::#sound)), });
-                    },
+                        effect_tokens
+                            .extend(quote! { ConsumeEffect::PlaySound(IdOr::Id(Sound::#sound)), });
+                    }
                     "minecraft:apply_effects" => {
                         let probability = effect.probability.unwrap_or(1.);
-                        if let StringOrStatusEffects::Effects(status_effect_instances) = effect.effects.unwrap() {
+                        if let StringOrStatusEffects::Effects(status_effect_instances) =
+                            effect.effects.unwrap()
+                        {
                             let mut status_tokens = TokenStream::new();
 
                             for status in status_effect_instances {
@@ -304,20 +328,23 @@ impl ToTokens for ItemComponents {
                                 ConsumeEffect::ApplyEffects((Cow::Borrowed(&[#status_tokens]), #probability)),
                             });
                         }
-                    },
+                    }
                     "minecraft:remove_effects" => {
                         if let StringOrStatusEffects::String(id) = effect.effects.unwrap() {
                             let effect_id = format_ident!(
                                 "{}",
-                                id.strip_prefix("minecraft:").unwrap().to_pascal_case().to_uppercase()
+                                id.strip_prefix("minecraft:")
+                                    .unwrap()
+                                    .to_pascal_case()
+                                    .to_uppercase()
                             );
 
                             effect_tokens.extend(quote! {
                                 ConsumeEffect::RemoveEffects(IDSet::IDs(Cow::Borrowed(&[&StatusEffect::#effect_id]))),
                             });
                         }
-                    },
-                    _ => println!("Unknown CustomEffect type: {}", effect.r#type)
+                    }
+                    _ => println!("Unknown CustomEffect type: {}", effect.r#type),
                 }
             }
 
@@ -339,7 +366,10 @@ impl ToTokens for ItemComponents {
         }
 
         if let Some(weapon) = &self.weapon {
-            let damage = LitInt::new(&weapon.item_damage_per_attack.to_string(), Span::call_site());
+            let damage = LitInt::new(
+                &weapon.item_damage_per_attack.to_string(),
+                Span::call_site(),
+            );
             tokens.extend(quote! { (Weapon, &WeaponImpl { item_damage_per_attack: #damage }), });
         }
 
@@ -460,7 +490,8 @@ impl ToTokens for ItemComponents {
                 .equip_sound
                 .as_ref()
                 .map(|s| {
-                    let variant_name = format_ident!("{}", s.strip_prefix("minecraft:").unwrap().to_pascal_case());
+                    let variant_name =
+                        format_ident!("{}", s.strip_prefix("minecraft:").unwrap().to_pascal_case());
                     quote! { IdOr::Id(Sound::#variant_name) }
                 })
                 .unwrap_or(quote! { IdOr::Id(Sound::ItemArmorEquipGeneric) });
@@ -499,7 +530,7 @@ impl ToTokens for ItemComponents {
                                 IDSet::IDs(Cow::Borrowed(&[&crate::entity_type::EntityType::#ident]))
                             });
                         }
-                    },
+                    }
                     StringOrList::List(items) => {
                         let mut ids = TokenStream::new();
                         for x in items {
@@ -513,7 +544,7 @@ impl ToTokens for ItemComponents {
                         allowed_entities.extend(quote! {
                             IDSet::IDs(Cow::Borrowed(&[#ids]))
                         });
-                    },
+                    }
                 }
 
                 entities_option.extend(quote! { Some(#allowed_entities) });
@@ -529,7 +560,8 @@ impl ToTokens for ItemComponents {
                 .shearing_sound
                 .as_ref()
                 .map(|s| {
-                    let variant_name = format_ident!("{}", s.strip_prefix("minecraft:").unwrap().to_pascal_case());
+                    let variant_name =
+                        format_ident!("{}", s.strip_prefix("minecraft:").unwrap().to_pascal_case());
                     quote! { IdOr::Id(Sound::#variant_name) }
                 })
                 .unwrap_or(quote! { IdOr::Id(Sound::ItemShearsSnip) });
@@ -547,6 +579,11 @@ impl ToTokens for ItemComponents {
                 can_be_sheared: #can_be_sheared,
                 shearing_sound: #shearing_sound
             }), });
+        }
+
+        if let Some(enchantable) = &self.enchantable {
+            let value = LitInt::new(&enchantable.value.to_string(), Span::call_site());
+            tokens.extend(quote! { (Enchantable, &EnchantableImpl { value: #value }), });
         }
     }
 }
@@ -637,7 +674,7 @@ pub struct Consumable {
     has_consume_particles: Option<bool>,
     animation: Option<String>,
     sound: Option<String>,
-    on_consume_effects: Option<Vec<ConsumeEffect>>
+    on_consume_effects: Option<Vec<ConsumeEffect>>,
 }
 #[derive(Deserialize, Clone)]
 pub struct ConsumeEffect {
@@ -645,7 +682,7 @@ pub struct ConsumeEffect {
     probability: Option<f32>,
     diameter: Option<f32>,
     sound: Option<String>,
-    effects: Option<StringOrStatusEffects>
+    effects: Option<StringOrStatusEffects>,
 }
 #[derive(Deserialize, Clone)]
 pub struct StatusEffectInstance {
@@ -660,7 +697,7 @@ pub struct StatusEffectInstance {
 #[serde(untagged)]
 pub enum StringOrStatusEffects {
     String(String),
-    Effects(Vec<StatusEffectInstance>)
+    Effects(Vec<StatusEffectInstance>),
 }
 
 /// Deserialized death-protection component (e.g., totem of undying); fields are unimplemented.
@@ -693,7 +730,7 @@ pub struct DamageResistantComponent {
 #[serde(untagged)]
 pub enum StringOrList {
     String(String),
-    List(Vec<String>)
+    List(Vec<String>),
 }
 
 /// Deserialized equippable component describing how an item is worn or equipped.
@@ -759,7 +796,7 @@ pub fn build() -> TokenStream {
         let id_lit = LitInt::new(&item.id.to_string(), Span::call_site());
 
         constants.extend(quote! {
-            pub const #const_ident: Item = Item {
+            pub const #const_ident: Self = Self {
                 id: #id_lit,
                 registry_key: #name,
                 components: &[#components_tokens],
@@ -776,6 +813,7 @@ pub fn build() -> TokenStream {
     }
 
     quote! {
+        #[allow(clippy::wildcard_imports, clippy::enum_glob_use, clippy::too_many_lines)]
         use crate::data_component::DataComponent::*;
         use crate::data_component_impl::*;
         use crate::tag::{RegistryKey, Taggable};
@@ -814,21 +852,18 @@ pub fn build() -> TokenStream {
         impl Item {
             #constants
 
+            #[must_use]
             pub fn translated_name(&self) -> TextComponent {
                 TextComponent::translate(
                     self.components
                         .iter()
-                        .find_map(|(id, data)| if id == &ItemName {
-                            Some(data.as_any().downcast_ref::<ItemNameImpl>().unwrap().name)
-                        } else {
-                            None
-                        }
-                    ).unwrap(),
+                        .find_map(|(id, data)| (id == &ItemName).then(|| data.as_any().downcast_ref::<ItemNameImpl>().unwrap().name)).unwrap(),
                     &[],
                 )
             }
 
             #[doc = "Try to parse an item from a resource location string."]
+            #[must_use]
             pub fn from_registry_key(name: &str) -> Option<&'static Self> {
                 let name = name.strip_prefix("minecraft:").unwrap_or(name);
                 match name {
@@ -838,6 +873,7 @@ pub fn build() -> TokenStream {
             }
 
             #[doc = "Try to parse an item from a raw id."]
+            #[must_use]
             pub const fn from_id(id: u16) -> Option<&'static Self> {
                 match id {
                     #type_from_raw_id_arms

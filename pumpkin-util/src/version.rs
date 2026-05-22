@@ -5,9 +5,9 @@
 /// allowing version comparisons using standard comparison operators.
 ///
 /// `Unknown` is used when a protocol number is not recognized.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize)]
 #[allow(non_camel_case_types)]
-pub enum MinecraftVersion {
+pub enum JavaMinecraftVersion {
     /// 1.7.2: The Update That Changed The World.
     V_1_7_2,
     V_1_7_6,
@@ -74,14 +74,16 @@ pub enum MinecraftVersion {
     V_1_21_7,
     V_1_21_9,
     V_1_21_11,
+    //  26.1: Tiny Takeover
+    V_26_1,
     /// Fallback for unrecognized protocol versions.
     Unknown,
 }
 
-impl MinecraftVersion {
+impl JavaMinecraftVersion {
     /// Returns the network protocol number for this version.
     ///
-    /// Returns `-1` for [`MinecraftVersion::Unknown`].
+    /// Returns `-1` for [`JavaMinecraftVersion::Unknown`].
     #[must_use]
     pub const fn protocol_version(&self) -> i32 {
         match self {
@@ -134,13 +136,14 @@ impl MinecraftVersion {
             Self::V_1_21_7 => 772,
             Self::V_1_21_9 => 773,
             Self::V_1_21_11 => 774,
+            Self::V_26_1 => 775,
             Self::Unknown => -1,
         }
     }
 
     /// Resolves a version from a network protocol number.
     ///
-    /// Returns [`MinecraftVersion::Unknown`] if the protocol is not supported.
+    /// Returns [`JavaMinecraftVersion::Unknown`] if the protocol is not supported.
     #[must_use]
     pub const fn from_protocol(protocol: u32) -> Self {
         match protocol {
@@ -193,12 +196,13 @@ impl MinecraftVersion {
             772 => Self::V_1_21_7,
             773 => Self::V_1_21_9,
             774 => Self::V_1_21_11,
+            775 => Self::V_26_1,
             _ => Self::Unknown,
         }
     }
 }
 
-impl std::fmt::Display for MinecraftVersion {
+impl std::fmt::Display for JavaMinecraftVersion {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::V_1_7_2 => write!(f, "1.7.2"),
@@ -250,6 +254,56 @@ impl std::fmt::Display for MinecraftVersion {
             Self::V_1_21_7 => write!(f, "1.21.7"),
             Self::V_1_21_9 => write!(f, "1.21.9"),
             Self::V_1_21_11 => write!(f, "1.21.11"),
+            Self::V_26_1 => write!(f, "26.1"),
+
+            Self::Unknown => write!(f, "unknown"),
+        }
+    }
+}
+
+/// Represents a specific version of the Minecraft Bedrock Edition protocol.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize)]
+#[allow(non_camel_case_types)]
+pub enum BedrockMinecraftVersion {
+    /// 1.21: Tricky Trials.
+    V_1_21,
+    /// 1.26.20
+    V_1_26_20,
+    /// Fallback for unrecognized protocol versions.
+    Unknown,
+}
+
+impl BedrockMinecraftVersion {
+    /// Returns the network protocol number for this version.
+    ///
+    /// Returns `-1` for [`BedrockMinecraftVersion::Unknown`].
+    #[must_use]
+    pub const fn protocol_version(&self) -> i32 {
+        match self {
+            Self::V_1_21 => 671,
+            Self::V_1_26_20 => 975,
+            Self::Unknown => -1,
+        }
+    }
+
+    /// Resolves a version from a network protocol number.
+    ///
+    /// Returns [`BedrockMinecraftVersion::Unknown`] if the protocol is not supported.
+    #[must_use]
+    pub const fn from_protocol(protocol: u32) -> Self {
+        match protocol {
+            671 => Self::V_1_21,
+            975 => Self::V_1_26_20,
+            _ => Self::Unknown,
+        }
+    }
+}
+
+impl std::fmt::Display for BedrockMinecraftVersion {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::V_1_21 => write!(f, "1.21"),
+            Self::V_1_26_20 => write!(f, "1.26.20"),
             Self::Unknown => write!(f, "unknown"),
         }
     }

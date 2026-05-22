@@ -1,7 +1,8 @@
 /* This file is generated. Do not edit manually. */
 use crate::item::Item;
 use crate::tag::Taggable;
-#[derive(Clone, Debug)]
+use serde::{Deserialize, Serialize};
+#[derive(Clone, Debug, Serialize)]
 pub enum CraftingRecipeTypes {
     CraftingShaped {
         category: RecipeCategoryTypes,
@@ -30,7 +31,7 @@ pub enum CraftingRecipeTypes {
     CraftingSpecial,
 }
 #[allow(dead_code)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub struct CookingRecipe {
     #[doc = r#" Vanilla-compatible recipe ID (e.g., "minecraft:iron_ingot_from_smelting_iron_ore")"#]
     pub recipe_id: &'static str,
@@ -41,14 +42,14 @@ pub struct CookingRecipe {
     pub experience: f32,
     pub result: RecipeResultStruct,
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub enum CookingRecipeType {
     Blasting(CookingRecipe),
     Smelting(CookingRecipe),
     Smoking(CookingRecipe),
     CampfireCooking(CookingRecipe),
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub enum CookingRecipeKind {
     Blasting,
     Smelting,
@@ -56,64 +57,74 @@ pub enum CookingRecipeKind {
     CampfireCooking,
 }
 impl From<&CookingRecipeType> for CookingRecipeKind {
+    
     fn from(recipe_type: &CookingRecipeType) -> Self {
         match recipe_type {
-            CookingRecipeType::Blasting(_) => CookingRecipeKind::Blasting,
-            CookingRecipeType::Smelting(_) => CookingRecipeKind::Smelting,
-            CookingRecipeType::Smoking(_) => CookingRecipeKind::Smoking,
-            CookingRecipeType::CampfireCooking(_) => CookingRecipeKind::CampfireCooking,
+            CookingRecipeType::Blasting(_) => Self::Blasting,
+            CookingRecipeType::Smelting(_) => Self::Smelting,
+            CookingRecipeType::Smoking(_) => Self::Smoking,
+            CookingRecipeType::CampfireCooking(_) => Self::CampfireCooking,
         }
     }
 }
 impl From<CookingRecipeType> for CookingRecipeKind {
+    
     fn from(recipe_type: CookingRecipeType) -> Self {
         match recipe_type {
-            CookingRecipeType::Blasting(_) => CookingRecipeKind::Blasting,
-            CookingRecipeType::Smelting(_) => CookingRecipeKind::Smelting,
-            CookingRecipeType::Smoking(_) => CookingRecipeKind::Smoking,
-            CookingRecipeType::CampfireCooking(_) => CookingRecipeKind::CampfireCooking,
+            CookingRecipeType::Blasting(_) => Self::Blasting,
+            CookingRecipeType::Smelting(_) => Self::Smelting,
+            CookingRecipeType::Smoking(_) => Self::Smoking,
+            CookingRecipeType::CampfireCooking(_) => Self::CampfireCooking,
         }
     }
 }
 impl CookingRecipeKind {
-    pub fn to_type(self, recipe: CookingRecipe) -> CookingRecipeType {
+    #[must_use]
+    pub const fn to_type(self, recipe: CookingRecipe) -> CookingRecipeType {
         match self {
-            CookingRecipeKind::Blasting => CookingRecipeType::Blasting(recipe),
-            CookingRecipeKind::Smelting => CookingRecipeType::Smelting(recipe),
-            CookingRecipeKind::Smoking => CookingRecipeType::Smoking(recipe),
-            CookingRecipeKind::CampfireCooking => CookingRecipeType::CampfireCooking(recipe),
+            Self::Blasting => CookingRecipeType::Blasting(recipe),
+            Self::Smelting => CookingRecipeType::Smelting(recipe),
+            Self::Smoking => CookingRecipeType::Smoking(recipe),
+            Self::CampfireCooking => CookingRecipeType::CampfireCooking(recipe),
         }
     }
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
+pub struct StonecutterRecipe {
+    pub group: Option<&'static str>,
+    pub ingredient: RecipeIngredientTypes,
+    pub result: RecipeResultStruct,
+}
+#[derive(Clone, Debug, Serialize)]
 pub struct RecipeResultStruct {
     pub id: &'static str,
     pub count: u8,
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub enum RecipeIngredientTypes {
     Simple(&'static str),
     Tagged(&'static str),
     OneOf(&'static [&'static str]),
 }
 impl RecipeIngredientTypes {
+    #[must_use]
     pub fn match_item(&self, item: &Item) -> bool {
         match self {
-            RecipeIngredientTypes::Simple(ingredient) => {
+            Self::Simple(ingredient) => {
                 let name = format!("minecraft:{}", item.registry_key);
                 name == *ingredient
             }
-            RecipeIngredientTypes::Tagged(tag) => item
+            Self::Tagged(tag) => item
                 .is_tagged_with(tag)
                 .expect("Crafting recipe used invalid tag"),
-            RecipeIngredientTypes::OneOf(ingredients) => {
+            Self::OneOf(ingredients) => {
                 let name = format!("minecraft:{}", item.registry_key);
                 ingredients.contains(&name.as_str())
             }
         }
     }
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub enum RecipeCategoryTypes {
     Equipment,
     Building,
@@ -226,7 +237,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:acacia_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:acacia_log",
+            "minecraft:acacia_wood",
+            "minecraft:stripped_acacia_log",
+            "minecraft:stripped_acacia_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:acacia_planks",
             count: 4u8,
@@ -600,7 +616,10 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:bamboo_blocks")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:bamboo_block",
+            "minecraft:stripped_bamboo_block",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:bamboo_planks",
             count: 2u8,
@@ -712,10 +731,39 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('P', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'P',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             (
                 'S',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_slabs"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_slab",
+                    "minecraft:spruce_slab",
+                    "minecraft:birch_slab",
+                    "minecraft:jungle_slab",
+                    "minecraft:acacia_slab",
+                    "minecraft:dark_oak_slab",
+                    "minecraft:pale_oak_slab",
+                    "minecraft:crimson_slab",
+                    "minecraft:warped_slab",
+                    "minecraft:mangrove_slab",
+                    "minecraft:bamboo_slab",
+                    "minecraft:cherry_slab",
+                ]),
             ),
         ],
         pattern: &["PSP", "P P", "PSP"],
@@ -745,7 +793,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('H', RecipeIngredientTypes::Simple("minecraft:honeycomb")),
-            ('P', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'P',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["PPP", "HHH", "PPP"],
         result: RecipeResultStruct {
@@ -861,7 +925,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:birch_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:birch_log",
+            "minecraft:birch_wood",
+            "minecraft:stripped_birch_log",
+            "minecraft:stripped_birch_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:birch_planks",
             count: 4u8,
@@ -970,7 +1039,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:black_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -981,7 +1066,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:black_dye"),
         result: RecipeResultStruct {
             id: "minecraft:black_bundle",
@@ -1066,7 +1169,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:black_dye"),
         result: RecipeResultStruct {
             id: "minecraft:black_shulker_box",
@@ -1206,7 +1327,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:blue_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -1217,7 +1354,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:blue_dye"),
         result: RecipeResultStruct {
             id: "minecraft:blue_bundle",
@@ -1321,7 +1476,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:blue_dye"),
         result: RecipeResultStruct {
             id: "minecraft:blue_shulker_box",
@@ -1456,7 +1629,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('X', RecipeIngredientTypes::Simple("minecraft:book")),
         ],
         pattern: &["###", "XXX", "###"],
@@ -1495,7 +1684,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         category: RecipeCategoryTypes::Misc,
         group: None,
         show_notification: true,
-        key: &[('#', RecipeIngredientTypes::Tagged("#minecraft:planks"))],
+        key: &[(
+            '#',
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:oak_planks",
+                "minecraft:spruce_planks",
+                "minecraft:birch_planks",
+                "minecraft:jungle_planks",
+                "minecraft:acacia_planks",
+                "minecraft:dark_oak_planks",
+                "minecraft:pale_oak_planks",
+                "minecraft:crimson_planks",
+                "minecraft:warped_planks",
+                "minecraft:mangrove_planks",
+                "minecraft:bamboo_planks",
+                "minecraft:cherry_planks",
+            ]),
+        )],
         pattern: &["# #", " # "],
         result: RecipeResultStruct {
             id: "minecraft:bowl",
@@ -1520,7 +1725,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         key: &[
             (
                 '#',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_crafting_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
             ('B', RecipeIngredientTypes::Simple("minecraft:blaze_rod")),
         ],
@@ -1594,7 +1803,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:brown_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -1605,7 +1830,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:brown_dye"),
         result: RecipeResultStruct {
             id: "minecraft:brown_bundle",
@@ -1681,7 +1924,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:brown_dye"),
         result: RecipeResultStruct {
             id: "minecraft:brown_shulker_box",
@@ -1792,7 +2053,14 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('A', RecipeIngredientTypes::Simple("minecraft:milk_bucket")),
             ('B', RecipeIngredientTypes::Simple("minecraft:sugar")),
             ('C', RecipeIngredientTypes::Simple("minecraft:wheat")),
-            ('E', RecipeIngredientTypes::Tagged("#minecraft:eggs")),
+            (
+                'E',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:egg",
+                    "minecraft:blue_egg",
+                    "minecraft:brown_egg",
+                ]),
+            ),
         ],
         pattern: &["AAA", "BEB", "CCC"],
         result: RecipeResultStruct {
@@ -1822,8 +2090,59 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('C', RecipeIngredientTypes::Tagged("#minecraft:coals")),
-            ('L', RecipeIngredientTypes::Tagged("#minecraft:logs")),
+            (
+                'C',
+                RecipeIngredientTypes::OneOf(&["minecraft:coal", "minecraft:charcoal"]),
+            ),
+            (
+                'L',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:dark_oak_log",
+                    "minecraft:dark_oak_wood",
+                    "minecraft:stripped_dark_oak_log",
+                    "minecraft:stripped_dark_oak_wood",
+                    "minecraft:pale_oak_log",
+                    "minecraft:pale_oak_wood",
+                    "minecraft:stripped_pale_oak_log",
+                    "minecraft:stripped_pale_oak_wood",
+                    "minecraft:oak_log",
+                    "minecraft:oak_wood",
+                    "minecraft:stripped_oak_log",
+                    "minecraft:stripped_oak_wood",
+                    "minecraft:acacia_log",
+                    "minecraft:acacia_wood",
+                    "minecraft:stripped_acacia_log",
+                    "minecraft:stripped_acacia_wood",
+                    "minecraft:birch_log",
+                    "minecraft:birch_wood",
+                    "minecraft:stripped_birch_log",
+                    "minecraft:stripped_birch_wood",
+                    "minecraft:jungle_log",
+                    "minecraft:jungle_wood",
+                    "minecraft:stripped_jungle_log",
+                    "minecraft:stripped_jungle_wood",
+                    "minecraft:spruce_log",
+                    "minecraft:spruce_wood",
+                    "minecraft:stripped_spruce_log",
+                    "minecraft:stripped_spruce_wood",
+                    "minecraft:mangrove_log",
+                    "minecraft:mangrove_wood",
+                    "minecraft:stripped_mangrove_log",
+                    "minecraft:stripped_mangrove_wood",
+                    "minecraft:cherry_log",
+                    "minecraft:cherry_wood",
+                    "minecraft:stripped_cherry_log",
+                    "minecraft:stripped_cherry_wood",
+                    "minecraft:crimson_stem",
+                    "minecraft:stripped_crimson_stem",
+                    "minecraft:crimson_hyphae",
+                    "minecraft:stripped_crimson_hyphae",
+                    "minecraft:warped_stem",
+                    "minecraft:stripped_warped_stem",
+                    "minecraft:warped_hyphae",
+                    "minecraft:stripped_warped_hyphae",
+                ]),
+            ),
             ('S', RecipeIngredientTypes::Simple("minecraft:stick")),
         ],
         pattern: &[" S ", "SCS", "LLL"],
@@ -1865,7 +2184,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('@', RecipeIngredientTypes::Simple("minecraft:paper")),
         ],
         pattern: &["@@", "##", "##"],
@@ -1988,7 +2323,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:cherry_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:cherry_log",
+            "minecraft:cherry_wood",
+            "minecraft:stripped_cherry_log",
+            "minecraft:stripped_cherry_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:cherry_planks",
             count: 4u8,
@@ -2096,7 +2436,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         category: RecipeCategoryTypes::Misc,
         group: None,
         show_notification: true,
-        key: &[('#', RecipeIngredientTypes::Tagged("#minecraft:planks"))],
+        key: &[(
+            '#',
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:oak_planks",
+                "minecraft:spruce_planks",
+                "minecraft:birch_planks",
+                "minecraft:jungle_planks",
+                "minecraft:acacia_planks",
+                "minecraft:dark_oak_planks",
+                "minecraft:pale_oak_planks",
+                "minecraft:crimson_planks",
+                "minecraft:warped_planks",
+                "minecraft:mangrove_planks",
+                "minecraft:bamboo_planks",
+                "minecraft:cherry_planks",
+            ]),
+        )],
         pattern: &["###", "# #", "###"],
         result: RecipeResultStruct {
             id: "minecraft:chest",
@@ -2120,10 +2476,39 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_slabs"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_slab",
+                    "minecraft:spruce_slab",
+                    "minecraft:birch_slab",
+                    "minecraft:jungle_slab",
+                    "minecraft:acacia_slab",
+                    "minecraft:dark_oak_slab",
+                    "minecraft:pale_oak_slab",
+                    "minecraft:crimson_slab",
+                    "minecraft:warped_slab",
+                    "minecraft:mangrove_slab",
+                    "minecraft:bamboo_slab",
+                    "minecraft:cherry_slab",
+                ]),
             ),
         ],
         pattern: &["###", "XXX", "###"],
@@ -2470,7 +2855,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[(
             '#',
-            RecipeIngredientTypes::Tagged("#minecraft:wooden_slabs"),
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:oak_slab",
+                "minecraft:spruce_slab",
+                "minecraft:birch_slab",
+                "minecraft:jungle_slab",
+                "minecraft:acacia_slab",
+                "minecraft:dark_oak_slab",
+                "minecraft:pale_oak_slab",
+                "minecraft:crimson_slab",
+                "minecraft:warped_slab",
+                "minecraft:mangrove_slab",
+                "minecraft:bamboo_slab",
+                "minecraft:cherry_slab",
+            ]),
         )],
         pattern: &["# #", "# #", "###"],
         result: RecipeResultStruct {
@@ -2518,10 +2916,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:copper_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:copper_ingot")),
         ],
         pattern: &["XX", "X#", " #"],
         result: RecipeResultStruct {
@@ -2658,10 +3053,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:copper_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:copper_ingot")),
         ],
         pattern: &["XX", " #", " #"],
         result: RecipeResultStruct {
@@ -2746,10 +3138,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:copper_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:copper_ingot")),
         ],
         pattern: &["XXX", " # ", " # "],
         result: RecipeResultStruct {
@@ -2763,10 +3152,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:copper_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:copper_ingot")),
         ],
         pattern: &["X", "#", "#"],
         result: RecipeResultStruct {
@@ -2780,10 +3166,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:copper_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:copper_ingot")),
         ],
         pattern: &["  X", " # ", "#  "],
         result: RecipeResultStruct {
@@ -2797,10 +3180,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:copper_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:copper_ingot")),
         ],
         pattern: &["X", "X", "#"],
         result: RecipeResultStruct {
@@ -2863,7 +3243,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         category: RecipeCategoryTypes::Misc,
         group: None,
         show_notification: false,
-        key: &[('#', RecipeIngredientTypes::Tagged("#minecraft:planks"))],
+        key: &[(
+            '#',
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:oak_planks",
+                "minecraft:spruce_planks",
+                "minecraft:birch_planks",
+                "minecraft:jungle_planks",
+                "minecraft:acacia_planks",
+                "minecraft:dark_oak_planks",
+                "minecraft:pale_oak_planks",
+                "minecraft:crimson_planks",
+                "minecraft:warped_planks",
+                "minecraft:mangrove_planks",
+                "minecraft:bamboo_planks",
+                "minecraft:cherry_planks",
+            ]),
+        )],
         pattern: &["##", "##"],
         result: RecipeResultStruct {
             id: "minecraft:crafting_table",
@@ -2984,7 +3380,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:crimson_stems")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:crimson_stem",
+            "minecraft:stripped_crimson_stem",
+            "minecraft:crimson_hyphae",
+            "minecraft:stripped_crimson_hyphae",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:crimson_planks",
             count: 4u8,
@@ -3202,7 +3603,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:cyan_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -3213,7 +3630,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:cyan_dye"),
         result: RecipeResultStruct {
             id: "minecraft:cyan_bundle",
@@ -3301,7 +3736,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:cyan_dye"),
         result: RecipeResultStruct {
             id: "minecraft:cyan_shulker_box",
@@ -3467,7 +3920,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:dark_oak_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:dark_oak_log",
+            "minecraft:dark_oak_wood",
+            "minecraft:stripped_dark_oak_log",
+            "minecraft:stripped_dark_oak_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:dark_oak_planks",
             count: 4u8,
@@ -3625,7 +4083,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('Q', RecipeIngredientTypes::Simple("minecraft:quartz")),
             (
                 'W',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_slabs"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_slab",
+                    "minecraft:spruce_slab",
+                    "minecraft:birch_slab",
+                    "minecraft:jungle_slab",
+                    "minecraft:acacia_slab",
+                    "minecraft:dark_oak_slab",
+                    "minecraft:pale_oak_slab",
+                    "minecraft:crimson_slab",
+                    "minecraft:warped_slab",
+                    "minecraft:mangrove_slab",
+                    "minecraft:bamboo_slab",
+                    "minecraft:cherry_slab",
+                ]),
             ),
         ],
         pattern: &["GGG", "QQQ", "WWW"],
@@ -3695,10 +4166,10 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[(
-            'S',
+            '#',
             RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
         )],
-        pattern: &["SS", "SS"],
+        pattern: &["##", "##"],
         result: RecipeResultStruct {
             id: "minecraft:deepslate_bricks",
             count: 4u8,
@@ -3751,10 +4222,10 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[(
-            'S',
+            '#',
             RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
         )],
-        pattern: &["SS", "SS"],
+        pattern: &["##", "##"],
         result: RecipeResultStruct {
             id: "minecraft:deepslate_tiles",
             count: 4u8,
@@ -3793,10 +4264,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:diamond_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["XX", "X#", " #"],
         result: RecipeResultStruct {
@@ -3854,10 +4322,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:diamond_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["XX", " #", " #"],
         result: RecipeResultStruct {
@@ -3882,10 +4347,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:diamond_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["XXX", " # ", " # "],
         result: RecipeResultStruct {
@@ -3899,10 +4361,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:diamond_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["X", "#", "#"],
         result: RecipeResultStruct {
@@ -3916,10 +4375,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:diamond_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["  X", " # ", "#  "],
         result: RecipeResultStruct {
@@ -3933,10 +4389,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:diamond_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["X", "X", "#"],
         result: RecipeResultStruct {
@@ -6199,7 +6652,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('@', RecipeIngredientTypes::Simple("minecraft:flint")),
         ],
         pattern: &["@@", "##", "##"],
@@ -6267,7 +6736,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[(
             '#',
-            RecipeIngredientTypes::Tagged("#minecraft:stone_crafting_materials"),
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:cobblestone",
+                "minecraft:blackstone",
+                "minecraft:cobbled_deepslate",
+            ]),
         )],
         pattern: &["###", "# #", "###"],
         result: RecipeResultStruct {
@@ -6409,10 +6882,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:gold_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:gold_ingot")),
         ],
         pattern: &["XX", "X#", " #"],
         result: RecipeResultStruct {
@@ -6457,6 +6927,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         },
     },
     CraftingRecipeTypes::CraftingShaped {
+        category: RecipeCategoryTypes::Misc,
+        group: None,
+        show_notification: true,
+        key: &[
+            ('#', RecipeIngredientTypes::Simple("minecraft:gold_nugget")),
+            ('I', RecipeIngredientTypes::Simple("minecraft:dandelion")),
+        ],
+        pattern: &["###", "#I#", "###"],
+        result: RecipeResultStruct {
+            id: "minecraft:golden_dandelion",
+            count: 1u8,
+        },
+    },
+    CraftingRecipeTypes::CraftingShaped {
         category: RecipeCategoryTypes::Equipment,
         group: None,
         show_notification: true,
@@ -6473,10 +6957,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:gold_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:gold_ingot")),
         ],
         pattern: &["XX", " #", " #"],
         result: RecipeResultStruct {
@@ -6501,10 +6982,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:gold_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:gold_ingot")),
         ],
         pattern: &["XXX", " # ", " # "],
         result: RecipeResultStruct {
@@ -6518,10 +6996,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:gold_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:gold_ingot")),
         ],
         pattern: &["X", "#", "#"],
         result: RecipeResultStruct {
@@ -6535,10 +7010,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:gold_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:gold_ingot")),
         ],
         pattern: &["  X", " # ", "#  "],
         result: RecipeResultStruct {
@@ -6552,10 +7024,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:gold_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:gold_ingot")),
         ],
         pattern: &["X", "X", "#"],
         result: RecipeResultStruct {
@@ -6628,7 +7097,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:gray_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -6639,7 +7124,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:gray_dye"),
         result: RecipeResultStruct {
             id: "minecraft:gray_bundle",
@@ -6727,7 +7230,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:gray_dye"),
         result: RecipeResultStruct {
             id: "minecraft:gray_shulker_box",
@@ -6810,7 +7331,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:green_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -6821,7 +7358,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:green_dye"),
         result: RecipeResultStruct {
             id: "minecraft:green_bundle",
@@ -6888,7 +7443,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:green_dye"),
         result: RecipeResultStruct {
             id: "minecraft:green_shulker_box",
@@ -6956,7 +7529,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('-', RecipeIngredientTypes::Simple("minecraft:stone_slab")),
             ('I', RecipeIngredientTypes::Simple("minecraft:stick")),
         ],
@@ -7083,10 +7672,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:iron_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["XX", "X#", " #"],
         result: RecipeResultStruct {
@@ -7180,10 +7766,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:iron_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["XX", " #", " #"],
         result: RecipeResultStruct {
@@ -7237,10 +7820,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:iron_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["XXX", " # ", " # "],
         result: RecipeResultStruct {
@@ -7254,10 +7834,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:iron_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["X", "#", "#"],
         result: RecipeResultStruct {
@@ -7271,10 +7848,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:iron_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["  X", " # ", "#  "],
         result: RecipeResultStruct {
@@ -7288,10 +7862,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            (
-                'X',
-                RecipeIngredientTypes::Tagged("#minecraft:iron_tool_materials"),
-            ),
+            ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["X", "X", "#"],
         result: RecipeResultStruct {
@@ -7346,7 +7917,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('X', RecipeIngredientTypes::Simple("minecraft:diamond")),
         ],
         pattern: &["###", "#X#", "###"],
@@ -7458,7 +8045,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:jungle_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:jungle_log",
+            "minecraft:jungle_wood",
+            "minecraft:stripped_jungle_log",
+            "minecraft:stripped_jungle_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:jungle_planks",
             count: 4u8,
@@ -7692,7 +8284,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('B', RecipeIngredientTypes::Simple("minecraft:bookshelf")),
             (
                 'S',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_slabs"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_slab",
+                    "minecraft:spruce_slab",
+                    "minecraft:birch_slab",
+                    "minecraft:jungle_slab",
+                    "minecraft:acacia_slab",
+                    "minecraft:dark_oak_slab",
+                    "minecraft:pale_oak_slab",
+                    "minecraft:crimson_slab",
+                    "minecraft:warped_slab",
+                    "minecraft:mangrove_slab",
+                    "minecraft:bamboo_slab",
+                    "minecraft:cherry_slab",
+                ]),
             ),
         ],
         pattern: &["SSS", " B ", " S "],
@@ -7741,7 +8346,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
                 '#',
                 RecipeIngredientTypes::Simple("minecraft:light_blue_wool"),
             ),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -7752,7 +8373,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:light_blue_dye"),
         result: RecipeResultStruct {
             id: "minecraft:light_blue_bundle",
@@ -7846,7 +8485,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:light_blue_dye"),
         result: RecipeResultStruct {
             id: "minecraft:light_blue_shulker_box",
@@ -7944,7 +8601,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
                 '#',
                 RecipeIngredientTypes::Simple("minecraft:light_gray_wool"),
             ),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -7955,7 +8628,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:light_gray_dye"),
         result: RecipeResultStruct {
             id: "minecraft:light_gray_bundle",
@@ -8080,7 +8771,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:light_gray_dye"),
         result: RecipeResultStruct {
             id: "minecraft:light_gray_shulker_box",
@@ -8194,7 +8903,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:lime_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -8205,7 +8930,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:lime_dye"),
         result: RecipeResultStruct {
             id: "minecraft:lime_bundle",
@@ -8284,7 +9027,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:lime_dye"),
         result: RecipeResultStruct {
             id: "minecraft:lime_shulker_box",
@@ -8369,7 +9130,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('@', RecipeIngredientTypes::Simple("minecraft:string")),
         ],
         pattern: &["@@", "##"],
@@ -8412,7 +9189,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:magenta_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -8423,7 +9216,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:magenta_dye"),
         result: RecipeResultStruct {
             id: "minecraft:magenta_bundle",
@@ -8547,7 +9358,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:magenta_dye"),
         result: RecipeResultStruct {
             id: "minecraft:magenta_shulker_box",
@@ -8736,7 +9565,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:mangrove_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:mangrove_log",
+            "minecraft:mangrove_wood",
+            "minecraft:stripped_mangrove_log",
+            "minecraft:stripped_mangrove_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:mangrove_planks",
             count: 4u8,
@@ -8851,6 +9685,16 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         pattern: &["###", "#X#", "###"],
         result: RecipeResultStruct {
             id: "minecraft:map",
+            count: 1u8,
+        },
+    },
+    CraftingRecipeTypes::CraftingTransmute {
+        category: RecipeCategoryTypes::Misc,
+        group: Some("map_cloning"),
+        input: RecipeIngredientTypes::Simple("minecraft:filled_map"),
+        material: RecipeIngredientTypes::Simple("minecraft:map"),
+        result: RecipeResultStruct {
+            id: "minecraft:filled_map",
             count: 1u8,
         },
     },
@@ -9137,6 +9981,27 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         },
     },
     CraftingRecipeTypes::CraftingShaped {
+        category: RecipeCategoryTypes::Equipment,
+        group: None,
+        show_notification: true,
+        key: &[
+            ('#', RecipeIngredientTypes::Simple("minecraft:paper")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:copper_nugget",
+                    "minecraft:iron_nugget",
+                    "minecraft:gold_nugget",
+                ]),
+            ),
+        ],
+        pattern: &[" X", "# "],
+        result: RecipeResultStruct {
+            id: "minecraft:name_tag",
+            count: 1u8,
+        },
+    },
+    CraftingRecipeTypes::CraftingShaped {
         category: RecipeCategoryTypes::Misc,
         group: None,
         show_notification: true,
@@ -9289,7 +10154,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('X', RecipeIngredientTypes::Simple("minecraft:redstone")),
         ],
         pattern: &["###", "#X#", "###"],
@@ -9389,7 +10270,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:oak_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:oak_log",
+            "minecraft:oak_wood",
+            "minecraft:stripped_oak_log",
+            "minecraft:stripped_oak_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:oak_planks",
             count: 4u8,
@@ -9513,7 +10399,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:orange_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -9524,7 +10426,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:orange_dye"),
         result: RecipeResultStruct {
             id: "minecraft:orange_bundle",
@@ -9630,7 +10550,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:orange_dye"),
         result: RecipeResultStruct {
             id: "minecraft:orange_shulker_box",
@@ -9818,7 +10756,27 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:wool")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:white_wool",
+                    "minecraft:orange_wool",
+                    "minecraft:magenta_wool",
+                    "minecraft:light_blue_wool",
+                    "minecraft:yellow_wool",
+                    "minecraft:lime_wool",
+                    "minecraft:pink_wool",
+                    "minecraft:gray_wool",
+                    "minecraft:light_gray_wool",
+                    "minecraft:cyan_wool",
+                    "minecraft:purple_wool",
+                    "minecraft:blue_wool",
+                    "minecraft:brown_wool",
+                    "minecraft:green_wool",
+                    "minecraft:red_wool",
+                    "minecraft:black_wool",
+                ]),
+            ),
         ],
         pattern: &["###", "#X#", "###"],
         result: RecipeResultStruct {
@@ -9943,7 +10901,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:pale_oak_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:pale_oak_log",
+            "minecraft:pale_oak_wood",
+            "minecraft:stripped_pale_oak_log",
+            "minecraft:stripped_pale_oak_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:pale_oak_planks",
             count: 4u8,
@@ -10078,7 +11041,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:pink_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -10089,7 +11068,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:pink_dye"),
         result: RecipeResultStruct {
             id: "minecraft:pink_bundle",
@@ -10204,7 +11201,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:pink_dye"),
         result: RecipeResultStruct {
             id: "minecraft:pink_shulker_box",
@@ -10274,7 +11289,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:cobblestone")),
             ('R', RecipeIngredientTypes::Simple("minecraft:redstone")),
-            ('T', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'T',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('X', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["TTT", "#X#", "#R#"],
@@ -10391,10 +11422,10 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[(
-            'S',
+            '#',
             RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
         )],
-        pattern: &["SS", "SS"],
+        pattern: &["##", "##"],
         result: RecipeResultStruct {
             id: "minecraft:polished_blackstone_bricks",
             count: 4u8,
@@ -10769,7 +11800,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         ingredients: &[
             RecipeIngredientTypes::Simple("minecraft:pumpkin"),
             RecipeIngredientTypes::Simple("minecraft:sugar"),
-            RecipeIngredientTypes::Tagged("#minecraft:eggs"),
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:egg",
+                "minecraft:blue_egg",
+                "minecraft:brown_egg",
+            ]),
         ],
         result: RecipeResultStruct {
             id: "minecraft:pumpkin_pie",
@@ -10805,7 +11840,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:purple_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -10816,7 +11867,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:purple_dye"),
         result: RecipeResultStruct {
             id: "minecraft:purple_bundle",
@@ -10895,7 +11964,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:purple_dye"),
         result: RecipeResultStruct {
             id: "minecraft:purple_shulker_box",
@@ -11236,7 +12323,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:red_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -11247,7 +12350,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:red_dye"),
         result: RecipeResultStruct {
             id: "minecraft:red_bundle",
@@ -11466,7 +12587,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:red_dye"),
         result: RecipeResultStruct {
             id: "minecraft:red_shulker_box",
@@ -11850,7 +12989,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         key: &[
             (
                 'W',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
             ('o', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
@@ -11935,7 +13087,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('@', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
         ],
         pattern: &["@@", "##", "##"],
@@ -11949,7 +13117,55 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:logs")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:dark_oak_log",
+                    "minecraft:dark_oak_wood",
+                    "minecraft:stripped_dark_oak_log",
+                    "minecraft:stripped_dark_oak_wood",
+                    "minecraft:pale_oak_log",
+                    "minecraft:pale_oak_wood",
+                    "minecraft:stripped_pale_oak_log",
+                    "minecraft:stripped_pale_oak_wood",
+                    "minecraft:oak_log",
+                    "minecraft:oak_wood",
+                    "minecraft:stripped_oak_log",
+                    "minecraft:stripped_oak_wood",
+                    "minecraft:acacia_log",
+                    "minecraft:acacia_wood",
+                    "minecraft:stripped_acacia_log",
+                    "minecraft:stripped_acacia_wood",
+                    "minecraft:birch_log",
+                    "minecraft:birch_wood",
+                    "minecraft:stripped_birch_log",
+                    "minecraft:stripped_birch_wood",
+                    "minecraft:jungle_log",
+                    "minecraft:jungle_wood",
+                    "minecraft:stripped_jungle_log",
+                    "minecraft:stripped_jungle_wood",
+                    "minecraft:spruce_log",
+                    "minecraft:spruce_wood",
+                    "minecraft:stripped_spruce_log",
+                    "minecraft:stripped_spruce_wood",
+                    "minecraft:mangrove_log",
+                    "minecraft:mangrove_wood",
+                    "minecraft:stripped_mangrove_log",
+                    "minecraft:stripped_mangrove_wood",
+                    "minecraft:cherry_log",
+                    "minecraft:cherry_wood",
+                    "minecraft:stripped_cherry_log",
+                    "minecraft:stripped_cherry_wood",
+                    "minecraft:crimson_stem",
+                    "minecraft:stripped_crimson_stem",
+                    "minecraft:crimson_hyphae",
+                    "minecraft:stripped_crimson_hyphae",
+                    "minecraft:warped_stem",
+                    "minecraft:stripped_warped_stem",
+                    "minecraft:warped_hyphae",
+                    "minecraft:stripped_warped_hyphae",
+                ]),
+            ),
             ('X', RecipeIngredientTypes::Simple("minecraft:furnace")),
         ],
         pattern: &[" # ", "#X#", " # "],
@@ -12100,9 +13316,57 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         key: &[
             (
                 '#',
-                RecipeIngredientTypes::Tagged("#minecraft:soul_fire_base_blocks"),
+                RecipeIngredientTypes::OneOf(&["minecraft:soul_sand", "minecraft:soul_soil"]),
             ),
-            ('L', RecipeIngredientTypes::Tagged("#minecraft:logs")),
+            (
+                'L',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:dark_oak_log",
+                    "minecraft:dark_oak_wood",
+                    "minecraft:stripped_dark_oak_log",
+                    "minecraft:stripped_dark_oak_wood",
+                    "minecraft:pale_oak_log",
+                    "minecraft:pale_oak_wood",
+                    "minecraft:stripped_pale_oak_log",
+                    "minecraft:stripped_pale_oak_wood",
+                    "minecraft:oak_log",
+                    "minecraft:oak_wood",
+                    "minecraft:stripped_oak_log",
+                    "minecraft:stripped_oak_wood",
+                    "minecraft:acacia_log",
+                    "minecraft:acacia_wood",
+                    "minecraft:stripped_acacia_log",
+                    "minecraft:stripped_acacia_wood",
+                    "minecraft:birch_log",
+                    "minecraft:birch_wood",
+                    "minecraft:stripped_birch_log",
+                    "minecraft:stripped_birch_wood",
+                    "minecraft:jungle_log",
+                    "minecraft:jungle_wood",
+                    "minecraft:stripped_jungle_log",
+                    "minecraft:stripped_jungle_wood",
+                    "minecraft:spruce_log",
+                    "minecraft:spruce_wood",
+                    "minecraft:stripped_spruce_log",
+                    "minecraft:stripped_spruce_wood",
+                    "minecraft:mangrove_log",
+                    "minecraft:mangrove_wood",
+                    "minecraft:stripped_mangrove_log",
+                    "minecraft:stripped_mangrove_wood",
+                    "minecraft:cherry_log",
+                    "minecraft:cherry_wood",
+                    "minecraft:stripped_cherry_log",
+                    "minecraft:stripped_cherry_wood",
+                    "minecraft:crimson_stem",
+                    "minecraft:stripped_crimson_stem",
+                    "minecraft:crimson_hyphae",
+                    "minecraft:stripped_crimson_hyphae",
+                    "minecraft:warped_stem",
+                    "minecraft:stripped_warped_stem",
+                    "minecraft:warped_hyphae",
+                    "minecraft:stripped_warped_hyphae",
+                ]),
+            ),
             ('S', RecipeIngredientTypes::Simple("minecraft:stick")),
         ],
         pattern: &[" S ", "S#S", "LLL"],
@@ -12133,7 +13397,7 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'S',
-                RecipeIngredientTypes::Tagged("#minecraft:soul_fire_base_blocks"),
+                RecipeIngredientTypes::OneOf(&["minecraft:soul_sand", "minecraft:soul_soil"]),
             ),
             (
                 'X',
@@ -12284,7 +13548,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:spruce_logs")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:spruce_log",
+            "minecraft:spruce_wood",
+            "minecraft:stripped_spruce_log",
+            "minecraft:stripped_spruce_wood",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:spruce_planks",
             count: 4u8,
@@ -12409,7 +13678,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         category: RecipeCategoryTypes::Misc,
         group: Some("sticks"),
         show_notification: true,
-        key: &[('#', RecipeIngredientTypes::Tagged("#minecraft:planks"))],
+        key: &[(
+            '#',
+            RecipeIngredientTypes::OneOf(&[
+                "minecraft:oak_planks",
+                "minecraft:spruce_planks",
+                "minecraft:birch_planks",
+                "minecraft:jungle_planks",
+                "minecraft:acacia_planks",
+                "minecraft:dark_oak_planks",
+                "minecraft:pale_oak_planks",
+                "minecraft:crimson_planks",
+                "minecraft:warped_planks",
+                "minecraft:mangrove_planks",
+                "minecraft:bamboo_planks",
+                "minecraft:cherry_planks",
+            ]),
+        )],
         pattern: &["#", "#"],
         result: RecipeResultStruct {
             id: "minecraft:stick",
@@ -12449,7 +13734,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
         ],
         pattern: &["XX", "X#", " #"],
@@ -12519,7 +13808,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
         ],
         pattern: &["XX", " #", " #"],
@@ -12536,7 +13829,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
         ],
         pattern: &["XXX", " # ", " # "],
@@ -12564,7 +13861,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
         ],
         pattern: &["X", "#", "#"],
@@ -12592,7 +13893,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
         ],
         pattern: &["  X", " # ", "#  "],
@@ -12620,7 +13925,11 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:stone_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:cobblestone",
+                    "minecraft:blackstone",
+                    "minecraft:cobbled_deepslate",
+                ]),
             ),
         ],
         pattern: &["X", "X", "#"],
@@ -12906,6 +14215,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             RecipeIngredientTypes::Simple("minecraft:bowl"),
             RecipeIngredientTypes::Simple("minecraft:brown_mushroom"),
             RecipeIngredientTypes::Simple("minecraft:red_mushroom"),
+            RecipeIngredientTypes::Simple("minecraft:golden_dandelion"),
+        ],
+        result: RecipeResultStruct {
+            id: "minecraft:suspicious_stew",
+            count: 1u8,
+        },
+    },
+    CraftingRecipeTypes::CraftingShapeless {
+        category: RecipeCategoryTypes::Misc,
+        group: Some("suspicious_stew"),
+        ingredients: &[
+            RecipeIngredientTypes::Simple("minecraft:bowl"),
+            RecipeIngredientTypes::Simple("minecraft:brown_mushroom"),
+            RecipeIngredientTypes::Simple("minecraft:red_mushroom"),
             RecipeIngredientTypes::Simple("minecraft:lily_of_the_valley"),
         ],
         result: RecipeResultStruct {
@@ -13151,7 +14474,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[
-            ('#', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                '#',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
             ('I', RecipeIngredientTypes::Simple("minecraft:iron_ingot")),
             ('S', RecipeIngredientTypes::Simple("minecraft:stick")),
         ],
@@ -13199,10 +14538,10 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         group: None,
         show_notification: true,
         key: &[(
-            'S',
+            '#',
             RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
         )],
-        pattern: &["SS", "SS"],
+        pattern: &["##", "##"],
         result: RecipeResultStruct {
             id: "minecraft:tuff_bricks",
             count: 4u8,
@@ -13396,7 +14735,12 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Building,
         group: Some("planks"),
-        ingredients: &[RecipeIngredientTypes::Tagged("#minecraft:warped_stems")],
+        ingredients: &[RecipeIngredientTypes::OneOf(&[
+            "minecraft:warped_stem",
+            "minecraft:stripped_warped_stem",
+            "minecraft:warped_hyphae",
+            "minecraft:stripped_warped_hyphae",
+        ])],
         result: RecipeResultStruct {
             id: "minecraft:warped_planks",
             count: 4u8,
@@ -14696,7 +16040,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:white_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -14707,7 +16067,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:white_dye"),
         result: RecipeResultStruct {
             id: "minecraft:white_bundle",
@@ -14794,7 +16172,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:white_dye"),
         result: RecipeResultStruct {
             id: "minecraft:white_shulker_box",
@@ -14920,7 +16316,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
         ],
         pattern: &["XX", "X#", " #"],
@@ -14937,7 +16346,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
         ],
         pattern: &["XX", " #", " #"],
@@ -14954,7 +16376,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
         ],
         pattern: &["XXX", " # ", " # "],
@@ -14971,7 +16406,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
         ],
         pattern: &["X", "#", "#"],
@@ -14988,7 +16436,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
         ],
         pattern: &["  X", " # ", "#  "],
@@ -15005,7 +16466,20 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
             ('#', RecipeIngredientTypes::Simple("minecraft:stick")),
             (
                 'X',
-                RecipeIngredientTypes::Tagged("#minecraft:wooden_tool_materials"),
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
             ),
         ],
         pattern: &["X", "X", "#"],
@@ -15047,7 +16521,23 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
         show_notification: true,
         key: &[
             ('#', RecipeIngredientTypes::Simple("minecraft:yellow_wool")),
-            ('X', RecipeIngredientTypes::Tagged("#minecraft:planks")),
+            (
+                'X',
+                RecipeIngredientTypes::OneOf(&[
+                    "minecraft:oak_planks",
+                    "minecraft:spruce_planks",
+                    "minecraft:birch_planks",
+                    "minecraft:jungle_planks",
+                    "minecraft:acacia_planks",
+                    "minecraft:dark_oak_planks",
+                    "minecraft:pale_oak_planks",
+                    "minecraft:crimson_planks",
+                    "minecraft:warped_planks",
+                    "minecraft:mangrove_planks",
+                    "minecraft:bamboo_planks",
+                    "minecraft:cherry_planks",
+                ]),
+            ),
         ],
         pattern: &["###", "XXX"],
         result: RecipeResultStruct {
@@ -15058,7 +16548,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Equipment,
         group: Some("bundle_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:bundles"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:bundle",
+            "minecraft:black_bundle",
+            "minecraft:blue_bundle",
+            "minecraft:brown_bundle",
+            "minecraft:cyan_bundle",
+            "minecraft:gray_bundle",
+            "minecraft:green_bundle",
+            "minecraft:light_blue_bundle",
+            "minecraft:light_gray_bundle",
+            "minecraft:lime_bundle",
+            "minecraft:magenta_bundle",
+            "minecraft:orange_bundle",
+            "minecraft:pink_bundle",
+            "minecraft:purple_bundle",
+            "minecraft:red_bundle",
+            "minecraft:yellow_bundle",
+            "minecraft:white_bundle",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:yellow_dye"),
         result: RecipeResultStruct {
             id: "minecraft:yellow_bundle",
@@ -15119,6 +16627,15 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingShapeless {
         category: RecipeCategoryTypes::Misc,
         group: Some("yellow_dye"),
+        ingredients: &[RecipeIngredientTypes::Simple("minecraft:golden_dandelion")],
+        result: RecipeResultStruct {
+            id: "minecraft:yellow_dye",
+            count: 1u8,
+        },
+    },
+    CraftingRecipeTypes::CraftingShapeless {
+        category: RecipeCategoryTypes::Misc,
+        group: Some("yellow_dye"),
         ingredients: &[RecipeIngredientTypes::Simple("minecraft:sunflower")],
         result: RecipeResultStruct {
             id: "minecraft:yellow_dye",
@@ -15152,7 +16669,25 @@ pub static RECIPES_CRAFTING: &[CraftingRecipeTypes] = &[
     CraftingRecipeTypes::CraftingTransmute {
         category: RecipeCategoryTypes::Misc,
         group: Some("shulker_box_dye"),
-        input: RecipeIngredientTypes::Tagged("#minecraft:shulker_boxes"),
+        input: RecipeIngredientTypes::OneOf(&[
+            "minecraft:shulker_box",
+            "minecraft:black_shulker_box",
+            "minecraft:blue_shulker_box",
+            "minecraft:brown_shulker_box",
+            "minecraft:cyan_shulker_box",
+            "minecraft:gray_shulker_box",
+            "minecraft:green_shulker_box",
+            "minecraft:light_blue_shulker_box",
+            "minecraft:light_gray_shulker_box",
+            "minecraft:lime_shulker_box",
+            "minecraft:magenta_shulker_box",
+            "minecraft:orange_shulker_box",
+            "minecraft:pink_shulker_box",
+            "minecraft:purple_shulker_box",
+            "minecraft:red_shulker_box",
+            "minecraft:white_shulker_box",
+            "minecraft:yellow_shulker_box",
+        ]),
         material: RecipeIngredientTypes::Simple("minecraft:yellow_dye"),
         result: RecipeResultStruct {
             id: "minecraft:yellow_shulker_box",
@@ -15302,10 +16837,47 @@ pub static RECIPES_COOKING: &[CookingRecipeType] = &[
         },
     }),
     CookingRecipeType::Smelting(CookingRecipe {
-        recipe_id: "minecraft:charcoal_from_smelting_minecraft_logs_that_burn",
+        recipe_id: "minecraft:charcoal_from_smelting_dark_oak_log",
         category: RecipeCategoryTypes::Misc,
         group: None,
-        ingredient: RecipeIngredientTypes::Tagged("#minecraft:logs_that_burn"),
+        ingredient: RecipeIngredientTypes::OneOf(&[
+            "minecraft:dark_oak_log",
+            "minecraft:dark_oak_wood",
+            "minecraft:stripped_dark_oak_log",
+            "minecraft:stripped_dark_oak_wood",
+            "minecraft:pale_oak_log",
+            "minecraft:pale_oak_wood",
+            "minecraft:stripped_pale_oak_log",
+            "minecraft:stripped_pale_oak_wood",
+            "minecraft:oak_log",
+            "minecraft:oak_wood",
+            "minecraft:stripped_oak_log",
+            "minecraft:stripped_oak_wood",
+            "minecraft:acacia_log",
+            "minecraft:acacia_wood",
+            "minecraft:stripped_acacia_log",
+            "minecraft:stripped_acacia_wood",
+            "minecraft:birch_log",
+            "minecraft:birch_wood",
+            "minecraft:stripped_birch_log",
+            "minecraft:stripped_birch_wood",
+            "minecraft:jungle_log",
+            "minecraft:jungle_wood",
+            "minecraft:stripped_jungle_log",
+            "minecraft:stripped_jungle_wood",
+            "minecraft:spruce_log",
+            "minecraft:spruce_wood",
+            "minecraft:stripped_spruce_log",
+            "minecraft:stripped_spruce_wood",
+            "minecraft:mangrove_log",
+            "minecraft:mangrove_wood",
+            "minecraft:stripped_mangrove_log",
+            "minecraft:stripped_mangrove_wood",
+            "minecraft:cherry_log",
+            "minecraft:cherry_wood",
+            "minecraft:stripped_cherry_log",
+            "minecraft:stripped_cherry_wood",
+        ]),
         cookingtime: 200i32,
         experience: 0.15f32,
         result: RecipeResultStruct {
@@ -15952,10 +17524,10 @@ pub static RECIPES_COOKING: &[CookingRecipeType] = &[
         },
     }),
     CookingRecipeType::Smelting(CookingRecipe {
-        recipe_id: "minecraft:glass_from_smelting_minecraft_smelts_to_glass",
+        recipe_id: "minecraft:glass_from_smelting_sand",
         category: RecipeCategoryTypes::Blocks,
         group: None,
-        ingredient: RecipeIngredientTypes::Tagged("#minecraft:smelts_to_glass"),
+        ingredient: RecipeIngredientTypes::OneOf(&["minecraft:sand", "minecraft:red_sand"]),
         cookingtime: 200i32,
         experience: 0.1f32,
         result: RecipeResultStruct {
@@ -16324,10 +17896,22 @@ pub static RECIPES_COOKING: &[CookingRecipeType] = &[
         },
     }),
     CookingRecipeType::Smelting(CookingRecipe {
-        recipe_id: "minecraft:leaf_litter_from_smelting_minecraft_leaves",
+        recipe_id: "minecraft:leaf_litter_from_smelting_jungle_leaves",
         category: RecipeCategoryTypes::Blocks,
         group: None,
-        ingredient: RecipeIngredientTypes::Tagged("#minecraft:leaves"),
+        ingredient: RecipeIngredientTypes::OneOf(&[
+            "minecraft:jungle_leaves",
+            "minecraft:oak_leaves",
+            "minecraft:spruce_leaves",
+            "minecraft:pale_oak_leaves",
+            "minecraft:dark_oak_leaves",
+            "minecraft:acacia_leaves",
+            "minecraft:birch_leaves",
+            "minecraft:azalea_leaves",
+            "minecraft:flowering_azalea_leaves",
+            "minecraft:mangrove_leaves",
+            "minecraft:cherry_leaves",
+        ]),
         cookingtime: 200i32,
         experience: 0.1f32,
         result: RecipeResultStruct {
@@ -16696,6 +18280,2209 @@ pub static RECIPES_COOKING: &[CookingRecipeType] = &[
         },
     }),
 ];
+pub static RECIPES_STONECUTTING: &[StonecutterRecipe] = &[
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:andesite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:andesite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:andesite_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:blackstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:blackstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:blackstone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_deepslate",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_deepslate",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_nether_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_polished_blackstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_polished_blackstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:quartz_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_quartz_block",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_red_sandstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:resin_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_resin_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_sandstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_stone_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_stone_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_tuff_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_tuff_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_tuff_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:chiseled_tuff",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobbled_deepslate_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobblestone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobblestone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobblestone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cobblestone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_red_sandstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cut_red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_red_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_red_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_sandstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cut_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:cut_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:dark_prismarine"),
+        result: RecipeResultStruct {
+            id: "minecraft:dark_prismarine_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:dark_prismarine"),
+        result: RecipeResultStruct {
+            id: "minecraft:dark_prismarine_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_tiles"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_tiles"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_tiles"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tile_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tiles",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tiles",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tiles",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:deepslate_tiles",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:diorite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:diorite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:diorite_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:end_stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:end_stone_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:exposed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:exposed_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:granite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:granite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:granite_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mossy_cobblestone"),
+        result: RecipeResultStruct {
+            id: "minecraft:mossy_cobblestone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mossy_cobblestone"),
+        result: RecipeResultStruct {
+            id: "minecraft:mossy_cobblestone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mossy_cobblestone"),
+        result: RecipeResultStruct {
+            id: "minecraft:mossy_cobblestone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mossy_stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:mossy_stone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mossy_stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:mossy_stone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mossy_stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:mossy_stone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mud_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:mud_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mud_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:mud_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:mud_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:mud_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:nether_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:nether_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:nether_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:oxidized_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:oxidized_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_andesite",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_andesite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_andesite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_andesite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_andesite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_andesite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:basalt"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_basalt",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_blackstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_blackstone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:cobbled_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_deepslate"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_deepslate_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_diorite",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_diorite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_diorite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_diorite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_diorite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_diorite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_granite",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_granite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_granite_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_granite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_granite"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_granite_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:polished_tuff_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:prismarine_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:prismarine_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:prismarine_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:prismarine_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:prismarine"),
+        result: RecipeResultStruct {
+            id: "minecraft:prismarine_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:prismarine"),
+        result: RecipeResultStruct {
+            id: "minecraft:prismarine_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:prismarine"),
+        result: RecipeResultStruct {
+            id: "minecraft:prismarine_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:purpur_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:purpur_pillar",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:purpur_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:purpur_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:purpur_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:purpur_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:quartz_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:quartz_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:quartz_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:quartz_pillar",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:quartz_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:quartz_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:quartz_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:quartz_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:red_nether_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:red_nether_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_nether_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:red_nether_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:red_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:red_sandstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:red_sandstone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:resin_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:resin_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:resin_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:resin_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:resin_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:resin_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:sandstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:sandstone_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_quartz"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_quartz_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_quartz"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_quartz_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_red_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_red_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_red_sandstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_sandstone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_sandstone"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_sandstone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:smooth_stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:smooth_stone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:stone"),
+        result: RecipeResultStruct {
+            id: "minecraft:stone_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff_bricks"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_brick_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:polished_tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_bricks",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:tuff"),
+        result: RecipeResultStruct {
+            id: "minecraft:tuff_wall",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_copper_block"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_exposed_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_exposed_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_oxidized_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_oxidized_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:waxed_weathered_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:waxed_weathered_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_chiseled_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_chiseled_copper",
+            count: 1u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_copper_grate",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_cut_copper",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_cut_copper_slab",
+            count: 8u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_cut_copper_slab",
+            count: 2u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_cut_copper_stairs",
+            count: 4u8,
+        },
+    },
+    StonecutterRecipe {
+        group: None,
+        ingredient: RecipeIngredientTypes::Simple("minecraft:weathered_cut_copper"),
+        result: RecipeResultStruct {
+            id: "minecraft:weathered_cut_copper_stairs",
+            count: 1u8,
+        },
+    },
+];
+#[must_use]
 pub fn get_cooking_recipe_with_ingredient(
     ingredient: &Item,
     recipe_type: CookingRecipeKind,
@@ -16718,7 +20505,8 @@ pub fn get_cooking_recipe_with_ingredient(
 }
 #[doc = r" Get the experience value for a recipe by its recipe ID."]
 #[doc = r" Used for calculating XP when extracting from furnace."]
-#[doc = r#" Recipe IDs are in vanilla format like "minecraft:iron_ingot_from_smelting_iron_ore""#]
+#[doc = r#" Recipe IDs are in vanilla format like `"minecraft:iron_ingot_from_smelting_iron_ore"`"#]
+#[must_use]
 pub fn get_recipe_experience(recipe_id: &str) -> Option<f32> {
     RECIPES_COOKING.iter().find_map(|recipe| {
         let cooking_recipe = match recipe {

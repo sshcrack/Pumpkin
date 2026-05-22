@@ -11,9 +11,9 @@ use pumpkin_data::Block;
 use pumpkin_data::BlockDirection;
 use pumpkin_data::entity::EntityType;
 use pumpkin_data::item::Item;
+use pumpkin_data::item_stack::ItemStack;
 use pumpkin_util::math::position::BlockPos;
 use pumpkin_util::math::vector3::Vector3;
-use pumpkin_world::item::ItemStack;
 
 pub struct FireworkRocketItem;
 
@@ -45,7 +45,7 @@ impl ItemBehaviour for FireworkRocketItem {
                 ),
                 &EntityType::FIREWORK_ROCKET,
             );
-            let entity = FireworkRocketEntity::new(entity).await;
+            let entity = FireworkRocketEntity::new(entity);
             world.spawn_entity(Arc::new(entity)).await;
         })
     }
@@ -63,7 +63,7 @@ impl ItemBehaviour for FireworkRocketItem {
                     player.get_entity().pos.load(),
                     &EntityType::FIREWORK_ROCKET,
                 );
-                let entity = FireworkRocketEntity::new_shot(entity, player.get_entity()).await;
+                let entity = FireworkRocketEntity::new_shot(entity, player.get_entity());
                 world.spawn_entity(Arc::new(entity)).await;
             }
         })

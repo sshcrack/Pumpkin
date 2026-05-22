@@ -1,3 +1,4 @@
+use pumpkin_data::translation;
 use pumpkin_util::math::position::BlockPos;
 use pumpkin_util::math::vector3::Vector3;
 use pumpkin_util::text::TextComponent;
@@ -80,8 +81,9 @@ impl CommandExecutor for EntitiesToEntityExecutor {
             let pitch = destination.pitch.load();
             let world = destination.world.load_full();
             if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                return Err(CommandError::CommandFailed(TextComponent::translate(
-                    "commands.teleport.invalidPosition",
+                return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                     [],
                 )));
             }
@@ -111,8 +113,9 @@ impl CommandExecutor for EntitiesToPosFacingPosExecutor {
 
             let pos = Position3DArgumentConsumer::find_arg(args, ARG_LOCATION)?;
             if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                return Err(CommandError::CommandFailed(TextComponent::translate(
-                    "commands.teleport.invalidPosition",
+                return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                     [],
                 )));
             }
@@ -146,8 +149,9 @@ impl CommandExecutor for EntitiesToPosFacingEntityExecutor {
 
             let pos = Position3DArgumentConsumer::find_arg(args, ARG_LOCATION)?;
             if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                return Err(CommandError::CommandFailed(TextComponent::translate(
-                    "commands.teleport.invalidPosition",
+                return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                     [],
                 )));
             }
@@ -182,8 +186,9 @@ impl CommandExecutor for EntitiesToPosWithRotationExecutor {
 
             let pos = Position3DArgumentConsumer::find_arg(args, ARG_LOCATION)?;
             if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                return Err(CommandError::CommandFailed(TextComponent::translate(
-                    "commands.teleport.invalidPosition",
+                return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                     [],
                 )));
             }
@@ -218,8 +223,9 @@ impl CommandExecutor for EntitiesToPosExecutor {
 
             let pos = Position3DArgumentConsumer::find_arg(args, ARG_LOCATION)?;
             if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                return Err(CommandError::CommandFailed(TextComponent::translate(
-                    "commands.teleport.invalidPosition",
+                return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                    translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                     [],
                 )));
             }
@@ -258,8 +264,9 @@ impl CommandExecutor for SelfToEntityExecutor {
             match sender {
                 CommandSender::Player(player) => {
                     if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                        return Err(CommandError::CommandFailed(TextComponent::translate(
-                            "commands.teleport.invalidPosition",
+                        return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                            translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                            translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                             [],
                         )));
                     }
@@ -270,8 +277,9 @@ impl CommandExecutor for SelfToEntityExecutor {
 
                     Ok(1)
                 }
-                _ => Err(CommandError::CommandFailed(TextComponent::translate(
-                    "permissions.requires.player",
+                _ => Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::PERMISSIONS_REQUIRES_PLAYER,
+                    translation::java::PERMISSIONS_REQUIRES_PLAYER,
                     [],
                 ))),
             }
@@ -294,8 +302,9 @@ impl CommandExecutor for SelfToPosExecutor {
                     let yaw = player.living_entity.entity.yaw.load();
                     let pitch = player.living_entity.entity.pitch.load();
                     if !World::is_valid(BlockPos(pos.floor_to_i32())) {
-                        return Err(CommandError::CommandFailed(TextComponent::translate(
-                            "commands.teleport.invalidPosition",
+                        return Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                            translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
+                            translation::java::COMMANDS_TELEPORT_INVALIDPOSITION,
                             [],
                         )));
                     }
@@ -306,8 +315,9 @@ impl CommandExecutor for SelfToPosExecutor {
 
                     Ok(1)
                 }
-                _ => Err(CommandError::CommandFailed(TextComponent::translate(
-                    "permissions.requires.player",
+                _ => Err(CommandError::CommandFailed(TextComponent::translate_cross(
+                    translation::java::PERMISSIONS_REQUIRES_PLAYER,
+                    translation::java::PERMISSIONS_REQUIRES_PLAYER,
                     [],
                 ))),
             }

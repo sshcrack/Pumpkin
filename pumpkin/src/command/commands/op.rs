@@ -1,89 +1,82 @@
-use crate::command::CommandResult;
-use crate::entity::EntityBase;
-use crate::{
-    command::{
-        CommandError, CommandExecutor, CommandSender,
-        args::{Arg, ConsumedArgs, players::PlayersArgumentConsumer},
-        tree::CommandTree,
-        tree::builder::argument,
-    },
-    data::SaveJSONConfiguration,
-};
-use CommandError::InvalidConsumption;
+use crate::command::argument_builder::{ArgumentBuilder, argument, command};
+use crate::command::argument_types::game_profile::GameProfileArgumentType;
+use crate::command::context::command_context::CommandContext;
+use crate::command::errors::error_types::CommandErrorType;
+use crate::command::node::dispatcher::CommandDispatcher;
+use crate::command::node::{CommandExecutor, CommandExecutorResult};
+use crate::command::suggestion::provider::{SuggestionProvider, SuggestionProviderResult};
+use crate::command::suggestion::suggestions::SuggestionsBuilder;
+use crate::data::SaveJSONConfiguration;
 use pumpkin_config::op::Op;
+use pumpkin_data::translation;
+use pumpkin_util::PermissionLvl;
+use pumpkin_util::permission::{Permission, PermissionDefault, PermissionRegistry};
 use pumpkin_util::text::TextComponent;
 
-const NAMES: [&str; 1] = ["op"];
+pub const ALREADY_OP_ERROR_TYPE: CommandErrorType<0> = CommandErrorType::new(
+    translation::java::COMMANDS_OP_FAILED,
+    translation::bedrock::COMMANDS_OP_FAILED,
+);
+
 const DESCRIPTION: &str = "Grants operator status to a player.";
+const PERMISSION: &str = "minecraft:command.op";
 const ARG_TARGETS: &str = "targets";
 
-struct Executor;
+struct OpCommandExecutor;
 
-impl CommandExecutor for Executor {
-    fn execute<'a>(
-        &'a self,
-        sender: &'a CommandSender,
-        server: &'a crate::server::Server,
-        args: &'a ConsumedArgs<'a>,
-    ) -> CommandResult<'a> {
+impl CommandExecutor for OpCommandExecutor {
+    fn execute<'a>(&'a self, context: &'a CommandContext) -> CommandExecutorResult<'a> {
         Box::pin(async move {
+            let server = context.server();
+            let profiles = GameProfileArgumentType::get(context, ARG_TARGETS).await?;
+
             let mut config = server.data.operator_config.write().await;
-
-            let Some(Arg::Players(targets)) = args.get(&ARG_TARGETS) else {
-                return Err(InvalidConsumption(Some(ARG_TARGETS.into())));
-            };
-
             let mut successes: i32 = 0;
-            for player in targets {
-                let new_level = server
-                    .basic_config
-                    .op_permission_level
-                    .min(sender.permission_lvl());
+            let new_level = server.basic_config.op_permission_level;
 
-                if player.permission_lvl.load() == new_level {
-                    continue;
-                }
+            for profile in profiles {
+                let maybe_existing_entry = config.ops.iter_mut().find(|o| o.uuid == profile.id);
 
-                if let Some(op) = config
-                    .ops
-                    .iter_mut()
-                    .find(|o| o.uuid == player.gameprofile.id)
-                {
+                if let Some(op) = maybe_existing_entry {
+                    if op.level == new_level {
+                        continue;
+                    }
+
                     op.level = new_level;
+                    op.name.clone_from(&profile.name);
                 } else {
-                    let op_entry = Op::new(
-                        player.gameprofile.id,
-                        player.gameprofile.name.clone(),
-                        new_level,
-                        false,
-                    );
+                    let op_entry = Op::new(profile.id, profile.name.clone(), new_level, false);
                     config.ops.push(op_entry);
                 }
 
-                config.save();
-
-                {
+                if let Some(player) = server.get_player_by_uuid(profile.id) {
                     let command_dispatcher = server.command_dispatcher.read().await;
                     player
                         .set_permission_lvl(server, new_level, &command_dispatcher)
                         .await;
-                };
+                }
 
-                sender
-                    .send_message(TextComponent::translate(
-                        "commands.op.success",
-                        [player.get_display_name().await],
-                    ))
+                context
+                    .source
+                    .send_feedback(
+                        TextComponent::translate_cross(
+                            translation::java::COMMANDS_OP_SUCCESS,
+                            translation::bedrock::COMMANDS_OP_SUCCESS,
+                            [TextComponent::text(profile.name.clone())],
+                        ),
+                        true,
+                    )
                     .await;
 
                 successes += 1;
             }
 
+            if successes > 0 {
+                config.save();
+            }
+
             if successes == 0 {
-                Err(CommandError::CommandFailed(TextComponent::translate(
-                    "commands.op.failed",
-                    [],
-                )))
+                Err(ALREADY_OP_ERROR_TYPE.create_without_context())
             } else {
                 Ok(successes)
             }
@@ -91,7 +84,39 @@ impl CommandExecutor for Executor {
     }
 }
 
-pub fn init_command_tree() -> CommandTree {
-    CommandTree::new(NAMES, DESCRIPTION)
-        .then(argument(ARG_TARGETS, PlayersArgumentConsumer).execute(Executor))
+struct OpSuggestionProvider;
+
+impl SuggestionProvider for OpSuggestionProvider {
+    fn suggest<'a>(
+        &'a self,
+        context: &'a CommandContext,
+        mut builder: SuggestionsBuilder,
+    ) -> SuggestionProviderResult<'a> {
+        Box::pin(async move {
+            // Suggest every non-opped player.
+            let ops = context.server().data.operator_config.read().await;
+            for player in context.source.server().get_all_players() {
+                if ops.ops.iter().all(|op| op.uuid != player.gameprofile.id) {
+                    builder = builder.suggest(player.gameprofile.name.clone());
+                }
+            }
+            builder.build()
+        })
+    }
+}
+
+pub fn register(dispatcher: &mut CommandDispatcher, registry: &mut PermissionRegistry) {
+    registry.register_permission_or_panic(Permission::new(
+        PERMISSION,
+        DESCRIPTION,
+        PermissionDefault::Op(PermissionLvl::Three),
+    ));
+
+    dispatcher.register(
+        command("op", DESCRIPTION).requires(PERMISSION).then(
+            argument(ARG_TARGETS, GameProfileArgumentType)
+                .suggests(OpSuggestionProvider)
+                .executes(OpCommandExecutor),
+        ),
+    );
 }

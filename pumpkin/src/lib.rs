@@ -1,6 +1,7 @@
 // Not warn event sending macros
 #![allow(unused_labels)]
 
+use crate::crash::CrashReport;
 use crate::data::VanillaData;
 use crate::logging::{GzipRollingLogger, PumpkinCommandCompleter, ReadlineLogWrapper};
 use crate::net::bedrock::BedrockClient;
@@ -12,13 +13,15 @@ use plugin::server::server_command::ServerCommandEvent;
 use pumpkin_config::{AdvancedConfiguration, BasicConfiguration};
 use pumpkin_macros::send_cancellable;
 use pumpkin_util::text::TextComponent;
+use pumpkin_util::text::color::{Color, NamedColor};
 use rustyline::Editor;
 use rustyline::history::FileHistory;
 use rustyline::{Config, error::ReadlineError};
 use std::collections::HashMap;
 use std::io::{Cursor, ErrorKind, IsTerminal, stdin};
+use std::process::exit;
 use std::str::FromStr;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicI32, Ordering};
 use std::sync::{Arc, OnceLock};
 use std::time::Duration;
 use std::{net::SocketAddr, sync::LazyLock};
@@ -35,6 +38,7 @@ use tracing_subscriber::util::SubscriberInitExt;
 
 pub mod block;
 pub mod command;
+pub mod crash;
 pub mod data;
 pub mod entity;
 pub mod error;
@@ -125,7 +129,10 @@ pub fn init_logger(advanced_config: &AdvancedConfiguration) {
             .with_thread_ids(advanced_config.logging.threads);
 
         if advanced_config.logging.timestamp {
-            let fmt_layer = fmt_layer.with_timer(fmt::time::UtcTime::new(
+            let local_offset =
+                time::UtcOffset::current_local_offset().unwrap_or(time::UtcOffset::UTC);
+            let fmt_layer = fmt_layer.with_timer(fmt::time::OffsetTime::new(
+                local_offset,
                 time::macros::format_description!("[year]-[month]-[day] [hour]:[minute]:[second]"),
             ));
             let registry = tracing_subscriber::registry()
@@ -165,10 +172,22 @@ pub fn init_logger(advanced_config: &AdvancedConfiguration) {
 
 pub static SHOULD_STOP: AtomicBool = AtomicBool::new(false);
 pub static STOP_INTERRUPT: LazyLock<CancellationToken> = LazyLock::new(CancellationToken::new);
+pub static SERVER_IS_STOPPING: AtomicBool = AtomicBool::new(false);
+pub static CRASH_REPORT: OnceLock<CrashReport> = OnceLock::new();
+pub static SERVER_EXIT_CODE: AtomicI32 = AtomicI32::new(0);
 
 pub fn stop_server() {
     SHOULD_STOP.store(true, Ordering::Relaxed);
     STOP_INTERRUPT.cancel();
+}
+
+pub fn stop_or_exit_server() {
+    if SERVER_IS_STOPPING.load(Ordering::Acquire) {
+        // Server is already stopping, so we forcefully exit.
+        exit(SERVER_EXIT_CODE.load(Ordering::Acquire));
+    } else {
+        stop_server();
+    }
 }
 
 fn resolve_some<T: Future, D, F: FnOnce(D) -> T>(
@@ -201,28 +220,13 @@ impl PumpkinServer {
 
         let rcon = server.advanced_config.networking.rcon.clone();
 
-        if server.advanced_config.commands.use_console
-            && let Some((wrapper, _, _)) = LOGGER_IMPL.wait()
-        {
-            if let Some(rl) = wrapper.take_readline() {
-                setup_console(rl, server.clone());
-            } else {
-                if server.advanced_config.commands.use_tty {
-                    warn!(
-                        "The input is not a TTY; falling back to simple logger and ignoring `use_tty` setting"
-                    );
-                }
-                setup_stdin_console(server.clone());
-            }
-        }
-
         if rcon.enabled {
             warn!(
                 "RCON is enabled, but it's highly insecure as it transmits passwords and commands in plain text. This makes it vulnerable to interception and exploitation by anyone on the network"
             );
             let rcon_server = server.clone();
             server.spawn_task(async move {
-                RCONServer::run(&rcon, rcon_server).await.unwrap();
+                RCONServer::run(&rcon, rcon_server).await;
             });
         }
 
@@ -305,7 +309,7 @@ impl PumpkinServer {
         }
     }
 
-    pub async fn init_plugins(&self) {
+    pub async fn init_plugins(&self) -> std::time::Duration {
         self.server
             .plugin_manager
             .set_self_ref(self.server.plugin_manager.clone())
@@ -314,8 +318,12 @@ impl PumpkinServer {
             .plugin_manager
             .set_server(self.server.clone())
             .await;
-        if let Err(err) = self.server.plugin_manager.load_plugins().await {
-            error!("{err}");
+        match self.server.plugin_manager.load_plugins().await {
+            Ok(duration) => duration,
+            Err(err) => {
+                error!("{err}");
+                std::time::Duration::ZERO
+            }
         }
     }
 
@@ -328,6 +336,21 @@ impl PumpkinServer {
     }
 
     pub async fn start(&self) {
+        if self.server.advanced_config.commands.use_console
+            && let Some((wrapper, _, _)) = LOGGER_IMPL.wait()
+        {
+            if let Some(rl) = wrapper.take_readline() {
+                setup_console(rl, self.server.clone());
+            } else {
+                if self.server.advanced_config.commands.use_tty {
+                    warn!(
+                        "The input is not a TTY; falling back to simple logger and ignoring `use_tty` setting"
+                    );
+                }
+                setup_stdin_console(self.server.clone());
+            }
+        }
+
         let tasks = Arc::new(TaskTracker::new());
         let mut master_client_id: u64 = 0;
         let bedrock_clients = Arc::new(Mutex::new(HashMap::new()));
@@ -339,6 +362,22 @@ impl PumpkinServer {
             {
                 break;
             }
+        }
+
+        SERVER_IS_STOPPING.store(true, Ordering::Release);
+
+        if let Some(crash_report) = CRASH_REPORT.get() {
+            crash_report.print_to_console();
+            crash_report.save_and_log();
+
+            info!(
+                "{}",
+                TextComponent::text("Gracefully shutting down...")
+                    .color(Color::Named(NamedColor::Green))
+                    .to_pretty_console()
+            );
+
+            SERVER_EXIT_CODE.store(1, Ordering::Release);
         }
 
         info!("Stopped accepting incoming connections");
@@ -455,9 +494,7 @@ impl PumpkinServer {
             udp_result = resolve_some(self.udp_socket.as_ref(), |sock: &Arc<UdpSocket>| sock.recv_from(&mut udp_buf)) => {
                 match udp_result {
                     Ok((len, client_addr)) => {
-                        if len == 0 {
-                            warn!("Received empty UDP packet from {client_addr}");
-                        } else {
+                        if len > 0 {
                             let id = udp_buf[0];
                             let is_online = id & 128 != 0;
 
@@ -465,39 +502,37 @@ impl PumpkinServer {
                                 let be_clients = bedrock_clients.clone();
                                 let mut clients_guard = bedrock_clients.lock().await;
 
-                                if let Some(client) = clients_guard.get(&client_addr) {
-                                    let client = client.clone();
-                                    let reader = Cursor::new(udp_buf[..len].to_vec());
-                                    let server = self.server.clone();
-
-                                    tasks.spawn(async move {
-                                        client.process_packet(&server, reader).await;
-                                    });
-                                } else if let Ok(packet) = BedrockClient::is_connection_request(&mut Cursor::new(&udp_buf[4..len])) {
+                                let client = clients_guard.entry(client_addr).or_insert_with(|| {
                                     *master_client_id_counter += 1;
 
-                                    let mut platform = BedrockClient::new(self.udp_socket.clone().unwrap(), client_addr, be_clients);
-                                    platform.handle_connection_request(packet).await;
-                                    platform.start_outgoing_packet_task();
-
-                                    clients_guard.insert(client_addr,
-                                    Arc::new(
-                                        platform
+                                    let new_client = Arc::new(BedrockClient::new(
+                                        self.udp_socket.as_ref().unwrap().clone(),
+                                        client_addr,
+                                        be_clients
                                     ));
-                                }
-                            } else {
-                                // Please keep the function as simple as possible!
-                                // We dont care about the result, the client just resends the packet
-                                // Since offline packets are very small we dont need to move and clone the data
-                                let _ = BedrockClient::handle_offline_packet(&self.server, id, &mut Cursor::new(&udp_buf[1..len]), client_addr, self.udp_socket.as_ref().unwrap()).await;
-                            }
 
+                                    new_client.start_outgoing_packet_task();
+                                    new_client
+                                }).clone();
+
+                                let reader = udp_buf[..len].to_vec();
+                                let server = self.server.clone();
+                                tasks.spawn(async move {
+                                    client.process_packet(&server, reader).await;
+                                });
+
+                            } else if let Some(sock) = self.udp_socket.as_ref() {
+                                let _ = BedrockClient::handle_offline_packet(
+                                    &self.server,
+                                    id,
+                                    &mut Cursor::new(&udp_buf[1..len]),
+                                    client_addr,
+                                    sock
+                                ).await;
+                            }
                         }
                     }
-                    // Since all packets go over this match statement, there should be not waiting
-                    Err(e) => {
-                        error!("{e}");
-                    }
+                    Err(e) => error!("UDP socket error: {e}"),
                 }
             },
 
@@ -571,7 +606,7 @@ fn setup_console(mut rl: Editor<PumpkinCommandCompleter, FileHistory>, server: A
                 }
                 Err(ReadlineError::Interrupted) => {
                     info!("CTRL-C");
-                    stop_server();
+                    stop_or_exit_server();
                     break;
                 }
                 Err(ReadlineError::Eof) => {

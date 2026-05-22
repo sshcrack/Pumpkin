@@ -11,33 +11,36 @@ use crate::plugin::PluginManager;
 use crate::plugin::player::player_login::PlayerLoginEvent;
 use crate::plugin::server::server_broadcast::ServerBroadcastEvent;
 use crate::server::tick_rate_manager::ServerTickRateManager;
+use crate::world::WorldPortal;
 use crate::world::custom_bossbar::CustomBossbars;
-use crate::{command::node::dispatcher::CommandDispatcher, entity::player::Player, world::World};
+use crate::{
+    command::node::dispatcher::CommandDispatcher, entity::player::Player, world::World,
+    world::map::MapManager,
+};
 use arc_swap::ArcSwap;
 use connection_cache::{CachedBranding, CachedStatus};
 use key_store::KeyStore;
 use pumpkin_config::{AdvancedConfiguration, BasicConfiguration};
 use pumpkin_data::dimension::Dimension;
+use pumpkin_data::entity::EntityType;
 use pumpkin_util::permission::{PermissionManager, PermissionRegistry};
 use pumpkin_util::text::color::NamedColor;
 use pumpkin_world::dimension::into_level;
+use pumpkin_world::world::WorldPortalExt;
 use tracing::{debug, error, info, warn};
 
 use crate::command::CommandSender;
 use pumpkin_macros::send_cancellable;
 use pumpkin_protocol::java::client::login::CEncryptionRequest;
-use pumpkin_protocol::java::client::play::CChangeDifficulty;
+use pumpkin_protocol::java::client::play::{CChangeDifficulty, CTabList};
 use pumpkin_protocol::{ClientPacket, java::client::config::CPluginMessage};
 use pumpkin_util::Difficulty;
-use pumpkin_util::math::vector3::Vector3;
 use pumpkin_util::text::TextComponent;
-use pumpkin_world::lock::LevelLocker;
-use pumpkin_world::lock::anvil::AnvilLevelLocker;
 use pumpkin_world::world_info::anvil::{
     AnvilLevelInfo, LEVEL_DAT_BACKUP_FILE_NAME, LEVEL_DAT_FILE_NAME,
 };
 use pumpkin_world::world_info::{LevelData, WorldInfoError, WorldInfoReader, WorldInfoWriter};
-use rand::seq::{IndexedRandom, IteratorRandom, SliceRandom};
+use rand::seq::{IndexedRandom, SliceRandom};
 use rsa::RsaPublicKey;
 use std::collections::HashSet;
 use std::fs;
@@ -51,13 +54,18 @@ use tokio_util::task::TaskTracker;
 
 mod connection_cache;
 mod key_store;
+pub mod recipe;
+pub mod scheduler;
 pub mod seasonal_events;
 pub mod tick_rate_manager;
 pub mod ticker;
 
-use super::command::args::entities::{
+pub use recipe::RecipeManager;
+
+use crate::command::args::entities::{
     EntityFilter, EntityFilterSort, EntitySelectorType, TargetSelector, ValueCondition,
 };
+use crate::server::scheduler::TaskScheduler;
 
 /// Represents a Minecraft server instance.
 pub struct Server {
@@ -76,6 +84,8 @@ pub struct Server {
 
     /// Handles cryptographic keys for secure communication.
     key_store: OnceCell<Arc<KeyStore>>,
+    /// Bedrock OIDC provider keys, fetched on startup for 1.26.10+ token validation.
+    pub bedrock_oidc_keys: OnceCell<(String, pumpkin_util::jwt::Jwks)>,
     /// Manages server status information.
     listing: Mutex<CachedStatus>,
     /// Saves server branding information.
@@ -92,11 +102,16 @@ pub struct Server {
     pub dimensions: Vec<Dimension>,
     /// Assigns unique IDs to containers.
     container_id: AtomicU32,
+    pub recipe_manager: Arc<recipe::RecipeManager>,
+    /// Assigns unique IDs to maps.
+    map_id: AtomicI32,
     /// Mojang's public keys, used for chat session signing
     /// Pulled from Mojang API on startup
     pub mojang_public_keys: ArcSwap<Vec<RsaPublicKey>>,
     /// The server's custom bossbars
     pub bossbars: Mutex<CustomBossbars>,
+    /// Manages all maps on the server
+    pub map_manager: MapManager,
     /// The default gamemode when a player joins the server (reset every restart)
     pub defaultgamemode: Mutex<DefaultGamemode>,
     /// Manages player data storage
@@ -115,14 +130,13 @@ pub struct Server {
     pub server_guid: u64,
     /// Player idle timeout in minutes (0 = disabled)
     pub player_idle_timeout: AtomicI32,
+    /// Manages scheduled tasks (e.g. from plugins)
+    pub task_scheduler: Arc<TaskScheduler>,
     tasks: TaskTracker,
 
     // world stuff which maybe should be put into a struct
     pub level_info: Arc<ArcSwap<LevelData>>,
     world_info_writer: Arc<dyn WorldInfoWriter>,
-    // Gets unlocked when dropped
-    // TODO: Make this a trait
-    _locker: Arc<Option<AnvilLevelLocker>>,
 }
 
 impl Server {
@@ -163,19 +177,13 @@ impl Server {
                 fs::copy(dat_path, backup_path).unwrap();
             }
         }
-        let locker = match AnvilLevelLocker::lock(&world_path) {
-            Ok(l) => Some(l),
-            Err(err) => {
-                warn!(
-                    "Could not lock the level file. Data corruption is possible if the world is accessed by multiple processes simultaneously. Error: {err}"
-                );
-                None
-            }
-        };
-
         let level_info = level_info.unwrap_or_else(|err| {
             warn!("Failed to get level_info, using default instead: {err}");
-            LevelData::default(basic_config.seed)
+            let default_data = LevelData::default(basic_config.seed);
+            if let Err(err) = AnvilLevelInfo.write_world_info(&default_data, &world_path) {
+                error!("Failed to save level.dat: {err}");
+            }
+            default_data
         });
 
         let seed = level_info.world_gen_settings.seed;
@@ -219,6 +227,8 @@ impl Server {
             ))),
             permission_registry,
             container_id: 0.into(),
+            recipe_manager: Arc::new(recipe::RecipeManager::new()),
+            map_id: level_info.load().map_id.into(),
             worlds: ArcSwap::from_pointee(vec![]),
             dimensions: vec![
                 Dimension::OVERWORLD,
@@ -229,9 +239,11 @@ impl Server {
             block_registry: block_registry.clone(),
             item_registry: super::item::items::default_registry(),
             key_store: OnceCell::new(),
+            bedrock_oidc_keys: OnceCell::new(),
             listing,
             branding: CachedBranding::new(),
             bossbars: Mutex::new(CustomBossbars::new()),
+            map_manager: MapManager::new(),
             defaultgamemode,
             player_data_storage,
             white_list,
@@ -240,17 +252,21 @@ impl Server {
             aggregated_tick_times_nanos: AtomicI64::new(0),
             tick_count: AtomicI32::new(0),
             tasks: TaskTracker::new(),
+            task_scheduler: Arc::new(TaskScheduler::new()),
             server_guid: rand::random(),
             player_idle_timeout: AtomicI32::new(0),
             mojang_public_keys: ArcSwap::from_pointee(Vec::new()),
             world_info_writer: Arc::new(AnvilLevelInfo),
             level_info,
-            _locker: Arc::new(locker),
         };
         let server = Arc::new(server);
 
-        // Initialize attribute registry for all entities
-        crate::entity::attributes::init_all_attributes();
+        let gen_pool = Arc::new(
+            rayon::ThreadPoolBuilder::new()
+                .thread_name(|i| format!("Gen-Pool-{i}"))
+                .build()
+                .expect("Failed to build generation thread pool"),
+        );
 
         let server_clone = server.clone();
         tokio::spawn(async move {
@@ -266,6 +282,7 @@ impl Server {
             let l_info = server.level_info.clone(); // Access from struct
             let weak = Arc::downgrade(&server);
             let config = Arc::new(server.advanced_config.world.clone());
+            let pool = gen_pool.clone();
 
             tokio::task::spawn_blocking(move || {
                 info!(
@@ -274,13 +291,11 @@ impl Server {
                         .color_named(NamedColor::DarkGreen)
                         .to_pretty_console()
                 );
-                World::load(
-                    into_level(dim, &config, path, registry.clone(), seed),
-                    l_info,
-                    dim,
-                    registry,
-                    weak,
-                )
+                let level = into_level(dim.clone(), &config, path, seed, Some(pool));
+                let world = Arc::new(World::load(level.clone(), l_info, dim, registry, weak));
+                let portal: Arc<dyn WorldPortalExt> = Arc::new(WorldPortal(world.clone()));
+                level.world_portal.store(Arc::new(Some(portal)));
+                world
             })
         };
 
@@ -293,9 +308,9 @@ impl Server {
         );
 
         let worlds_vec = vec![
-            Arc::new(overworld.expect("Overworld panicked")),
-            Arc::new(nether.expect("Nether panicked")),
-            Arc::new(end.expect("End panicked")),
+            overworld.expect("Overworld panicked"),
+            nether.expect("Nether panicked"),
+            end.expect("End panicked"),
         ];
         server.worlds.store(Arc::new(worlds_vec));
         if let Ok(k) = keys {
@@ -303,6 +318,23 @@ impl Server {
         }
 
         info!("All worlds loaded successfully.");
+
+        if server.basic_config.online_mode {
+            let server_clone = server.clone();
+            tokio::spawn(async move {
+                server_clone
+                    .bedrock_oidc_keys
+                    .get_or_init(|| async {
+                        tokio::task::block_in_place(|| {
+                            pumpkin_util::jwt::fetch_oidc_jwks().unwrap_or_else(|e| {
+                                error!("Failed to fetch Bedrock OIDC keys: {e}");
+                                (String::new(), pumpkin_util::jwt::Jwks { keys: Vec::new() })
+                            })
+                        })
+                    })
+                    .await;
+            });
+        }
         server
     }
 
@@ -329,6 +361,50 @@ impl Server {
         }
         .cloned()
         .unwrap()
+    }
+
+    pub async fn create_world(self: &Arc<Self>, name: String, dimension: Dimension) -> Arc<World> {
+        {
+            let worlds = self.worlds.load();
+            if let Some(world) = worlds
+                .iter()
+                .find(|w| w.get_world_name() == name && w.dimension == dimension)
+            {
+                return world.clone();
+            }
+        }
+
+        let server = self.clone();
+        let name_clone = name.clone();
+        tokio::task::spawn_blocking(move || {
+            let world_path = server.basic_config.get_world_path().join(name_clone);
+            let registry = server.block_registry.clone();
+            let l_info = server.level_info.clone();
+            let weak = Arc::downgrade(&server);
+            let config = Arc::new(server.advanced_config.world.clone());
+            let seed = server.level_info.load().world_gen_settings.seed;
+
+            // TODO: gen_pool should be reused
+            let level = pumpkin_world::dimension::into_level(
+                dimension.clone(),
+                &config,
+                world_path,
+                seed,
+                None,
+            );
+            let world: World = World::load(level.clone(), l_info, dimension, registry, weak);
+            let world = Arc::new(world);
+            let portal: Arc<dyn WorldPortalExt> = Arc::new(WorldPortal(world.clone()));
+            level.world_portal.store(Arc::new(Some(portal)));
+            server.worlds.rcu(|worlds| {
+                let mut new_worlds = (**worlds).clone();
+                new_worlds.push(world.clone());
+                new_worlds
+            });
+            world
+        })
+        .await
+        .expect("World creation panicked")
     }
 
     /// Adds a new player to the server.
@@ -364,13 +440,24 @@ impl Server {
     ) -> Option<(Arc<Player>, Arc<World>)> {
         let gamemode = self.defaultgamemode.lock().await.gamemode;
 
-        let (world, nbt) = if let Ok(Some(data)) = self.player_data_storage.load_data(&profile.id) {
-            if let Some(dimension_key) = data.get_string("Dimension") {
-                if let Some(dimension) = Dimension::from_name(dimension_key) {
-                    let world = self.get_world_from_dimension(dimension);
-                    (world, Some(data))
+        let (world, nbt) =
+            if let Ok(Some(data)) = self.player_data_storage.load_data(&profile.id).await {
+                if let Some(dimension_key) = data.get_string("Dimension") {
+                    if let Some(dimension) = Dimension::from_name(dimension_key) {
+                        let world = self.get_world_from_dimension(dimension);
+                        (world, Some(data))
+                    } else {
+                        warn!("Invalid dimension key in player data: {dimension_key}");
+                        let default_world = self
+                            .worlds
+                            .load()
+                            .first()
+                            .expect("Default world should exist")
+                            .clone();
+                        (default_world, Some(data))
+                    }
                 } else {
-                    warn!("Invalid dimension key in player data: {dimension_key}");
+                    // Player data exists but doesn't have a "Dimension" key.
                     let default_world = self
                         .worlds
                         .load()
@@ -380,25 +467,15 @@ impl Server {
                     (default_world, Some(data))
                 }
             } else {
-                // Player data exists but doesn't have a "Dimension" key.
+                // No player data found or an error occurred, default to the Overworld.
                 let default_world = self
                     .worlds
                     .load()
                     .first()
                     .expect("Default world should exist")
                     .clone();
-                (default_world, Some(data))
-            }
-        } else {
-            // No player data found or an error occurred, default to the Overworld.
-            let default_world = self
-                .worlds
-                .load()
-                .first()
-                .expect("Default world should exist")
-                .clone();
-            (default_world, None)
-        };
+                (default_world, None)
+            };
 
         let mut player = Player::new(
             client,
@@ -422,8 +499,11 @@ impl Server {
             'after: {
                 player.screen_handler_sync_handler.store_player(player.clone()).await;
                 if world
-                    .add_player(player.clone())
+                    .add_player(&player)
                     .is_ok() {
+                    let mut user_cache = self.data.user_cache.write().await;
+                    user_cache.upsert(player.gameprofile.id, player.gameprofile.name.clone());
+
                     // TODO: Config if we want increase online
                     if let Some(config) = config {
                         // TODO: Config so we can also just ignore this hehe
@@ -479,9 +559,24 @@ impl Server {
     /// # Arguments
     ///
     /// * `packet`: A reference to the packet to be broadcast. The packet must implement the `ClientPacket` trait.
-    pub async fn broadcast_packet_all<P: ClientPacket>(&self, packet: &P) {
+    pub fn broadcast_packet_all<P: ClientPacket>(&self, packet: &P) {
         for world in self.worlds.load().iter() {
-            world.broadcast_packet_all(packet).await;
+            world.broadcast_packet_all(packet);
+        }
+    }
+
+    pub async fn broadcast_tab_list_header_footer(
+        &self,
+        header: &TextComponent,
+        footer: &TextComponent,
+    ) {
+        let packet = CTabList::new(header, footer);
+        for world in self.worlds.load().iter() {
+            for player in world.players.load().iter() {
+                *player.tab_list_header.lock().await = header.clone();
+                *player.tab_list_footer.lock().await = footer.clone();
+                player.client.enqueue_packet(&packet).await;
+            }
         }
     }
 
@@ -526,7 +621,7 @@ impl Server {
     /// # Note
     ///
     /// This function does not handle the actual mob spawn options update, which is a TODO item for future implementation.
-    pub async fn set_difficulty(&self, difficulty: Difficulty, force_update: bool) {
+    pub fn set_difficulty(&self, difficulty: Difficulty, force_update: bool) {
         let current_info = self.level_info.load();
         if current_info.difficulty_locked && !force_update {
             return;
@@ -548,8 +643,7 @@ impl Server {
             world.set_difficulty(difficulty);
         }
 
-        self.broadcast_packet_all(&CChangeDifficulty::new(difficulty as u8, locked))
-            .await;
+        self.broadcast_packet_all(&CChangeDifficulty::new(difficulty as u8, locked));
     }
 
     /// Searches for a player by their username across all worlds.
@@ -671,6 +765,17 @@ impl Server {
         self.container_id.fetch_add(1, Ordering::SeqCst)
     }
 
+    /// Generates a new map id.
+    pub fn next_map_id(&self) -> i32 {
+        let id = self.map_id.fetch_add(1, Ordering::SeqCst);
+        self.level_info.rcu(|level_info| {
+            let mut new_level_info = (**level_info).clone();
+            new_level_info.map_id = self.map_id.load(Ordering::SeqCst);
+            new_level_info
+        });
+        id
+    }
+
     pub fn get_branding(&self) -> CPluginMessage<'_> {
         self.branding.get_branding()
     }
@@ -717,20 +822,31 @@ impl Server {
 
     /// Ticks essential server functions that must run even when the game is frozen.
     /// This includes player ticking (network, keep-alives) and flushing world updates to clients.
-    pub async fn tick_players_and_network(&self) {
-        // First, flush pending block updates and synced block events to clients
-        for world in self.worlds.load().iter() {
+    pub async fn tick_players_and_network(self: &Arc<Self>) {
+        let worlds = self.worlds.load();
+
+        for world in worlds.iter() {
             world.flush_block_updates().await;
             world.flush_synced_block_events().await;
         }
 
-        let players_to_tick: Vec<_> = self.get_all_players();
-        for player in players_to_tick {
-            player.tick(self).await;
+        let mut set = JoinSet::new();
+        for world in worlds.iter() {
+            let players = world.players.load();
+            for player in players.iter() {
+                let player_clone = player.clone();
+                let server_clone = self.clone();
+                set.spawn(async move {
+                    player_clone.tick(&server_clone).await;
+                });
+            }
         }
+        set.join_all().await;
     }
     /// Ticks the game logic for all worlds. This is the part that is affected by `/tick freeze`.
     pub async fn tick_worlds(self: &Arc<Self>) {
+        self.task_scheduler.tick(self).await;
+
         let mut set = JoinSet::new();
 
         for world in self.worlds.load().iter() {
@@ -738,7 +854,7 @@ impl Server {
             let server = self.clone();
 
             set.spawn(async move {
-                world.tick(&server).await;
+                world.tick(server).await;
             });
         }
 
@@ -795,71 +911,30 @@ impl Server {
         *self.tick_times_nanos.lock().await
     }
 
-    #[expect(clippy::too_many_lines)]
-    #[expect(clippy::option_if_let_else)]
-    pub fn select_entities(
+    #[allow(clippy::too_many_lines, clippy::option_if_let_else)]
+    pub fn select_players(
         &self,
         target_selector: &TargetSelector,
         source: Option<&CommandSender>,
-    ) -> Vec<Arc<dyn EntityBase>> {
-        let iter = match &target_selector.selector_type {
-            EntitySelectorType::Source
+    ) -> Vec<Arc<Player>> {
+        let mut players = match &target_selector.selector_type {
+            EntitySelectorType::Source => source
+                .and_then(CommandSender::as_player)
+                .map_or_else(Vec::new, |player| vec![player]),
+            EntitySelectorType::NearestPlayer
             | EntitySelectorType::NearestEntity
-            | EntitySelectorType::NearestPlayer => {
-                // todo: command context, currently the nearest entity is the player itself
-                if let Some(sender) = source {
-                    if let Some(player) = sender.as_player() {
-                        vec![player as Arc<dyn EntityBase>].into_iter()
-                    } else {
-                        vec![].into_iter()
-                    }
-                } else {
-                    vec![].into_iter()
-                }
-            }
-            EntitySelectorType::RandomPlayer => {
-                if let Some(player) = self.get_random_player() {
-                    vec![player as Arc<dyn EntityBase>].into_iter()
-                } else {
-                    vec![].into_iter()
-                }
-            }
-            EntitySelectorType::AllPlayers => self
-                .get_all_players()
-                .into_iter()
-                .map(|p| p as Arc<dyn EntityBase>)
-                .collect::<Vec<_>>()
-                .into_iter(),
-            EntitySelectorType::AllEntities => {
-                let mut entities = Vec::new();
-                for world in self.worlds.load().iter() {
-                    entities.extend(world.entities.load().iter().cloned());
-                    entities.extend(
-                        world
-                            .players
-                            .load()
-                            .iter()
-                            .cloned()
-                            .map(|p| p as Arc<dyn EntityBase>),
-                    );
-                }
-                entities.into_iter()
-            }
-            EntitySelectorType::NamedPlayer(name) => {
-                if let Some(player) = self.get_player_by_name(name) {
-                    vec![player as Arc<dyn EntityBase>].into_iter()
-                } else {
-                    vec![].into_iter()
-                }
-            }
-            EntitySelectorType::Uuid(uuid) => {
-                if let Some(player) = self.get_player_by_uuid(*uuid) {
-                    vec![player as Arc<dyn EntityBase>].into_iter()
-                } else {
-                    vec![].into_iter()
-                }
-            }
+            | EntitySelectorType::RandomPlayer
+            | EntitySelectorType::AllPlayers
+            | EntitySelectorType::AllEntities => self.get_all_players(),
+            EntitySelectorType::NamedPlayer(name) => self
+                .get_player_by_name(name)
+                .map_or_else(Vec::new, |player| vec![player]),
+            EntitySelectorType::Uuid(uuid) => self
+                .get_player_by_uuid(*uuid)
+                .map_or_else(Vec::new, |player| vec![player]),
         };
+
+        let player_type = EntityType::from_name("player").expect("entity type player must exist");
         let type_included = target_selector
             .conditions
             .iter()
@@ -882,53 +957,35 @@ impl Server {
                 }
             })
             .collect::<HashSet<_>>();
-        let type_filtered = iter.filter(|e| {
-            // Filter by entity type
-            (type_excluded.is_empty() || !type_excluded.contains(&e.get_entity().entity_type))
-                && (type_included.is_empty() || type_included.contains(&e.get_entity().entity_type))
+
+        players.retain(|_| {
+            (type_excluded.is_empty() || !type_excluded.contains(player_type))
+                && (type_included.is_empty() || type_included.contains(player_type))
         });
-        let iter = type_filtered;
+
+        let limit = target_selector.get_limit();
+        if limit == 0 {
+            return Vec::new();
+        }
+
         match target_selector
             .get_sort()
             .unwrap_or(EntityFilterSort::Arbitrary)
         {
-            // If the sort is arbitrary, we just return all entities in all worlds
-            EntityFilterSort::Arbitrary => iter.take(target_selector.get_limit()).collect(),
+            EntityFilterSort::Arbitrary => players.into_iter().take(limit).collect(),
             EntityFilterSort::Random => {
-                if target_selector.get_limit() == 0 {
-                    return vec![];
-                } else if target_selector.get_limit() == 1 {
-                    // If the limit is 1, we just return a random entity
-                    return if let Some(entity) = iter.choose(&mut rand::rng()) {
-                        vec![entity]
-                    } else {
-                        vec![]
-                    };
-                }
-                // If the sort is random, we shuffle the entities and then take the limit
-                let mut entities: Vec<_> = iter.collect();
-                entities.shuffle(&mut rand::rng());
-                entities
-                    .into_iter()
-                    .take(target_selector.get_limit())
-                    .collect()
+                players.shuffle(&mut rand::rng());
+                players.into_iter().take(limit).collect()
             }
             EntityFilterSort::Nearest | EntityFilterSort::Furthest => {
-                if target_selector.get_limit() == 0 {
-                    return vec![];
-                }
-                // sort entities first
-                // todo: command context
-                let center = if let Some(source) = source {
-                    source.position().unwrap_or_default()
-                } else {
-                    Vector3::default()
-                };
-                let mut entities = iter.collect::<Vec<_>>();
-                entities.sort_by(|a, b| {
+                let center = source.and_then(CommandSender::position).unwrap_or_default();
+                let nearest_first = target_selector
+                    .get_sort()
+                    .is_none_or(|sort| sort == EntityFilterSort::Nearest);
+                players.sort_by(|a, b| {
                     let a_distance = a.get_entity().pos.load().squared_distance_to_vec(&center);
                     let b_distance = b.get_entity().pos.load().squared_distance_to_vec(&center);
-                    if target_selector.get_sort() == Some(EntityFilterSort::Nearest) {
+                    if nearest_first {
                         a_distance
                             .partial_cmp(&b_distance)
                             .unwrap_or(core::cmp::Ordering::Equal)
@@ -938,10 +995,119 @@ impl Server {
                             .unwrap_or(core::cmp::Ordering::Equal)
                     }
                 });
-                entities
-                    .into_iter()
-                    .take(target_selector.get_limit())
-                    .collect()
+                players.into_iter().take(limit).collect()
+            }
+        }
+    }
+
+    #[allow(clippy::too_many_lines, clippy::option_if_let_else)]
+    pub fn select_entities(
+        &self,
+        target_selector: &TargetSelector,
+        source: Option<&CommandSender>,
+    ) -> Vec<Arc<dyn EntityBase>> {
+        let all_entities_and_players = || {
+            let mut entities = Vec::new();
+            for world in self.worlds.load().iter() {
+                entities.extend(world.entities.load().iter().cloned());
+                entities.extend(
+                    world
+                        .players
+                        .load()
+                        .iter()
+                        .cloned()
+                        .map(|player| player as Arc<dyn EntityBase>),
+                );
+            }
+            entities
+        };
+        let all_players_as_entities = || {
+            self.get_all_players()
+                .into_iter()
+                .map(|player| player as Arc<dyn EntityBase>)
+                .collect::<Vec<_>>()
+        };
+
+        let mut entities = match &target_selector.selector_type {
+            EntitySelectorType::Source => source
+                .and_then(CommandSender::as_player)
+                .map_or_else(Vec::new, |player| vec![player as Arc<dyn EntityBase>]),
+            EntitySelectorType::NearestPlayer
+            | EntitySelectorType::RandomPlayer
+            | EntitySelectorType::AllPlayers => all_players_as_entities(),
+            EntitySelectorType::NearestEntity | EntitySelectorType::AllEntities => {
+                all_entities_and_players()
+            }
+            EntitySelectorType::NamedPlayer(name) => self
+                .get_player_by_name(name)
+                .map_or_else(Vec::new, |player| vec![player as Arc<dyn EntityBase>]),
+            EntitySelectorType::Uuid(uuid) => self
+                .get_player_by_uuid(*uuid)
+                .map_or_else(Vec::new, |player| vec![player as Arc<dyn EntityBase>]),
+        };
+
+        let type_included = target_selector
+            .conditions
+            .iter()
+            .filter_map(|f| {
+                if let EntityFilter::Type(ValueCondition::Equals(entity_type)) = f {
+                    Some(*entity_type)
+                } else {
+                    None
+                }
+            })
+            .collect::<HashSet<_>>();
+        let type_excluded = target_selector
+            .conditions
+            .iter()
+            .filter_map(|f| {
+                if let EntityFilter::Type(ValueCondition::NotEquals(entity_type)) = f {
+                    Some(*entity_type)
+                } else {
+                    None
+                }
+            })
+            .collect::<HashSet<_>>();
+        entities.retain(|entity| {
+            // Filter by entity type
+            (type_excluded.is_empty() || !type_excluded.contains(&entity.get_entity().entity_type))
+                && (type_included.is_empty()
+                    || type_included.contains(&entity.get_entity().entity_type))
+        });
+
+        let limit = target_selector.get_limit();
+        if limit == 0 {
+            return vec![];
+        }
+
+        match target_selector
+            .get_sort()
+            .unwrap_or(EntityFilterSort::Arbitrary)
+        {
+            EntityFilterSort::Arbitrary => entities.into_iter().take(limit).collect(),
+            EntityFilterSort::Random => {
+                entities.shuffle(&mut rand::rng());
+                entities.into_iter().take(limit).collect()
+            }
+            EntityFilterSort::Nearest | EntityFilterSort::Furthest => {
+                let center = source.and_then(CommandSender::position).unwrap_or_default();
+                let nearest_first = target_selector
+                    .get_sort()
+                    .is_none_or(|sort| sort == EntityFilterSort::Nearest);
+                entities.sort_by(|a, b| {
+                    let a_distance = a.get_entity().pos.load().squared_distance_to_vec(&center);
+                    let b_distance = b.get_entity().pos.load().squared_distance_to_vec(&center);
+                    if nearest_first {
+                        a_distance
+                            .partial_cmp(&b_distance)
+                            .unwrap_or(core::cmp::Ordering::Equal)
+                    } else {
+                        b_distance
+                            .partial_cmp(&a_distance)
+                            .unwrap_or(core::cmp::Ordering::Equal)
+                    }
+                });
+                entities.into_iter().take(limit).collect()
             }
         }
     }

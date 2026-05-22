@@ -7,11 +7,13 @@ use color::Color;
 use colored::Colorize;
 use core::str;
 use hover::HoverEvent;
-use pumpkin_nbt::serializer::Serializer;
+use pumpkin_nbt::serializer::{NbtWriteHelperJava, Serializer};
 use serde::de::{Error, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer, Serialize};
 use std::borrow::Cow;
 use std::fmt::Formatter;
+use std::fmt::Write;
+use std::sync::LazyLock;
 use style::Style;
 
 pub mod click;
@@ -102,9 +104,11 @@ impl TextComponentBase {
     pub fn to_pretty_console(self) -> String {
         let mut text = match *self.content {
             TextContent::Text { text } => text.into_owned(),
-            TextContent::Translate { translate, with } => {
-                translation_to_pretty(format!("minecraft:{translate}"), Locale::EnUs, with)
-            }
+            TextContent::Translate {
+                translate,
+                bedrock_translate: _,
+                with,
+            } => translation_to_pretty(format!("minecraft:{translate}"), Locale::EnUs, with),
             TextContent::EntityNames {
                 selector,
                 separator: _,
@@ -135,6 +139,74 @@ impl TextComponentBase {
         text
     }
 
+    #[must_use]
+    pub fn to_bedrock_legacy(&self, locale: Locale) -> String {
+        let mut text = String::new();
+
+        // 1. Inject Bedrock formatting codes
+        if let Some(color) = &self.style.color {
+            match color {
+                Color::Named(named) => {
+                    let _ = write!(text, "§{}", named.to_legacy_char());
+                }
+                Color::Rgb(_rgb) => {
+                    // Bedrock doesn't strictly support Java's §x hex format.
+                    // Most Bedrock implementations fallback to Gray or ignore it.
+                }
+                Color::Reset => {
+                    // Explicitly handle the Reset variant
+                    text.push_str("§r");
+                }
+            }
+        }
+
+        if self.style.bold == Some(true) {
+            text.push_str("§l");
+        }
+        if self.style.italic == Some(true) {
+            text.push_str("§o");
+        }
+        if self.style.underlined == Some(true) {
+            text.push_str("§n");
+        }
+        if self.style.obfuscated == Some(true) {
+            text.push_str("§k");
+        }
+        // Note: Bedrock does not support strikethrough natively without resource packs.
+
+        // 2. Resolve Content
+        match &*self.content {
+            TextContent::Text { text: t } => text.push_str(t),
+            TextContent::Translate {
+                translate,
+                bedrock_translate: _,
+                with,
+            } => {
+                // TODO
+                text.push_str(&get_translation_text(
+                    translate.to_string(),
+                    locale,
+                    with.clone(),
+                ));
+            }
+            TextContent::EntityNames { selector, .. } => text.push_str(selector),
+            TextContent::Keybind { keybind } => text.push_str(keybind),
+            TextContent::Custom { key, with, .. } => {
+                text.push_str(&get_translation_text(key.clone(), locale, with.clone()));
+            }
+        }
+
+        // 3. Recursively append extra components
+        for child in &self.extra {
+            text.push_str(&child.to_bedrock_legacy(locale));
+            // Bedrock styles bleed into subsequent text. We append a reset code
+            // to ensure child styles are properly isolated from one another.
+            text.push_str("§r");
+        }
+
+        text
+    }
+
     /// Extracts the raw text content of this component for the given locale.
     ///
     /// # Arguments
@@ -144,18 +216,27 @@ impl TextComponentBase {
     /// The plain text content of the component.
     #[must_use]
     pub fn get_text(self, locale: Locale) -> String {
-        match *self.content {
+        let mut text = match *self.content {
             TextContent::Text { text } => text.into_owned(),
-            TextContent::Translate { translate, with } => {
-                get_translation_text(format!("minecraft:{translate}"), locale, with)
-            }
+            TextContent::Translate {
+                translate,
+                bedrock_translate: _,
+                with,
+            } => get_translation_text(format!("minecraft:{translate}"), locale, with),
             TextContent::EntityNames {
                 selector,
                 separator: _,
             } => selector.into_owned(),
             TextContent::Keybind { keybind } => keybind.into_owned(),
             TextContent::Custom { key, with, .. } => get_translation_text(key, locale, with),
+        };
+
+        // Recursively append the text of all child components
+        for child in self.extra {
+            text += &child.get_text(locale);
         }
+
+        text
     }
 
     /// Converts this component by resolving all translations.
@@ -310,6 +391,37 @@ impl TextComponent {
         Self(TextComponentBase {
             content: Box::new(TextContent::Translate {
                 translate: key.into(),
+                bedrock_translate: None,
+                with: with.into().into_iter().map(|x| x.0).collect(),
+            }),
+            style: Box::new(Style::default()),
+            extra: vec![],
+        })
+    }
+
+    /// Creates a new text component with a translation key that has a Bedrock-specific fallback.
+    ///
+    /// # Arguments
+    /// - `java_key` – The translation key for Java (e.g., "multiplayer.player.joined").
+    /// - `bedrock_key` – The translation key for Bedrock (e.g., "multiplayer.player.joined").
+    /// - `with` – The substitution parameters for the translation.
+    ///
+    /// # Returns
+    /// A new `TextComponent` that will be translated natively on both clients.
+    #[must_use]
+    pub fn translate_cross<
+        K1: Into<Cow<'static, str>>,
+        K2: Into<Cow<'static, str>>,
+        W: Into<Vec<Self>>,
+    >(
+        java_key: K1,
+        bedrock_key: K2,
+        with: W,
+    ) -> Self {
+        Self(TextComponentBase {
+            content: Box::new(TextContent::Translate {
+                translate: java_key.into(),
+                bedrock_translate: Some(bedrock_key.into()),
                 with: with.into().into_iter().map(|x| x.0).collect(),
             }),
             style: Box::new(Style::default()),
@@ -567,8 +679,9 @@ impl TextComponent {
     #[must_use]
     pub fn encode(&self) -> Box<[u8]> {
         let mut buf = Vec::new();
+        let writer = NbtWriteHelperJava::new(&mut buf);
         // TODO: Properly handle errors
-        let mut serializer = Serializer::new(&mut buf, None);
+        let mut serializer = Serializer::new(writer, None);
         self.0
             .clone()
             .to_translated()
@@ -735,6 +848,15 @@ impl TextComponent {
         self
     }
 
+    /// Wraps a component in square brackets.
+    ///
+    /// # Returns
+    /// The new component.
+    #[must_use]
+    pub fn wrap_in_square_brackets(self) -> Self {
+        Self::translate("chat.square_brackets", [self])
+    }
+
     /// Makes the text bold.
     ///
     /// # Returns
@@ -866,6 +988,52 @@ impl TextComponent {
     }
 }
 
+impl TextComponent {
+    /// Joins multiple text components into one with a separator containing a gray comma
+    /// and a space after it.
+    ///
+    /// # Arguments
+    /// - `elements` - The elements to join.
+    ///
+    /// # Returns
+    /// The resultant text component with all the elements joined in it.
+    #[must_use]
+    pub fn join_with_comma(elements: Vec<Self>) -> Self {
+        static DEFAULT_SEPARATOR: LazyLock<TextComponent> = LazyLock::new(|| {
+            TextComponent::text(", ").color(Color::Named(color::NamedColor::Gray))
+        });
+
+        Self::join(elements, &DEFAULT_SEPARATOR)
+    }
+
+    /// Joins multiple text components into one with the given separator text component.
+    /// Use [`TextComponent::join_with_comma`] instead if you just want to join text components with
+    /// a comma in between.
+    ///
+    /// # Arguments
+    /// - `elements` - The elements to join.
+    /// - `separator` - The separator to use for joining the elements provided.
+    ///
+    /// # Returns
+    /// The resultant text component with all the elements joined in it.
+    #[must_use]
+    pub fn join(elements: Vec<Self>, separator: &Self) -> Self {
+        let mut result = Self::empty();
+        let mut first = true;
+
+        for element in elements {
+            if !first {
+                result = result.add_child(separator.clone());
+            }
+
+            result = result.add_child(element);
+            first = false;
+        }
+
+        result
+    }
+}
+
 /// The content type of the text component.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
 #[serde(untagged)]
@@ -876,6 +1044,9 @@ pub enum TextContent {
     Translate {
         /// The translation key (e.g. "multiplayer.player.joined").
         translate: Cow<'static, str>,
+        /// Bedrock translation key. If specified, Bedrock clients receive an `SText::translation` packet.
+        #[serde(skip, default)]
+        bedrock_translate: Option<Cow<'static, str>>,
         /// Substitution parameters for the translation.
         #[serde(default, skip_serializing_if = "Vec::is_empty")]
         with: Vec<TextComponentBase>,

@@ -101,13 +101,13 @@ target/
 plugins/
 world/*
 logs/
+crash-reports/
 
 # docker-compose
 data/*
 
 # project's configurations
-configuration.toml
-features.toml
+pumpkin.toml
 
 
 *.local.nbt
@@ -137,7 +137,6 @@ result-*
 # Vanilla minecraft server
 banned-ips.json
 banned-players.json
-crash-reports/
 eula.txt
 ops.json
 server.properties
@@ -148,7 +147,6 @@ whitelist.json
 .console_history
 bukkit.yml
 commands.yml
-config/
 help.yml
 permissions.yml
 spigot.yml

@@ -1,12 +1,12 @@
 use itertools::Itertools;
 use pumpkin_data::fluid::{Fluid, FluidState};
-use pumpkin_data::tag::{RegistryKey, get_tag_ids};
+use pumpkin_data::tag::{self};
 use pumpkin_data::{Block, BlockDirection, BlockState};
 use pumpkin_util::math::{position::BlockPos, vector3::Vector3};
 
 use crate::block::RawBlockState;
 use crate::generation::proto_chunk::GenerationCache;
-use crate::{block::BlockStateCodec, world::BlockRegistryExt};
+use crate::{block::BlockStateCodec, world::WorldPortalExt};
 
 pub enum BlockPredicate {
     MatchingBlocks(MatchingBlocksBlockPredicate),
@@ -28,7 +28,7 @@ pub enum BlockPredicate {
 impl BlockPredicate {
     pub fn test<T: GenerationCache>(
         &self,
-        block_registry: &dyn BlockRegistryExt,
+        block_registry: &dyn WorldPortalExt,
         chunk: &T,
         pos: &BlockPos,
     ) -> bool {
@@ -102,15 +102,13 @@ impl MatchingFluidsBlockPredicate {
 
 pub struct MatchingBlockTagPredicate {
     pub offset: OffsetBlocksBlockPredicate,
-    pub tag: String,
+    pub tag: tag::Tag,
 }
 
 impl MatchingBlockTagPredicate {
     pub fn test<T: GenerationCache>(&self, chunk: &T, pos: &BlockPos) -> bool {
-        let block = self.offset.get_raw(chunk, pos);
-        get_tag_ids(RegistryKey::Block, &self.tag)
-            .unwrap()
-            .contains(&block.to_block_id())
+        let state = self.offset.get_raw(chunk, pos);
+        self.tag.1.contains(&state.to_block_id())
     }
 }
 
@@ -133,7 +131,7 @@ pub struct AnyOfBlockPredicate {
 impl AnyOfBlockPredicate {
     pub fn test<T: GenerationCache>(
         &self,
-        block_registry: &dyn BlockRegistryExt,
+        block_registry: &dyn WorldPortalExt,
         chunk: &T,
         pos: &BlockPos,
     ) -> bool {
@@ -154,7 +152,7 @@ pub struct AllOfBlockPredicate {
 impl AllOfBlockPredicate {
     pub fn test<T: GenerationCache>(
         &self,
-        block_registry: &dyn BlockRegistryExt,
+        block_registry: &dyn WorldPortalExt,
         chunk: &T,
         pos: &BlockPos,
     ) -> bool {
@@ -175,7 +173,7 @@ pub struct NotBlockPredicate {
 impl NotBlockPredicate {
     pub fn test<T: GenerationCache>(
         &self,
-        block_registry: &dyn BlockRegistryExt,
+        block_registry: &dyn WorldPortalExt,
         chunk: &T,
         pos: &BlockPos,
     ) -> bool {
@@ -202,7 +200,7 @@ pub struct WouldSurviveBlockPredicate {
 impl WouldSurviveBlockPredicate {
     pub fn test<T: GenerationCache>(
         &self,
-        block_registry: &dyn BlockRegistryExt,
+        block_registry: &dyn WorldPortalExt,
         chunk: &T,
         pos: &BlockPos,
     ) -> bool {

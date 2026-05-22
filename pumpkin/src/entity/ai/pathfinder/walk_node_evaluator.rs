@@ -15,7 +15,6 @@ const DEFAULT_MOB_JUMP_HEIGHT: f64 = 1.125;
 pub struct WalkNodeEvaluator {
     base: BaseNodeEvaluator,
     path_types_cache: HashMap<Vector3<i32>, PathType>,
-    collision_cache: HashMap<Vector3<i32>, bool>,
     reusable_neighbors: [Option<Node>; 4],
 }
 
@@ -25,7 +24,6 @@ impl WalkNodeEvaluator {
         Self {
             base: BaseNodeEvaluator::new(),
             path_types_cache: HashMap::new(),
-            collision_cache: HashMap::new(),
             reusable_neighbors: [None, None, None, None],
         }
     }
@@ -198,7 +196,7 @@ impl WalkNodeEvaluator {
         None
     }
 
-    /// Searches downward for the first non-OPEN block, respecting safe fall distance.
+    /// Searches downward for the first non-`OPEN` block, respecting safe fall distance.
     async fn get_open_node(&mut self, pos: Vector3<i32>) -> Node {
         let safe_fall_distance = self
             .base
@@ -291,11 +289,10 @@ impl WalkNodeEvaluator {
 
         // Temporarily take the context out to avoid overlapping borrows when calling
         // the async helper which requires `&mut self`
-        // Clone mob_data so we can call helper while `self.base.context` is None.
         let path_type = if let Some(mut ctx) = self.base.context.take()
-            && let Some(mob_clone) = self.base.mob_data.clone()
+            && let Some(mob_data) = self.base.mob_data
         {
-            let res = self.get_path_type_of_mob(&mut ctx, pos, &mob_clone).await;
+            let res = self.get_path_type_of_mob(&mut ctx, pos, &mob_data).await;
             self.base.context = Some(ctx);
             res
         } else {
@@ -306,24 +303,16 @@ impl WalkNodeEvaluator {
         path_type
     }
 
-    async fn has_collisions(&mut self, center: Vector3<i32>) -> bool {
-        if let Some(&cached) = self.collision_cache.get(&center) {
-            return cached;
-        }
-
-        let has_collision = if let Some(ref mut ctx) = self.base.context {
-            ctx.has_collisions(center).await
-        } else {
-            false
-        };
-
-        self.collision_cache.insert(center, has_collision);
-        has_collision
+    fn has_collisions(&mut self, center: Vector3<i32>) -> bool {
+        self.base
+            .context
+            .as_mut()
+            .is_some_and(|ctx| ctx.has_collisions(center))
     }
 
     async fn can_start_at(&mut self, pos: Vector3<i32>) -> bool {
         let path_type = self.get_cached_path_type(pos).await;
-        path_type.is_passable() && !self.has_collisions(pos).await
+        path_type.is_passable() && !self.has_collisions(pos)
     }
 
     async fn get_start_node(&mut self, pos: Vector3<i32>) -> Option<Node> {
@@ -349,14 +338,12 @@ impl NodeEvaluator for WalkNodeEvaluator {
         self.base.context = Some(context);
         self.base.mob_data = Some(mob_data);
         self.path_types_cache.clear();
-        self.collision_cache.clear();
     }
 
     fn done(&mut self) {
         self.base.context = None;
         self.base.mob_data = None;
         self.path_types_cache.clear();
-        self.collision_cache.clear();
     }
 
     async fn get_start(&mut self) -> Option<Node> {
@@ -413,9 +400,7 @@ impl NodeEvaluator for WalkNodeEvaluator {
         Target::new(node)
     }
 
-    async fn get_neighbors(&mut self, current: &Node) -> Vec<Node> {
-        let mut out_neighbors: Vec<Node> = Vec::new();
-
+    async fn get_neighbors(&mut self, current: &Node, out_neighbors: &mut Vec<Node>) {
         let headroom_type = self
             .get_cached_path_type(current.pos.0.add_raw(0, 1, 0))
             .await;
@@ -448,7 +433,7 @@ impl NodeEvaluator for WalkNodeEvaluator {
                 .await;
 
             if let Some(neighbor) = neighbor_opt {
-                self.reusable_neighbors[i] = Some(neighbor.clone());
+                self.reusable_neighbors[i] = Some(neighbor);
                 if Self::is_neighbor_valid(Some(&neighbor), current) {
                     out_neighbors.push(neighbor);
                 }
@@ -489,8 +474,6 @@ impl NodeEvaluator for WalkNodeEvaluator {
                 }
             }
         }
-
-        out_neighbors
     }
 
     async fn get_path_type_of_mob(
@@ -506,7 +489,7 @@ impl NodeEvaluator for WalkNodeEvaluator {
             for dx in 0..mob_data.get_bb_width() {
                 for dz in 0..mob_data.get_bb_width() {
                     let check_pos = pos.add_raw(dx, dy, dz);
-                    let mut cell_type = context.get_land_node_type(check_pos).await;
+                    let mut cell_type = context.get_land_node_type(check_pos);
 
                     if cell_type == PathType::DoorWoodClosed
                         && self.base.can_open_doors
@@ -524,8 +507,8 @@ impl NodeEvaluator for WalkNodeEvaluator {
                             Vector3::new(mob_block_pos.0, mob_block_pos.1, mob_block_pos.2);
                         let mob_below =
                             Vector3::new(mob_block_pos.0, mob_block_pos.1 - 1, mob_block_pos.2);
-                        let mob_type = context.get_land_node_type(mob_pos).await;
-                        let mob_below_type = context.get_land_node_type(mob_below).await;
+                        let mob_type = context.get_land_node_type(mob_pos);
+                        let mob_below_type = context.get_land_node_type(mob_below);
                         if mob_type != PathType::Rail && mob_below_type != PathType::Rail {
                             cell_type = PathType::UnpassableRail;
                         }
@@ -564,7 +547,7 @@ impl NodeEvaluator for WalkNodeEvaluator {
             && result != PathType::Open
             && mob_data.get_pathfinding_malus(result) == 0.0
         {
-            let raw_center = context.get_land_node_type(pos).await;
+            let raw_center = context.get_land_node_type(pos);
             if raw_center == PathType::Open {
                 return PathType::Open;
             }
@@ -578,7 +561,7 @@ impl NodeEvaluator for WalkNodeEvaluator {
         context: &mut PathfindingContext,
         pos: Vector3<i32>,
     ) -> PathType {
-        context.get_path_type_from_state(pos).await
+        context.get_path_type_from_state(pos)
     }
 
     fn set_can_pass_doors(&mut self, can_pass: bool) {

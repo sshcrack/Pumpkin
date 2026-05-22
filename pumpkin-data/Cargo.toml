@@ -3,6 +3,7 @@ name = "pumpkin-data"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
+license.workspace = true
 
 [features]
 default = [
@@ -40,6 +41,10 @@ default = [
     "potion",
     "recipe_remainder",
     "chunk_gen_settings",
+    "carver",
+    "villager",
+    "placed_feature",
+    "configured_feature",
 ]
 
 item = []
@@ -75,19 +80,24 @@ structures = []
 potion = ["potion_brewing"]
 recipe_remainder = []
 chunk_gen_settings = []
+carver = []
+villager = ["item", "sound"]
 
 noise_parameter = []
 biome = []
 chunk_status = []
 entity_pose = []
 entity_status = []
-entity_type = []
+entity_type = ["sound"]
 spawn_egg = []
 world_event = []
 message_type = []
+placed_feature = []
+configured_feature = []
 block = []
 item_id_remap = []
 entity_id_remap = []
+sound_id_remap = []
 potion_brewing = []
 
 [dependencies]
@@ -96,6 +106,7 @@ pumpkin-util.workspace = true
 pumpkin-nbt.workspace = true
 serde.workspace = true
 crc-fast.workspace = true
+rand.workspace = true
 
 [dev-dependencies]
 criterion.workspace = true

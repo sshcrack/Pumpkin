@@ -1,12 +1,15 @@
 use std::{
-    io::{Error, Read},
+    io::{Error, ErrorKind, Read},
     net::{Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6},
 };
 
-use pumpkin_util::math::{vector2::Vector2, vector3::Vector3};
+use pumpkin_util::math::{position::BlockPos, vector2::Vector2, vector3::Vector3};
 use uuid::Uuid;
 
-use crate::{codec::var_uint::VarUInt, serial::PacketRead};
+use crate::{
+    codec::{var_int::VarInt, var_uint::VarUInt},
+    serial::PacketRead,
+};
 
 impl PacketRead for bool {
     fn read<R: Read>(reader: &mut R) -> Result<Self, Error> {
@@ -133,8 +136,22 @@ impl<T: PacketRead, const N: usize> PacketRead for [T; N] {
 
 impl PacketRead for String {
     fn read<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let vec = Vec::read(reader)?;
-        Ok(unsafe { Self::from_utf8_unchecked(vec) })
+        const MAX_STRING_LENGTH: usize = 32767;
+
+        let len = VarUInt::read(reader)?.0 as usize;
+
+        if len > MAX_STRING_LENGTH {
+            return Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("String length {len} exceeds maximum of {MAX_STRING_LENGTH}"),
+            ));
+        }
+
+        let mut buf = vec![0u8; len];
+        reader.read_exact(&mut buf)?;
+
+        Self::from_utf8(buf)
+            .map_err(|_| Error::new(ErrorKind::InvalidData, "Invalid UTF-8 sequence"))
     }
 }
 
@@ -170,6 +187,16 @@ impl<T: PacketRead> PacketRead for Vector2<T> {
             x: T::read(reader)?,
             y: T::read(reader)?,
         })
+    }
+}
+
+impl PacketRead for BlockPos {
+    fn read<R: Read>(reader: &mut R) -> Result<Self, Error> {
+        Ok(Self(Vector3 {
+            x: VarInt::read(reader)?.0,
+            y: VarInt::read(reader)?.0,
+            z: VarInt::read(reader)?.0,
+        }))
     }
 }
 

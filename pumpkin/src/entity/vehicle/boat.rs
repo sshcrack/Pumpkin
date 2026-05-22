@@ -8,13 +8,13 @@ use crate::entity::{Entity, EntityBase, EntityBaseFuture, NBTStorage, living::Li
 use crate::server::Server;
 use crate::world::loot::{LootContextParameters, LootTableExt};
 use pumpkin_data::damage::DamageType;
+use pumpkin_data::item_stack::ItemStack;
 use pumpkin_data::meta_data_type::MetaDataType;
 use pumpkin_data::tracked_data::TrackedData;
 use pumpkin_protocol::codec::var_int::VarInt;
 use pumpkin_protocol::java::client::play::Metadata;
 use pumpkin_util::GameMode;
 use pumpkin_util::math::vector3::Vector3;
-use pumpkin_world::item::ItemStack;
 
 pub struct BoatEntity {
     entity: Entity,
@@ -39,48 +39,34 @@ impl BoatEntity {
         }
     }
 
-    pub async fn set_paddles(&self, left: bool, right: bool) {
+    pub fn set_paddles(&self, left: bool, right: bool) {
         self.left_paddle_moving.store(left, Ordering::Relaxed);
         self.right_paddle_moving.store(right, Ordering::Relaxed);
 
-        self.entity
-            .send_meta_data(&[
-                Metadata::new(
-                    TrackedData::DATA_LEFT_PADDLE_MOVING,
-                    MetaDataType::BOOLEAN,
-                    left,
-                ),
-                Metadata::new(
-                    TrackedData::DATA_RIGHT_PADDLE_MOVING,
-                    MetaDataType::BOOLEAN,
-                    right,
-                ),
-            ])
-            .await;
+        self.entity.send_meta_data(&[
+            Metadata::new(TrackedData::ID_PADDLE_LEFT, MetaDataType::BOOLEAN, left),
+            Metadata::new(TrackedData::ID_PADDLE_RIGHT, MetaDataType::BOOLEAN, right),
+        ]);
     }
 
-    async fn send_wobble_metadata(&self) {
-        self.entity
-            .send_meta_data(&[
-                Metadata::new(
-                    TrackedData::DATA_DAMAGE_WOBBLE_TICKS,
-                    MetaDataType::INTEGER,
-                    VarInt(self.damage_wobble_ticks.load(Ordering::Relaxed)),
-                ),
-                Metadata::new(
-                    TrackedData::DATA_DAMAGE_WOBBLE_SIDE,
-                    MetaDataType::INTEGER,
-                    VarInt(self.damage_wobble_side.load(Ordering::Relaxed)),
-                ),
-            ])
-            .await;
-        self.entity
-            .send_meta_data(&[Metadata::new(
-                TrackedData::DATA_DAMAGE_WOBBLE_STRENGTH,
-                MetaDataType::FLOAT,
-                self.damage_wobble_strength.load(),
-            )])
-            .await;
+    fn send_wobble_metadata(&self) {
+        self.entity.send_meta_data(&[
+            Metadata::new(
+                TrackedData::ID_HURT,
+                MetaDataType::INTEGER,
+                VarInt(self.damage_wobble_ticks.load(Ordering::Relaxed)),
+            ),
+            Metadata::new(
+                TrackedData::ID_HURTDIR,
+                MetaDataType::INTEGER,
+                VarInt(self.damage_wobble_side.load(Ordering::Relaxed)),
+            ),
+        ]);
+        self.entity.send_meta_data(&[Metadata::new(
+            TrackedData::ID_DAMAGE,
+            MetaDataType::FLOAT,
+            self.damage_wobble_strength.load(),
+        )]);
     }
 
     async fn kill_and_drop_self(&self) {
@@ -112,7 +98,7 @@ impl EntityBase for BoatEntity {
 
     fn tick<'a>(
         &'a self,
-        _caller: Arc<dyn EntityBase>,
+        _caller: &'a Arc<dyn EntityBase>,
         _server: &'a Server,
     ) -> EntityBaseFuture<'a, ()> {
         Box::pin(async move {
@@ -137,7 +123,7 @@ impl EntityBase for BoatEntity {
 
     fn init_data_tracker(&self) -> EntityBaseFuture<'_, ()> {
         Box::pin(async move {
-            self.send_wobble_metadata().await;
+            self.send_wobble_metadata();
         })
     }
 
@@ -173,7 +159,7 @@ impl EntityBase for BoatEntity {
             let new_strength = current_strength + amount * 10.0;
             self.damage_wobble_strength.store(new_strength);
 
-            self.send_wobble_metadata().await;
+            self.send_wobble_metadata();
 
             let is_creative = source
                 .and_then(|s| s.get_player())
@@ -193,7 +179,7 @@ impl EntityBase for BoatEntity {
 
     fn interact<'a>(
         &'a self,
-        player: &'a Player,
+        player: &'a Arc<Player>,
         _item_stack: &'a mut ItemStack,
     ) -> EntityBaseFuture<'a, bool> {
         Box::pin(async move {
@@ -232,11 +218,15 @@ impl EntityBase for BoatEntity {
 
     fn set_paddle_state(&self, left: bool, right: bool) -> EntityBaseFuture<'_, ()> {
         Box::pin(async move {
-            self.set_paddles(left, right).await;
+            self.set_paddles(left, right);
         })
     }
 
     fn as_nbt_storage(&self) -> &dyn NBTStorage {
+        self
+    }
+
+    fn cast_any(&self) -> &dyn std::any::Any {
         self
     }
 }
